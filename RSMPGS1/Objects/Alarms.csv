@@ -1,0 +1,58 @@
+Alarms per object type;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Revision date:;2012-02-29;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;Obs! Leading '-' should not exist in protocol level;;;;;;;;;;;;;;;;;;;
+;;;;;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;
+ObjectType;Object (optional);alarmCodeId;Description;externalAlarmCodeId;externalNtSAlarmCodeId;Priority;Category;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment
+Traffic Controller;;A0001;Serious hardware error;Defined by manufacturer;;2;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0002;Less serious hardware error;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0003;Serious configuration error;Defined by manufacturer;;2;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0004;Less serious configuration error;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0005;Communication error between traffic controllers / synchronisation error;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0006;Safety error;Defined by manufacturer;;2;D;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;A0007;Communication error between one or multiple traffic controllers and central control system;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Signal group;;A0008;Dead lock error;Defined by manufacturer;;2;D;timeplan;ordinal;[designation];Current time plan;;;;;;;;;;;;;;;;
+Traffic Controller;;A0009;Other error;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Signal group;;A0101;Pushbutton error;Defined by manufacturer;;3;D;;;;;;;;;;;;;;;;;;;;
+Signal group;;A0201;Serious lamp error;Defined by manufacturer;;2;D;color;string;-red
+-yellow
+-green;Color of lamp;;;;;;;;;;;;;;;;
+Signal group;;A0202;Less serious hardware error;Defined by manufacturer;;3;D;color;string;-red
+-yellow
+-green;Color of lamp;;;;;;;;;;;;;;;;
+Detector logic;;A0301;Detector error (hardware);Defined by manufacturer;;3;D;detector;ordinal;[designation];Designation of the detector;type;string;-loop
+-input;Type of detector.
+loop: Inductive detector loop
+input: External input;errormode;string;-on
+-off;Dectector forced on/off while detector error;manual;boolean;-True
+-False
+;Manually controlled detector logic (True/False);;;;
+Detector logic;;A0302;Detector error (logic error);Defined by manufacturer;;3;D;detector;ordinal;[designation];Designation of the detector;type;string;-loop
+-input;Type of detector.
+loop: Inductive detector loop
+input: External input;errormode;string;-on
+-off;Dectector forced on/off while detector error;manual;boolean;-True
+-False
+;Manually controlled detector logic (True/False);logicerror;string;-always_off
+-always_on
+-intermittent;Type of logic error
+always_off: no detection during prefined max time
+always on: detection constantly on during predefined max time
+intermittent: intermittent logic fault (flutter)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;

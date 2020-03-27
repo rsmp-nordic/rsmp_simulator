@@ -1,0 +1,55 @@
+Status per object type;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Revision date:;2012-02-29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;Obs! Leading '-' should not exist in protocol level;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;;return value;;;
+ObjectType;Object (optional);statusCodeId;Description;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment;Name;Type;Value;Comment
+Traffic Controller;;S0001;Signal group status;signalgroupstatus;string;[text];Signal group status as text field;cyclecounter;unit;[0-999];Cycle counter;basecyclecounter;unit;[0-999];Base cycle counter;stage;integer;[0-999];Current stage (isolated);;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0002;Detector logic status;detectorlogicstatus;string;[text];Detector logic status as text field;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0003;Input status;inputstatus;string;[text];Input status as text field;extendedinputstatus;string;[text];Extended input status as text field;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0004;Outputstatus;outputstatus;string;[text];Output status as text field;extendedoutputstatus;string;[text];Extended output status as text field;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0005;Traffic Controller starting;status;boolean;-False
+-True;False: Controller is not in start up mode
+True: Controller is currently in start up mode;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0007;Controller switched on;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False: Traffic Controller in dark mode
+True: Traffic Controller not in dark mode;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0008;Manual control;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False: Manual control inactive
+True: Manual control active;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0009;Fixed time control;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False:  Fixed time control inactive
+True:  Fixed time control active;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0010;Isolated control;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False: Isolated control disabled
+True: Isolated control enabled (Vehicle actuated control or Fixed time control);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0011;Yellow flash;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False: Yellow flash disabled
+True: Yellow flash enabled;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0012;All red;intersection;ordinal;[1-255];Intersection number;status;boolean;-False
+-True;False: All red disabled
+True: All red enabled;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0014;Current time plan;status;ordinal;[1-255];Current time plan;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0015;Current traffic situation;status;ordinal;[1-255];Current traffic situation;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0016;Number of detector logics;number;long;[1-65025];Number of detector logics;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0017;Number of signal groups;number;long;[1-65025];Number of signal groups;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0018;Number of time plans;number;long;[1-65025];Number of time plans;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0020;Control mode;intersection;ordinal;[1-255];Intersection number;controlmode;string;-startup
+-control
+-standby
+-failure
+-test;-Startup mode
+-Normal control
+-Standby mode
+-Failure mode
+-Test mode;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0095;Version av Traffic Controller;status;string;[text];Manufacturer, product name and version of traffic controller;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Traffic Controller;;S0096;Current date and time;year;integer;YYYY;Year according to format YYYY. NOTE: UTC is used;month;integer;MM;Month (01-12) according to format MM. Note: UTC is used;day;integer;DD;Day of month (01-31) according to format DD.  Note: UTC is used;hour;integer;HH;Hour of day (00-23) according to format DD. Note: UTC is used;minute;integer;MM;Minute (00-59) according to format MM. Note: UTC is used;second;integer;SS;Second (00-59) according to format SS. Note: UTC is used;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

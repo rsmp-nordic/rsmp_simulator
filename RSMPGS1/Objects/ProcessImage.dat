@@ -1,0 +1,12 @@
+;
+; ProcessImage stored 2020-03-26 18:13:48
+;
+[GB+00003=481WA001.GB+00003=481WA001.Traffic Controller.Traffic Controller.GB+00003=481WA001.Status]
+S0001.stage.Status=10
+[GB+00003=481WA001.GB+00003=481WA001.Traffic Controller.Traffic Controller.GB+00003=481WA001.AggregatedStatus]
+BitStatus_2=1
+BitStatus_3=1
+[GB+00003=481WA001.GB+00003=481WA001.Signal group.SG1.GB+00003=481SG001.Alarms]
+A0201.AlarmReturnValue=yellow
+[GB+00003=481WA001.GB+00003=481WA001.Signal group.SG3.GB+00003=481SG003.Alarms]
+A0201.AlarmReturnValue=red
