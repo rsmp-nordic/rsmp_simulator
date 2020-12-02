@@ -33,32 +33,51 @@ namespace nsRSMPGS
 				{
           bool bWasSelected = SelectedCRVs.IndexOf(CommandArguments) >= 0 ? true : false;
 
-              string[] aCommands = CommandArguments.sValue.Split('\n');
+          string[] aCommands;
+          if (CommandArguments.Value.ValueTypeObject.SelectableValues != null && CommandArguments.Value.ValueTypeObject.SelectableValues.Count > 0)
+          {
+            aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Values.ToArray<string>();
+          }
+          else
+          {
+            aCommands = CommandArguments.Value.ValueTypeObject.sRange.Split('\n');
 
-					for (int j = 0; j < aCommands.Length; j++)
-					{
-						aCommands[j] = aCommands[j].TrimStart('"');
-						aCommands[j] = aCommands[j].TrimStart('-');
-						aCommands[j] = aCommands[j].TrimEnd('"');
-					}
+            for (int j = 0; j < aCommands.Length; j++)
+            {
+              aCommands[j] = aCommands[j].TrimStart('"');
+              aCommands[j] = aCommands[j].TrimStart('-');
+              aCommands[j] = aCommands[j].TrimEnd('"');
+            }
+          }
 
-					if ((CommandArguments.sValue == "" || aCommands.Length < 2))
+
+            /*
+                string[] aCommands = CommandArguments.sValue.Split('\n');
+
+            for (int j = 0; j < aCommands.Length; j++)
+            {
+              aCommands[j] = aCommands[j].TrimStart('"');
+              aCommands[j] = aCommands[j].TrimStart('-');
+              aCommands[j] = aCommands[j].TrimEnd('"');
+            }
+            */
+            if ((CommandArguments.Value.ValueTypeObject.sRange == "" || aCommands.Length < 2))
 					{
 						DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
-						this.dataGridView_Commands.Rows.Add(bWasSelected, CommandArguments.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
+						this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
 						this.dataGridView_Commands.Rows[i].Cells[4] = txtcell;
 
-						if (CommandArguments.sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
+						if (CommandArguments.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
 						{
 							iRows.Add(i);
 						}
 
-						this.dataGridView_Commands.Rows[i].Cells[4].Value = CommandArguments.sValue;
+						this.dataGridView_Commands.Rows[i].Cells[4].Value = CommandArguments.Value.GetValue();
 						//this.dataGridView_Commands.Rows[i].Cells[4].ReadOnly = CommandArguments.sValue == "" || CommandArguments.sValue.EndsWith("]") ? false : true;
 					}
 					else
 					{
-						this.dataGridView_Commands.Rows.Add(bWasSelected, CommandArguments.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
+						this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
 						DataGridViewComboBoxCell combocell = (DataGridViewComboBoxCell)dataGridView_Commands.Rows[i].Cells[4];
 						combocell.Items.AddRange(aCommands);
 						this.dataGridView_Commands.Rows[i].Cells[4].Value = aCommands[0];
@@ -109,11 +128,11 @@ namespace nsRSMPGS
 					if (this.dataGridView_Commands.Rows[i].Cells[0].Value != null &&
 							(bool)this.dataGridView_Commands.Rows[i].Cells[0].Value == true)
 					{
-						cCommandReturnValue CommandReturnValue = new cCommandReturnValue();
-						CommandReturnValue.sCommandCodeId = CommandArguments.sCommandCodeId;
-						CommandReturnValue.sName = CommandArguments.sName;
+						cCommandReturnValue CommandReturnValue = new cCommandReturnValue(CommandArguments.CommandObject);
+            //CommandReturnValue.sCommandCodeId = CommandArguments.sCommandCodeId;
+            CommandReturnValue.sName = CommandArguments.sName;
 						CommandReturnValue.sCommand = CommandArguments.sCommand;
-						CommandReturnValue.sType = CommandArguments.sType;
+            CommandReturnValue.Value = new cValue(CommandArguments.Value.ValueTypeObject, false);
             CommandReturnValue.CommandObject = CommandObject;
 
             if (this.dataGridView_Commands.Rows[i].Cells[4].Value == null
@@ -123,9 +142,9 @@ namespace nsRSMPGS
 							return;
 						}
 
-						//if (CommandArguments.sValue.Length == 0)
-						//{
-						CommandReturnValue.sValue = this.dataGridView_Commands.Rows[i].Cells[4].Value.ToString().Trim();
+            //if (CommandArguments.sValue.Length == 0)
+            //{
+            CommandReturnValue.Value.SetValue(this.dataGridView_Commands.Rows[i].Cells[4].Value.ToString().Trim());
 
 						lSelectedCommands.Add(CommandReturnValue);
 

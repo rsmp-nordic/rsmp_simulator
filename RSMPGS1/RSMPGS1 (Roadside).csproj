@@ -101,6 +101,12 @@
     <Compile Include="..\RSMPCommon\RSMPGS_Messages.cs">
       <Link>Common\RSMPGS_Messages.cs</Link>
     </Compile>
+    <Compile Include="..\RSMPCommon\RSMPGS_Objects.cs">
+      <Link>Common\RSMPGS_Objects.cs</Link>
+    </Compile>
+    <Compile Include="..\RSMPCommon\RSMPGS_ProcessImage.cs">
+      <Link>Common\RSMPGS_ProcessImage.cs</Link>
+    </Compile>
     <Compile Include="..\RSMPCommon\RSMPGS_Socket.cs">
       <Link>Common\RSMPGS_Socket.cs</Link>
     </Compile>
@@ -109,6 +115,12 @@
     </Compile>
     <Compile Include="..\RSMPCommon\RSMPGS_Socket_Server.cs">
       <Link>Common\RSMPGS_Socket_Server.cs</Link>
+    </Compile>
+    <Compile Include="..\RSMPCommon\RSMPGS_SysLog.cs">
+      <Link>Common\RSMPGS_SysLog.cs</Link>
+    </Compile>
+    <Compile Include="..\RSMPCommon\RSMPGS_YAML.cs">
+      <Link>Common\RSMPGS_YAML.cs</Link>
     </Compile>
     <Compile Include="RSMPGS1_Main\RSMPGS1_Alarms.cs">
       <SubType>form</SubType>

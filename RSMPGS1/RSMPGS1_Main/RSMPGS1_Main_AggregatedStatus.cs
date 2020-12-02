@@ -33,6 +33,8 @@ namespace nsRSMPGS
 
       SetStatusBitColor(lvItem, RoadSideObject.bBitStatus[lvItem.Index]);
 
+      RoadSideObject.dtLastChangedAggregatedStatus = DateTime.Now;
+
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
 				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
@@ -50,6 +52,9 @@ namespace nsRSMPGS
       }
       cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
       RoadSideObject.sFunctionalPosition = listBox_AggregatedStatus_FunctionalPosition.SelectedItem.ToString();
+
+      RoadSideObject.dtLastChangedAggregatedStatus = DateTime.Now;
+
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
 				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
@@ -64,6 +69,9 @@ namespace nsRSMPGS
       }
       cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
       RoadSideObject.sFunctionalState = listBox_AggregatedStatus_FunctionalState.SelectedItem.ToString();
+
+      RoadSideObject.dtLastChangedAggregatedStatus = DateTime.Now;
+
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
 				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);

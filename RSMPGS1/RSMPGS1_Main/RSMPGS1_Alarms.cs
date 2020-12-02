@@ -25,7 +25,9 @@ namespace nsRSMPGS
         return;
       }
 
+      listView_Alarms.BeginUpdate();
       listView_Alarms.StopSorting();
+
       listView_AlarmEvents.StopSorting();
 
       if (RoadSideObject != null)
@@ -43,6 +45,8 @@ namespace nsRSMPGS
       }
 
       listView_Alarms.ResumeSorting();
+      listView_Alarms.EndUpdate();
+
       listView_AlarmEvents.ResumeSorting();
 
     }
@@ -78,9 +82,9 @@ namespace nsRSMPGS
       foreach (cAlarmReturnValue AlarmReturnValue in AlarmObject.AlarmReturnValues)
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sType;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sValue;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment;
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
     }
@@ -88,10 +92,12 @@ namespace nsRSMPGS
     public void UpdateAlarmListView(cRoadSideObject RoadSideObject)
     {
 
-			//
-			// View alarm objects for the selected RoadSide object
-			//
-			foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
+      RoadSideObject.AlarmsGroup.Items.Clear();
+
+      //
+      // View alarm objects for the selected RoadSide object
+      //
+      foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
 			{
         ListViewItem lvItem = new ListViewItem();
         for (int iSubItemIndex = 0; iSubItemIndex < 7 + RSMPGS.ProcessImage.MaxAlarmReturnValues * 4; iSubItemIndex++)
@@ -144,6 +150,8 @@ namespace nsRSMPGS
       cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
       cAlarmEvent AlarmEvent = null;
 
+      AlarmObject.dtLastChangedAlarmStatus = DateTime.Now;
+
       switch (menuitem.Tag.ToString())
       {
 
@@ -154,18 +162,18 @@ namespace nsRSMPGS
 					{
             AlarmObject.AlarmCount++;
             AlarmObject.bAcknowledged = false;
-						AlarmEvent = RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Alarm);
+						RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
 					}
 					else
 					{
-            AlarmEvent = RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Alarm);
+            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
 					}
           break;
 
         case "AcknowledgeAndSend":
 
           AlarmObject.bAcknowledged = true;
-          AlarmEvent = RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
+          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
           //JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
           //foreach (cAlarmEvent ScanAlarmEvent in AlarmObject.AlarmEvents)
           //{
@@ -180,7 +188,7 @@ namespace nsRSMPGS
         case "SuspendAndSend":
 
           AlarmObject.bSuspended = AlarmObject.bSuspended == false;
-          AlarmEvent = RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Suspend);
+          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Suspend, out AlarmEvent);
 					//JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Suspend);
           break;
 
@@ -287,9 +295,9 @@ namespace nsRSMPGS
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
           string sText = lvHitTest.SubItem.Text;
           // if (cFormsHelper.InputBox("Enter new value", "Value", ref sText, sType.Equals("base64", StringComparison.OrdinalIgnoreCase), true) == DialogResult.OK)
-          if (cFormsHelper.InputStatusBox("Enter new value", "Value", ref sText, AlarmReturnValue.sType, AlarmReturnValue.sValues, AlarmReturnValue.sComment, true) == DialogResult.OK)
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sText, AlarmReturnValue.Value, AlarmReturnValue.sComment, true) == DialogResult.OK)
           {
-            AlarmReturnValue.sValue = sText;
+            AlarmReturnValue.Value.SetValue(sText);
             lvHitTest.SubItem.Text = sText;            
           }
         }

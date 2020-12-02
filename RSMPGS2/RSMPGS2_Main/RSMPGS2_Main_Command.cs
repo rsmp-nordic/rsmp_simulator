@@ -103,7 +103,9 @@ namespace nsRSMPGS
 				return;
 			}
 
-			foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
+      RoadSideObject.CommandsGroup.Items.Clear();
+
+      foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
 			{
 				// Object type;Object (optional);Description;commandCodeId;name;command;type;value;Comment;name;command;type;value;Comment;
 
@@ -111,14 +113,11 @@ namespace nsRSMPGS
 				foreach (cCommandReturnValue CommandReturnValue in CommandObject.CommandReturnValues)
 				{
 
-          ListViewItem lvItem = new ListViewItem(CommandReturnValue.sCommandCodeId);
-          //ListViewItem lvItem = new ListViewItem(RoadSideObject.SiteIdObject.sSiteId + " / " + RoadSideObject.SiteIdObject.sDescription);
-					//lvItem.SubItems.Add(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
-					//lvItem.SubItems.Add(CommandObject.sDescription);
+          ListViewItem lvItem = new ListViewItem(CommandObject.sCommandCodeId);
 					lvItem.SubItems.Add(CommandObject.sDescription);
 					lvItem.SubItems.Add(CommandReturnValue.sName);
           lvItem.SubItems.Add(CommandReturnValue.sCommand.Replace("\"-", "").Replace("\n-", "/").Replace("\n", "/").Replace("\"", ""));
-          lvItem.SubItems.Add(CommandReturnValue.sType);
+          lvItem.SubItems.Add(CommandReturnValue.Value.GetValueType());
 #if _RSMPGS2
           lvItem.SubItems.Add(CommandReturnValue.sLastRecValue);
 					lvItem.SubItems.Add(CommandReturnValue.sLastRecAge);
@@ -196,11 +195,11 @@ namespace nsRSMPGS
 						{
 
 							ListViewItem lvItem = listView_Commands.Items[i];
-							if (lvItem.SubItems[3].Text.Equals(CommandEvent.sCommandCodeId, StringComparison.OrdinalIgnoreCase)
-							&& lvItem.SubItems[4].Text.Equals(CommandEvent.sName, StringComparison.OrdinalIgnoreCase))
+							if (lvItem.SubItems[0].Text.Equals(CommandEvent.sCommandCodeId, StringComparison.OrdinalIgnoreCase)
+							&& lvItem.SubItems[2].Text.Equals(CommandEvent.sName, StringComparison.OrdinalIgnoreCase))
 							{
-								lvItem.SubItems[7].Text = CommandEvent.sValue;
-								lvItem.SubItems[8].Text = CommandEvent.sAge;
+								lvItem.SubItems[5].Text = CommandEvent.sValue;
+								lvItem.SubItems[6].Text = CommandEvent.sAge;
 
 								break;
 							}

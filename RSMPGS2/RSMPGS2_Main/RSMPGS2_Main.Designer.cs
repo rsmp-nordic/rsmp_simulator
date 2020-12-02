@@ -33,14 +33,17 @@
       this.timer_System = new System.Windows.Forms.Timer(this.components);
       this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
       this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadObjects = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadObjects_CSV = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadObjects_YAML = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadObjects_Delimiter = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_Delimiter_0 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_CreateNew = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_Tile = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_CloseAll = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_StoreBase64Updates = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_Delimiter_0 = new System.Windows.Forms.ToolStripSeparator();
-      this.ToolStripMenuItem_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator_Delimiter_1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Close = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_ProcessImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +84,6 @@
       this.groupBox_SystemLog = new System.Windows.Forms.GroupBox();
       this.button_ClearSystemLog = new System.Windows.Forms.Button();
       this.checkBox_ViewOnlyFailedPackets = new System.Windows.Forms.CheckBox();
-      this.listView_SysLog = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_SysLog_Severity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_SysLog_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_SysLog_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.imageList_Severity = new System.Windows.Forms.ImageList(this.components);
       this.tabControl_Object = new System.Windows.Forms.TabControl();
       this.tabPage_Generic = new System.Windows.Forms.TabPage();
@@ -102,6 +101,7 @@
       this.checkBox_Encryption_Protocol_TLS10 = new System.Windows.Forms.CheckBox();
       this.checkBox_Encryption_Protocol_Default = new System.Windows.Forms.CheckBox();
       this.groupBox_SXL_Version = new System.Windows.Forms.GroupBox();
+      this.checkBox_AutomaticallyLoadObjects = new System.Windows.Forms.CheckBox();
       this.label_SXL_FilePath = new System.Windows.Forms.Label();
       this.textBox_SignalExchangeListPath = new System.Windows.Forms.TextBox();
       this.checkBox_AlwaysUseSXLFromFile = new System.Windows.Forms.CheckBox();
@@ -119,105 +119,46 @@
       this.RSMP_3_1_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.RSMP_3_1_5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.button_ResetRSMPSettingToDefault = new System.Windows.Forms.Button();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
       this.button_ClearStatistics = new System.Windows.Forms.Button();
-      this.listView_Statistics = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Statistics_Desription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Statistics_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Statistics_Unit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Alarms = new System.Windows.Forms.TabPage();
       this.splitContainer_Alarms = new System.Windows.Forms.SplitContainer();
-      this.listView_Alarms = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Alarms_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_AlarmEvents = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_ExternalAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Priority = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Category = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Alarm = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_Acknowledge = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_Suspend = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator_2 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripMenuItem_Alarm_RequestCurrentState = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox_AlarmEvents = new System.Windows.Forms.GroupBox();
-      this.listView_AlarmEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_AlarmEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_RoadSideObject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_Direction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_AggregatedStatus = new System.Windows.Forms.TabPage();
       this.splitContainer_AggregatedStatus = new System.Windows.Forms.SplitContainer();
       this.groupBox_AggregatedStatus_StatusBits = new System.Windows.Forms.GroupBox();
-      this.listView_AggregatedStatus_StatusBits = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_StatusBits_BitNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusBits_NTSColor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusBits_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.splitContainer_AggregatedStatus_FunctionalStatPos_Events = new System.Windows.Forms.SplitContainer();
       this.splitContainer_FunctionalStatPos = new System.Windows.Forms.SplitContainer();
       this.groupBox_AggregatedStatus_FunctionalPosition = new System.Windows.Forms.GroupBox();
       this.listBox_AggregatedStatus_FunctionalPosition = new System.Windows.Forms.ListBox();
       this.groupBox_AggregatedStatus_FunctionalState = new System.Windows.Forms.GroupBox();
       this.listBox_AggregatedStatus_FunctionalState = new System.Windows.Forms.ListBox();
+      this.button_AggregatedStatus_Request = new System.Windows.Forms.Button();
       this.groupBox_AggregatedStatusEvents = new System.Windows.Forms.GroupBox();
-      this.listView_AggregatedStatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_AggStatEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_BitStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_FuncPos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_FuncState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Status = new System.Windows.Forms.TabPage();
       this.splitContainer_Status = new System.Windows.Forms.SplitContainer();
-      this.listView_Status = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Status_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Status = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_StatusRequest = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_StatusSubscribe = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripMenuItem_EnterUpdateRate = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripSeparator_1 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_StatusUnsubscribe = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox_StatusEvents = new System.Windows.Forms.GroupBox();
-      this.listView_StatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_StatusEvents_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_MessageId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Commands = new System.Windows.Forms.TabPage();
-      this.splitContainer_Commands = new System.Windows.Forms.SplitContainer();
-      this.listView_Commands = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Commands_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Commands = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_Commands = new System.Windows.Forms.ToolStripMenuItem();
-      this.groupBox_CommandEvents = new System.Windows.Forms.GroupBox();
-      this.listView_CommandEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_CommandEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_TestSend = new System.Windows.Forms.TabPage();
       this.splitContainer_TestSend = new System.Windows.Forms.SplitContainer();
       this.button_TestPackage_1_Browse = new System.Windows.Forms.Button();
@@ -232,6 +173,79 @@
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
+      this.listView_SysLog = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_SysLog_Severity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_SysLog_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_SysLog_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_Statistics = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Statistics_Desription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Statistics_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Statistics_Unit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_Alarms = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Alarms_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_AlarmEvents = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_ExternalAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Priority = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Category = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_AlarmEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_AlarmEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_RoadSideObject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_Direction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_AggregatedStatus_StatusBits = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_StatusBits_BitNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusBits_NTSColor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusBits_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_AggregatedStatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_AggStatEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_BitStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_FuncPos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_FuncState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_Status = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Status_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_UpdateOnChange = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_StatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_StatusEvents_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_MessageId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.splitContainer_Commands = new System.Windows.Forms.SplitContainer();
+      this.listView_Commands = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Commands_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.groupBox_CommandEvents = new System.Windows.Forms.GroupBox();
+      this.listView_CommandEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_CommandEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -288,12 +302,7 @@
       this.contextMenuStrip_Status.SuspendLayout();
       this.groupBox_StatusEvents.SuspendLayout();
       this.tabPage_Commands.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).BeginInit();
-      this.splitContainer_Commands.Panel1.SuspendLayout();
-      this.splitContainer_Commands.Panel2.SuspendLayout();
-      this.splitContainer_Commands.SuspendLayout();
       this.contextMenuStrip_Commands.SuspendLayout();
-      this.groupBox_CommandEvents.SuspendLayout();
       this.tabPage_TestSend.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_TestSend)).BeginInit();
       this.splitContainer_TestSend.Panel1.SuspendLayout();
@@ -301,6 +310,11 @@
       this.splitContainer_TestSend.SuspendLayout();
       this.groupBox_TestSend1.SuspendLayout();
       this.groupBox_TestSend2.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).BeginInit();
+      this.splitContainer_Commands.Panel1.SuspendLayout();
+      this.splitContainer_Commands.Panel2.SuspendLayout();
+      this.splitContainer_Commands.SuspendLayout();
+      this.groupBox_CommandEvents.SuspendLayout();
       this.SuspendLayout();
       // 
       // timer_System
@@ -328,14 +342,49 @@
       // ToolStripMenuItem_File
       // 
       this.ToolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_File_Debug,
+            this.ToolStripMenuItem_File_LoadObjects,
             this.ToolStripMenuItem_Delimiter_0,
-            this.ToolStripMenuItem_File_SaveAs,
+            this.ToolStripMenuItem_File_Debug,
             this.toolStripSeparator_Delimiter_1,
             this.ToolStripMenuItem_File_Close});
       this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
       this.ToolStripMenuItem_File.Size = new System.Drawing.Size(37, 23);
       this.ToolStripMenuItem_File.Text = "&File";
+      this.ToolStripMenuItem_File.DropDownOpening += new System.EventHandler(this.ToolStripMenuItem_File_DropDownOpening);
+      // 
+      // ToolStripMenuItem_File_LoadObjects
+      // 
+      this.ToolStripMenuItem_File_LoadObjects.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_File_LoadObjects_CSV,
+            this.ToolStripMenuItem_File_LoadObjects_YAML,
+            this.ToolStripMenuItem_File_LoadObjects_Delimiter});
+      this.ToolStripMenuItem_File_LoadObjects.Name = "ToolStripMenuItem_File_LoadObjects";
+      this.ToolStripMenuItem_File_LoadObjects.Size = new System.Drawing.Size(170, 22);
+      this.ToolStripMenuItem_File_LoadObjects.Text = "Load objects from";
+      // 
+      // ToolStripMenuItem_File_LoadObjects_CSV
+      // 
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Name = "ToolStripMenuItem_File_LoadObjects_CSV";
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Text = "CSV-files...";
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_CSV_Click);
+      // 
+      // ToolStripMenuItem_File_LoadObjects_YAML
+      // 
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Name = "ToolStripMenuItem_File_LoadObjects_YAML";
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Text = "YAML-file...";
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_YAML_Click);
+      // 
+      // ToolStripMenuItem_File_LoadObjects_Delimiter
+      // 
+      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Name = "ToolStripMenuItem_File_LoadObjects_Delimiter";
+      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(149, 6);
+      // 
+      // ToolStripMenuItem_Delimiter_0
+      // 
+      this.ToolStripMenuItem_Delimiter_0.Name = "ToolStripMenuItem_Delimiter_0";
+      this.ToolStripMenuItem_Delimiter_0.Size = new System.Drawing.Size(167, 6);
       // 
       // ToolStripMenuItem_File_Debug
       // 
@@ -346,7 +395,7 @@
             this.toolStripMenuItem1,
             this.ToolStripMenuItem_StoreBase64Updates});
       this.ToolStripMenuItem_File_Debug.Name = "ToolStripMenuItem_File_Debug";
-      this.ToolStripMenuItem_File_Debug.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_Debug.Size = new System.Drawing.Size(170, 22);
       this.ToolStripMenuItem_File_Debug.Text = "&Debug";
       // 
       // ToolStripMenuItem_File_Debug_CreateNew
@@ -382,28 +431,16 @@
       this.ToolStripMenuItem_StoreBase64Updates.Size = new System.Drawing.Size(215, 22);
       this.ToolStripMenuItem_StoreBase64Updates.Text = "&Store base64 updates";
       // 
-      // ToolStripMenuItem_Delimiter_0
-      // 
-      this.ToolStripMenuItem_Delimiter_0.Name = "ToolStripMenuItem_Delimiter_0";
-      this.ToolStripMenuItem_Delimiter_0.Size = new System.Drawing.Size(132, 6);
-      // 
-      // ToolStripMenuItem_File_SaveAs
-      // 
-      this.ToolStripMenuItem_File_SaveAs.Name = "ToolStripMenuItem_File_SaveAs";
-      this.ToolStripMenuItem_File_SaveAs.Size = new System.Drawing.Size(135, 22);
-      this.ToolStripMenuItem_File_SaveAs.Text = "&Save as...";
-      this.ToolStripMenuItem_File_SaveAs.Click += new System.EventHandler(this.ToolStripMenuItem_File_SaveAs_Click);
-      // 
       // toolStripSeparator_Delimiter_1
       // 
       this.toolStripSeparator_Delimiter_1.Name = "toolStripSeparator_Delimiter_1";
-      this.toolStripSeparator_Delimiter_1.Size = new System.Drawing.Size(132, 6);
+      this.toolStripSeparator_Delimiter_1.Size = new System.Drawing.Size(167, 6);
       // 
       // ToolStripMenuItem_File_Close
       // 
       this.ToolStripMenuItem_File_Close.Name = "ToolStripMenuItem_File_Close";
       this.ToolStripMenuItem_File_Close.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-      this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(170, 22);
       this.ToolStripMenuItem_File_Close.Text = "&Exit";
       this.ToolStripMenuItem_File_Close.Click += new System.EventHandler(this.ToolStripMenuItem_File_Close_Click);
       // 
@@ -750,44 +787,6 @@
       this.checkBox_ViewOnlyFailedPackets.Text = "View only failed packets";
       this.checkBox_ViewOnlyFailedPackets.UseVisualStyleBackColor = true;
       // 
-      // listView_SysLog
-      // 
-      this.listView_SysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.listView_SysLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_SysLog_Severity,
-            this.columnHeader_SysLog_TimeStamp,
-            this.columnHeader_SysLog_Description});
-      this.listView_SysLog.FullRowSelect = true;
-      this.listView_SysLog.GridLines = true;
-      this.listView_SysLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-      this.listView_SysLog.HideSelection = false;
-      this.listView_SysLog.Location = new System.Drawing.Point(6, 18);
-      this.listView_SysLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-      this.listView_SysLog.MultiSelect = false;
-      this.listView_SysLog.Name = "listView_SysLog";
-      this.listView_SysLog.ShowItemToolTips = true;
-      this.listView_SysLog.Size = new System.Drawing.Size(301, 258);
-      this.listView_SysLog.SmallImageList = this.imageList_Severity;
-      this.listView_SysLog.TabIndex = 0;
-      this.listView_SysLog.UseCompatibleStateImageBehavior = false;
-      this.listView_SysLog.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_SysLog_Severity
-      // 
-      this.columnHeader_SysLog_Severity.Text = "Severity";
-      this.columnHeader_SysLog_Severity.Width = 10;
-      // 
-      // columnHeader_SysLog_TimeStamp
-      // 
-      this.columnHeader_SysLog_TimeStamp.Text = "Time";
-      // 
-      // columnHeader_SysLog_Description
-      // 
-      this.columnHeader_SysLog_Description.Text = "Description";
-      this.columnHeader_SysLog_Description.Width = 200;
-      // 
       // imageList_Severity
       // 
       this.imageList_Severity.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList_Severity.ImageStream")));
@@ -819,7 +818,7 @@
       this.tabPage_Generic.Controls.Add(this.groupBox_SXL_Version);
       this.tabPage_Generic.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Generic.Name = "tabPage_Generic";
-      this.tabPage_Generic.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+      this.tabPage_Generic.Padding = new System.Windows.Forms.Padding(3);
       this.tabPage_Generic.Size = new System.Drawing.Size(672, 725);
       this.tabPage_Generic.TabIndex = 0;
       this.tabPage_Generic.Text = "Generic";
@@ -836,10 +835,10 @@
       this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
       this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
       this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
-      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 145);
-      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 169);
+      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_Encryption.Name = "groupBox_Encryption";
-      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
       this.groupBox_Encryption.Size = new System.Drawing.Size(669, 162);
       this.groupBox_Encryption.TabIndex = 4;
       this.groupBox_Encryption.TabStop = false;
@@ -922,9 +921,9 @@
       this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS10);
       this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_Default);
       this.groupBox_EncryptionProtocols.Location = new System.Drawing.Point(16, 28);
-      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_EncryptionProtocols.Name = "groupBox_EncryptionProtocols";
-      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2);
       this.groupBox_EncryptionProtocols.Size = new System.Drawing.Size(285, 93);
       this.groupBox_EncryptionProtocols.TabIndex = 6;
       this.groupBox_EncryptionProtocols.TabStop = false;
@@ -999,6 +998,7 @@
       // 
       this.groupBox_SXL_Version.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_SXL_Version.Controls.Add(this.checkBox_AutomaticallyLoadObjects);
       this.groupBox_SXL_Version.Controls.Add(this.label_SXL_FilePath);
       this.groupBox_SXL_Version.Controls.Add(this.textBox_SignalExchangeListPath);
       this.groupBox_SXL_Version.Controls.Add(this.checkBox_AlwaysUseSXLFromFile);
@@ -1008,10 +1008,22 @@
       this.groupBox_SXL_Version.Controls.Add(this.label_SXL_VersionManually);
       this.groupBox_SXL_Version.Location = new System.Drawing.Point(3, 3);
       this.groupBox_SXL_Version.Name = "groupBox_SXL_Version";
-      this.groupBox_SXL_Version.Size = new System.Drawing.Size(669, 136);
+      this.groupBox_SXL_Version.Size = new System.Drawing.Size(669, 161);
       this.groupBox_SXL_Version.TabIndex = 2;
       this.groupBox_SXL_Version.TabStop = false;
-      this.groupBox_SXL_Version.Text = "Signal Exchange List (SXL/SUL) version info";
+      this.groupBox_SXL_Version.Text = "Signal Exchange List (SXL/SUL) info";
+      // 
+      // checkBox_AutomaticallyLoadObjects
+      // 
+      this.checkBox_AutomaticallyLoadObjects.AutoSize = true;
+      this.checkBox_AutomaticallyLoadObjects.Checked = true;
+      this.checkBox_AutomaticallyLoadObjects.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_AutomaticallyLoadObjects.Location = new System.Drawing.Point(124, 127);
+      this.checkBox_AutomaticallyLoadObjects.Name = "checkBox_AutomaticallyLoadObjects";
+      this.checkBox_AutomaticallyLoadObjects.Size = new System.Drawing.Size(214, 17);
+      this.checkBox_AutomaticallyLoadObjects.TabIndex = 12;
+      this.checkBox_AutomaticallyLoadObjects.Text = "Automatically load last objects at startup";
+      this.checkBox_AutomaticallyLoadObjects.UseVisualStyleBackColor = true;
       // 
       // label_SXL_FilePath
       // 
@@ -1036,7 +1048,7 @@
       // checkBox_AlwaysUseSXLFromFile
       // 
       this.checkBox_AlwaysUseSXLFromFile.AutoSize = true;
-      this.checkBox_AlwaysUseSXLFromFile.Location = new System.Drawing.Point(44, 75);
+      this.checkBox_AlwaysUseSXLFromFile.Location = new System.Drawing.Point(48, 76);
       this.checkBox_AlwaysUseSXLFromFile.Name = "checkBox_AlwaysUseSXLFromFile";
       this.checkBox_AlwaysUseSXLFromFile.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
       this.checkBox_AlwaysUseSXLFromFile.Size = new System.Drawing.Size(270, 17);
@@ -1086,9 +1098,9 @@
       // 
       this.tabPage_RSMP.Controls.Add(this.splitContainer_RSMP);
       this.tabPage_RSMP.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_RSMP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.tabPage_RSMP.Margin = new System.Windows.Forms.Padding(2);
       this.tabPage_RSMP.Name = "tabPage_RSMP";
-      this.tabPage_RSMP.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.tabPage_RSMP.Padding = new System.Windows.Forms.Padding(2);
       this.tabPage_RSMP.Size = new System.Drawing.Size(672, 725);
       this.tabPage_RSMP.TabIndex = 7;
       this.tabPage_RSMP.Text = "RSMP";
@@ -1098,7 +1110,7 @@
       // 
       this.splitContainer_RSMP.Dock = System.Windows.Forms.DockStyle.Fill;
       this.splitContainer_RSMP.Location = new System.Drawing.Point(2, 2);
-      this.splitContainer_RSMP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.splitContainer_RSMP.Margin = new System.Windows.Forms.Padding(2);
       this.splitContainer_RSMP.Name = "splitContainer_RSMP";
       this.splitContainer_RSMP.Orientation = System.Windows.Forms.Orientation.Horizontal;
       // 
@@ -1120,9 +1132,9 @@
       this.groupBox_ProtocolSettings.Controls.Add(this.button_ResetRSMPSettingToDefault);
       this.groupBox_ProtocolSettings.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_ProtocolSettings.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_ProtocolSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_ProtocolSettings.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_ProtocolSettings.Name = "groupBox_ProtocolSettings";
-      this.groupBox_ProtocolSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_ProtocolSettings.Padding = new System.Windows.Forms.Padding(2);
       this.groupBox_ProtocolSettings.Size = new System.Drawing.Size(668, 364);
       this.groupBox_ProtocolSettings.TabIndex = 10;
       this.groupBox_ProtocolSettings.TabStop = false;
@@ -1145,9 +1157,10 @@
             this.RSMP_3_1_1,
             this.RSMP_3_1_2,
             this.RSMP_3_1_3,
-            this.RSMP_3_1_4});
+            this.RSMP_3_1_4,
+            this.RSMP_3_1_5});
       this.dataGridView_Behaviour.Location = new System.Drawing.Point(2, 14);
-      this.dataGridView_Behaviour.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.dataGridView_Behaviour.Margin = new System.Windows.Forms.Padding(2);
       this.dataGridView_Behaviour.MultiSelect = false;
       this.dataGridView_Behaviour.Name = "dataGridView_Behaviour";
       this.dataGridView_Behaviour.RowHeadersVisible = false;
@@ -1196,6 +1209,12 @@
       this.RSMP_3_1_4.Name = "RSMP_3_1_4";
       this.RSMP_3_1_4.Width = 50;
       // 
+      // RSMP_3_1_5
+      // 
+      this.RSMP_3_1_5.HeaderText = "3.1.5";
+      this.RSMP_3_1_5.Name = "RSMP_3_1_5";
+      this.RSMP_3_1_5.Width = 50;
+      // 
       // button_ResetRSMPSettingToDefault
       // 
       this.button_ResetRSMPSettingToDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1213,9 +1232,9 @@
       this.groupBox_Statistics.Controls.Add(this.listView_Statistics);
       this.groupBox_Statistics.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_Statistics.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_Statistics.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_Statistics.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_Statistics.Name = "groupBox_Statistics";
-      this.groupBox_Statistics.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.groupBox_Statistics.Padding = new System.Windows.Forms.Padding(2);
       this.groupBox_Statistics.Size = new System.Drawing.Size(668, 354);
       this.groupBox_Statistics.TabIndex = 6;
       this.groupBox_Statistics.TabStop = false;
@@ -1232,48 +1251,12 @@
       this.button_ClearStatistics.UseVisualStyleBackColor = true;
       this.button_ClearStatistics.Click += new System.EventHandler(this.button_ClearStatistics_Click);
       // 
-      // listView_Statistics
-      // 
-      this.listView_Statistics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.listView_Statistics.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_Statistics_Desription,
-            this.columnHeader_Statistics_Value,
-            this.columnHeader_Statistics_Unit});
-      this.listView_Statistics.FullRowSelect = true;
-      this.listView_Statistics.GridLines = true;
-      this.listView_Statistics.HideSelection = false;
-      this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
-      this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-      this.listView_Statistics.Name = "listView_Statistics";
-      this.listView_Statistics.Size = new System.Drawing.Size(665, 310);
-      this.listView_Statistics.TabIndex = 0;
-      this.listView_Statistics.UseCompatibleStateImageBehavior = false;
-      this.listView_Statistics.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_Statistics_Desription
-      // 
-      this.columnHeader_Statistics_Desription.Text = "Description";
-      this.columnHeader_Statistics_Desription.Width = 200;
-      // 
-      // columnHeader_Statistics_Value
-      // 
-      this.columnHeader_Statistics_Value.Text = "Value";
-      this.columnHeader_Statistics_Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.columnHeader_Statistics_Value.Width = 100;
-      // 
-      // columnHeader_Statistics_Unit
-      // 
-      this.columnHeader_Statistics_Unit.Text = "Unit";
-      this.columnHeader_Statistics_Unit.Width = 100;
-      // 
       // tabPage_Alarms
       // 
       this.tabPage_Alarms.Controls.Add(this.splitContainer_Alarms);
       this.tabPage_Alarms.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Alarms.Name = "tabPage_Alarms";
-      this.tabPage_Alarms.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+      this.tabPage_Alarms.Padding = new System.Windows.Forms.Padding(3);
       this.tabPage_Alarms.Size = new System.Drawing.Size(672, 725);
       this.tabPage_Alarms.TabIndex = 1;
       this.tabPage_Alarms.Text = "Alarms";
@@ -1296,6 +1279,572 @@
       this.splitContainer_Alarms.Size = new System.Drawing.Size(666, 719);
       this.splitContainer_Alarms.SplitterDistance = 370;
       this.splitContainer_Alarms.TabIndex = 0;
+      // 
+      // contextMenuStrip_Alarm
+      // 
+      this.contextMenuStrip_Alarm.ImageScalingSize = new System.Drawing.Size(20, 20);
+      this.contextMenuStrip_Alarm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Acknowledge,
+            this.ToolStripMenuItem_Suspend,
+            this.toolStripSeparator_2,
+            this.toolStripMenuItem_Alarm_RequestCurrentState});
+      this.contextMenuStrip_Alarm.Name = "contextMenuStrip_Alarm";
+      this.contextMenuStrip_Alarm.Size = new System.Drawing.Size(186, 76);
+      this.contextMenuStrip_Alarm.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Alarm_Opening);
+      // 
+      // ToolStripMenuItem_Acknowledge
+      // 
+      this.ToolStripMenuItem_Acknowledge.Name = "ToolStripMenuItem_Acknowledge";
+      this.ToolStripMenuItem_Acknowledge.Size = new System.Drawing.Size(185, 22);
+      this.ToolStripMenuItem_Acknowledge.Tag = "AcknowledgeAndSend";
+      this.ToolStripMenuItem_Acknowledge.Text = "&Acknowledge";
+      this.ToolStripMenuItem_Acknowledge.Click += new System.EventHandler(this.ToolStripMenuItem_SendAlarmEvent_Click);
+      // 
+      // ToolStripMenuItem_Suspend
+      // 
+      this.ToolStripMenuItem_Suspend.Name = "ToolStripMenuItem_Suspend";
+      this.ToolStripMenuItem_Suspend.Size = new System.Drawing.Size(185, 22);
+      this.ToolStripMenuItem_Suspend.Tag = "SuspendAndSend";
+      this.ToolStripMenuItem_Suspend.Text = "&Suspend";
+      this.ToolStripMenuItem_Suspend.Click += new System.EventHandler(this.ToolStripMenuItem_SendAlarmEvent_Click);
+      // 
+      // toolStripSeparator_2
+      // 
+      this.toolStripSeparator_2.Name = "toolStripSeparator_2";
+      this.toolStripSeparator_2.Size = new System.Drawing.Size(182, 6);
+      // 
+      // toolStripMenuItem_Alarm_RequestCurrentState
+      // 
+      this.toolStripMenuItem_Alarm_RequestCurrentState.Name = "toolStripMenuItem_Alarm_RequestCurrentState";
+      this.toolStripMenuItem_Alarm_RequestCurrentState.Size = new System.Drawing.Size(185, 22);
+      this.toolStripMenuItem_Alarm_RequestCurrentState.Tag = "RequestAndSend";
+      this.toolStripMenuItem_Alarm_RequestCurrentState.Text = "&Request current state";
+      this.toolStripMenuItem_Alarm_RequestCurrentState.Click += new System.EventHandler(this.ToolStripMenuItem_SendAlarmEvent_Click);
+      // 
+      // groupBox_AlarmEvents
+      // 
+      this.groupBox_AlarmEvents.Controls.Add(this.listView_AlarmEvents);
+      this.groupBox_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_AlarmEvents.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_AlarmEvents.Name = "groupBox_AlarmEvents";
+      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_AlarmEvents.TabIndex = 0;
+      this.groupBox_AlarmEvents.TabStop = false;
+      this.groupBox_AlarmEvents.Text = "Alarm &Events";
+      // 
+      // tabPage_AggregatedStatus
+      // 
+      this.tabPage_AggregatedStatus.Controls.Add(this.splitContainer_AggregatedStatus);
+      this.tabPage_AggregatedStatus.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_AggregatedStatus.Name = "tabPage_AggregatedStatus";
+      this.tabPage_AggregatedStatus.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_AggregatedStatus.TabIndex = 3;
+      this.tabPage_AggregatedStatus.Text = "Aggregated Status";
+      this.tabPage_AggregatedStatus.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer_AggregatedStatus
+      // 
+      this.splitContainer_AggregatedStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_AggregatedStatus.Location = new System.Drawing.Point(3, 3);
+      this.splitContainer_AggregatedStatus.Name = "splitContainer_AggregatedStatus";
+      this.splitContainer_AggregatedStatus.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer_AggregatedStatus.Panel1
+      // 
+      this.splitContainer_AggregatedStatus.Panel1.Controls.Add(this.groupBox_AggregatedStatus_StatusBits);
+      // 
+      // splitContainer_AggregatedStatus.Panel2
+      // 
+      this.splitContainer_AggregatedStatus.Panel2.Controls.Add(this.splitContainer_AggregatedStatus_FunctionalStatPos_Events);
+      this.splitContainer_AggregatedStatus.Size = new System.Drawing.Size(666, 719);
+      this.splitContainer_AggregatedStatus.SplitterDistance = 215;
+      this.splitContainer_AggregatedStatus.TabIndex = 0;
+      // 
+      // groupBox_AggregatedStatus_StatusBits
+      // 
+      this.groupBox_AggregatedStatus_StatusBits.Controls.Add(this.listView_AggregatedStatus_StatusBits);
+      this.groupBox_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_AggregatedStatus_StatusBits.Name = "groupBox_AggregatedStatus_StatusBits";
+      this.groupBox_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(666, 215);
+      this.groupBox_AggregatedStatus_StatusBits.TabIndex = 12;
+      this.groupBox_AggregatedStatus_StatusBits.TabStop = false;
+      this.groupBox_AggregatedStatus_StatusBits.Text = "StatusBits";
+      // 
+      // splitContainer_AggregatedStatus_FunctionalStatPos_Events
+      // 
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Location = new System.Drawing.Point(0, 0);
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Name = "splitContainer_AggregatedStatus_FunctionalStatPos_Events";
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel1
+      // 
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel1.Controls.Add(this.splitContainer_FunctionalStatPos);
+      // 
+      // splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2
+      // 
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2.Controls.Add(this.button_AggregatedStatus_Request);
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2.Controls.Add(this.groupBox_AggregatedStatusEvents);
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Size = new System.Drawing.Size(666, 500);
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.SplitterDistance = 135;
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.TabIndex = 0;
+      // 
+      // splitContainer_FunctionalStatPos
+      // 
+      this.splitContainer_FunctionalStatPos.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_FunctionalStatPos.Location = new System.Drawing.Point(0, 0);
+      this.splitContainer_FunctionalStatPos.Name = "splitContainer_FunctionalStatPos";
+      // 
+      // splitContainer_FunctionalStatPos.Panel1
+      // 
+      this.splitContainer_FunctionalStatPos.Panel1.Controls.Add(this.groupBox_AggregatedStatus_FunctionalPosition);
+      // 
+      // splitContainer_FunctionalStatPos.Panel2
+      // 
+      this.splitContainer_FunctionalStatPos.Panel2.Controls.Add(this.groupBox_AggregatedStatus_FunctionalState);
+      this.splitContainer_FunctionalStatPos.Size = new System.Drawing.Size(666, 135);
+      this.splitContainer_FunctionalStatPos.SplitterDistance = 306;
+      this.splitContainer_FunctionalStatPos.TabIndex = 0;
+      // 
+      // groupBox_AggregatedStatus_FunctionalPosition
+      // 
+      this.groupBox_AggregatedStatus_FunctionalPosition.Controls.Add(this.listBox_AggregatedStatus_FunctionalPosition);
+      this.groupBox_AggregatedStatus_FunctionalPosition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_AggregatedStatus_FunctionalPosition.Name = "groupBox_AggregatedStatus_FunctionalPosition";
+      this.groupBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(306, 135);
+      this.groupBox_AggregatedStatus_FunctionalPosition.TabIndex = 15;
+      this.groupBox_AggregatedStatus_FunctionalPosition.TabStop = false;
+      this.groupBox_AggregatedStatus_FunctionalPosition.Text = "&FunctionalPosition";
+      // 
+      // listBox_AggregatedStatus_FunctionalPosition
+      // 
+      this.listBox_AggregatedStatus_FunctionalPosition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listBox_AggregatedStatus_FunctionalPosition.FormattingEnabled = true;
+      this.listBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(3, 16);
+      this.listBox_AggregatedStatus_FunctionalPosition.Name = "listBox_AggregatedStatus_FunctionalPosition";
+      this.listBox_AggregatedStatus_FunctionalPosition.SelectionMode = System.Windows.Forms.SelectionMode.None;
+      this.listBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(300, 116);
+      this.listBox_AggregatedStatus_FunctionalPosition.TabIndex = 0;
+      // 
+      // groupBox_AggregatedStatus_FunctionalState
+      // 
+      this.groupBox_AggregatedStatus_FunctionalState.Controls.Add(this.listBox_AggregatedStatus_FunctionalState);
+      this.groupBox_AggregatedStatus_FunctionalState.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_AggregatedStatus_FunctionalState.Name = "groupBox_AggregatedStatus_FunctionalState";
+      this.groupBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(356, 135);
+      this.groupBox_AggregatedStatus_FunctionalState.TabIndex = 16;
+      this.groupBox_AggregatedStatus_FunctionalState.TabStop = false;
+      this.groupBox_AggregatedStatus_FunctionalState.Text = "&FunctionalState";
+      // 
+      // listBox_AggregatedStatus_FunctionalState
+      // 
+      this.listBox_AggregatedStatus_FunctionalState.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listBox_AggregatedStatus_FunctionalState.FormattingEnabled = true;
+      this.listBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(3, 16);
+      this.listBox_AggregatedStatus_FunctionalState.Name = "listBox_AggregatedStatus_FunctionalState";
+      this.listBox_AggregatedStatus_FunctionalState.SelectionMode = System.Windows.Forms.SelectionMode.None;
+      this.listBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(350, 116);
+      this.listBox_AggregatedStatus_FunctionalState.TabIndex = 0;
+      // 
+      // button_AggregatedStatus_Request
+      // 
+      this.button_AggregatedStatus_Request.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_AggregatedStatus_Request.Location = new System.Drawing.Point(29, 333);
+      this.button_AggregatedStatus_Request.Name = "button_AggregatedStatus_Request";
+      this.button_AggregatedStatus_Request.Size = new System.Drawing.Size(226, 23);
+      this.button_AggregatedStatus_Request.TabIndex = 9;
+      this.button_AggregatedStatus_Request.Text = "Request Aggregated Status";
+      this.button_AggregatedStatus_Request.UseVisualStyleBackColor = true;
+      this.button_AggregatedStatus_Request.Click += new System.EventHandler(this.button_AggregatedStatus_Request_Click);
+      // 
+      // groupBox_AggregatedStatusEvents
+      // 
+      this.groupBox_AggregatedStatusEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_AggregatedStatusEvents.Controls.Add(this.listView_AggregatedStatusEvents);
+      this.groupBox_AggregatedStatusEvents.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_AggregatedStatusEvents.Name = "groupBox_AggregatedStatusEvents";
+      this.groupBox_AggregatedStatusEvents.Size = new System.Drawing.Size(666, 327);
+      this.groupBox_AggregatedStatusEvents.TabIndex = 1;
+      this.groupBox_AggregatedStatusEvents.TabStop = false;
+      this.groupBox_AggregatedStatusEvents.Text = "Aggregated Status &Events";
+      // 
+      // tabPage_Status
+      // 
+      this.tabPage_Status.Controls.Add(this.splitContainer_Status);
+      this.tabPage_Status.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Status.Name = "tabPage_Status";
+      this.tabPage_Status.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Status.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Status.TabIndex = 4;
+      this.tabPage_Status.Text = "Status";
+      this.tabPage_Status.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer_Status
+      // 
+      this.splitContainer_Status.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_Status.Location = new System.Drawing.Point(3, 3);
+      this.splitContainer_Status.Name = "splitContainer_Status";
+      this.splitContainer_Status.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer_Status.Panel1
+      // 
+      this.splitContainer_Status.Panel1.Controls.Add(this.listView_Status);
+      // 
+      // splitContainer_Status.Panel2
+      // 
+      this.splitContainer_Status.Panel2.Controls.Add(this.groupBox_StatusEvents);
+      this.splitContainer_Status.Size = new System.Drawing.Size(666, 719);
+      this.splitContainer_Status.SplitterDistance = 370;
+      this.splitContainer_Status.TabIndex = 2;
+      // 
+      // contextMenuStrip_Status
+      // 
+      this.contextMenuStrip_Status.ImageScalingSize = new System.Drawing.Size(20, 20);
+      this.contextMenuStrip_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_StatusRequest,
+            this.ToolStripMenuItem_StatusSubscribe,
+            this.ToolStripMenuItem_StatusUnsubscribe});
+      this.contextMenuStrip_Status.Name = "contextMenuStrip_Status";
+      this.contextMenuStrip_Status.Size = new System.Drawing.Size(175, 70);
+      this.contextMenuStrip_Status.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Status_Opening);
+      // 
+      // ToolStripMenuItem_StatusRequest
+      // 
+      this.ToolStripMenuItem_StatusRequest.Name = "ToolStripMenuItem_StatusRequest";
+      this.ToolStripMenuItem_StatusRequest.Size = new System.Drawing.Size(174, 22);
+      this.ToolStripMenuItem_StatusRequest.Tag = "StatusRequest";
+      this.ToolStripMenuItem_StatusRequest.Text = "Status &Request";
+      this.ToolStripMenuItem_StatusRequest.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
+      // 
+      // ToolStripMenuItem_StatusSubscribe
+      // 
+      this.ToolStripMenuItem_StatusSubscribe.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly,
+            this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval,
+            this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval});
+      this.ToolStripMenuItem_StatusSubscribe.Name = "ToolStripMenuItem_StatusSubscribe";
+      this.ToolStripMenuItem_StatusSubscribe.Size = new System.Drawing.Size(174, 22);
+      this.ToolStripMenuItem_StatusSubscribe.Tag = "StatusSubscribe";
+      this.ToolStripMenuItem_StatusSubscribe.Text = "Status &Subscribe";
+      // 
+      // ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly
+      // 
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly.Name = "ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly.Size = new System.Drawing.Size(236, 22);
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly.Text = "Update on change";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
+      // 
+      // ToolStripMenuItem_StatusSubscribe_UpdateOnInterval
+      // 
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually,
+            this.toolStripSeparator2});
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval.Name = "ToolStripMenuItem_StatusSubscribe_UpdateOnInterval";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval.Size = new System.Drawing.Size(236, 22);
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval.Text = "Update on interval";
+      // 
+      // ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually
+      // 
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually.Name = "ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually.Size = new System.Drawing.Size(220, 22);
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually.Text = "Enter Update Rate manually";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
+      // 
+      // toolStripSeparator2
+      // 
+      this.toolStripSeparator2.Name = "toolStripSeparator2";
+      this.toolStripSeparator2.Size = new System.Drawing.Size(217, 6);
+      // 
+      // ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval
+      // 
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually,
+            this.toolStripSeparator3});
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.Name = "ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.Size = new System.Drawing.Size(236, 22);
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.Text = "Update on change and interval";
+      // 
+      // ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually
+      // 
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually.Name = "ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually.Size = new System.Drawing.Size(220, 22);
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually.Text = "Enter Update Rate manually";
+      this.ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
+      // 
+      // toolStripSeparator3
+      // 
+      this.toolStripSeparator3.Name = "toolStripSeparator3";
+      this.toolStripSeparator3.Size = new System.Drawing.Size(217, 6);
+      // 
+      // ToolStripMenuItem_StatusUnsubscribe
+      // 
+      this.ToolStripMenuItem_StatusUnsubscribe.Name = "ToolStripMenuItem_StatusUnsubscribe";
+      this.ToolStripMenuItem_StatusUnsubscribe.Size = new System.Drawing.Size(174, 22);
+      this.ToolStripMenuItem_StatusUnsubscribe.Tag = "StatusUnsubscribe";
+      this.ToolStripMenuItem_StatusUnsubscribe.Text = "Status &Unsubscribe";
+      this.ToolStripMenuItem_StatusUnsubscribe.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
+      // 
+      // groupBox_StatusEvents
+      // 
+      this.groupBox_StatusEvents.Controls.Add(this.listView_StatusEvents);
+      this.groupBox_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_StatusEvents.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_StatusEvents.Name = "groupBox_StatusEvents";
+      this.groupBox_StatusEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_StatusEvents.TabIndex = 0;
+      this.groupBox_StatusEvents.TabStop = false;
+      this.groupBox_StatusEvents.Text = "Status &Events";
+      // 
+      // tabPage_Commands
+      // 
+      this.tabPage_Commands.Controls.Add(this.splitContainer_Commands);
+      this.tabPage_Commands.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Commands.Name = "tabPage_Commands";
+      this.tabPage_Commands.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Commands.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Commands.TabIndex = 5;
+      this.tabPage_Commands.Text = "Commands";
+      this.tabPage_Commands.UseVisualStyleBackColor = true;
+      // 
+      // contextMenuStrip_Commands
+      // 
+      this.contextMenuStrip_Commands.ImageScalingSize = new System.Drawing.Size(20, 20);
+      this.contextMenuStrip_Commands.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Commands});
+      this.contextMenuStrip_Commands.Name = "contextMenuStrip_Commands";
+      this.contextMenuStrip_Commands.Size = new System.Drawing.Size(137, 26);
+      this.contextMenuStrip_Commands.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Commands_Opening);
+      // 
+      // ToolStripMenuItem_Commands
+      // 
+      this.ToolStripMenuItem_Commands.Name = "ToolStripMenuItem_Commands";
+      this.ToolStripMenuItem_Commands.Size = new System.Drawing.Size(136, 22);
+      this.ToolStripMenuItem_Commands.Tag = "SelectCommandsAndSend";
+      this.ToolStripMenuItem_Commands.Text = "&Commands";
+      this.ToolStripMenuItem_Commands.Click += new System.EventHandler(this.ToolStripMenuItem_Commands_Click);
+      // 
+      // tabPage_TestSend
+      // 
+      this.tabPage_TestSend.Controls.Add(this.splitContainer_TestSend);
+      this.tabPage_TestSend.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_TestSend.Name = "tabPage_TestSend";
+      this.tabPage_TestSend.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_TestSend.TabIndex = 6;
+      this.tabPage_TestSend.Text = "Test send";
+      this.tabPage_TestSend.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer_TestSend
+      // 
+      this.splitContainer_TestSend.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_TestSend.Location = new System.Drawing.Point(0, 0);
+      this.splitContainer_TestSend.Name = "splitContainer_TestSend";
+      // 
+      // splitContainer_TestSend.Panel1
+      // 
+      this.splitContainer_TestSend.Panel1.Controls.Add(this.button_TestPackage_1_Browse);
+      this.splitContainer_TestSend.Panel1.Controls.Add(this.button_SendTestPackage_1);
+      this.splitContainer_TestSend.Panel1.Controls.Add(this.groupBox_TestSend1);
+      // 
+      // splitContainer_TestSend.Panel2
+      // 
+      this.splitContainer_TestSend.Panel2.Controls.Add(this.button_SendTestPackage_2);
+      this.splitContainer_TestSend.Panel2.Controls.Add(this.button_TestPackage_2_Browse);
+      this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
+      this.splitContainer_TestSend.Size = new System.Drawing.Size(672, 725);
+      this.splitContainer_TestSend.SplitterDistance = 318;
+      this.splitContainer_TestSend.TabIndex = 0;
+      // 
+      // button_TestPackage_1_Browse
+      // 
+      this.button_TestPackage_1_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(160, 695);
+      this.button_TestPackage_1_Browse.Name = "button_TestPackage_1_Browse";
+      this.button_TestPackage_1_Browse.Size = new System.Drawing.Size(130, 23);
+      this.button_TestPackage_1_Browse.TabIndex = 6;
+      this.button_TestPackage_1_Browse.Text = "Browse...";
+      this.button_TestPackage_1_Browse.UseVisualStyleBackColor = true;
+      this.button_TestPackage_1_Browse.Click += new System.EventHandler(this.button_TestPackage_1_Browse_Click);
+      // 
+      // button_SendTestPackage_1
+      // 
+      this.button_SendTestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 695);
+      this.button_SendTestPackage_1.Name = "button_SendTestPackage_1";
+      this.button_SendTestPackage_1.Size = new System.Drawing.Size(130, 23);
+      this.button_SendTestPackage_1.TabIndex = 3;
+      this.button_SendTestPackage_1.Text = "Send above package";
+      this.button_SendTestPackage_1.UseVisualStyleBackColor = true;
+      this.button_SendTestPackage_1.Click += new System.EventHandler(this.button_SendTestPackage_1_Click);
+      // 
+      // groupBox_TestSend1
+      // 
+      this.groupBox_TestSend1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
+      this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_TestSend1.Name = "groupBox_TestSend1";
+      this.groupBox_TestSend1.Size = new System.Drawing.Size(318, 687);
+      this.groupBox_TestSend1.TabIndex = 0;
+      this.groupBox_TestSend1.TabStop = false;
+      this.groupBox_TestSend1.Text = "JSon package 1";
+      // 
+      // textBox_TestPackage_1
+      // 
+      this.textBox_TestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.textBox_TestPackage_1.Location = new System.Drawing.Point(3, 19);
+      this.textBox_TestPackage_1.Multiline = true;
+      this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
+      this.textBox_TestPackage_1.Size = new System.Drawing.Size(310, 664);
+      this.textBox_TestPackage_1.TabIndex = 1;
+      // 
+      // button_SendTestPackage_2
+      // 
+      this.button_SendTestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_SendTestPackage_2.Location = new System.Drawing.Point(16, 695);
+      this.button_SendTestPackage_2.Name = "button_SendTestPackage_2";
+      this.button_SendTestPackage_2.Size = new System.Drawing.Size(130, 23);
+      this.button_SendTestPackage_2.TabIndex = 8;
+      this.button_SendTestPackage_2.Text = "Send above package";
+      this.button_SendTestPackage_2.UseVisualStyleBackColor = true;
+      this.button_SendTestPackage_2.Click += new System.EventHandler(this.button_SendTestPackage_2_Click);
+      // 
+      // button_TestPackage_2_Browse
+      // 
+      this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(159, 695);
+      this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
+      this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
+      this.button_TestPackage_2_Browse.TabIndex = 7;
+      this.button_TestPackage_2_Browse.Text = "Browse...";
+      this.button_TestPackage_2_Browse.UseVisualStyleBackColor = true;
+      this.button_TestPackage_2_Browse.Click += new System.EventHandler(this.button_TestPackage_2_Browse_Click);
+      // 
+      // groupBox_TestSend2
+      // 
+      this.groupBox_TestSend2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
+      this.groupBox_TestSend2.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_TestSend2.Name = "groupBox_TestSend2";
+      this.groupBox_TestSend2.Size = new System.Drawing.Size(318, 687);
+      this.groupBox_TestSend2.TabIndex = 1;
+      this.groupBox_TestSend2.TabStop = false;
+      this.groupBox_TestSend2.Text = "JSon package 2";
+      // 
+      // textBox_TestPackage_2
+      // 
+      this.textBox_TestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.textBox_TestPackage_2.Location = new System.Drawing.Point(6, 19);
+      this.textBox_TestPackage_2.Multiline = true;
+      this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
+      this.textBox_TestPackage_2.Size = new System.Drawing.Size(306, 664);
+      this.textBox_TestPackage_2.TabIndex = 4;
+      // 
+      // openFileDialog_TestPackage
+      // 
+      this.openFileDialog_TestPackage.Filter = "Debug (text) files|*.txt|All files|*.*";
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(17, 27);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(143, 13);
+      this.label1.TabIndex = 0;
+      // 
+      // saveFileDialog_SXL
+      // 
+      this.saveFileDialog_SXL.Filter = "JSon|*.json|XML|*.xml|All files|*.*";
+      // 
+      // openFileDialog_Sequence
+      // 
+      this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
+      // 
+      // listView_SysLog
+      // 
+      this.listView_SysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.listView_SysLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_SysLog_Severity,
+            this.columnHeader_SysLog_TimeStamp,
+            this.columnHeader_SysLog_Description});
+      this.listView_SysLog.FullRowSelect = true;
+      this.listView_SysLog.GridLines = true;
+      this.listView_SysLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+      this.listView_SysLog.HideSelection = false;
+      this.listView_SysLog.Location = new System.Drawing.Point(6, 18);
+      this.listView_SysLog.Margin = new System.Windows.Forms.Padding(2);
+      this.listView_SysLog.MultiSelect = false;
+      this.listView_SysLog.Name = "listView_SysLog";
+      this.listView_SysLog.ShowItemToolTips = true;
+      this.listView_SysLog.Size = new System.Drawing.Size(301, 258);
+      this.listView_SysLog.SmallImageList = this.imageList_Severity;
+      this.listView_SysLog.TabIndex = 0;
+      this.listView_SysLog.UseCompatibleStateImageBehavior = false;
+      this.listView_SysLog.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_SysLog_Severity
+      // 
+      this.columnHeader_SysLog_Severity.Text = "Severity";
+      this.columnHeader_SysLog_Severity.Width = 10;
+      // 
+      // columnHeader_SysLog_TimeStamp
+      // 
+      this.columnHeader_SysLog_TimeStamp.Text = "Time";
+      // 
+      // columnHeader_SysLog_Description
+      // 
+      this.columnHeader_SysLog_Description.Text = "Description";
+      this.columnHeader_SysLog_Description.Width = 200;
+      // 
+      // listView_Statistics
+      // 
+      this.listView_Statistics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.listView_Statistics.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Statistics_Desription,
+            this.columnHeader_Statistics_Value,
+            this.columnHeader_Statistics_Unit});
+      this.listView_Statistics.FullRowSelect = true;
+      this.listView_Statistics.GridLines = true;
+      this.listView_Statistics.HideSelection = false;
+      this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
+      this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2);
+      this.listView_Statistics.Name = "listView_Statistics";
+      this.listView_Statistics.Size = new System.Drawing.Size(665, 310);
+      this.listView_Statistics.TabIndex = 0;
+      this.listView_Statistics.UseCompatibleStateImageBehavior = false;
+      this.listView_Statistics.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_Statistics_Desription
+      // 
+      this.columnHeader_Statistics_Desription.Text = "Description";
+      this.columnHeader_Statistics_Desription.Width = 200;
+      // 
+      // columnHeader_Statistics_Value
+      // 
+      this.columnHeader_Statistics_Value.Text = "Value";
+      this.columnHeader_Statistics_Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.columnHeader_Statistics_Value.Width = 100;
+      // 
+      // columnHeader_Statistics_Unit
+      // 
+      this.columnHeader_Statistics_Unit.Text = "Unit";
+      this.columnHeader_Statistics_Unit.Width = 100;
       // 
       // listView_Alarms
       // 
@@ -1370,43 +1919,6 @@
       this.columnHeader_Alarms_Category.Text = "Category";
       this.columnHeader_Alarms_Category.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
       // 
-      // contextMenuStrip_Alarm
-      // 
-      this.contextMenuStrip_Alarm.ImageScalingSize = new System.Drawing.Size(20, 20);
-      this.contextMenuStrip_Alarm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Acknowledge,
-            this.ToolStripMenuItem_Suspend});
-      this.contextMenuStrip_Alarm.Name = "contextMenuStrip_Alarm";
-      this.contextMenuStrip_Alarm.Size = new System.Drawing.Size(147, 48);
-      this.contextMenuStrip_Alarm.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Alarm_Opening);
-      // 
-      // ToolStripMenuItem_Acknowledge
-      // 
-      this.ToolStripMenuItem_Acknowledge.Name = "ToolStripMenuItem_Acknowledge";
-      this.ToolStripMenuItem_Acknowledge.Size = new System.Drawing.Size(146, 22);
-      this.ToolStripMenuItem_Acknowledge.Tag = "AcknowledgeAndSend";
-      this.ToolStripMenuItem_Acknowledge.Text = "&Acknowledge";
-      this.ToolStripMenuItem_Acknowledge.Click += new System.EventHandler(this.ToolStripMenuItem_SendAlarmEvent_Click);
-      // 
-      // ToolStripMenuItem_Suspend
-      // 
-      this.ToolStripMenuItem_Suspend.Name = "ToolStripMenuItem_Suspend";
-      this.ToolStripMenuItem_Suspend.Size = new System.Drawing.Size(146, 22);
-      this.ToolStripMenuItem_Suspend.Tag = "SuspendAndSend";
-      this.ToolStripMenuItem_Suspend.Text = "&Suspend";
-      this.ToolStripMenuItem_Suspend.Click += new System.EventHandler(this.ToolStripMenuItem_SendAlarmEvent_Click);
-      // 
-      // groupBox_AlarmEvents
-      // 
-      this.groupBox_AlarmEvents.Controls.Add(this.listView_AlarmEvents);
-      this.groupBox_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_AlarmEvents.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_AlarmEvents.Name = "groupBox_AlarmEvents";
-      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(666, 345);
-      this.groupBox_AlarmEvents.TabIndex = 0;
-      this.groupBox_AlarmEvents.TabStop = false;
-      this.groupBox_AlarmEvents.Text = "Alarm &Events";
-      // 
       // listView_AlarmEvents
       // 
       this.listView_AlarmEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1465,46 +1977,6 @@
       this.columnHeader_AlarmEvent_Event.Text = "Event";
       this.columnHeader_AlarmEvent_Event.Width = 127;
       // 
-      // tabPage_AggregatedStatus
-      // 
-      this.tabPage_AggregatedStatus.Controls.Add(this.splitContainer_AggregatedStatus);
-      this.tabPage_AggregatedStatus.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_AggregatedStatus.Name = "tabPage_AggregatedStatus";
-      this.tabPage_AggregatedStatus.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(672, 727);
-      this.tabPage_AggregatedStatus.TabIndex = 3;
-      this.tabPage_AggregatedStatus.Text = "Aggregated Status";
-      this.tabPage_AggregatedStatus.UseVisualStyleBackColor = true;
-      // 
-      // splitContainer_AggregatedStatus
-      // 
-      this.splitContainer_AggregatedStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_AggregatedStatus.Location = new System.Drawing.Point(3, 3);
-      this.splitContainer_AggregatedStatus.Name = "splitContainer_AggregatedStatus";
-      this.splitContainer_AggregatedStatus.Orientation = System.Windows.Forms.Orientation.Horizontal;
-      // 
-      // splitContainer_AggregatedStatus.Panel1
-      // 
-      this.splitContainer_AggregatedStatus.Panel1.Controls.Add(this.groupBox_AggregatedStatus_StatusBits);
-      // 
-      // splitContainer_AggregatedStatus.Panel2
-      // 
-      this.splitContainer_AggregatedStatus.Panel2.Controls.Add(this.splitContainer_AggregatedStatus_FunctionalStatPos_Events);
-      this.splitContainer_AggregatedStatus.Size = new System.Drawing.Size(666, 721);
-      this.splitContainer_AggregatedStatus.SplitterDistance = 216;
-      this.splitContainer_AggregatedStatus.TabIndex = 0;
-      // 
-      // groupBox_AggregatedStatus_StatusBits
-      // 
-      this.groupBox_AggregatedStatus_StatusBits.Controls.Add(this.listView_AggregatedStatus_StatusBits);
-      this.groupBox_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_AggregatedStatus_StatusBits.Name = "groupBox_AggregatedStatus_StatusBits";
-      this.groupBox_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(666, 216);
-      this.groupBox_AggregatedStatus_StatusBits.TabIndex = 12;
-      this.groupBox_AggregatedStatus_StatusBits.TabStop = false;
-      this.groupBox_AggregatedStatus_StatusBits.Text = "StatusBits";
-      // 
       // listView_AggregatedStatus_StatusBits
       // 
       this.listView_AggregatedStatus_StatusBits.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1516,7 +1988,7 @@
       this.listView_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(3, 16);
       this.listView_AggregatedStatus_StatusBits.MultiSelect = false;
       this.listView_AggregatedStatus_StatusBits.Name = "listView_AggregatedStatus_StatusBits";
-      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 197);
+      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 196);
       this.listView_AggregatedStatus_StatusBits.SmallImageList = this.imageList_ListView;
       this.listView_AggregatedStatus_StatusBits.TabIndex = 7;
       this.listView_AggregatedStatus_StatusBits.UseCompatibleStateImageBehavior = false;
@@ -1537,94 +2009,6 @@
       this.columnHeader_StatusBits_Description.Text = "Description";
       this.columnHeader_StatusBits_Description.Width = 434;
       // 
-      // splitContainer_AggregatedStatus_FunctionalStatPos_Events
-      // 
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Location = new System.Drawing.Point(0, 0);
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Name = "splitContainer_AggregatedStatus_FunctionalStatPos_Events";
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Orientation = System.Windows.Forms.Orientation.Horizontal;
-      // 
-      // splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel1
-      // 
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel1.Controls.Add(this.splitContainer_FunctionalStatPos);
-      // 
-      // splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2
-      // 
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2.Controls.Add(this.groupBox_AggregatedStatusEvents);
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Size = new System.Drawing.Size(666, 501);
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.SplitterDistance = 136;
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.TabIndex = 0;
-      // 
-      // splitContainer_FunctionalStatPos
-      // 
-      this.splitContainer_FunctionalStatPos.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_FunctionalStatPos.Location = new System.Drawing.Point(0, 0);
-      this.splitContainer_FunctionalStatPos.Name = "splitContainer_FunctionalStatPos";
-      // 
-      // splitContainer_FunctionalStatPos.Panel1
-      // 
-      this.splitContainer_FunctionalStatPos.Panel1.Controls.Add(this.groupBox_AggregatedStatus_FunctionalPosition);
-      // 
-      // splitContainer_FunctionalStatPos.Panel2
-      // 
-      this.splitContainer_FunctionalStatPos.Panel2.Controls.Add(this.groupBox_AggregatedStatus_FunctionalState);
-      this.splitContainer_FunctionalStatPos.Size = new System.Drawing.Size(666, 136);
-      this.splitContainer_FunctionalStatPos.SplitterDistance = 306;
-      this.splitContainer_FunctionalStatPos.TabIndex = 0;
-      // 
-      // groupBox_AggregatedStatus_FunctionalPosition
-      // 
-      this.groupBox_AggregatedStatus_FunctionalPosition.Controls.Add(this.listBox_AggregatedStatus_FunctionalPosition);
-      this.groupBox_AggregatedStatus_FunctionalPosition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_AggregatedStatus_FunctionalPosition.Name = "groupBox_AggregatedStatus_FunctionalPosition";
-      this.groupBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(306, 136);
-      this.groupBox_AggregatedStatus_FunctionalPosition.TabIndex = 15;
-      this.groupBox_AggregatedStatus_FunctionalPosition.TabStop = false;
-      this.groupBox_AggregatedStatus_FunctionalPosition.Text = "&FunctionalPosition";
-      // 
-      // listBox_AggregatedStatus_FunctionalPosition
-      // 
-      this.listBox_AggregatedStatus_FunctionalPosition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listBox_AggregatedStatus_FunctionalPosition.FormattingEnabled = true;
-      this.listBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(3, 16);
-      this.listBox_AggregatedStatus_FunctionalPosition.Name = "listBox_AggregatedStatus_FunctionalPosition";
-      this.listBox_AggregatedStatus_FunctionalPosition.SelectionMode = System.Windows.Forms.SelectionMode.None;
-      this.listBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(300, 117);
-      this.listBox_AggregatedStatus_FunctionalPosition.TabIndex = 0;
-      // 
-      // groupBox_AggregatedStatus_FunctionalState
-      // 
-      this.groupBox_AggregatedStatus_FunctionalState.Controls.Add(this.listBox_AggregatedStatus_FunctionalState);
-      this.groupBox_AggregatedStatus_FunctionalState.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_AggregatedStatus_FunctionalState.Name = "groupBox_AggregatedStatus_FunctionalState";
-      this.groupBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(356, 136);
-      this.groupBox_AggregatedStatus_FunctionalState.TabIndex = 16;
-      this.groupBox_AggregatedStatus_FunctionalState.TabStop = false;
-      this.groupBox_AggregatedStatus_FunctionalState.Text = "&FunctionalState";
-      // 
-      // listBox_AggregatedStatus_FunctionalState
-      // 
-      this.listBox_AggregatedStatus_FunctionalState.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listBox_AggregatedStatus_FunctionalState.FormattingEnabled = true;
-      this.listBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(3, 16);
-      this.listBox_AggregatedStatus_FunctionalState.Name = "listBox_AggregatedStatus_FunctionalState";
-      this.listBox_AggregatedStatus_FunctionalState.SelectionMode = System.Windows.Forms.SelectionMode.None;
-      this.listBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(350, 117);
-      this.listBox_AggregatedStatus_FunctionalState.TabIndex = 0;
-      // 
-      // groupBox_AggregatedStatusEvents
-      // 
-      this.groupBox_AggregatedStatusEvents.Controls.Add(this.listView_AggregatedStatusEvents);
-      this.groupBox_AggregatedStatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_AggregatedStatusEvents.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_AggregatedStatusEvents.Name = "groupBox_AggregatedStatusEvents";
-      this.groupBox_AggregatedStatusEvents.Size = new System.Drawing.Size(666, 361);
-      this.groupBox_AggregatedStatusEvents.TabIndex = 1;
-      this.groupBox_AggregatedStatusEvents.TabStop = false;
-      this.groupBox_AggregatedStatusEvents.Text = "Aggregated Status &Events";
-      // 
       // listView_AggregatedStatusEvents
       // 
       this.listView_AggregatedStatusEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1640,7 +2024,7 @@
       this.listView_AggregatedStatusEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_AggregatedStatusEvents.MultiSelect = false;
       this.listView_AggregatedStatusEvents.Name = "listView_AggregatedStatusEvents";
-      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 342);
+      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 308);
       this.listView_AggregatedStatusEvents.TabIndex = 3;
       this.listView_AggregatedStatusEvents.UseCompatibleStateImageBehavior = false;
       this.listView_AggregatedStatusEvents.View = System.Windows.Forms.View.Details;
@@ -1675,35 +2059,6 @@
       this.columnHeader_AggStatEvent_FuncState.Text = "FunctionalState";
       this.columnHeader_AggStatEvent_FuncState.Width = 109;
       // 
-      // tabPage_Status
-      // 
-      this.tabPage_Status.Controls.Add(this.splitContainer_Status);
-      this.tabPage_Status.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_Status.Name = "tabPage_Status";
-      this.tabPage_Status.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-      this.tabPage_Status.Size = new System.Drawing.Size(672, 727);
-      this.tabPage_Status.TabIndex = 4;
-      this.tabPage_Status.Text = "Status";
-      this.tabPage_Status.UseVisualStyleBackColor = true;
-      // 
-      // splitContainer_Status
-      // 
-      this.splitContainer_Status.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_Status.Location = new System.Drawing.Point(3, 3);
-      this.splitContainer_Status.Name = "splitContainer_Status";
-      this.splitContainer_Status.Orientation = System.Windows.Forms.Orientation.Horizontal;
-      // 
-      // splitContainer_Status.Panel1
-      // 
-      this.splitContainer_Status.Panel1.Controls.Add(this.listView_Status);
-      // 
-      // splitContainer_Status.Panel2
-      // 
-      this.splitContainer_Status.Panel2.Controls.Add(this.groupBox_StatusEvents);
-      this.splitContainer_Status.Size = new System.Drawing.Size(666, 721);
-      this.splitContainer_Status.SplitterDistance = 372;
-      this.splitContainer_Status.TabIndex = 2;
-      // 
       // listView_Status
       // 
       this.listView_Status.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1714,6 +2069,7 @@
             this.columnHeader_Status_Status,
             this.columnHeader_Status_Quality,
             this.columnHeader_Status_UpdateRate,
+            this.columnHeader_Status_UpdateOnChange,
             this.columnHeader_Status_Comment});
       this.listView_Status.ContextMenuStrip = this.contextMenuStrip_Status;
       this.listView_Status.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1722,7 +2078,7 @@
       this.listView_Status.HideSelection = false;
       this.listView_Status.Location = new System.Drawing.Point(0, 0);
       this.listView_Status.Name = "listView_Status";
-      this.listView_Status.Size = new System.Drawing.Size(666, 372);
+      this.listView_Status.Size = new System.Drawing.Size(666, 370);
       this.listView_Status.TabIndex = 1;
       this.listView_Status.UseCompatibleStateImageBehavior = false;
       this.listView_Status.View = System.Windows.Forms.View.Details;
@@ -1759,70 +2115,14 @@
       this.columnHeader_Status_UpdateRate.Text = "UpdateRate";
       this.columnHeader_Status_UpdateRate.Width = 97;
       // 
+      // columnHeader_Status_UpdateOnChange
+      // 
+      this.columnHeader_Status_UpdateOnChange.Text = "UpdateOnChange";
+      this.columnHeader_Status_UpdateOnChange.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
       // columnHeader_Status_Comment
       // 
       this.columnHeader_Status_Comment.Text = "Comment";
-      // 
-      // contextMenuStrip_Status
-      // 
-      this.contextMenuStrip_Status.ImageScalingSize = new System.Drawing.Size(20, 20);
-      this.contextMenuStrip_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_StatusRequest,
-            this.ToolStripMenuItem_StatusSubscribe,
-            this.ToolStripMenuItem_StatusUnsubscribe});
-      this.contextMenuStrip_Status.Name = "contextMenuStrip_Status";
-      this.contextMenuStrip_Status.Size = new System.Drawing.Size(175, 70);
-      this.contextMenuStrip_Status.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Status_Opening);
-      // 
-      // ToolStripMenuItem_StatusRequest
-      // 
-      this.ToolStripMenuItem_StatusRequest.Name = "ToolStripMenuItem_StatusRequest";
-      this.ToolStripMenuItem_StatusRequest.Size = new System.Drawing.Size(174, 22);
-      this.ToolStripMenuItem_StatusRequest.Tag = "StatusRequest";
-      this.ToolStripMenuItem_StatusRequest.Text = "Status &Request";
-      this.ToolStripMenuItem_StatusRequest.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
-      // 
-      // ToolStripMenuItem_StatusSubscribe
-      // 
-      this.ToolStripMenuItem_StatusSubscribe.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_EnterUpdateRate,
-            this.toolStripSeparator_1});
-      this.ToolStripMenuItem_StatusSubscribe.Name = "ToolStripMenuItem_StatusSubscribe";
-      this.ToolStripMenuItem_StatusSubscribe.Size = new System.Drawing.Size(174, 22);
-      this.ToolStripMenuItem_StatusSubscribe.Tag = "StatusSubscribe";
-      this.ToolStripMenuItem_StatusSubscribe.Text = "Status &Subscribe";
-      // 
-      // toolStripMenuItem_EnterUpdateRate
-      // 
-      this.toolStripMenuItem_EnterUpdateRate.Name = "toolStripMenuItem_EnterUpdateRate";
-      this.toolStripMenuItem_EnterUpdateRate.Size = new System.Drawing.Size(226, 22);
-      this.toolStripMenuItem_EnterUpdateRate.Tag = "StatusSubscribe_x";
-      this.toolStripMenuItem_EnterUpdateRate.Text = "Enter UpdateRate manually...";
-      this.toolStripMenuItem_EnterUpdateRate.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
-      // 
-      // toolStripSeparator_1
-      // 
-      this.toolStripSeparator_1.Name = "toolStripSeparator_1";
-      this.toolStripSeparator_1.Size = new System.Drawing.Size(223, 6);
-      // 
-      // ToolStripMenuItem_StatusUnsubscribe
-      // 
-      this.ToolStripMenuItem_StatusUnsubscribe.Name = "ToolStripMenuItem_StatusUnsubscribe";
-      this.ToolStripMenuItem_StatusUnsubscribe.Size = new System.Drawing.Size(174, 22);
-      this.ToolStripMenuItem_StatusUnsubscribe.Tag = "StatusUnsubscribe";
-      this.ToolStripMenuItem_StatusUnsubscribe.Text = "Status &Unsubscribe";
-      this.ToolStripMenuItem_StatusUnsubscribe.Click += new System.EventHandler(this.ToolStripMenuItem_Status_Click);
-      // 
-      // groupBox_StatusEvents
-      // 
-      this.groupBox_StatusEvents.Controls.Add(this.listView_StatusEvents);
-      this.groupBox_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_StatusEvents.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_StatusEvents.Name = "groupBox_StatusEvents";
-      this.groupBox_StatusEvents.Size = new System.Drawing.Size(666, 345);
-      this.groupBox_StatusEvents.TabIndex = 0;
-      this.groupBox_StatusEvents.TabStop = false;
-      this.groupBox_StatusEvents.Text = "Status &Events";
       // 
       // listView_StatusEvents
       // 
@@ -1888,17 +2188,6 @@
       this.columnHeader_StatusEvents_UpdateRate.Text = "UpdateRate";
       this.columnHeader_StatusEvents_UpdateRate.Width = 99;
       // 
-      // tabPage_Commands
-      // 
-      this.tabPage_Commands.Controls.Add(this.splitContainer_Commands);
-      this.tabPage_Commands.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_Commands.Name = "tabPage_Commands";
-      this.tabPage_Commands.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-      this.tabPage_Commands.Size = new System.Drawing.Size(672, 727);
-      this.tabPage_Commands.TabIndex = 5;
-      this.tabPage_Commands.Text = "Commands";
-      this.tabPage_Commands.UseVisualStyleBackColor = true;
-      // 
       // splitContainer_Commands
       // 
       this.splitContainer_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1913,8 +2202,8 @@
       // splitContainer_Commands.Panel2
       // 
       this.splitContainer_Commands.Panel2.Controls.Add(this.groupBox_CommandEvents);
-      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 721);
-      this.splitContainer_Commands.SplitterDistance = 372;
+      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 719);
+      this.splitContainer_Commands.SplitterDistance = 370;
       this.splitContainer_Commands.TabIndex = 1;
       // 
       // listView_Commands
@@ -1935,7 +2224,7 @@
       this.listView_Commands.HideSelection = false;
       this.listView_Commands.Location = new System.Drawing.Point(0, 0);
       this.listView_Commands.Name = "listView_Commands";
-      this.listView_Commands.Size = new System.Drawing.Size(666, 372);
+      this.listView_Commands.Size = new System.Drawing.Size(666, 370);
       this.listView_Commands.TabIndex = 1;
       this.listView_Commands.UseCompatibleStateImageBehavior = false;
       this.listView_Commands.View = System.Windows.Forms.View.Details;
@@ -1979,23 +2268,6 @@
       // 
       this.columnHeader_Commands_Comment.Text = "Comment";
       this.columnHeader_Commands_Comment.Width = 96;
-      // 
-      // contextMenuStrip_Commands
-      // 
-      this.contextMenuStrip_Commands.ImageScalingSize = new System.Drawing.Size(20, 20);
-      this.contextMenuStrip_Commands.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Commands});
-      this.contextMenuStrip_Commands.Name = "contextMenuStrip_Commands";
-      this.contextMenuStrip_Commands.Size = new System.Drawing.Size(137, 26);
-      this.contextMenuStrip_Commands.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Commands_Opening);
-      // 
-      // ToolStripMenuItem_Commands
-      // 
-      this.ToolStripMenuItem_Commands.Name = "ToolStripMenuItem_Commands";
-      this.ToolStripMenuItem_Commands.Size = new System.Drawing.Size(136, 22);
-      this.ToolStripMenuItem_Commands.Tag = "SelectCommandsAndSend";
-      this.ToolStripMenuItem_Commands.Text = "&Commands";
-      this.ToolStripMenuItem_Commands.Click += new System.EventHandler(this.ToolStripMenuItem_Commands_Click);
       // 
       // groupBox_CommandEvents
       // 
@@ -2070,149 +2342,6 @@
       // columnHeader_CommandEvent_Age
       // 
       this.columnHeader_CommandEvent_Age.Text = "Age";
-      // 
-      // tabPage_TestSend
-      // 
-      this.tabPage_TestSend.Controls.Add(this.splitContainer_TestSend);
-      this.tabPage_TestSend.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_TestSend.Name = "tabPage_TestSend";
-      this.tabPage_TestSend.Size = new System.Drawing.Size(672, 727);
-      this.tabPage_TestSend.TabIndex = 6;
-      this.tabPage_TestSend.Text = "Test send";
-      this.tabPage_TestSend.UseVisualStyleBackColor = true;
-      // 
-      // splitContainer_TestSend
-      // 
-      this.splitContainer_TestSend.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_TestSend.Location = new System.Drawing.Point(0, 0);
-      this.splitContainer_TestSend.Name = "splitContainer_TestSend";
-      // 
-      // splitContainer_TestSend.Panel1
-      // 
-      this.splitContainer_TestSend.Panel1.Controls.Add(this.button_TestPackage_1_Browse);
-      this.splitContainer_TestSend.Panel1.Controls.Add(this.button_SendTestPackage_1);
-      this.splitContainer_TestSend.Panel1.Controls.Add(this.groupBox_TestSend1);
-      // 
-      // splitContainer_TestSend.Panel2
-      // 
-      this.splitContainer_TestSend.Panel2.Controls.Add(this.button_SendTestPackage_2);
-      this.splitContainer_TestSend.Panel2.Controls.Add(this.button_TestPackage_2_Browse);
-      this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
-      this.splitContainer_TestSend.Size = new System.Drawing.Size(672, 727);
-      this.splitContainer_TestSend.SplitterDistance = 318;
-      this.splitContainer_TestSend.TabIndex = 0;
-      // 
-      // button_TestPackage_1_Browse
-      // 
-      this.button_TestPackage_1_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(160, 697);
-      this.button_TestPackage_1_Browse.Name = "button_TestPackage_1_Browse";
-      this.button_TestPackage_1_Browse.Size = new System.Drawing.Size(130, 23);
-      this.button_TestPackage_1_Browse.TabIndex = 6;
-      this.button_TestPackage_1_Browse.Text = "Browse...";
-      this.button_TestPackage_1_Browse.UseVisualStyleBackColor = true;
-      this.button_TestPackage_1_Browse.Click += new System.EventHandler(this.button_TestPackage_1_Browse_Click);
-      // 
-      // button_SendTestPackage_1
-      // 
-      this.button_SendTestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 697);
-      this.button_SendTestPackage_1.Name = "button_SendTestPackage_1";
-      this.button_SendTestPackage_1.Size = new System.Drawing.Size(130, 23);
-      this.button_SendTestPackage_1.TabIndex = 3;
-      this.button_SendTestPackage_1.Text = "Send above package";
-      this.button_SendTestPackage_1.UseVisualStyleBackColor = true;
-      this.button_SendTestPackage_1.Click += new System.EventHandler(this.button_SendTestPackage_1_Click);
-      // 
-      // groupBox_TestSend1
-      // 
-      this.groupBox_TestSend1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
-      this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_TestSend1.Name = "groupBox_TestSend1";
-      this.groupBox_TestSend1.Size = new System.Drawing.Size(318, 689);
-      this.groupBox_TestSend1.TabIndex = 0;
-      this.groupBox_TestSend1.TabStop = false;
-      this.groupBox_TestSend1.Text = "JSon package 1";
-      // 
-      // textBox_TestPackage_1
-      // 
-      this.textBox_TestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.textBox_TestPackage_1.Location = new System.Drawing.Point(3, 19);
-      this.textBox_TestPackage_1.Multiline = true;
-      this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
-      this.textBox_TestPackage_1.Size = new System.Drawing.Size(310, 666);
-      this.textBox_TestPackage_1.TabIndex = 1;
-      // 
-      // button_SendTestPackage_2
-      // 
-      this.button_SendTestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_2.Location = new System.Drawing.Point(16, 697);
-      this.button_SendTestPackage_2.Name = "button_SendTestPackage_2";
-      this.button_SendTestPackage_2.Size = new System.Drawing.Size(130, 23);
-      this.button_SendTestPackage_2.TabIndex = 8;
-      this.button_SendTestPackage_2.Text = "Send above package";
-      this.button_SendTestPackage_2.UseVisualStyleBackColor = true;
-      this.button_SendTestPackage_2.Click += new System.EventHandler(this.button_SendTestPackage_2_Click);
-      // 
-      // button_TestPackage_2_Browse
-      // 
-      this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(159, 697);
-      this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
-      this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
-      this.button_TestPackage_2_Browse.TabIndex = 7;
-      this.button_TestPackage_2_Browse.Text = "Browse...";
-      this.button_TestPackage_2_Browse.UseVisualStyleBackColor = true;
-      this.button_TestPackage_2_Browse.Click += new System.EventHandler(this.button_TestPackage_2_Browse_Click);
-      // 
-      // groupBox_TestSend2
-      // 
-      this.groupBox_TestSend2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
-      this.groupBox_TestSend2.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_TestSend2.Name = "groupBox_TestSend2";
-      this.groupBox_TestSend2.Size = new System.Drawing.Size(318, 689);
-      this.groupBox_TestSend2.TabIndex = 1;
-      this.groupBox_TestSend2.TabStop = false;
-      this.groupBox_TestSend2.Text = "JSon package 2";
-      // 
-      // textBox_TestPackage_2
-      // 
-      this.textBox_TestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.textBox_TestPackage_2.Location = new System.Drawing.Point(6, 19);
-      this.textBox_TestPackage_2.Multiline = true;
-      this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
-      this.textBox_TestPackage_2.Size = new System.Drawing.Size(306, 666);
-      this.textBox_TestPackage_2.TabIndex = 4;
-      // 
-      // openFileDialog_TestPackage
-      // 
-      this.openFileDialog_TestPackage.Filter = "Debug (text) files|*.txt|All files|*.*";
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(17, 27);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(143, 13);
-      this.label1.TabIndex = 0;
-      // 
-      // saveFileDialog_SXL
-      // 
-      this.saveFileDialog_SXL.Filter = "JSon|*.json|XML|*.xml|All files|*.*";
-      // 
-      // openFileDialog_Sequence
-      // 
-      this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
       // 
       // RSMPGS_Main
       // 
@@ -2289,12 +2418,7 @@
       this.contextMenuStrip_Status.ResumeLayout(false);
       this.groupBox_StatusEvents.ResumeLayout(false);
       this.tabPage_Commands.ResumeLayout(false);
-      this.splitContainer_Commands.Panel1.ResumeLayout(false);
-      this.splitContainer_Commands.Panel2.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).EndInit();
-      this.splitContainer_Commands.ResumeLayout(false);
       this.contextMenuStrip_Commands.ResumeLayout(false);
-      this.groupBox_CommandEvents.ResumeLayout(false);
       this.tabPage_TestSend.ResumeLayout(false);
       this.splitContainer_TestSend.Panel1.ResumeLayout(false);
       this.splitContainer_TestSend.Panel2.ResumeLayout(false);
@@ -2304,6 +2428,11 @@
       this.groupBox_TestSend1.PerformLayout();
       this.groupBox_TestSend2.ResumeLayout(false);
       this.groupBox_TestSend2.PerformLayout();
+      this.splitContainer_Commands.Panel1.ResumeLayout(false);
+      this.splitContainer_Commands.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).EndInit();
+      this.splitContainer_Commands.ResumeLayout(false);
+      this.groupBox_CommandEvents.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -2442,7 +2571,6 @@
         private System.Windows.Forms.Label label_SXL_VersionManually;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 				public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StoreBase64Updates;
-				private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_SaveAs;
 				private System.Windows.Forms.ToolStripSeparator toolStripSeparator_Delimiter_1;
 				private System.Windows.Forms.SaveFileDialog saveFileDialog_SXL;
 				private System.Windows.Forms.ImageList imageList_Severity;
@@ -2469,13 +2597,12 @@
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_2;
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_3;
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_4;
-				private System.Windows.Forms.Button button_ResetRSMPSettingToDefault;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
+    private System.Windows.Forms.Button button_ResetRSMPSettingToDefault;
 				private System.Windows.Forms.GroupBox groupBox_Statistics;
 				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Desription;
 				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Value;
 				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Unit;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_EnterUpdateRate;
-    private System.Windows.Forms.ToolStripSeparator toolStripSeparator_1;
     private ListViewDoubleBuffered listView_Alarms;
     private ListViewDoubleBuffered listView_AlarmEvents;
     private ListViewDoubleBuffered listView_AggregatedStatus_StatusBits;
@@ -2513,6 +2640,22 @@
     private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS11;
     private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS10;
     private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_Default;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator_2;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Alarm_RequestCurrentState;
+    public System.Windows.Forms.Button button_AggregatedStatus_Request;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StatusSubscribe_UpdateOnInterval;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+    private System.Windows.Forms.ColumnHeader columnHeader_Status_UpdateOnChange;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_CSV;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_YAML;
+    public System.Windows.Forms.CheckBox checkBox_AutomaticallyLoadObjects;
+    private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadObjects_Delimiter;
   }
 }
 

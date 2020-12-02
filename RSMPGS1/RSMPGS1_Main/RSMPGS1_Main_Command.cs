@@ -53,11 +53,12 @@ namespace nsRSMPGS
     public void UpdateCommandListView(cRoadSideObject RoadSideObject)
     {
 
-
       if (RoadSideObject == null)
       {
         return;
       }
+
+      RoadSideObject.CommandsGroup.Items.Clear();
 
       foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
       {
@@ -66,22 +67,20 @@ namespace nsRSMPGS
         foreach (cCommandReturnValue CommandReturnValue in CommandObject.CommandReturnValues)
         {
 
-          ListViewItem lvItem = new ListViewItem(CommandReturnValue.sCommandCodeId);
-          //ListViewItem lvItem = new ListViewItem(RoadSideObject.SiteIdObject.sSiteId + " / " + RoadSideObject.SiteIdObject.sDescription);
-          //lvItem.SubItems.Add(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
-          //lvItem.SubItems.Add(CommandObject.sDescription);
+          ListViewItem lvItem = new ListViewItem(CommandObject.sCommandCodeId);
           lvItem.SubItems.Add(CommandObject.sDescription);
           lvItem.SubItems.Add(CommandReturnValue.sName);
-          lvItem.SubItems.Add(CommandReturnValue.sCommand.Replace("\"-", "").Replace("\n-", "/").Replace("\n", "/").Replace("\"", ""));
-          lvItem.SubItems.Add(CommandReturnValue.sType);
+          lvItem.SubItems.Add(CommandReturnValue.sCommand.Replace("\"-", "").Replace("\n-", " / ").Replace("\n", " / ").Replace("\"", ""));
+          lvItem.SubItems.Add(CommandReturnValue.Value.GetValueType());
 #if _RSMPGS2
           lvItem.SubItems.Add(CommandReturnValue.sLastRecValue);
 					lvItem.SubItems.Add(CommandReturnValue.sLastRecAge);
 #endif
 #if _RSMPGS1
-          lvItem.SubItems.Add(CommandReturnValue.sValue);
+          lvItem.SubItems.Add(CommandReturnValue.Value.GetValue());
+          lvItem.SubItems.Add("");
 #endif
-          lvItem.SubItems.Add(CommandReturnValue.sComment);
+          lvItem.SubItems.Add(CommandReturnValue.sComment.Replace("\n", " / "));
           lvItem.Tag = CommandReturnValue;
           listView_Commands.Items.Add(lvItem);
           lvItem.Group = RoadSideObject.CommandsGroup;
@@ -97,7 +96,8 @@ namespace nsRSMPGS
       {
         if ((cCommandReturnValue)lvItem.Tag == CommandReturnValue)
         {
-          lvItem.SubItems[5].Text = CommandReturnValue.sValue;
+          lvItem.SubItems[5].Text = CommandReturnValue.Value.GetValue();
+          lvItem.SubItems[6].Text = CommandReturnValue.Value.Quality.ToString();
           break;
         }
       }

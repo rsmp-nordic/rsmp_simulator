@@ -33,13 +33,36 @@ namespace nsRSMPGS
 	public class cJSon
 	{
 
-		public const int AlarmSpecialisation_Alarm = 1;
-		public const int AlarmSpecialisation_Acknowledge = 2;
-		public const int AlarmSpecialisation_Suspend = 3;
+    public enum AlarmSpecialisation
+    {
+      Unknown,
+      Issue,
+      Request,
+      Acknowledge,
+      Suspend,
+      Resume
+    }
 
-		public const int StatusMsgType_Request = 1;
+    /*
+        public const int AlarmSpecialisation_Alarm = 1;
+        public const int AlarmSpecialisation_Acknowledge = 2;
+        public const int AlarmSpecialisation_Suspend = 3;
+        public const int AlarmSpecialisation_Request = 4;
+    */
+
+    public enum StatusMsgType
+    {
+      Request,
+      Subscribe,
+      UnSubscribe
+    }
+
+    /*
+    public const int StatusMsgType_Request = 1;
 		public const int StatusMsgType_Subscribe = 2;
 		public const int StatusMsgType_UnSubscribe = 3;
+    */
+
 
 		public cJSonSerializer JSonSerializer = new cJSonSerializer();
 
@@ -72,10 +95,10 @@ namespace nsRSMPGS
 			RSMP_3_1_2 = 2,
 			RSMP_3_1_3 = 3,
 			RSMP_3_1_4 = 4,
+      RSMP_3_1_5 = 5,
+    }
 
-		}
-
-		public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4" };
+		public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
 
 		public bool DecodeAndParseJSonPacket(string sJSon)
 		{
@@ -177,7 +200,14 @@ namespace nsRSMPGS
 
 							break;
 
-						case "commandrequest":
+            case "aggregatedstatusrequest":
+
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AggregatedStatusRequest), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "AggregatedStatusRequest", ref sError);
+
+              break;
+
+            case "commandrequest":
 
 							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandRequest), sJSon, ref sError) &&
 								ValidatePropertiesString(Header.type, "CommandRequest", ref sError);
@@ -199,9 +229,16 @@ namespace nsRSMPGS
 							break;
 
 						case "statussubscribe":
-
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusSubscribe), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "StatusSubscribe", ref sError);
+              if (NegotiatedRSMPVersion > RSMPVersion.RSMP_3_1_4)
+              {
+                bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusSubscribe_Over_3_1_4), sJSon, ref sError) &&
+                  ValidatePropertiesString(Header.type, "StatusSubscribe", ref sError);
+              }
+              else
+              {
+                bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusSubscribe_UpTo_3_1_4), sJSon, ref sError) &&
+                  ValidatePropertiesString(Header.type, "StatusSubscribe", ref sError);
+              }
 
 							break;
 
@@ -873,11 +910,16 @@ namespace nsRSMPGS
 
 		}
 
-		public string CreateISO8601UTCTimeStamp()
-		{
-			string sTimeStamp = String.Format("{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}Z", DateTime.Now.ToUniversalTime());
-			return sTimeStamp;
-		}
+    public string CreateISO8601UTCTimeStamp()
+    {
+      return CreateISO8601UTCTimeStamp(DateTime.Now);
+    }
+
+    public string CreateISO8601UTCTimeStamp(DateTime dtLocalTimeStamp)
+    {
+      string sTimeStamp = String.Format("{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}Z", dtLocalTimeStamp.ToUniversalTime());
+      return sTimeStamp;
+    }
 
 		public string UnpackISO8601UTCTimeStamp(string sDateTime)
 		{
@@ -1105,6 +1147,11 @@ namespace nsRSMPGS
     public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
 		{
 
+      if (sValue == null)
+      {
+        return false;
+      }
+
 			bool bValueIsValid = false;
 
 			switch (sType.ToLower())
@@ -1294,7 +1341,12 @@ namespace nsRSMPGS
 				HighestRSMPVersion = RSMPVersion.RSMP_3_1_4;
 			}
 
-			return HighestRSMPVersion;
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_1_5))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_1_5;
+      }
+
+      return HighestRSMPVersion;
 
 		}
 

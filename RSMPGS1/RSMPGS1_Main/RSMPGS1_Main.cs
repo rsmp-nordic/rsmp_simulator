@@ -28,68 +28,20 @@ namespace nsRSMPGS
     private void Main_Load()
     {
 
-      /*
-      // Fill out status listview
-      for (int iIndex = 0; iIndex < RSMPGS.ProcessImage.MaxStatusReturnValues; iIndex++)
-      {
-        listView_Status.Columns.Add("Name", 100, HorizontalAlignment.Left);
-        listView_Status.Columns.Add("Type", 100, HorizontalAlignment.Center);
-        ColumnHeader columnHeader = listView_Status.Columns.Add("Status", 100, HorizontalAlignment.Center);
-        columnHeader.Tag = "Status" + "_" + iIndex.ToString();
-        listView_Status.Columns.Add("Comment", 200, HorizontalAlignment.Left);
-      }
-      */
-
-      checkBox_AlwaysUseSXLFromFile.Checked = cPrivateProfile.GetIniFileInt("Main", "AlwaysUseSXLFromFile", 0) != 0;
-
-      checkBox_ViewOnlyFailedPackets.Checked = cPrivateProfile.GetIniFileInt("Main", "ViewOnlyFailedPackets", 0) != 0;
-
-      checkBox_ShowTooltip.Checked = cPrivateProfile.GetIniFileInt("Main", "ShowTooltip", 0) != 0;
-
       checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked = cPrivateProfile.GetIniFileInt("Main", "AggregatedStatus_SendAutomaticallyWhenChanged", 0) != 0;
-      ToolStripMenuItem_ConnectAutomatically.Checked = cPrivateProfile.GetIniFileInt("Main", "ConnectAutomatically", 0) != 0;
-
-      ToolStripMenuItem_DisableNagleAlgorithm.Checked = cPrivateProfile.GetIniFileInt("Main", "DisableNagleAlgorithm", 0) != 0;
-      ToolStripMenuItem_SplitPackets.Checked = cPrivateProfile.GetIniFileInt("Main", "SplitPackets", 0) != 0;
-      ToolStripMenuItem_StoreBase64Updates.Checked = cPrivateProfile.GetIniFileInt("Main", "StoreBase64Updates", 0) != 0;
-
-      tabControl_Object.SelectedIndex = cPrivateProfile.GetIniFileInt("Main", "TabControl_Object", 1);
-
-      string sObjectUniqueId = cPrivateProfile.GetIniFileString("Main", "SelectedObject", "");
-      if (sObjectUniqueId.Length > 0)
-      {
-        foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
-        {
-          if (sObjectUniqueId.Equals(RoadSideObject.UniqueId(), StringComparison.OrdinalIgnoreCase))
-          {
-            treeView_SitesAndObjects.SelectedNode = RoadSideObject.Node;
-            RoadSideObject.Node.EnsureVisible();
-            treeView_SitesAndObjects.Select();
-            break;
-          }
-        }
-      }
 
       checkBox_AutomaticallySaveProcessData.Checked = cPrivateProfile.GetIniFileInt("Main", "AutomaticallySaveProcessData", 0) != 0;
       checkbox_AutomaticallyLoadProcessData.Checked = cPrivateProfile.GetIniFileInt("Main", "AutomaticallyLoadProcessData", 0) != 0;
       checkBox_ProcessImageLoad_AlarmStatus.Checked = cPrivateProfile.GetIniFileInt("Main", "ProcessImageLoad_AlarmStatus", 0) != 0;
       checkBox_ProcessImageLoad_AggregatedStatus.Checked = cPrivateProfile.GetIniFileInt("Main", "ProcessImageLoad_AggregatedStatus", 0) != 0;
       checkBox_ProcessImageLoad_Status.Checked = cPrivateProfile.GetIniFileInt("Main", "ProcessImageLoad_Status", 0) != 0;
+      checkBox_ShowMax10BufferedMessagesInSysLog.Checked = cPrivateProfile.GetIniFileInt("Main", "ShowMax10BufferedMessagesInSysLog", 1) != 0;
 
       saveFileDialog_ProcessImage.Title = "Save Process Data as";
       openFileDialog_ProcessImage.Title = "Load Process Data from";
-      saveFileDialog_ProcessImage.InitialDirectory = cPrivateProfile.GetIniFileString("Main", "ProcessImageLoadSave_DefaultPath", cPrivateProfile.ObjectFilesPath());
+
+      saveFileDialog_ProcessImage.InitialDirectory = cPrivateProfile.GetIniFileString("Main", "ProcessImageLoadSave_DefaultPath", sCSVObjectFilesPath);
       openFileDialog_ProcessImage.InitialDirectory = saveFileDialog_ProcessImage.InitialDirectory;
-
-      textBox_SignalExchangeListVersionFromFile.Text = RSMPGS.ProcessImage.sSULRevision;
-
-      if (checkBox_AlwaysUseSXLFromFile.Checked == true && textBox_SignalExchangeListVersionFromFile.Text.Length > 0)
-      {
-        textBox_SignalExchangeListVersion.Text = textBox_SignalExchangeListVersionFromFile.Text;
-      }
-
-      WatchdogInterval = cPrivateProfile.GetIniFileInt("RSMP", "WatchdogInterval", 0);
-      WatchdogTimeout = cPrivateProfile.GetIniFileInt("RSMP", "WatchdogTimeout", 0);
 
       RSMPGS.ConnectionType = cPrivateProfile.GetIniFileInt("RSMP", "ConnectionType", cTcpSocket.ConnectionMethod_SocketClient);
 
@@ -102,11 +54,7 @@ namespace nsRSMPGS
 
       checkBox_Encryption_AuthenticateClient_CheckedChanged();
 
-      if (checkbox_AutomaticallyLoadProcessData.Checked)
-      {
-        RSMPGS.ProcessImage.LoadProcessImageValues(this, cPrivateProfile.ProcessImageFileFullName());
-        bProcessDataWasLoadedAtStartup = true;
-      }
+      comboBox_BufferedMessages_CreateRandom_Type.SelectedIndex = 0;
 
       RSMPGS.RSMPConnection = new cTcpSocket(RSMPGS.ConnectionType,
         cPrivateProfile.GetIniFileString("RSMP", "IPAddress", ""),
@@ -115,12 +63,6 @@ namespace nsRSMPGS
       cPrivateProfile.GetIniFileInt("RSMP", "PortNumber", 0),
       cPrivateProfile.GetIniFileInt("RSMP", "PacketTimeout", 5000),
       cTcpHelper.WrapMethod_FormFeed);
-
-      timer_System.Enabled = true;
-
-      bIsLoading = false;
-
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "RSMPGS1 has started");
 
     }
 
@@ -148,157 +90,32 @@ namespace nsRSMPGS
     private void Main_Closing()
     {
 
-      if (bLoadFailed)
-      {
-        return;
-      }
-
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "RSMPGS1 is shutting down...");
-
-      //
-      // Disconnect
-      //
-      RSMPGS.RSMPConnection.Shutdown();
-
-      cHelper.StoreDebugForms();
-
-      cHelper.SaveRSMPSettings();
-
-      //
-      // Store my locations
-      //
-      cPrivateProfile.WriteIniFileInt("Main", "Left", this.Left);
-      cPrivateProfile.WriteIniFileInt("Main", "Top", this.Top);
-      cPrivateProfile.WriteIniFileInt("Main", "Width", this.Width);
-      cPrivateProfile.WriteIniFileInt("Main", "Height", this.Height);
-
-      cPrivateProfile.WriteIniFileInt("Main", "ConnectAutomatically", ToolStripMenuItem_ConnectAutomatically.Checked == true ? 1 : 0);
-      cPrivateProfile.WriteIniFileInt("Main", "ShowTooltip", checkBox_ShowTooltip.Checked == true ? 1 : 0);
       cPrivateProfile.WriteIniFileInt("Main", "AggregatedStatus_SendAutomaticallyWhenChanged", checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked == true ? 1 : 0);
-
-      cPrivateProfile.WriteIniFileInt("Main", "DisableNagleAlgorithm", ToolStripMenuItem_DisableNagleAlgorithm.Checked == true ? 1 : 0);
-      cPrivateProfile.WriteIniFileInt("Main", "SplitPackets", ToolStripMenuItem_SplitPackets.Checked == true ? 1 : 0);
-      cPrivateProfile.WriteIniFileInt("Main", "StoreBase64Updates", ToolStripMenuItem_StoreBase64Updates.Checked == true ? 1 : 0);
-
-      cPrivateProfile.WriteIniFileInt("Main", "TabControl_Object", tabControl_Object.SelectedIndex);
-
-      cPrivateProfile.WriteIniFileString("Main", "SignalExchangeListVersion", textBox_SignalExchangeListVersion.Text);
-      cPrivateProfile.WriteIniFileInt("Main", "AlwaysUseSXLFromFile", checkBox_AlwaysUseSXLFromFile.Checked == true ? 1 : 0);
-
-      cPrivateProfile.WriteIniFileInt("Main", "ViewOnlyFailedPackets", checkBox_ViewOnlyFailedPackets.Checked == true ? 1 : 0);
 
       cPrivateProfile.WriteIniFileInt("Main", "AutomaticallySaveProcessData", checkBox_AutomaticallySaveProcessData.Checked == true ? 1 : 0);
       cPrivateProfile.WriteIniFileInt("Main", "AutomaticallyLoadProcessData", checkbox_AutomaticallyLoadProcessData.Checked == true ? 1 : 0);
       cPrivateProfile.WriteIniFileInt("Main", "ProcessImageLoad_AlarmStatus", checkBox_ProcessImageLoad_AlarmStatus.Checked == true ? 1 : 0);
       cPrivateProfile.WriteIniFileInt("Main", "ProcessImageLoad_AggregatedStatus", checkBox_ProcessImageLoad_AggregatedStatus.Checked == true ? 1 : 0);
       cPrivateProfile.WriteIniFileInt("Main", "ProcessImageLoad_Status", checkBox_ProcessImageLoad_Status.Checked == true ? 1 : 0);
-
-      try
-      {
-        cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
-        if (RoadSideObject == null)
-        {
-          cPrivateProfile.WriteIniFileString("Main", "SelectedObject", "");
-        }
-        else
-        {
-          cPrivateProfile.WriteIniFileString("Main", "SelectedObject", RoadSideObject.UniqueId());
-        }
-      }
-      catch
-      {
-      }
+      cPrivateProfile.WriteIniFileInt("Main", "ShowMax10BufferedMessagesInSysLog", checkBox_ShowMax10BufferedMessagesInSysLog.Checked == true ? 1 : 0);
 
       if (checkBox_AutomaticallySaveProcessData.Checked)
       {
         if (bProcessDataWasLoadedAtStartup == false)
         {
-          if (MessageBox.Show("Process data was not loaded at startup but you have selected to save process data when exiting RSMPGS1\r\n\r\nThis will owerwrite the old ProcessImage.dat file. Is this ok?", "Save Process Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+          if (MessageBox.Show("Process data was not loaded at startup but you have selected to save process data when exiting RSMPGS1\r\n\r\nThis will owerwrite the old process image .dat file. Is this ok?", "Save Process Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
           {
-            RSMPGS.ProcessImage.SaveProcessImageValues(cPrivateProfile.ProcessImageFileFullName());
+            RSMPGS.ProcessImage.SaveProcessImageValues(sProcessImageDefaultName);
           }
         }
         else
         {
-          RSMPGS.ProcessImage.SaveProcessImageValues(cPrivateProfile.ProcessImageFileFullName());
+          RSMPGS.ProcessImage.SaveProcessImageValues(sProcessImageDefaultName);
         }
       }
       else
       {
 
-      }
-
-      RSMPGS.DebugConnection.Shutdown();
-
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "RSMPGS1 was shut down");
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "");
-
-    }
-
-    //
-    // Do some cyclic cleanup
-    //
-    private void timer_System_Tick(object sender, EventArgs e)
-    {
-
-      RSMPGS.SysLog.CyclicCleanup(timer_System.Interval);
-
-      RSMPGS.ProcessImage.CyclicCleanup(timer_System.Interval);
-
-      RSMPGS.JSon.CyclicCleanup(timer_System.Interval, WatchdogInterval, WatchdogTimeout);
-
-      cHelper.UpdateStatistics(timer_System.Interval);
-
-      if (RSMPGS.RSMPConnection.ConnectionStatus() != LastConnectionStatus)
-      {
-        ToolStripMenuItem_ConnectionStatus.ForeColor = rgbDefaultForeColor;
-        ToolStripMenuItem_ConnectionStatus.BackColor = rgbDefaultBackColor;
-        LastConnectionStatus = RSMPGS.RSMPConnection.ConnectionStatus();
-        if (RSMPGS.ConnectionType == cTcpSocket.ConnectionMethod_SocketClient)
-        {
-          switch (LastConnectionStatus)
-          {
-            case cTcpSocket.ConnectionStatus_Unknown:
-              ToolStripMenuItem_ConnectionStatus.Text = "Unknown state";
-              break;
-            case cTcpSocket.ConnectionStatus_Disconnected:
-              ToolStripMenuItem_ConnectionStatus.Text = "Disconnected";
-              ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Red;
-              break;
-            case cTcpSocket.ConnectionStatus_Connecting:
-              ToolStripMenuItem_ConnectionStatus.Text = "Connecting to " + RSMPGS.RSMPConnection.RemoteServerOrClientIP() + "...";
-              break;
-            case cTcpSocket.ConnectionStatus_Connected:
-              ToolStripMenuItem_ConnectionStatus.Text = "Connected to " + RSMPGS.RSMPConnection.RemoteServerOrClientIP();
-              ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Green;
-              break;
-          }
-        }
-        else
-        {
-          switch (LastConnectionStatus)
-          {
-            case cTcpSocket.ConnectionStatus_Unknown:
-              ToolStripMenuItem_ConnectionStatus.Text = "Unknown state";
-              break;
-            case cTcpSocket.ConnectionStatus_Disconnected:
-              ToolStripMenuItem_ConnectionStatus.Text = "Waiting, serverport: " + RSMPGS.RSMPConnection.ListenPort();
-              ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Red;
-              break;
-            case cTcpSocket.ConnectionStatus_Connecting:
-              ToolStripMenuItem_ConnectionStatus.Text = "(not valid)";
-              break;
-            case cTcpSocket.ConnectionStatus_Connected:
-              ToolStripMenuItem_ConnectionStatus.Text = "Connected from " + RSMPGS.RSMPConnection.RemoteServerOrClientIP();
-              ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Green;
-              break;
-          }
-        }
-        this.Refresh();
       }
 
     }
@@ -379,140 +196,17 @@ namespace nsRSMPGS
     public void SocketWasClosedMethod()
     {
       ToolStripMenuItem_SendWatchdog.Enabled = false;
+      button_BufferedMessages_CreateRandom.Enabled = true;
       RSMPGS.JSon.SocketWasClosed();
     }
 
     public void SocketWasConnectedMethod()
     {
       ToolStripMenuItem_SendWatchdog.Enabled = true;
+      button_BufferedMessages_CreateRandom.Enabled = false;
       RSMPGS.JSon.SocketWasConnected();
     }
-    private void treeView_SitesAndObjects_AfterSelect(object sender, TreeViewEventArgs e)
-    {
-      treeView_SitesAndObjects_AfterSelect();
-    }
 
-    private void treeView_SitesAndObjects_AfterSelect()
-    {
-      cRoadSideObject RoadSideObject;
-      cSiteIdObject SiteIdObject;
-
-      bIsCurrentlyChangingSelection = true;
-
-      // Clear Alarm tab
-      listView_Alarms.Items.Clear();
-      listView_Alarms.StopSorting();
-
-      listView_AlarmEvents.Items.Clear();
-
-      // Clear Command tab
-      listView_Commands.Items.Clear();
-      listView_Commands.StopSorting();
-
-      // Clear Status tab
-      listView_Status.Items.Clear();
-      listView_Status.StopSorting();
-
-      // Clear Aggregated status tab
-      groupBox_AggregatedStatus_FunctionalPosition.Enabled = false;
-      groupBox_AggregatedStatus_FunctionalState.Enabled = false;
-      groupBox_AggregatedStatus_StatusBits.Enabled = false;
-      button_AggregatedStatus_Send.Enabled = false;
-      checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Enabled = false;
-      listBox_AggregatedStatus_FunctionalPosition.Items.Clear();
-      listBox_AggregatedStatus_FunctionalState.Items.Clear();
-      listBox_AggregatedStatus_FunctionalPosition.Items.Add("");
-      listBox_AggregatedStatus_FunctionalState.Items.Add("");
-      foreach (ListViewItem lvItem in listView_AggregatedStatus_StatusBits.Items)
-      {
-        SetStatusBitColor(lvItem, false);
-      }
-
-      if (treeView_SitesAndObjects.SelectedNode.Tag == null)
-      {
-        bIsCurrentlyChangingSelection = false;
-        return;
-      }
-
-      if (treeView_SitesAndObjects.SelectedNode.Parent == null)
-      {
-        SiteIdObject = (cSiteIdObject)treeView_SitesAndObjects.SelectedNode.Tag;
-        RoadSideObject = null;
-      }
-      else
-      {
-        SiteIdObject = (cSiteIdObject)treeView_SitesAndObjects.SelectedNode.Parent.Tag;
-        RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
-      }
-
-      // Root object (group/siteid)
-      if (RoadSideObject == null)
-      {
-        /*
-				foreach (cRoadSideObject ScanRoadSideObject in RSMPGS.ProcessImage.RoadSideObjects)
-				{
-					UpdateStatusListView(ScanRoadSideObject, false);
-				}
-				*/
-        //bIsCurrentlyChangingSelection = false;
-        //return;
-      }
-
-      SelectedRoadSideObject = RoadSideObject;
-
-      if (RoadSideObject != null)
-      {
-        // Objekttyp;Objekt;componentId;siteId;externalNtsId;Beskrivning;functionalPosition;functionalState;
-        if (RoadSideObject.bIsComponentGroup)
-        {
-          groupBox_AggregatedStatus_FunctionalPosition.Enabled = true;
-          groupBox_AggregatedStatus_FunctionalState.Enabled = true;
-          groupBox_AggregatedStatus_StatusBits.Enabled = true;
-
-          button_AggregatedStatus_Send.Enabled = true;
-          checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Enabled = true;
-
-          // Fill the Aggregated Status list
-          foreach (cAggregatedStatusObject AggregatedStatusObject in RSMPGS.ProcessImage.AggregatedStatusObjects)
-          {
-            if (RoadSideObject.sObjectType.Equals(AggregatedStatusObject.sObjectType, StringComparison.OrdinalIgnoreCase))
-            {
-              foreach (string sItem in AggregatedStatusObject.sFunctionalPositions)
-              {
-                listBox_AggregatedStatus_FunctionalPosition.Items.Add(sItem);
-                if (sItem.Equals(RoadSideObject.sFunctionalPosition))
-                {
-                  listBox_AggregatedStatus_FunctionalPosition.SelectedIndex = listBox_AggregatedStatus_FunctionalPosition.Items.Count - 1;
-                }
-              }
-              foreach (string sItem in AggregatedStatusObject.sFunctionalStates)
-              {
-                listBox_AggregatedStatus_FunctionalState.Items.Add(sItem);
-                if (sItem.Equals(RoadSideObject.sFunctionalState))
-                {
-                  listBox_AggregatedStatus_FunctionalState.SelectedIndex = listBox_AggregatedStatus_FunctionalState.Items.Count - 1;
-                }
-              }
-              break;
-            }
-          }
-          if (RoadSideObject.bBitStatus != null)
-          {
-            for (int iIndex = 0; iIndex < RoadSideObject.bBitStatus.GetLength(0); iIndex++)
-            {
-              SetStatusBitColor(listView_AggregatedStatus_StatusBits.Items[iIndex], RoadSideObject.bBitStatus[iIndex]);
-            }
-          }
-        }
-      }
-
-      UpdateAlarmListView(SiteIdObject, RoadSideObject);
-      UpdateCommandListView(SiteIdObject, RoadSideObject);
-      UpdateStatusListView(SiteIdObject, RoadSideObject);
-
-      bIsCurrentlyChangingSelection = false;
-
-    }
 
     private void ToolStripMenuItem_ProcessImage_RandomUpdates_Click(object sender, EventArgs e)
     {
@@ -525,27 +219,27 @@ namespace nsRSMPGS
         // Delete subscription if it already exists
         foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
         {
-          switch (Subscription.StatusReturnValue.sType.ToLower())
+          switch (Subscription.StatusReturnValue.Value.GetValueType().ToLower())
           {
             case "boolean":
-              Subscription.StatusReturnValue.sStatus = Rnd.Next(0, 2) >= 1 ? "true" : "false";
+              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 2) >= 1 ? "true" : "false");
               break;
             case "string":
-              Subscription.StatusReturnValue.sStatus = Rnd.Next(0, 1).ToString();
+              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
               break;
             case "real":
-              Subscription.StatusReturnValue.sStatus = (Rnd.Next(-10000, 10000) / 10).ToString();
+              Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(-10000, 10000) / 10).ToString());
               break;
             default:
-              Subscription.StatusReturnValue.sStatus = Rnd.Next(-1000, 1000).ToString();
+              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(-1000, 1000).ToString());
               break;
           }
-          if (Subscription.SubscribeStatus == cSubscription.Subscribe_OnChange)
+          if (Subscription.SubscribeStatus == cSubscription.SubscribeMethod.OnChange || Subscription.SubscribeStatus == cSubscription.SubscribeMethod.IntervalAndOnChange)
           {
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
             s.sCI = Subscription.StatusObject.sStatusCodeId;
             s.n = Subscription.StatusReturnValue.sName;
-            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.sType, Subscription.StatusReturnValue.sStatus);
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue());
             sS.Add(s);
           }
         }
@@ -582,7 +276,9 @@ namespace nsRSMPGS
       //			if (System.Windows.Forms.MessageBox.Show("This will reset all status' to default (unknown/null).\r\nAre you sure?", "RSMPGS1", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
       //			{
 
-      RSMPGS.ProcessImage.BufferedAlarms.Clear();
+      RSMPGS.ProcessImage.BufferedMessages.Clear();
+      ListView_BufferedMessages.Items.Clear();
+      textBox_BufferedMessages.Text = RSMPGS.ProcessImage.BufferedMessages.Count.ToString();
 
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
@@ -607,7 +303,7 @@ namespace nsRSMPGS
         {
           foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
           {
-            StatusReturnValue.sStatus = "?";
+            StatusReturnValue.Value.SetInitialUnknownValue();
           }
         }
         /*
@@ -670,19 +366,19 @@ namespace nsRSMPGS
         {
           foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
           {
-            switch (StatusReturnValue.sType.ToLower())
+            switch (StatusReturnValue.Value.GetValueType().ToLower())
             {
               case "boolean":
-                StatusReturnValue.sStatus = Rnd.Next(0, 2) >= 1 ? "true" : "false";
+                StatusReturnValue.Value.SetValue(Rnd.Next(0, 2) >= 1 ? "true" : "false");
                 break;
               case "string":
-                StatusReturnValue.sStatus = Rnd.Next(0, 1).ToString();
+                StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
                 break;
               case "real":
-                StatusReturnValue.sStatus = (Rnd.Next(-10000, 10000) / 10).ToString();
+                StatusReturnValue.Value.SetValue((Rnd.Next(-10000, 10000) / 10).ToString());
                 break;
               default:
-                StatusReturnValue.sStatus = Rnd.Next(-1000, 1000).ToString();
+                StatusReturnValue.Value.SetValue(Rnd.Next(-1000, 1000).ToString());
                 break;
             }
             //StatusReturnValue.sStatus = "?";
@@ -767,7 +463,14 @@ namespace nsRSMPGS
       ToolStripMenuItem_ProcessImage_RandomUpdates.Enabled = ToolStripMenuItem_ProcessImage_Reset.Enabled != true;
       ToolStripMenuItem_ProcessImage_Reset.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected;
       ToolStripMenuItem_ProcessImage_RandomUpdateAllStatusValues.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected;
-      ToolStripMenuItem_ProcessImage_Clear.Enabled = File.Exists(cPrivateProfile.ProcessImageFileFullName());
+      try
+      {
+        ToolStripMenuItem_ProcessImage_Clear.Enabled = File.Exists(sProcessImageDefaultName);
+      }
+      catch
+      {
+        ToolStripMenuItem_ProcessImage_Clear.Enabled = false;
+      }
     }
 
     private void checkBox_AlwaysUseSXLFromFile_CheckedChanged(object sender, EventArgs e)
@@ -837,13 +540,13 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_ProcessImage_Clear_Click(object sender, EventArgs e)
     {
-      if (File.Exists(cPrivateProfile.ProcessImageFileFullName()))
+      if (File.Exists(sProcessImageDefaultName))
       {
-        if (MessageBox.Show("Do you wish to remove automatically saved process image data file '" + cPrivateProfile.ProcessImageFileFullName() + "'?", "", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
+        if (MessageBox.Show("Do you wish to remove automatically saved process image data file '" + sProcessImageDefaultName + "'?", "", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
         {
           try
           {
-            File.Delete(cPrivateProfile.ProcessImageFileFullName());
+            File.Delete(sProcessImageDefaultName);
           }
           catch
           {
@@ -926,93 +629,196 @@ namespace nsRSMPGS
       RSMPGS.EncryptionSettings.ServerName = textBox_Encryption_ServerName.Text;
     }
 
-  }
+    public void AddBufferedMessageToListAndListView(cBufferedMessage BufferedMessage)
+    {
+      ListViewItem lvItem = new ListViewItem(BufferedMessage.MessageType.ToString());
+      lvItem.SubItems.Add(BufferedMessage.sMessageId);
+      lvItem.SubItems.Add(BufferedMessage.sSendString);
+      lvItem.Tag = BufferedMessage;
+      ListView_BufferedMessages.Items.Add(lvItem);
+      BufferedMessage.lvItem = lvItem;
+      RSMPGS.ProcessImage.BufferedMessages.Add(BufferedMessage);
+      textBox_BufferedMessages.Text = RSMPGS.ProcessImage.BufferedMessages.Count.ToString();
+    }
 
-  /*
-  public class HelperForms
-  {
+    private void button_ClearAlarmMessages_Click(object sender, EventArgs e)
+    {
+      RemoveBufferedMessages(cBufferedMessage.eMessageType.Alarm);
+    }
 
-    private static TextBox textBox;
+    private void button_ClearAggStatusMessages_Click(object sender, EventArgs e)
+    {
+      RemoveBufferedMessages(cBufferedMessage.eMessageType.AggregatedStatus);
+    }
 
-    public static string InputBox(string title, string promptText, string value, bool bAllowFileBrowse)
+    private void button_ClearStatusMessages_Click(object sender, EventArgs e)
+    {
+      RemoveBufferedMessages(cBufferedMessage.eMessageType.Status);
+    }
+
+    private void RemoveBufferedMessages(cBufferedMessage.eMessageType MessageType)
     {
 
-      Form form = new Form();
-      Label label = new Label();
-      textBox = new TextBox();
-      Button buttonOk = new Button();
-      Button buttonCancel = new Button();
-      Button buttonBrowse = new Button();
+      Cursor.Current = Cursors.WaitCursor;
+      Application.DoEvents();
 
-      form.Text = title;
-      label.Text = promptText;
-      textBox.Text = value;
-
-      buttonOk.Text = "OK";
-      buttonCancel.Text = "Cancel";
-      buttonBrowse.Text = "Browse...";
-
-      buttonOk.DialogResult = DialogResult.OK;
-      buttonCancel.DialogResult = DialogResult.Cancel;
-
-      if (bAllowFileBrowse)
+      ListView_BufferedMessages.StopSorting();
+      ListView_BufferedMessages.BeginUpdate();
+      for (int iIndex = ListView_BufferedMessages.Items.Count - 1; iIndex >= 0; iIndex--)
       {
-        textBox.SetBounds(12, 36, 290, 20);
-        buttonBrowse.SetBounds(310, 34, 75, 23);
+        cBufferedMessage BufferedMessage = (cBufferedMessage)ListView_BufferedMessages.Items[iIndex].Tag;
+        if (BufferedMessage.MessageType == MessageType)
+        {
+          ListView_BufferedMessages.Items.RemoveAt(iIndex);
+        }
       }
-      else
+      RSMPGS.ProcessImage.BufferedMessages.RemoveAll(bbuf => bbuf.MessageType == MessageType);
+
+      /*
+       * 
+      List<cBufferedMessage> BufferedMessagesToSend = 
+      foreach (cBufferedMessage BufferedMessage in BufferedMessagesToSend)
       {
-        textBox.SetBounds(12, 36, 372, 20);
-        buttonBrowse.Visible = false;
+        ListView_BufferedMessages.Items.Remove(BufferedMessage.lvItem);
       }
+      RSMPGS.ProcessImage.BufferedMessages.RemoveAll(bbuf => bbuf.MessageType == MessageType);
+      */
+      ListView_BufferedMessages.EndUpdate();
+      ListView_BufferedMessages.ResumeSorting();
 
-      label.SetBounds(9, 20, 372, 13);
-      buttonOk.SetBounds(228, 72, 75, 23);
-      buttonCancel.SetBounds(309, 72, 75, 23);
+      textBox_BufferedMessages.Text = RSMPGS.ProcessImage.BufferedMessages.Count.ToString();
 
-      label.AutoSize = true;
-      textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
-      buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-      buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-      buttonBrowse.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+      Cursor.Current = Cursors.Default;
+    }
 
-      form.ClientSize = new Size(396, 107);
-      form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel, buttonBrowse });
-      form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
-      form.FormBorderStyle = FormBorderStyle.FixedDialog;
-      form.StartPosition = FormStartPosition.CenterScreen;
-      form.MinimizeBox = false;
-      form.MaximizeBox = false;
-      form.AcceptButton = buttonOk;
-      form.CancelButton = buttonCancel;
-
-      buttonBrowse.Click += new System.EventHandler(buttonBrowse_Click);
-
-      DialogResult dialogResult = form.ShowDialog();
-
-      if (dialogResult == DialogResult.OK)
+    private void button_BufferedMessages_CreateRandom_Click(object sender, EventArgs e)
+    {
+      if (comboBox_BufferedMessages_CreateRandom_Type.SelectedIndex < 0)
       {
-        return textBox.Text;
+        return;
       }
-      else
+
+      int iMessageCount;
+
+      if (Int32.TryParse(textBox_CreateRandomMessages_Count.Text, out iMessageCount) == false || iMessageCount > 30000)
       {
-        return value;
+        MessageBox.Show("Invalid number or too many messages (>30000)", "Create buffered messages", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
       }
+
+      if (iMessageCount <= 0)
+      {
+        return;
+      }
+
+      Cursor.Current = Cursors.WaitCursor;
+      Application.DoEvents();
+
+      List<cAlarmObject> AlarmObjects = new List<cAlarmObject>();
+      List<cStatusReturnValue> StatusReturnValues = new List<cStatusReturnValue>();
+      List<cStatusReturnValue> ValidStatusReturnValues = new List<cStatusReturnValue>();
+      List<cRoadSideObject> AggregatedStatusRoadSideObjects = new List<nsRSMPGS.cRoadSideObject>();
+
+      foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
+      {
+        AlarmObjects.AddRange(RoadSideObject.AlarmObjects);
+        foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
+        {
+          StatusReturnValues.AddRange(StatusObject.StatusReturnValues);
+          ValidStatusReturnValues.AddRange(StatusObject.StatusReturnValues.FindAll(srv => srv.Value.Quality == cValue.eQuality.recent));
+        }
+        if (RoadSideObject.bIsComponentGroup)
+        {
+          AggregatedStatusRoadSideObjects.Add(RoadSideObject);
+        }
+      }
+
+      Random rnd = new Random();
+
+      ListView_BufferedMessages.StopSorting();
+      ListView_BufferedMessages.BeginUpdate();
+
+      //  RSMPGS.ProcessImage.AggregatedStatusObjects
+      string sSendBuffer;
+
+      for (int iIndex = 0; iIndex < iMessageCount; iIndex++)
+      {
+        switch (comboBox_BufferedMessages_CreateRandom_Type.SelectedIndex)
+        {
+
+          case 0:
+
+            if (AlarmObjects.Count > 0)
+            {
+              cAlarmObject AlarmObject = AlarmObjects[rnd.Next(0, AlarmObjects.Count - 1)];
+              cJSon.AlarmSpecialisation alarmSpecialisation = new cJSon.AlarmSpecialisation[] { cJSon.AlarmSpecialisation.Acknowledge, cJSon.AlarmSpecialisation.Issue, cJSon.AlarmSpecialisation.Suspend }[rnd.Next(0, 2)];
+              RSMP_Messages.AlarmHeaderAndBody alarmHeaderAndBody = RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, alarmSpecialisation, true, out sSendBuffer);
+              cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Alarm, alarmHeaderAndBody.type, alarmHeaderAndBody.mId, sSendBuffer);
+              AddBufferedMessageToListAndListView(BufferedMessage);
+            }
+            break;
+
+          case 1:
+
+            if (AggregatedStatusRoadSideObjects.Count > 0)
+            {
+              cRoadSideObject RoadSideObject = AggregatedStatusRoadSideObjects[rnd.Next(0, AggregatedStatusRoadSideObjects.Count - 1)];
+              RSMP_Messages.AggregatedStatus aggregatedStatus = RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject, true, out sSendBuffer);
+              cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.AggregatedStatus, aggregatedStatus.type, aggregatedStatus.mId, sSendBuffer);
+              AddBufferedMessageToListAndListView(BufferedMessage);
+            }
+            break;
+
+          case 2:
+
+            if (StatusReturnValues.Count > 0)
+            {
+              cStatusReturnValue StatusReturnValue = StatusReturnValues[rnd.Next(0, StatusReturnValues.Count - 1)];
+              List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
+              RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
+              s.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
+              s.n = StatusReturnValue.sName;
+              s.q = StatusReturnValue.Value.Quality.ToString();
+              s.s = StatusReturnValue.Value.Quality == cValue.eQuality.unknown ? null : StatusReturnValue.Value.GetValue();
+              sS.Add(s);
+
+              RSMP_Messages.StatusUpdate statusUpdate = RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusReturnValue.StatusObject.RoadSideObject, sS, true, out sSendBuffer);
+              cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, statusUpdate.type, statusUpdate.mId, sSendBuffer);
+              AddBufferedMessageToListAndListView(BufferedMessage);
+            }
+            break;
+
+          case 3:
+
+            if (ValidStatusReturnValues.Count > 0)
+            {
+              cStatusReturnValue StatusReturnValue = ValidStatusReturnValues[rnd.Next(0, ValidStatusReturnValues.Count - 1)];
+              List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
+              RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
+              s.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
+              s.n = StatusReturnValue.sName;
+              s.q = StatusReturnValue.Value.Quality.ToString();
+              s.s = StatusReturnValue.Value.Quality == cValue.eQuality.unknown ? null : StatusReturnValue.Value.GetValue();
+              sS.Add(s);
+
+              RSMP_Messages.StatusUpdate statusUpdate = RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusReturnValue.StatusObject.RoadSideObject, sS, true, out sSendBuffer);
+              cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, statusUpdate.type, statusUpdate.mId, sSendBuffer);
+              AddBufferedMessageToListAndListView(BufferedMessage);
+            }            
+            break;
+        }
+
+        //cBufferedMessage
+        //AddBufferedMessageToListAndListView(cBufferedMessage BufferedMessage)
+      }
+
+      ListView_BufferedMessages.EndUpdate();
+      ListView_BufferedMessages.ResumeSorting();
+
+      Cursor.Current = Cursors.Default;
 
     }
 
-    private static void buttonBrowse_Click(object sender, EventArgs e)
-    {
-      OpenFileDialog openFileDialog = new OpenFileDialog();
-      openFileDialog.InitialDirectory = textBox.Text;
-      openFileDialog.Filter = "All files|*.*";
-      openFileDialog.RestoreDirectory = true;
-      if (openFileDialog.ShowDialog() == DialogResult.OK)
-      {
-        textBox.Text = openFileDialog.FileName;
-      }
-    }
   }
-  */
-
 }
+

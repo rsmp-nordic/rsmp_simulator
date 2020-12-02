@@ -52,6 +52,8 @@ namespace nsRSMPGS
     public void UpdateStatusListView(cRoadSideObject RoadSideObject)
     {
 
+      RoadSideObject.StatusGroup.Items.Clear();
+
       foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
       {
 
@@ -61,12 +63,26 @@ namespace nsRSMPGS
 
           ListViewItem lvItem = new ListViewItem(StatusObject.sStatusCodeId, -1);
           lvItem.Name = sKey;
+
+          string[] sValues = new string[5];
+
+          sValues[0] = StatusObject.sDescription;
+          sValues[1] = StatusReturnValue.sName;
+          sValues[2] = StatusReturnValue.Value.GetValueType();
+          sValues[3] = StatusReturnValue.Value.GetValue();
+          sValues[4] = StatusReturnValue.sComment.Replace("\n", " / ");
+
+          lvItem.SubItems.AddRange(sValues);
+
           //ListViewItem lvItem = listView_Status.Items.Add(sKey, StatusObject.sDescription, -1);
+
+          /*
           lvItem.SubItems.Add(StatusObject.sDescription);
           lvItem.SubItems.Add(StatusReturnValue.sName);
           lvItem.SubItems.Add(StatusReturnValue.sType);
           lvItem.SubItems.Add(StatusReturnValue.sStatus);
           lvItem.SubItems.Add(StatusReturnValue.sComment);
+          */
 
           lvItem.Tag = StatusReturnValue;
 
@@ -105,23 +121,23 @@ namespace nsRSMPGS
       try
       {
 
-        string sText = StatusReturnValue.sStatus;
-        if (cFormsHelper.InputStatusBox("Enter new status", "Status", ref sText, StatusReturnValue.sType, StatusReturnValue.sValues, StatusReturnValue.sComment, true) == DialogResult.OK)
+        string sText = StatusReturnValue.Value.GetValue();
+        if (cFormsHelper.InputStatusBoxValueType("Enter new status", ref sText, StatusReturnValue.Value, StatusReturnValue.sComment, true) == DialogResult.OK)
         {
-          StatusReturnValue.sStatus = sText;
+          StatusReturnValue.Value.SetValue(sText);
           lvItem.SubItems[4].Text = sText;
           // Find out if this status is subscribed
           foreach (cSubscription Subscription in StatusObject.RoadSideObject.Subscriptions)
           {
             if (Subscription.StatusReturnValue == StatusReturnValue)
             {
-              if (Subscription.SubscribeStatus == cSubscription.Subscribe_OnChange)
+              if (Subscription.SubscribeStatus == cSubscription.SubscribeMethod.OnChange || Subscription.SubscribeStatus == cSubscription.SubscribeMethod.IntervalAndOnChange)
               {
                 List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
                 RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
                 s.sCI = StatusObject.sStatusCodeId;
                 s.n = StatusReturnValue.sName;
-                RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.sType, StatusReturnValue.sStatus);
+                RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
                 sS.Add(s);
                 RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusObject.RoadSideObject, sS);
               }

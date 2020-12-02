@@ -14,11 +14,11 @@ namespace nsRSMPGS
 	public partial class RSMPGS_Debug : Form
 	{
 
-    public delegate void AddRawDebugData(DateTime dtNow, bool bNewPacket, int iDirection, bool bForceHexCode, byte[] bBuffer, int iOffset, int iBufferLength);
-    public AddRawDebugData DelegateAddRawDebugData;
+    //public delegate void AddRawDebugData(DateTime dtNow, bool bNewPacket, int iDirection, bool bForceHexCode, byte[] bBuffer, int iOffset, int iBufferLength);
+   // public AddRawDebugData DelegateAddRawDebugData;
 
-		public delegate void AddJSonDebugData(DateTime dtNow, int iDirection, string sPacketType, string sBuffer);
-    public AddJSonDebugData DelegateAddJSonDebugData;
+		//public delegate void AddJSonDebugData(DateTime dtNow, int iDirection, string sPacketType, string sBuffer);
+   // public AddJSonDebugData DelegateAddJSonDebugData;
 
 		private StreamWriter swDebugFile = null;
 		private int MaxDebugLines;
@@ -31,18 +31,27 @@ namespace nsRSMPGS
 		private System.Drawing.Font MonospacedCourier = new System.Drawing.Font("Courier New", 9, FontStyle.Bold);
 		private string ExpandedBuffer = "";
 
-		public RSMPGS_Debug()
+    private List<ListViewItem> DebuglvItems = new List<ListViewItem>();
+
+    public RSMPGS_Debug()
 		{
 			InitializeComponent();
 		}
 
     private void RSMPGS_Debug_Load(object sender, EventArgs e)
     {
-			MaxDebugLines = cPrivateProfile.GetIniFileInt("RSMP", "MaxDebugLines", 300);
-			DelegateAddRawDebugData = new AddRawDebugData(AddRawDebugDataMethod);
-			DelegateAddJSonDebugData = new AddJSonDebugData(AddJSonDebugDataMethod);
-			saveFileDialog_Debug.InitialDirectory = cPrivateProfile.DebugFilesPath();
-			timer_System.Enabled = true;
+
+      MaxDebugLines = cPrivateProfile.GetIniFileInt("RSMP", "MaxDebugLines", 1000);
+      
+      //DelegateAddRawDebugData = new AddRawDebugData(AddRawDebugDataMethod);
+      //DelegateAddJSonDebugData = new AddJSonDebugData(AddJSonDebugDataMethod);
+
+      saveFileDialog_Debug.InitialDirectory = cPrivateProfile.DebugFilesPath();
+
+      timer_System.Enabled = true;
+
+      listView_Debug.StopSorting();
+
     }
 
 		private void RSMPGS_Debug_FormClosed(object sender, FormClosedEventArgs e)
@@ -168,8 +177,12 @@ namespace nsRSMPGS
 			{
 				int iCharactersToViewInNextLine = iCharactersLeft;
 
-				lvItem = listView_Debug.Items.Add(sSubItems[0]);
-				lvItem.SubItems.Add(sSubItems[1]);
+        //lvItem = listView_Debug.Items.Add(sSubItems[0]);
+
+        lvItem = new ListViewItem(sSubItems[0]);
+
+        lvItem.SubItems.Add(sSubItems[1]);
+
 				ExpandedBuffer = "";
 
 				if (iCharactersToViewInNextLine > 80)
@@ -195,8 +208,15 @@ namespace nsRSMPGS
 					lvSubItem.BackColor = rgbBackColor;
 				}
 				lvItem.SubItems[2].Font = MonospacedCourier;
-				sSubItems[0] = "";
+
+        lock (DebuglvItems)
+        {
+          DebuglvItems.Add(lvItem);
+        }
+
+        sSubItems[0] = "";
 				sSubItems[1] = "";
+
 				lock (this)
 				{
 					if (swDebugFile != null)
@@ -205,16 +225,7 @@ namespace nsRSMPGS
 					}
 				}
 			}
-			while (listView_Debug.Items.Count > MaxDebugLines)
-			{
-				listView_Debug.Items.RemoveAt(0);
-			}
-			//while (listView_Debug.SelectedItems.Count > 0) listView_Debug.SelectedItems[0].Selected = false;
-			//listView_Debug.Items[listView_Debug.Items.Count - 1].Selected = true;
-			if (ToolStripMenuItem_ShowLastRow.Checked)
-			{
-				listView_Debug.Items[listView_Debug.Items.Count - 1].EnsureVisible();
-			}
+
     }
 
     public void AddJSonDebugDataMethod(DateTime dtNow, int iDirection, string sPacketType, string sDebugData)
@@ -239,6 +250,7 @@ namespace nsRSMPGS
             if (ToolStripMenuItem_PacketTypes_Alarm.Checked == false) return;
             break;
           case "aggregatedstatus":
+          case "aggregatedstatusrequest":
             if (ToolStripMenuItem_PacketTypes_AggStatus.Checked == false) return;
             break;
           case "statussubscribe":
@@ -265,8 +277,6 @@ namespace nsRSMPGS
         }
 			}
 
-			listView_Debug.BeginUpdate();
-
 			sSubItems[0] = String.Format("{0:yyyy-MM-dd}", dtNow) + " " + String.Format("{0:HH:mm:ss.fff}", dtNow);
 
 			switch (iDirection)
@@ -288,8 +298,11 @@ namespace nsRSMPGS
 			while (sPacketData.Length > 0)
 			{
 
-				lvItem = listView_Debug.Items.Add(sSubItems[0]);
-				lvItem.SubItems.Add(sSubItems[1]);
+        //lvItem = listView_Debug.Items.Add(sSubItems[0]);
+
+        lvItem = new ListViewItem(sSubItems[0]);
+
+        lvItem.SubItems.Add(sSubItems[1]);
 
 				if (sPacketData.IndexOf("\r\n") > 0)
 				{
@@ -365,7 +378,13 @@ namespace nsRSMPGS
 				lvItem.SubItems[2].Font = MonospacedCourier;
 				sSubItems[0] = "";
 				sSubItems[1] = "";
-				lock (this)
+
+        lock (DebuglvItems)
+        {
+          DebuglvItems.Add(lvItem);
+        }
+
+        lock (this)
 				{
 					if (swDebugFile != null)
 					{
@@ -374,28 +393,22 @@ namespace nsRSMPGS
 				}
 			}
 
-      lvItem = listView_Debug.Items.Add("");
+      //lvItem = listView_Debug.Items.Add("");
 
-			lock (this)
+      lvItem = new ListViewItem("");
+
+      lock (DebuglvItems)
+      {
+        DebuglvItems.Add(lvItem);
+      }
+
+      lock (this)
 			{
 				if (swDebugFile != null)
 				{
 					swDebugFile.WriteLine("");
 				}
 			}
-
-			while (listView_Debug.Items.Count > MaxDebugLines)
-			{
-				listView_Debug.Items.RemoveAt(0);
-			}
-			//while (listView_Debug.SelectedItems.Count > 0) listView_Debug.SelectedItems[0].Selected = false;
-			//listView_Debug.Items[listView_Debug.Items.Count - 1].Selected = true;
-			if (ToolStripMenuItem_ShowLastRow.Checked)
-			{
-				listView_Debug.Items[listView_Debug.Items.Count - 1].EnsureVisible();
-			}
-
-			listView_Debug.EndUpdate();
 
 
     }
@@ -407,7 +420,7 @@ namespace nsRSMPGS
 			toolStripMenuItem_SaveContinousToFile.Checked = swDebugFile != null;
 		}
 
-		private void toolStripMenuItem_CopyToClipboard_Click(object sender, EventArgs e)
+    private void toolStripMenuItem_CopyToClipboard_Click(object sender, EventArgs e)
 		{
 			string sDebugData = "";
 			foreach (ListViewItem lvItem in listView_Debug.SelectedItems)
@@ -477,17 +490,61 @@ namespace nsRSMPGS
 			}
 		}
 
-		private void timer_System_Tick(object sender, EventArgs e)
-		{
-			lock (this)
-			{
-				if (swDebugFile != null)
-				{
-					swDebugFile.Flush();
-				}
-			}
-		}
+    private void timer_System_Tick(object sender, EventArgs e)
+    {
 
-	}
+      timer_System.Enabled = false;
+
+      lock (this)
+      {
+        if (swDebugFile != null)
+        {
+          swDebugFile.Flush();
+        }
+
+      }
+
+      lock (DebuglvItems)
+      {
+
+
+        if (DebuglvItems.Count > 0)
+        {
+          listView_Debug.BeginUpdate();
+
+          foreach (ListViewItem lvItem in DebuglvItems)
+          {
+
+            listView_Debug.Items.Add(lvItem);
+
+            while (listView_Debug.Items.Count > MaxDebugLines)
+            {
+              listView_Debug.Items.RemoveAt(0);
+            }
+
+          }
+
+          DebuglvItems.Clear();
+
+          if (ToolStripMenuItem_ShowLastRow.Checked && listView_Debug.Items.Count > 0)
+          {
+            listView_Debug.Items[listView_Debug.Items.Count - 1].EnsureVisible();
+          }
+
+          listView_Debug.EndUpdate();
+
+          listView_Debug.Update();
+
+          Application.DoEvents();
+
+        }
+
+      }
+
+      timer_System.Enabled = true;
+
+    }
+
+  }
 
 }

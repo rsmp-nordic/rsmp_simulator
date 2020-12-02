@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RSMP_Messages
 {
@@ -90,7 +87,19 @@ namespace RSMP_Messages
 		public bool[] se; // StatusBits
 	}
 
-	public class CommandRequest
+  public class AggregatedStatusRequest
+  {
+    public string mType;
+    public string type;
+    public string mId;
+
+    public string ntsOId; // ntsObjectId
+    public string xNId; // externalNtsId
+    public string cId; // componentId
+
+  }
+
+    public class CommandRequest
 	{
 
 		public string mType;
@@ -181,28 +190,55 @@ namespace RSMP_Messages
 
 	}
 
-	public class StatusSubscribe
-	{
-		public string mType;
-		public string type;
-		public string mId;
 
-		public string ntsOId;  // ntsObjectId
-		public string xNId; // externalNtsId
-		public string cId;  // componentId
+  public class StatusSubscribe_UpTo_3_1_4
+  {
 
-		public List<StatusSubscribe_Status> sS; // Values
+    public string mType;
+    public string type;
+    public string mId;
 
-	}
+    public string ntsOId;  // ntsObjectId
+    public string xNId; // externalNtsId
+    public string cId;  // componentId
 
-	public class StatusSubscribe_Status
-	{
-		public string sCI;  // StatusCodeId
-		public string n;    // Name
-		public string uRt;  // UpdateRate
-	}
+    public List<StatusSubscribe_Status_UpTo_3_1_4> sS; // Values
 
-	public class StatusUpdate
+  }
+
+  public class StatusSubscribe_Over_3_1_4
+  {
+
+    public string mType;
+    public string type;
+    public string mId;
+
+    public string ntsOId;  // ntsObjectId
+    public string xNId; // externalNtsId
+    public string cId;  // componentId
+
+    public List<StatusSubscribe_Status_Over_3_1_4> sS; // Values
+
+  }
+
+  public class StatusSubscribe_Status_Base
+  {
+    public string sCI;  // StatusCodeId
+    public string n;    // Name
+    public string uRt;  // UpdateRate
+  }
+
+  public class StatusSubscribe_Status_UpTo_3_1_4 : StatusSubscribe_Status_Base
+  {
+  }
+
+  public class StatusSubscribe_Status_Over_3_1_4 : StatusSubscribe_Status_Base
+  {
+    public bool sOc;    // sendOnChange
+  }
+
+  
+  public class StatusUpdate
 	{
 		public string mType;
 		public string type;

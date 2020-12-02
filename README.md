@@ -11,17 +11,17 @@ implementations.
 It is possible to use the source code as a starting point when developing new
 RSMP implementations.
 
-Full documentation is available [here](https://github.com/rsmp-nordic/rsmp_simulator/releases/download/1.0.1.5/Manual.RSMP.Simulator.1.0.1.5.English.pdf)
+Full documentation is available [here](https://github.com/rsmp-nordic/rsmp_simulator/releases/download/1.0.1.6/Manual.RSMP.Simulator.1.0.1.6.English.pdf)
 
 Installation
 ------------
-Run `RSMPGS1_1_0_1_5_Setup.exe` (for road side equipment) or
-`RSMPGS2_1_0_1_5_Setup.exe` (for supervision system) from 
+Run `RSMPGS1_1_0_1_6_Setup.exe` (for road side equipment) or
+`RSMPGS2_1_0_1_6_Setup.exe` (for supervision system) from 
 the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases)
 
 Configuration
 -------------
-Please see section 4 in the [documentation](https://github.com/rsmp-nordic/rsmp_simulator/releases/download/1.0.1.5/Manual.RSMP.Simulator.1.0.1.5.English.pdf)
+Please see section 4 in the [documentation](https://github.com/rsmp-nordic/rsmp_simulator/releases/download/1.0.1.6/Manual.RSMP.Simulator.1.0.1.6.English.pdf)
 
 Report issues
 -------------

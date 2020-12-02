@@ -42,15 +42,19 @@ namespace nsRSMPGS
               break;
 
             case "statusrequest":
-              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType_Request, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType.Request, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
               break;
 
             case "statussubscribe":
-              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType_Subscribe, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType.Subscribe, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
               break;
 
             case "statusunsubscribe":
-              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType_UnSubscribe, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+              bSuccess = DecodeAndParseStatusMessage(Header, StatusMsgType.UnSubscribe, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+              break;
+
+            case "aggregatedstatusrequest":
+              bSuccess = DecodeAndParseAggregatedStatusRequestMessage(Header, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
               break;
 
             default:
@@ -69,19 +73,46 @@ namespace nsRSMPGS
 
     }
 
-    public cAlarmEvent CreateAndSendAlarmMessage(cAlarmObject AlarmObject, int AlarmSpecialisation)
+    public RSMP_Messages.AlarmHeaderAndBody CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation)
     {
+
+      cAlarmEvent AlarmEvent;
+
+      return CreateAndSendAlarmMessage(AlarmObject, alarmSpecialisation, out AlarmEvent);
+
+    }
+
+    public RSMP_Messages.AlarmHeaderAndBody CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation, bool bCreateMessageOnly, out string sSendBuffer)
+    {
+
+      cAlarmEvent AlarmEvent;
+
+      return CreateAndSendAlarmMessage(AlarmObject, alarmSpecialisation, bCreateMessageOnly, out sSendBuffer, out AlarmEvent);
+
+    }
+
+    public RSMP_Messages.AlarmHeaderAndBody CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation, out cAlarmEvent AlarmEvent)
+    {
+      string sSendBuffer;
+
+      return CreateAndSendAlarmMessage(AlarmObject, alarmSpecialisation, false, out sSendBuffer, out AlarmEvent);
+    }
+
+    public RSMP_Messages.AlarmHeaderAndBody CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation, bool bCreateMessageOnly, out string sSendBuffer, out cAlarmEvent AlarmEvent)
+    {
+
+      sSendBuffer = "";
 
       RSMP_Messages.AlarmHeaderAndBody AlarmHeaderAndBody;
       //      RSMP_Messages.AlarmHeader AlarmHeader;
 
-      cAlarmEvent AlarmEvent = null;
 
-      string sSendBuffer;
+      AlarmHeaderAndBody = new RSMP_Messages.AlarmHeaderAndBody();
+
+      AlarmEvent = new cAlarmEvent();
 
       try
       {
-        AlarmHeaderAndBody = new RSMP_Messages.AlarmHeaderAndBody();
 
         AlarmHeaderAndBody.mType = "rSMsg";
         AlarmHeaderAndBody.type = "Alarm";
@@ -94,7 +125,6 @@ namespace nsRSMPGS
         AlarmHeaderAndBody.xNACId = AlarmObject.sExternalNTSAlarmCodeId;
         AlarmHeaderAndBody.rvs = new List<RSMP_Messages.AlarmReturnValue>();
 
-        AlarmEvent = new cAlarmEvent();
 
         AlarmEvent.AlarmObject = AlarmObject;
 
@@ -102,17 +132,17 @@ namespace nsRSMPGS
         AlarmHeaderAndBody.aS = AlarmObject.bActive ? "Active" : "inActive";
         AlarmHeaderAndBody.sS = AlarmObject.bSuspended ? "Suspended" : "notSuspended";
 
-        switch (AlarmSpecialisation)
+        switch (alarmSpecialisation)
         {
-          case AlarmSpecialisation_Alarm:
+          case AlarmSpecialisation.Issue:
             AlarmHeaderAndBody.aSp = "Issue";
             AlarmEvent.sEvent = AlarmHeaderAndBody.aSp + " / " + AlarmHeaderAndBody.aS;
             break;
-          case AlarmSpecialisation_Acknowledge:
+          case AlarmSpecialisation.Acknowledge:
             AlarmHeaderAndBody.aSp = "Acknowledge";
             AlarmEvent.sEvent = AlarmHeaderAndBody.aSp + " / " + AlarmHeaderAndBody.ack;
             break;
-          case AlarmSpecialisation_Suspend:
+          case AlarmSpecialisation.Suspend:
             AlarmHeaderAndBody.aSp = "Suspend";
             AlarmEvent.sEvent = AlarmHeaderAndBody.aSp + " / " + AlarmHeaderAndBody.sS;
             break;
@@ -123,7 +153,12 @@ namespace nsRSMPGS
           AlarmObject.AlarmCount = 0;
         }
 
-        AlarmHeaderAndBody.aTs = CreateISO8601UTCTimeStamp();
+        if (AlarmObject.dtLastChangedAlarmStatus == DateTime.MinValue)
+        {
+          AlarmObject.dtLastChangedAlarmStatus = DateTime.Now;
+        }
+
+        AlarmHeaderAndBody.aTs = CreateISO8601UTCTimeStamp(AlarmObject.dtLastChangedAlarmStatus);
         AlarmHeaderAndBody.cat = AlarmObject.sCategory;
         AlarmHeaderAndBody.pri = AlarmObject.sPriority;
 
@@ -136,12 +171,17 @@ namespace nsRSMPGS
         {
           RSMP_Messages.AlarmReturnValue rv = new RSMP_Messages.AlarmReturnValue();
           rv.n = AlarmReturnValue.sName;
-          rv.v = AlarmReturnValue.sValue;
+          rv.v = AlarmReturnValue.Value.GetValue();
           AlarmHeaderAndBody.rvs.Add(rv);
           AlarmEvent.AlarmEventReturnValues.Add(new nsRSMPGS.cAlarmEventReturnValue(rv.n, rv.v));
         }
 
         sSendBuffer = JSonSerializer.SerializeObject(AlarmHeaderAndBody);
+
+        if (bCreateMessageOnly)
+        {
+          return AlarmHeaderAndBody; 
+        }
 
         if (RSMPGS.JSon.SendJSonPacket(AlarmHeaderAndBody.type, AlarmHeaderAndBody.mId, sSendBuffer, true))
         {
@@ -154,7 +194,8 @@ namespace nsRSMPGS
         {
           if (cHelper.IsSettingChecked("BufferAndSendAlarmsWhenConnect"))
           {
-            RSMPGS.ProcessImage.BufferedAlarms.Add(new cBufferedPacket(AlarmHeaderAndBody.type, AlarmHeaderAndBody.mId, sSendBuffer));
+            cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Alarm, AlarmHeaderAndBody.type, AlarmHeaderAndBody.mId, sSendBuffer);
+            RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Buffered alarm message, AlarmCode: " + AlarmObject.sAlarmCodeId + ", Type: " + AlarmHeaderAndBody.type + "/" + AlarmHeaderAndBody.aSp + "/" + AlarmHeaderAndBody.aS + ", MsgId: " + AlarmHeaderAndBody.mId);// + ", SequenceNumber: " + AlarmHeaderAndBody.sNr);
           }
         }
@@ -168,16 +209,24 @@ namespace nsRSMPGS
         AlarmEvent = null;
       }
 
-      return AlarmEvent;
+      return AlarmHeaderAndBody;
 
     }
 
-    public void CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject)
+
+    public RSMP_Messages.AggregatedStatus CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject)
+    {
+      string sSendBuffer;
+
+      return CreateAndSendAggregatedStatusMessage(RoadSideObject, false, out sSendBuffer);
+    }
+
+    public RSMP_Messages.AggregatedStatus CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject, bool bCreateMessageOnly, out string sSendBuffer)
     {
 
-      RSMP_Messages.AggregatedStatus AggregatedStatusMessage = new RSMP_Messages.AggregatedStatus();
+      sSendBuffer = "";
 
-      string sSendBuffer;
+      RSMP_Messages.AggregatedStatus AggregatedStatusMessage = new RSMP_Messages.AggregatedStatus();
 
       AggregatedStatusMessage.mType = "rSMsg";
       AggregatedStatusMessage.type = "AggregatedStatus";
@@ -186,7 +235,12 @@ namespace nsRSMPGS
       AggregatedStatusMessage.xNId = RoadSideObject.sExternalNTSId;
       AggregatedStatusMessage.cId = RoadSideObject.sComponentId;
 
-      AggregatedStatusMessage.aSTS = CreateISO8601UTCTimeStamp();
+      if (RoadSideObject.dtLastChangedAggregatedStatus == DateTime.MinValue)
+      {
+        RoadSideObject.dtLastChangedAggregatedStatus = DateTime.Now;
+      }
+
+      AggregatedStatusMessage.aSTS = CreateISO8601UTCTimeStamp(RoadSideObject.dtLastChangedAggregatedStatus);
 
       AggregatedStatusMessage.fP = RoadSideObject.sFunctionalPosition.Length > 0 ? RoadSideObject.sFunctionalPosition : null;
       AggregatedStatusMessage.fS = RoadSideObject.sFunctionalState.Length > 0 ? RoadSideObject.sFunctionalState : null;
@@ -200,6 +254,11 @@ namespace nsRSMPGS
 
       sSendBuffer = JSonSerializer.SerializeObject(AggregatedStatusMessage);
 
+      if (bCreateMessageOnly)
+      {
+        return AggregatedStatusMessage;
+      }
+
       if (RSMPGS.JSon.SendJSonPacket(AggregatedStatusMessage.type, AggregatedStatusMessage.mId, sSendBuffer, true))
       {
         if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
@@ -211,10 +270,58 @@ namespace nsRSMPGS
       {
         if (cHelper.IsSettingChecked("BufferAndSendAggregatedStatusWhenConnect"))
         {
-          RSMPGS.ProcessImage.BufferedAggregatedStatus.Add(new cBufferedPacket(AggregatedStatusMessage.type, AggregatedStatusMessage.mId, sSendBuffer));
+
+          cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.AggregatedStatus, AggregatedStatusMessage.type, AggregatedStatusMessage.mId, sSendBuffer);
+          RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Buffered aggregated status message, ntsOId: " + AggregatedStatusMessage.ntsOId + ", Type: " + AggregatedStatusMessage.type + ", MsgId: " + AggregatedStatusMessage.mId);
         }
       }
+
+      return AggregatedStatusMessage;
+
+    }
+
+    private bool DecodeAndParseAggregatedStatusRequestMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
+    {
+
+      bool bPacketWasProperlyHandled = false;
+
+      StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+
+      try
+      {
+
+        RSMP_Messages.AggregatedStatusRequest AggregatedStatusRequest = JSonSerializer.Deserialize<RSMP_Messages.AggregatedStatusRequest>(sJSon);
+
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId, bUseStrictProtocolAnalysis);
+
+        if (RoadSideObject != null)
+        {
+          if (cHelper.IsSettingChecked("AllowRequestsOfAlarmsAndAggStatus"))
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Request of aggregated status, ntsOId: {0}, cId: {1}", AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId);
+            bHasSentAckOrNack = SendPacketAck(true, packetHeader.mId, "");
+            CreateAndSendAggregatedStatusMessage(RoadSideObject);
+          }
+          else
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Request of aggregated status, ntsOId: {0}, cId: {1}. RSMP settings prevent us from answering.", AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId);
+            bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, "Invalid packet type: " + packetHeader.type);
+          }
+          bPacketWasProperlyHandled = true;
+        }
+        else
+        {
+          sError = "Failed to handle AggregatedStatusRequest message, ntsOId: " + AggregatedStatusRequest.ntsOId + "/ cId: " + AggregatedStatusRequest.cId + " could not be found)";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+        }
+      }
+      catch (Exception e)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to deserialize packet: {0}", e.Message);
+      }
+
+      return bPacketWasProperlyHandled;
 
     }
 
@@ -236,6 +343,7 @@ namespace nsRSMPGS
 
           foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
           {
+
             if (AlarmObject.sAlarmCodeId.Equals(AlarmHeader.aCId, sc))
             {
 
@@ -247,38 +355,73 @@ namespace nsRSMPGS
               AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
               AlarmEvent.sEvent = AlarmHeader.aSp;
 
-              int AlarmSpecialisation = cJSon.AlarmSpecialisation_Alarm;
+              AlarmSpecialisation alarmSpecialisation = cJSon.AlarmSpecialisation.Unknown;
+
               switch (AlarmHeader.aSp.ToLower())
               {
                 case "acknowledge":
                   RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Ack of alarm, AlarmCodeId: {0}", AlarmHeader.aCId);
                   AlarmObject.bAcknowledged = true;
-                  AlarmSpecialisation = cJSon.AlarmSpecialisation_Acknowledge;
+                  alarmSpecialisation = cJSon.AlarmSpecialisation.Acknowledge;
                   break;
                 case "suspend":
                   RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Suspend of alarm, AlarmCodeId: {0}", AlarmHeader.aCId);
                   AlarmObject.bSuspended = true;
-                  AlarmSpecialisation = cJSon.AlarmSpecialisation_Suspend;
+                  alarmSpecialisation = cJSon.AlarmSpecialisation.Suspend;
                   break;
                 case "resume":
                   RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Resume of alarm, AlarmCodeId: {0}", AlarmHeader.aCId);
                   AlarmObject.bSuspended = false;
-                  AlarmSpecialisation = cJSon.AlarmSpecialisation_Suspend;
+                  alarmSpecialisation = cJSon.AlarmSpecialisation.Suspend;
                   break;
+                case "request":
+                  if (cHelper.IsSettingChecked("AllowRequestsOfAlarmsAndAggStatus"))
+                  {
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Request of alarm status, AlarmCodeId: {0}", AlarmHeader.aCId);
+                    alarmSpecialisation = cJSon.AlarmSpecialisation.Issue;
+                  }
+                  else
+                  {
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Request of alarm status, AlarmCodeId: {0}. RSMP settings prevent us from answering.", AlarmHeader.aCId);
+                  }
+                  break;
+
               }
 
               if (bHasSentAckOrNack == false)
               {
-                bHasSentAckOrNack = SendPacketAck(true, packetHeader.mId, "");
+                if (alarmSpecialisation == AlarmSpecialisation.Unknown)
+                {
+                  bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, "Unknown Alarm Specialisation: " + AlarmHeader.aSp);
+                }
+                else
+                {
+                  bHasSentAckOrNack = SendPacketAck(true, packetHeader.mId, "");
+                }
               }
+
               bPacketWasProperlyHandled = true;
-              if (AlarmObject.bActive == false && AlarmObject.bAcknowledged)
+
+              if (alarmSpecialisation != AlarmSpecialisation.Unknown)
               {
-                AlarmObject.AlarmCount = 0;
+
+                if (AlarmObject.bActive == false && AlarmObject.bAcknowledged && alarmSpecialisation != AlarmSpecialisation.Unknown)
+                {
+                  AlarmObject.AlarmCount = 0;
+                }
+
+                if (AlarmHeader.aSp.ToLower() != "request")
+                {
+                  AlarmObject.dtLastChangedAlarmStatus = DateTime.Now;
+                }
+
+                CreateAndSendAlarmMessage(AlarmObject, alarmSpecialisation);
+
+                RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
+
+                RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
               }
-              CreateAndSendAlarmMessage(AlarmObject, AlarmSpecialisation);
-              RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
-              RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
+
             }
 
           }
@@ -346,18 +489,18 @@ namespace nsRSMPGS
                   CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
                 {
                   // Do some validation
-                  if (ValidateTypeAndRange(CommandReturnValue.sType, CommandRequest_Value.v))
+                  if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v))
                   {
-                    if (CommandReturnValue.sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
+                    if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
                     {
                       if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
                       {
-                        CommandReturnValue.sValue = RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v);
+                        CommandReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v));
                       }
                     }
                     else
                     {
-                      CommandReturnValue.sValue = CommandRequest_Value.v;
+                      CommandReturnValue.Value.SetValue(CommandRequest_Value.v);
                     }
                     rv.v = CommandRequest_Value.v;
                     rv.cCI = CommandRequest_Value.cCI;
@@ -370,7 +513,7 @@ namespace nsRSMPGS
                     rv.v = null;
                     rv.cCI = CommandRequest_Value.cCI;
                     rv.age = "unknown";
-                    sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.sType + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
+                    sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
                     RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
                     bSomeValueWasBad = true;
                   }
@@ -443,7 +586,7 @@ namespace nsRSMPGS
 
     }
 
-    private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, int iStatusMsgType, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
+    private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, StatusMsgType statusMsgType, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
 
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
@@ -457,9 +600,9 @@ namespace nsRSMPGS
       {
 
         // StatusSubscribe, StatusUnsubscribe and StatusRequest are very much alike, differns by the uRt property only
-        RSMP_Messages.StatusSubscribe StatusSubscribe = JSonSerializer.Deserialize<RSMP_Messages.StatusSubscribe>(sJSon);
+        RSMP_Messages.StatusSubscribe_Over_3_1_4 StatusSubscribe = JSonSerializer.Deserialize<RSMP_Messages.StatusSubscribe_Over_3_1_4>(sJSon);
 
-        foreach (RSMP_Messages.StatusSubscribe_Status StatusSubscribe_Status in StatusSubscribe.sS)
+        foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
           if (StatusSubscribe_Status.sCI == null)
           {
@@ -472,7 +615,7 @@ namespace nsRSMPGS
 
         if (RoadSideObject != null)
         {
-          foreach (RSMP_Messages.StatusSubscribe_Status StatusSubscribe_Status in StatusSubscribe.sS)
+          foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
           {
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
             s.sCI = StatusSubscribe_Status.sCI;
@@ -491,14 +634,14 @@ namespace nsRSMPGS
             }
             if (StatusReturnValue != null)
             {
-              RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.sType, StatusReturnValue.sStatus);
-              switch (iStatusMsgType)
+              RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
+              switch (statusMsgType)
               {
-                case StatusMsgType_Request:
-                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status request (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.sStatus);
+                case StatusMsgType.Request:
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status request (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
                   break;
-                case StatusMsgType_UnSubscribe:
-                case StatusMsgType_Subscribe:
+                case StatusMsgType.UnSubscribe:
+                case StatusMsgType.Subscribe:
                   // Delete subscription if it already exists
                   foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
                   {
@@ -508,7 +651,7 @@ namespace nsRSMPGS
                       break;
                     }
                   }
-                  if (iStatusMsgType == StatusMsgType_Subscribe)
+                  if (statusMsgType == StatusMsgType.Subscribe)
                   {
                     string sUpdateRate = StatusSubscribe_Status.uRt;
                     float fUpdateRate = 0;
@@ -517,12 +660,13 @@ namespace nsRSMPGS
                     {
                       float.TryParse(StatusSubscribe_Status.uRt.Replace('.', ','), out fUpdateRate);
                     }
-                    RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate));
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.sStatus);
+                    bool bAlwaysSendOnChange = StatusSubscribe_Status.sOc;
+                    RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate, bAlwaysSendOnChange));
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
                   }
                   else
                   {
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status unsubscribe, removed subscription (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.sStatus);
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status unsubscribe, removed subscription (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
                   }
                   break;
               }
@@ -538,7 +682,7 @@ namespace nsRSMPGS
         else
         {
           // Failed, fill return list with 'unknown'
-          foreach (RSMP_Messages.StatusSubscribe_Status StatusSubscribe_Status in StatusSubscribe.sS)
+          foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
           {
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
             s.sCI = StatusSubscribe_Status.sCI;
@@ -553,13 +697,13 @@ namespace nsRSMPGS
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Got status message, failed to find object (NTSObjectId: {0}, ComponentId: {1})", StatusSubscribe.ntsOId, StatusSubscribe.cId);
         }
 
-        if (iStatusMsgType != StatusMsgType_UnSubscribe)
+        if (statusMsgType != StatusMsgType.UnSubscribe)
         {
           // Response message
           RSMP_Messages.StatusResponse StatusResponse = new RSMP_Messages.StatusResponse();
           // Send response to client
           StatusResponse.mType = "rSMsg";
-          StatusResponse.type = (iStatusMsgType == StatusMsgType_Subscribe) ? "StatusUpdate" : "StatusResponse";
+          StatusResponse.type = (statusMsgType == StatusMsgType.Subscribe) ? "StatusUpdate" : "StatusResponse";
           StatusResponse.mId = System.Guid.NewGuid().ToString();
           StatusResponse.ntsOId = StatusSubscribe.ntsOId;
           StatusResponse.xNId = StatusSubscribe.xNId;
@@ -587,10 +731,19 @@ namespace nsRSMPGS
       return bSuccess;
     }
 
-    public void CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS)
+
+    public RSMP_Messages.StatusUpdate CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS)
+    {
+      string sSendBuffer;
+
+      return CreateAndSendStatusUpdateMessage(RoadSideObject, sS, false, out sSendBuffer);
+    }
+
+
+    public RSMP_Messages.StatusUpdate CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS, bool bCreateMessageOnly, out string sSendBuffer)
     {
 
-      string sSendBuffer;
+      sSendBuffer = "";
 
       RSMP_Messages.StatusUpdate StatusUpdateMessage = new RSMP_Messages.StatusUpdate();
 
@@ -608,6 +761,11 @@ namespace nsRSMPGS
 
       sSendBuffer = JSonSerializer.SerializeObject(StatusUpdateMessage);
 
+      if (bCreateMessageOnly)
+      {
+        return StatusUpdateMessage;
+      }
+
       if (RSMPGS.JSon.SendJSonPacket(StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer, true))
       {
         if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
@@ -619,10 +777,15 @@ namespace nsRSMPGS
       {
         if (cHelper.IsSettingChecked("BufferAndSendStatusUpdatesWhenConnect"))
         {
-          RSMPGS.ProcessImage.BufferedStatusUpdates.Add(new cBufferedPacket(StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer));
+
+          cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer);
+          RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Buffered Status Update message, Type: " + StatusUpdateMessage.type + ", MsgId: " + StatusUpdateMessage.mId);
         }
       }
+
+      return StatusUpdateMessage;
+
     }
 
     public override void SocketWasConnected()
@@ -637,7 +800,12 @@ namespace nsRSMPGS
 
       if (cHelper.IsSettingChecked("ClearSubscriptionsAtDisconnect"))
       {
-        RSMPGS.ProcessImage.RemoveAllSubscriptions();
+
+        foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
+        {
+          RoadSideObject.Subscriptions.Clear();
+        }
+
       }
 
       // Call this last as it will cause NegotiatedRSMPVersion = RSMPVersion.NotSupported, hence
@@ -674,7 +842,7 @@ namespace nsRSMPGS
           {
             //if (AlarmObject.bActive == true || AlarmObject.bSuspended == true)
             //{
-            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Alarm);
+            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
             //}
           }
         }
@@ -682,52 +850,48 @@ namespace nsRSMPGS
 
       if (cHelper.IsSettingChecked("BufferAndSendAlarmsWhenConnect"))
       {
-        foreach (cBufferedPacket BufferedPacket in RSMPGS.ProcessImage.BufferedAlarms)
-        {
-          if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-          {
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent buffered Alarm message, Type: " + BufferedPacket.sPacketType + ", MsgId: " + BufferedPacket.sMessageId);
-          }
-          SendJSonPacket(BufferedPacket.sPacketType, BufferedPacket.sMessageId, BufferedPacket.sSendString, true);
-        }
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent {0} buffered Alarm messages", RSMPGS.ProcessImage.BufferedAlarms.Count);
+        SendBufferedEvents(cBufferedMessage.eMessageType.Alarm);
       }
-      RSMPGS.ProcessImage.BufferedAlarms.Clear();
 
       if (cHelper.IsSettingChecked("BufferAndSendAggregatedStatusWhenConnect"))
       {
-        foreach (cBufferedPacket BufferedPacket in RSMPGS.ProcessImage.BufferedAggregatedStatus)
-        {
-          if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-          {
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent buffered Aggregated status message, Type: " + BufferedPacket.sPacketType + ", MsgId: " + BufferedPacket.sMessageId);
-          }
-          SendJSonPacket(BufferedPacket.sPacketType, BufferedPacket.sMessageId, BufferedPacket.sSendString, true);
-        }
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent {0} buffered Aggregated status messages", RSMPGS.ProcessImage.BufferedAggregatedStatus.Count);
+        SendBufferedEvents(cBufferedMessage.eMessageType.AggregatedStatus);
       }
-      RSMPGS.ProcessImage.BufferedAggregatedStatus.Clear();
 
       if (cHelper.IsSettingChecked("BufferAndSendStatusUpdatesWhenConnect"))
       {
-        foreach (cBufferedPacket BufferedPacket in RSMPGS.ProcessImage.BufferedStatusUpdates)
-        {
-          if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-          {
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent buffered Status update message, Type: " + BufferedPacket.sPacketType + ", MsgId: " + BufferedPacket.sMessageId);
-          }
-          SendJSonPacket(BufferedPacket.sPacketType, BufferedPacket.sMessageId, BufferedPacket.sSendString, true);
-        }
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent {0} buffered Status update messages", RSMPGS.ProcessImage.BufferedStatusUpdates.Count);
+        SendBufferedEvents(cBufferedMessage.eMessageType.Status);
       }
-      RSMPGS.ProcessImage.BufferedStatusUpdates.Clear();
 
+      RSMPGS.ProcessImage.BufferedMessages.Clear();
+      RSMPGS.MainForm.ListView_BufferedMessages.Items.Clear();
+      RSMPGS.MainForm.textBox_BufferedMessages.Text = RSMPGS.ProcessImage.BufferedMessages.Count.ToString();
+
+    }
+
+    private void SendBufferedEvents(cBufferedMessage.eMessageType MessageType)
+    {
+
+      List<cBufferedMessage> BufferedMessagesToSend = RSMPGS.ProcessImage.BufferedMessages.FindAll(bbuf => bbuf.MessageType == MessageType);
+
+      foreach (cBufferedMessage BufferedPacket in BufferedMessagesToSend)
+      {
+        if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+        {
+          if (RSMPGS.MainForm.checkBox_ShowMax10BufferedMessagesInSysLog.Checked == false || BufferedMessagesToSend.Count <= 10)
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent buffered " + MessageType.ToString() + " message, Type: " + BufferedPacket.sPacketType + ", MsgId: " + BufferedPacket.sMessageId);
+          }
+        }
+        SendJSonPacket(BufferedPacket.sPacketType, BufferedPacket.sMessageId, BufferedPacket.sSendString, true);
+      }
+      if (BufferedMessagesToSend.Count > 10 && RSMPGS.MainForm.checkBox_ShowMax10BufferedMessagesInSysLog.Checked == true)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent {0} buffered " + MessageType.ToString() + " messages", BufferedMessagesToSend.Count);
+      }
 
     }
 
   }
-
-
-
 
 }

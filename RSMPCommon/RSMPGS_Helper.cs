@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading;
 using System.Linq;
 using System.Collections;
+using System.Diagnostics;
 
 namespace nsRSMPGS
 {
@@ -31,15 +32,17 @@ namespace nsRSMPGS
 		private bool bActualValue_RSMP_3_1_2;
 		private bool bActualValue_RSMP_3_1_3;
 		private bool bActualValue_RSMP_3_1_4;
+    private bool bActualValue_RSMP_3_1_5;
 
-		private bool bDefaultValue;
+    private bool bDefaultValue;
 
 		private bool bDefaultValue_RSMP_3_1_1;
 		private bool bDefaultValue_RSMP_3_1_2;
 		private bool bDefaultValue_RSMP_3_1_3;
 		private bool bDefaultValue_RSMP_3_1_4;
+    private bool bDefaultValue_RSMP_3_1_5;
 
-		public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4)
+    public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5)
 		{
 
 			this.sKey = sKey;
@@ -55,10 +58,11 @@ namespace nsRSMPGS
 			this.bDefaultValue_RSMP_3_1_2 = bDefaultValue_RSMP_3_1_2;
 			this.bDefaultValue_RSMP_3_1_3 = bDefaultValue_RSMP_3_1_3;
 			this.bDefaultValue_RSMP_3_1_4 = bDefaultValue_RSMP_3_1_4;
+      this.bDefaultValue_RSMP_3_1_5 = bDefaultValue_RSMP_3_1_5;
 
-		}
+    }
 
-		public int GetColumnIndex(cJSon.RSMPVersion rsmpVersion)
+    public int GetColumnIndex(cJSon.RSMPVersion rsmpVersion)
 		{
 			return (int)(rsmpVersion + 1);
 		}
@@ -92,7 +96,11 @@ namespace nsRSMPGS
 
 				case cJSon.RSMPVersion.RSMP_3_1_4:
 					return bActualValue_RSMP_3_1_4;
-			}
+
+        case cJSon.RSMPVersion.RSMP_3_1_5:
+          return bActualValue_RSMP_3_1_5;
+
+      }
 			return false;
 		}
 
@@ -122,7 +130,10 @@ namespace nsRSMPGS
 				case cJSon.RSMPVersion.RSMP_3_1_4:
 					return bDefaultValue_RSMP_3_1_4;
 
-				default:
+        case cJSon.RSMPVersion.RSMP_3_1_5:
+          return bDefaultValue_RSMP_3_1_5;
+
+        default:
 					return false;
 			}
 		}
@@ -157,7 +168,11 @@ namespace nsRSMPGS
 					bActualValue_RSMP_3_1_4 = bValue;
 					break;
 
-			}
+        case cJSon.RSMPVersion.RSMP_3_1_5:
+          bActualValue_RSMP_3_1_5 = bValue;
+          break;
+
+      }
 		}
 	}
 
@@ -222,7 +237,7 @@ namespace nsRSMPGS
 			return ApplicationPath() + "\\Settings";
 		}
 
-		public static string ObjectFilesPath()
+		public static string DefaultObjectFilesPath()
 		{
 			return ApplicationPath() + "\\Objects";
 		}
@@ -246,12 +261,12 @@ namespace nsRSMPGS
 		{
 			return LogFilesPath() + "\\EventFiles";
 		}
-
+    /*
 		public static string ProcessImageFileFullName()
 		{
 			return cPrivateProfile.ObjectFilesPath() + "\\" + "ProcessImage.dat";
 		}
-
+    */
 		public static string GetIniFileString(string category, string key, string defaultValue)
 		{
 			return GetIniFileString(RSMPGS.IniFileFullname, category, key, defaultValue);
@@ -347,11 +362,13 @@ namespace nsRSMPGS
       }
       catch { }
 
+      /*
       try
       {
         Directory.CreateDirectory(cPrivateProfile.ObjectFilesPath());
       }
       catch { }
+      */
 
       try
       {
@@ -469,26 +486,35 @@ namespace nsRSMPGS
     public static void LoadRSMPSettings()
     {
 
-      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true);
+      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true);
 
       AddSetting("SendVersionInfoAtConnect", "Send and expect version info when connecting", true);
       AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL (SUL) version incompability", false);
       AddSetting("SendWatchdogPacketAtStartup", "Send and expect Watchdog packet when connecting", true);
 
-#if _RSMPGS1
+      /*
+#if _RSMPGS2
 
-      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true);
-
-      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true);
-      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true);
-      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true);
-      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true);
-      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false);
-      AddSetting("Buffer10000Messages", "Buffer upto 10000 messages (instead of 1000)", false, false, false, true);
+      AddSetting("SendInitialRequestsOfAlarms", "Send initial alarms Request messages when connected", false, false, false, false, true);
+      AddSetting("SendInitialRequestsOfAggStatus", "Send initial aggregated status Request messages when connected", false, false, false, false, true);
 
 #endif
-      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true);
-      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true);
+*/
+
+#if _RSMPGS1
+
+      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false);
+      AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true);
+      AddSetting("Buffer10000Messages", "Buffer upto 10000 messages (instead of 1000)", false, false, false, true, true);
+      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true, true);
+      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true);
+      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true);
+      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true);
+      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true, true);
+
+#endif
+      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true);
+      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", true);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
@@ -507,23 +533,23 @@ namespace nsRSMPGS
 
     private static void AddSetting(string sKey, string sDescription, bool bDefaultValue)
     {
-      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false);
+      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false);
     }
 
-    private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4)
+    private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5)
     {
-      AddSetting(sKey, sDescription, true, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4);
+      AddSetting(sKey, sDescription, true, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
     }
 
-    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4)
-    {
+    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5)
+   {
 
-      int iRowIndex = RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(sDescription, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4);
+      int iRowIndex = RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(sDescription, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[2]
 
-      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4);
+      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
 
       RSMPGS.Settings.Add(sKey, Setting);
 
@@ -552,6 +578,10 @@ namespace nsRSMPGS
         Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
         RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
 
+        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
+        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported));
 
       }
@@ -568,6 +598,7 @@ namespace nsRSMPGS
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_2));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4));
+        HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5));
 
       }
 
@@ -577,6 +608,7 @@ namespace nsRSMPGS
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_2);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_3);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_4);
+      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_5);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[iRowIndex].Cells[1].Style.BackColor = Color.Red;
 
@@ -714,6 +746,7 @@ namespace nsRSMPGS
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_2", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_2) ? 1 : 0);
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_3) ? 1 : 0);
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_4) ? 1 : 0);
+          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_5) ? 1 : 0);
         }
         else
         {
@@ -739,6 +772,8 @@ namespace nsRSMPGS
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
         }
         else
@@ -1003,6 +1038,203 @@ namespace nsRSMPGS
       return RoadSideObject;
 
     }
+
+
+    public static string[] ConvertStringArrayFromCommaSeparatedToSemicolonSeparated(string[] sLines)
+    {
+
+      char cDelimiter = default(char);
+
+      string[] sResultLines = new string[sLines.GetLength(0)];
+      //
+      // This function removes any quotes and commas and replaces them with semicolon. If semicolon is used somewhere it is replaced with comma
+      // It is also right trimmed from semicolons
+      //
+      //
+      // Rev. Datum:;2012-10-17;;;;;;;"Obs! ""-"" ska ej finnas med i fält";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      // Rev. Datum:;2012-10-17;;;;;;;Obs! "-" ska ej finnas med i fält
+      //
+      // Rev. Datum:;1900-1-0;"Obs! ""-"" ska ej finnas med i fält";
+      // Rev. Datum:;1900-1-0;Obs! "-" ska ej finnas med i fält
+      //
+      // Styrskåp,Styrskåp,O+20431=881CG001,O+20431=881CG001,,"Styrskåp, 111",,,
+      // Styrskåp;Styrskåp;O+20431=881CG001;O+20431=881CG001;;Styrskåp, 111
+      //
+      // Kombinerad Sändare och Mottagare,Kombinerad Sändare och Mottagare DH111,O+20431=881DH111,O+20431=881CG003,,,se02x111mr011,,
+      // Kombinerad Sändare och Mottagare;Kombinerad Sändare och Mottagare DH111;O+20431=881DH111;O+20431=881CG003;;;se02x111mr011
+      //
+      // Anläggning,Utfart,O+13133=881CG002,O+13133=881CG002,,"Utfart, CPID 082",se02x082mlc010,,
+      // Anläggning;Utfart;O+13133=881CG002;O+13133=881CG002;;Utfart, CPID 082;se02x082mlc010
+      //
+      // col1;col2;"col3a;col3b;col3c";col4
+      // col1;col2;col3a,col3b,col3c;col4
+      //
+      // \ncol1;col2;"col3a;col3b;col3c";col4;"col5rad1\ncol5rad2\ncol5rad3\n\n\n";col6
+      // col1;col2;col3a,col3b,col3c;col4;col5rad1\ncol5rad2\ncol5rad3\n\n\n;col6
+      //
+      // "Obs! ""-"" ska ej finnas med i fält"
+      // Obs! "-" ska ej finnas med i fält
+      //
+      // "test med "" bara"
+      // test med " bara
+
+      for (int iLineIndex = 0; iLineIndex < sLines.GetLength(0); iLineIndex++)
+      {
+
+        string sLine = sLines[iLineIndex].Trim('\n').Trim();
+
+        string sResult = "";
+
+        bool bIsInQuoteSection = false;
+
+        for (int iIndex = 0; iIndex < sLine.Length; iIndex++)
+        {
+
+          char cCharacter = sLine[iIndex];
+
+          if (cCharacter == '\"')
+          {
+            if (bIsInQuoteSection)
+            {
+              // Double quotes is one only (in quote section anyway)
+              if (iIndex < sLine.Length - 1)
+              {
+                if (sLine[iIndex + 1] == '\"')
+                {
+                  sResult += '\"';
+                  iIndex++;
+                }
+                else
+                {
+                  bIsInQuoteSection = false;
+                }
+              }
+              else
+              {
+                bIsInQuoteSection = false;
+              }
+            }
+            else
+            {
+              bIsInQuoteSection = true;
+            }
+          }
+          // In quote section, just add characters as long as it is not a semicolon, we use comma instead
+          // Split stuff in the processimage parsing does not manage if there are semicolons as other character than split char
+          else if (bIsInQuoteSection)
+          {
+            if (cCharacter == ';')
+            {
+              sResult += ',';
+            }
+            else
+            {
+              sResult += cCharacter;
+            }
+          }
+          else if (cDelimiter == default(char))
+          {
+            if (cCharacter == ';')
+            {
+              cDelimiter = ';';
+              sResult += ';';
+            }
+            else if (cCharacter == ',')
+            {
+              cDelimiter = ',';
+              sResult += ';';
+            }
+            else
+            {
+              sResult += cCharacter;
+            }
+          }
+          else if (cCharacter == cDelimiter)
+          {
+            sResult += ";";
+          }
+          else
+          {
+            sResult += cCharacter;
+          }
+        }
+
+        sResult = sResult.TrimEnd(';');
+        sResultLines[iLineIndex] = sResult;
+
+        //Debug.WriteLine(sLine.Replace("\n", "\\n"));
+        //Debug.WriteLine(sResult.Replace("\n", "\\n"));
+
+      }
+
+      return sResultLines;
+
+    }
+
+    public static string[] SplitFields(string sInString, char cSplitter)
+    {
+
+      // "Utebel Tänd",,58e0e01d-950b-4c57-ba46-0f26b0a5eff0,AlarmEvent,Default_AlarmItem0,AlarmItem0,Normal,1,,"2016-12-05 08:11:17","2016-12-05 08:11:17","2016-12-04 15:40:41"
+
+      bool bLastFieldWasEmpty = false;
+
+      string sItem;
+      List<string> sItems = new List<string>();
+
+      while (sInString != "")
+      {
+        sItem = "";
+        if (sInString.Substring(0, 1) == "\"")
+        {
+          int iNextQuote = -1;
+          try
+          {
+            iNextQuote = sInString.IndexOf('\"', 1);
+            if (iNextQuote >= 1)
+            {
+              sItem = sInString.Substring(1, iNextQuote - 1);
+              sInString = sInString.Substring(iNextQuote + 1);
+            }
+          }
+          catch
+          {
+            sItem = sInString;
+            sInString = "";
+          };
+          // Cut next comma
+          if (sInString != "")
+          {
+            sInString = sInString.Substring(1);
+            bLastFieldWasEmpty = sInString == "";
+          }
+        }
+        else
+        {
+          int iNextComma = sInString.IndexOf(cSplitter);
+          if (iNextComma == -1)
+          {
+            sItem = sInString;
+            sInString = "";
+          }
+          else
+          {
+            sItem = sInString.Substring(0, iNextComma);
+            sInString = sInString.Substring(iNextComma + 1);
+            bLastFieldWasEmpty = sInString == "";
+          }
+        }
+        sItems.Add(sItem.Trim());
+      }
+
+      if (bLastFieldWasEmpty)
+      {
+        sItems.Add("");
+      }
+
+      return sItems.ToArray();
+
+    }
+
   }
 
   public class cDebugConnection
@@ -1186,261 +1418,6 @@ namespace nsRSMPGS
 
   }
 
-  public class cSysLogAndDebug
-	{
-
-		public enum Severity
-		{
-			Info = 0,
-			Warning = 1,
-			Error = 2
-		}
-
-		private int DaysToKeepLogFiles = cPrivateProfile.GetIniFileInt("RSMP", "DaysToKeepLogFiles", 365);
-
-		public const int Direction_In = 0;
-		public const int Direction_Out = 1;
-
-		public string sSysLogFilePath;
-
-		public string sEventFilePath;
-
-		private int LastCleanupDay;
-
-		public bool bEnableSysLog = true;
-
-		public cSysLogAndDebug()
-		{
-			sSysLogFilePath = cPrivateProfile.SysLogFilesPath();
-
-			sEventFilePath = cPrivateProfile.EventFilesPath();
-
-		}
-
-		// Delete old logfiles
-		public void CyclicCleanup(int iElapsedMillisecs)
-		{
-			if (LastCleanupDay != DateTime.Now.Day)
-			{
-				DeleteLogFiles(sSysLogFilePath, "SysLog_????????.Log");
-#if _RSMPGS2
-				DeleteLogFiles(sEventFilePath, "AlarmEvents_????????.txt");
-				DeleteLogFiles(sEventFilePath, "CommandEvents_????????.txt");
-				DeleteLogFiles(sEventFilePath, "StatusEvents_????????.txt");
-				DeleteLogFiles(sEventFilePath, "AggregatedStatusEvents_????????.txt");
-#endif
-				LastCleanupDay = DateTime.Now.Day;
-
-			}
-
-			lock (RSMPGS.SysLogItems)
-			{
-				if (RSMPGS.SysLogItems.Count > 0)
-				{
-
-					RSMPGS.MainForm.listView_SysLog.BeginUpdate();
-
-					bool bShowLastItem;
-
-					// Show last only if it was selected or none was selected
-					if (RSMPGS.MainForm.listView_SysLog.SelectedItems.Count == 0)
-					{
-						bShowLastItem = true;
-					}
-					else
-					{
-						if (RSMPGS.MainForm.listView_SysLog.SelectedItems[0].Index == RSMPGS.MainForm.listView_SysLog.Items.Count - 1)
-						{
-							RSMPGS.MainForm.listView_SysLog.SelectedItems[0].Selected = false;
-							bShowLastItem = true;
-						}
-						else
-						{
-							bShowLastItem = false;
-						}
-					}
-
-					for (int iIndex = 0; iIndex < RSMPGS.SysLogItems.Count; iIndex++)
-					{
-						RSMPGS.MainForm.listView_SysLog.Items.Add(RSMPGS.SysLogItems[iIndex]);
-					}
-
-					while (RSMPGS.MainForm.listView_SysLog.Items.Count > 500)
-					{
-						RSMPGS.MainForm.listView_SysLog.Items.RemoveAt(0);
-					}
-
-					RSMPGS.SysLogItems.Clear();
-
-					if (bShowLastItem)
-					{
-						RSMPGS.MainForm.listView_SysLog.EnsureVisible(RSMPGS.MainForm.listView_SysLog.Items.Count - 1);
-						RSMPGS.MainForm.listView_SysLog.Items[RSMPGS.MainForm.listView_SysLog.Items.Count - 1].Selected = true;
-					}
-
-					RSMPGS.MainForm.listView_SysLog.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
-					RSMPGS.MainForm.listView_SysLog.EndUpdate();
-
-					RSMPGS.MainForm.Refresh();
-
-				}
-
-			}
-
-		}
-
-		public void DeleteLogFiles(string LogFilePath, string LogFileName)
-		{
-			IFormatProvider culture = new CultureInfo("en-US");
-
-			string[] LogFiles = Directory.GetFiles(LogFilePath, LogFileName);
-
-			foreach (string LogFile in LogFiles)
-			{
-				if (LogFile.Length > 12)
-				{
-					string sDateTime = LogFile.Substring(LogFile.Length - 12, 8);
-					try
-					{
-						DateTime LogFileDateTime = DateTime.ParseExact(sDateTime, "yyyyMMdd", culture);
-						if (LogFileDateTime.AddDays(DaysToKeepLogFiles).CompareTo(DateTime.Now) < 0)
-						{
-							File.Delete(LogFile);
-						}
-					}
-					catch { }
-				}
-			}
-		}
-
-    public void SysLog(Severity severity, string sFormat, params object[] pArg)
-    {
-      string sLogText = String.Format(sFormat, pArg);
-      SysLog(severity, sLogText);
-    }
-
-    public void SysLog(Severity severity, string sLogText)
-		{
-
-			if (bEnableSysLog == false)
-			{
-				return;
-			}
-
-			string sDateTime = String.Format("{0:HH:mm:ss.fff}", DateTime.Now);
-
-			string sFileName = sSysLogFilePath + "\\SysLog_" + String.Format("{0:yyyyMMdd}", DateTime.Now) + ".Log";
-
-			RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateAddSysLogListItem, new Object[] { severity, sDateTime, sLogText });
-
-			lock (this)
-			{
-				try
-				{
-					StreamWriter swSysLogFile = File.AppendText(sFileName);
-					if (sLogText.Length == 0)
-					{
-						swSysLogFile.WriteLine("------------------------------------------------------------------------------------------------------------------------");
-					}
-					else
-					{
-						swSysLogFile.WriteLine(severity + "\t" + sDateTime + "\t" + sLogText);
-					}
-					swSysLogFile.Close();
-				}
-				catch { }
-			}
-		}
-
-		public void EventLog(string sFormat, params object[] pArg)
-		{
-
-			string sLogText = String.Format(sFormat, pArg);
-			string sEventType = "";
-
-			if (sLogText.ToLower().Contains("alarm")) sEventType = "Alarm";
-			if (sLogText.ToLower().Contains("command")) sEventType = "Command";
-			if (sLogText.ToLower().Contains("status")) sEventType = "Status";
-			if (sLogText.ToLower().Contains("aggregatedstatus")) sEventType = "AggregatedStatus";
-
-			sLogText = sLogText.Replace(sEventType + ";", "");
-			string sFileName = sEventFilePath + "\\" + sEventType + "Event_" + String.Format("{0:yyyyMMdd}", DateTime.Now) + ".txt";
-
-			lock (this)
-			{
-				try
-				{
-					StreamWriter swSysLogFile = File.AppendText(sFileName);
-					swSysLogFile.WriteLine(sLogText.Trim());
-					swSysLogFile.Close();
-				}
-				catch { }
-			}
-		}
-
-		public void AddRawDebugData(bool bNewPacket, int iDirection, bool bForceHexCode, byte[] bBuffer, int iOffset, int iBufferLength)
-		{
-
-			lock (this)
-			{
-				foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
-				{
-					try
-					{
-						DebugForm.BeginInvoke(DebugForm.DelegateAddRawDebugData, new Object[] { DateTime.Now, bNewPacket, iDirection, bForceHexCode, bBuffer, iOffset, iBufferLength });
-					}
-					catch { }
-				}
-			}
-		}
-
-		public void AddJSonDebugData(int iDirection, string sPacketType, string sDebugData)
-		{
-			lock (this)
-			{
-				foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
-				{
-					try
-					{
-						DebugForm.BeginInvoke(DebugForm.DelegateAddJSonDebugData, new Object[] { DateTime.Now, iDirection, sPacketType, sDebugData });
-					}
-					catch { }
-				}
-			}
-		}
-		public string StoreBase64DebugData(string sValue)
-		{
-
-			string sBase64Info = "(failed to store)";
-
-			try
-			{
-				Random Rnd = new Random();
-				string sFileName = cPrivateProfile.DebugFilesPath() + "\\Base64_" + String.Format("{0:yyyyMMdd}_{0:HHmmss_fff}", DateTime.Now) + "_" + Rnd.Next(4095).ToString("x3") + ".Bin";
-				Encoding encoding;
-				encoding = Encoding.GetEncoding("IBM437");
-				byte[] Base64Bytes = encoding.GetBytes(sValue);
-				char[] Base64Chars = encoding.GetChars(Base64Bytes);
-				byte[] Base8Bytes = System.Convert.FromBase64CharArray(Base64Chars, 0, Base64Chars.GetLength(0));
-
-				System.IO.FileStream fsBase8 = new System.IO.FileStream(sFileName, System.IO.FileMode.CreateNew, System.IO.FileAccess.Write);
-				System.IO.BinaryWriter bwBase8 = new System.IO.BinaryWriter(fsBase8);
-				bwBase8.Write(Base8Bytes);
-				fsBase8.Close();
-				fsBase8.Dispose();
-				bwBase8.Close();
-				sBase64Info = "base64 (" + Base8Bytes.GetLength(0).ToString() + " bytes) updated " + String.Format("{0:HH:mm:ss.fff}", DateTime.Now);
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored base64 decoded binary data to: {0}", sFileName);
-			}
-			catch (Exception e)
-			{
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to store base64 data: " + e.Message);
-			}
-			return sBase64Info;
-		}
-	}
-
 	public class cTcpHelper
 	{
 
@@ -1547,7 +1524,8 @@ namespace nsRSMPGS
 				return (TimeStamp.AddMilliseconds(TimeToWaitForAck) < DateTime.Now) ? true : false;
 			}
 		}
-	}
+
+  }
 
 
   public class ListViewColumnSorter : IComparer
@@ -1591,27 +1569,34 @@ namespace nsRSMPGS
       int compareResult;
       ListViewItem listviewX, listviewY;
 
-      // Cast the objects to be compared to ListViewItem objects
-      listviewX = (ListViewItem)x;
-      listviewY = (ListViewItem)y;
+      try
+      {
+        // Cast the objects to be compared to ListViewItem objects
+        listviewX = (ListViewItem)x;
+        listviewY = (ListViewItem)y;
 
-      // Compare the two items
-      compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
+        // Compare the two items
+        compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
 
-      // Calculate correct return value based on object comparison
-      if (OrderOfSort == SortOrder.Ascending)
-      {
-        // Ascending sort is selected, return normal result of compare operation
-        return compareResult;
+        // Calculate correct return value based on object comparison
+        if (OrderOfSort == SortOrder.Ascending)
+        {
+          // Ascending sort is selected, return normal result of compare operation
+          return compareResult;
+        }
+        else if (OrderOfSort == SortOrder.Descending)
+        {
+          // Descending sort is selected, return negative result of compare operation
+          return (-compareResult);
+        }
+        else
+        {
+          // Return '0' to indicate they are equal
+          return 0;
+        }
       }
-      else if (OrderOfSort == SortOrder.Descending)
+      catch(Exception exc)
       {
-        // Descending sort is selected, return negative result of compare operation
-        return (-compareResult);
-      }
-      else
-      {
-        // Return '0' to indicate they are equal
         return 0;
       }
     }
@@ -1851,7 +1836,8 @@ namespace nsRSMPGS
         buttonBrowse.SetBounds(408, 13, 93, 31);
         buttonCancel.SetBounds(309, 59, 93, 31);
         buttonOk.SetBounds(408, 59, 93, 31);
-        form.ClientSize = new Size(530, 100);      }
+        form.ClientSize = new Size(530, 100);
+      }
       else
       {
         comboBox.SetBounds(131, 17, 270, 22);
@@ -1898,89 +1884,6 @@ namespace nsRSMPGS
         }
         else
         {
-
-/*
-      switch (sType.ToLower())
-      {
-
-        case "string":
-          bValueIsValid = true;
-          break;
-
-        case "integer":
-          try
-          {
-            Int16 iValue = Int16.Parse(sValue);
-            bValueIsValid = true;
-          }
-          catch { }
-          break;
-
-        case "long":
-          try
-          {
-            Int32 iValue = Int32.Parse(sValue);
-            bValueIsValid = true;
-          }
-          catch { }
-          break;
-
-        case "real":
-          try
-          {
-            Double dValue = Double.Parse(sValue);
-            bValueIsValid = true;
-          }
-          catch { }
-          break;
-
-        case "boolean":
-          bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
-          break;
-
-        case "base64":
-          try
-          {
-            Encoding encoding;
-            encoding = Encoding.GetEncoding("IBM437");
-            byte[] Base64Bytes = encoding.GetBytes(sValue);
-            char[] Base64Chars = encoding.GetChars(Base64Bytes);
-            byte[] Base8Bytes = System.Convert.FromBase64CharArray(Base64Chars, 0, Base64Chars.GetLength(0));
-            bValueIsValid = true;
-          }
-          catch { }
-          break;
-
-        case "ordinal":
-
-          if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
-          {
-            try
-            {
-              UInt32 iValue = UInt32.Parse(sValue);
-              bValueIsValid = true;
-            }
-            catch { }
-          }
-          break;
-
-        // These are all valid
-        case "raw":
-        case "scale":
-        case "unit":
-          if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
-          {
-            bValueIsValid = true;
-          }
-          break;
-      }
-
-
-  */
-
           value = comboBox.Text;
           return dialogResult;
         }
@@ -1992,6 +1895,164 @@ namespace nsRSMPGS
       }
 
     }
+
+    public static DialogResult InputStatusBoxValueType(string title, ref string value, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged)
+    {
+
+      Form form = new Form();
+      //Label label = new Label();
+      ComboBox comboBox = new ComboBox();
+      Button buttonOk = new Button();
+      Button buttonCancel = new Button();
+      Button buttonBrowse = new Button();
+      TextBox textBox = new TextBox();
+
+      form.Text = title + " (" + Value.GetValueType() + ")";
+
+      if (Value.ValueTypeObject.sRange.Length > 0)
+      {
+        form.Text += " / " + Value.ValueTypeObject.sRange;
+      }
+
+      //label.Text = promptText;
+      textBox.Text = sComment.Replace("\r", "").Replace("\n", "\r\n");
+
+      comboBox.Text = value;
+      comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+
+      textBox.Multiline = true;
+      textBox.ReadOnly = true;
+
+      if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._boolean)
+      {
+        comboBox.Items.Add("true");
+        comboBox.Items.Add("false");
+      }
+      else
+      {
+        if (Value.ValueTypeObject.SelectableValues != null)
+        {
+          foreach (KeyValuePair<string, string> kvp in Value.ValueTypeObject.SelectableValues)
+          {
+            string sItem = kvp.Key;
+            if (kvp.Value != "")
+            {
+              //sItem += "\t" + kvp.Value;
+            }
+            comboBox.Items.Add(sItem);
+          }
+        }
+      }
+
+      buttonBrowse.Text = "Browse...";
+      buttonCancel.Text = "Cancel";
+      buttonOk.Text = "OK";
+
+      buttonOk.DialogResult = DialogResult.OK;
+      buttonCancel.DialogResult = DialogResult.Cancel;
+
+      comboBox.SetBounds(12, 112, 183, 21);
+      buttonCancel.SetBounds(202, 110, 75, 23);
+      buttonOk.SetBounds(283, 110, 75, 23);
+
+      buttonBrowse.SetBounds(283, 73, 93, 31);
+
+      form.ClientSize = new Size(400, 140);
+
+      if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._base64)
+      {
+        textBox.SetBounds(12, 10, 265, 86);
+      }
+      else
+      {
+        textBox.SetBounds(12, 10, 345, 86);
+        buttonBrowse.Visible = false;
+      }
+
+      //comboBox.Anchor = comboBox.Anchor | AnchorStyles.Right;
+      //buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+      //buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+      //buttonBrowse.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+      form.Controls.AddRange(new Control[] { comboBox, buttonOk, buttonCancel, buttonBrowse, textBox });
+      form.FormBorderStyle = FormBorderStyle.FixedDialog;
+      form.StartPosition = FormStartPosition.CenterScreen;
+      form.MinimizeBox = false;
+      form.MaximizeBox = false;
+      form.AcceptButton = buttonOk;
+      form.CancelButton = buttonCancel;
+
+      buttonBrowse.Click += new System.EventHandler(buttonBrowse_Click);
+
+      comboBox.SelectedIndexChanged += new System.EventHandler(InputStatusBoxComboBoxValueType_SelectionChanged);
+      comboBox.TextChanged += new System.EventHandler(InputStatusBoxComboBoxValueType_TextChanged);
+
+      comboBox.Tag = Value.ValueTypeObject;
+
+      DialogResult dialogResult = form.ShowDialog();
+
+      if (bReturnCancelIfValueHasNotChanged)
+      {
+        // Changed value ?
+        if (comboBox.Text.Equals(value))
+        {
+          return DialogResult.Cancel;
+        }
+        else
+        { 
+          value = comboBox.Text;
+        }
+      }
+      else
+      {
+        value = comboBox.Text;
+      }
+
+      if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._boolean)
+      {
+        if (value == "1")
+        {
+          value = "true";
+        }
+        else if (value == "0")
+        {
+          value = "false";
+
+        }
+      }
+
+      return dialogResult;
+
+    }
+
+    private static void InputStatusBoxComboBoxValueType_SelectionChanged(object sender, EventArgs e)
+    {
+      InputStatusBoxComboBoxValueType_ValidateValue((ComboBox)sender);
+    }
+
+    private static void InputStatusBoxComboBoxValueType_TextChanged(object sender, EventArgs e)
+    {
+      InputStatusBoxComboBoxValueType_ValidateValue((ComboBox)sender);
+    }
+
+    private static void InputStatusBoxComboBoxValueType_ValidateValue(ComboBox comboBox)
+    {
+
+      cValueTypeObject ValueTypeObject = (cValueTypeObject)comboBox.Tag;
+
+      if (ValueTypeObject.ValidateValue(comboBox.Text))
+      {
+        comboBox.ForeColor = default(Color);
+        comboBox.BackColor = default(Color);
+      }
+      else
+      {
+        comboBox.ForeColor = Color.White;
+        comboBox.BackColor = Color.Red;
+      }
+
+    }
+
 
     private static void InputStatusBoxComboBox_SelectionChanged(object sender, EventArgs e)
     {
@@ -2136,5 +2197,98 @@ namespace nsRSMPGS
       this.sValues = sValues;
     }
   }
+
+
+  public class UseFul
+  {
+
+    public static int Val(string sInString)
+    {
+      int iValue;
+
+      int.TryParse(sInString, out iValue);
+
+      return iValue;
+
+    }
+
+    public static string StringLeft(string sInString, int iLength)
+    {
+
+      if (iLength < 0)
+      {
+        return "";
+      }
+
+      if (iLength > sInString.Length)
+      {
+        return sInString;
+      }
+
+      return sInString.Substring(0, iLength);
+
+    }
+
+    public static string StringMid(string sInString, int iStartPos)
+    {
+
+      return StringMid(sInString, iStartPos, sInString.Length - iStartPos);
+
+    }
+
+    public static string StringMid(string sInString, int iStartPos, int iLength)
+    {
+      if (iStartPos < 0 || iLength < 0)
+      {
+        return "";
+      }
+
+      if (iStartPos >= sInString.Length)
+      {
+        return "";
+      }
+
+      if (iStartPos + iLength > sInString.Length)
+      {
+        return sInString.Substring(iStartPos);
+      }
+      return sInString.Substring(iStartPos, iLength);
+
+    }
+
+    public static string StringRight(string sInString, int iLength)
+    {
+
+      if (iLength <= 0)
+      {
+        return "";
+      }
+
+      if (iLength >= sInString.Length)
+      {
+        return sInString;
+      }
+
+      return sInString.Substring(sInString.Length - iLength);
+
+    }
+
+    public static string ItemWithQuote(string InString, int iIndex, char cSplitter)
+    {
+
+      string[] sStringArray = cHelper.SplitFields(InString, cSplitter);
+
+      if (iIndex < 0 || iIndex >= sStringArray.GetLength(0))
+      {
+        return "";
+      }
+      else
+      {
+        return sStringArray[iIndex];
+      }
+    }
+
+  }
+
 
 }

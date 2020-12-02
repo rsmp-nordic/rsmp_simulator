@@ -26,7 +26,9 @@ namespace nsRSMPGS
         return;
       }
 
+      listView_Alarms.BeginUpdate();
       listView_Alarms.StopSorting();
+
       listView_AlarmEvents.StopSorting();
 
       if (RoadSideObject != null)
@@ -44,6 +46,8 @@ namespace nsRSMPGS
       }
 
       listView_Alarms.ResumeSorting();
+      listView_Alarms.EndUpdate();
+
       listView_AlarmEvents.ResumeSorting();
 
     }
@@ -78,15 +82,17 @@ namespace nsRSMPGS
       foreach (cAlarmReturnValue AlarmReturnValue in AlarmObject.AlarmReturnValues)
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sType;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sValue;
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment;
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
     }
 
     public void UpdateAlarmListView(cRoadSideObject RoadSideObject)
     {
+
+      RoadSideObject.AlarmsGroup.Items.Clear();
 
       //
       // View alarm objects for the selected RoadSide object
@@ -129,11 +135,14 @@ namespace nsRSMPGS
         }
         ToolStripMenuItem_Suspend.Enabled = true;
         ToolStripMenuItem_Suspend.Checked = AlarmObject.bSuspended == true;
+        toolStripMenuItem_Alarm_RequestCurrentState.Enabled = (RSMPGS.JSon.NegotiatedRSMPVersion >= cJSon.RSMPVersion.RSMP_3_1_5) ? true : false;
       }
       else
       {
         ToolStripMenuItem_Acknowledge.Enabled = false;
         ToolStripMenuItem_Suspend.Enabled = false;
+        toolStripMenuItem_Alarm_RequestCurrentState.Enabled = false;
+
       }
     }
 
@@ -146,10 +155,13 @@ namespace nsRSMPGS
       switch (menuitem.Tag.ToString())
       {
         case "AcknowledgeAndSend":
-          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
+          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge);
           break;
         case "SuspendAndSend":
-          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Suspend);
+          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, AlarmObject.bSuspended ? cJSon.AlarmSpecialisation.Resume : cJSon.AlarmSpecialisation.Suspend);
+          break;
+        case "RequestAndSend":
+          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Request);
           break;
       }
       lvItem.SubItems[0].Text = AlarmObject.StatusAsText();
@@ -182,7 +194,14 @@ namespace nsRSMPGS
     public void AddAlarmEventToList(cAlarmObject AlarmObject, cAlarmEvent AlarmEvent)
     {
 
-      ListViewItem lvItem = listView_AlarmEvents.Items.Add(AlarmEvent.sTimeStamp);
+      if (bIsUpdatingAlarmEventList == false)
+      {
+        listView_AlarmEvents.StopSorting();
+        listView_AlarmEvents.BeginUpdate();
+        bIsUpdatingAlarmEventList = true;
+      }
+
+      ListViewItem lvItem = new ListViewItem(AlarmEvent.sTimeStamp);
       lvItem.SubItems.Add(AlarmObject.RoadSideObject.sComponentId + " / " + AlarmObject.RoadSideObject.sObject);
       lvItem.SubItems.Add(AlarmEvent.sMessageId);
       lvItem.SubItems.Add(AlarmEvent.sAlarmCodeId);
@@ -194,6 +213,8 @@ namespace nsRSMPGS
         lvItem.SubItems.Add(AlarmReturnValues.sName);
         lvItem.SubItems.Add(AlarmReturnValues.sValue);
       }
+
+      listView_AlarmEvents.Items.Add(lvItem);
 
     }
 

@@ -41,6 +41,10 @@ using System.Security.Authentication;
 // 20.03.24 / TR / 1.0.1.4 B8/ TLS (SSL) encryption implemented
 // 20.03.25 / TR / 1.0.1.4 B9/ TLS (SSL) encryption updated
 // 20.03.25 / TR / 1.0.1.5   / Release only
+// 20.10.16 / TR / 1.0.1.6 B1/ Updates begin - release 3 updates in RSMPInterreg,Simulatorspec_v0.39.xlsx. CSV-files with " and commas etc are accepted,
+//                           / significally improvement in SysLog (file handling). Group view update bugs fixed.
+// 20.10.16 / TR / 1.0.1.6   / Significally improvement in Debugging. Minor updates.
+//
 //
 // Aggregated status save
 // Aggregated status load
