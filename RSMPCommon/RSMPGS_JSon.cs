@@ -917,7 +917,7 @@ namespace nsRSMPGS
 
     public string CreateISO8601UTCTimeStamp(DateTime dtLocalTimeStamp)
     {
-      string sTimeStamp = String.Format("{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}Z", dtLocalTimeStamp.ToUniversalTime());
+      string sTimeStamp = String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}Z", dtLocalTimeStamp.ToUniversalTime());
       return sTimeStamp;
     }
 
