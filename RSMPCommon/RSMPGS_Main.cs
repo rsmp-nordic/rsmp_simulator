@@ -77,7 +77,7 @@ namespace nsRSMPGS
 
       if (File.Exists(RSMPGS.IniFileFullname) == false)
       {
-        MessageBox.Show("Configuration file '" + RSMPGS.IniFileFullname + "' is missing!", "RSMP Protocol Simulator", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show("Configuration file '" + Path.GetFullPath(RSMPGS.IniFileFullname) + "' is missing!", "RSMP Protocol Simulator", MessageBoxButtons.OK, MessageBoxIcon.Error);
         bLoadFailed = true;
         this.Close();
         return;
