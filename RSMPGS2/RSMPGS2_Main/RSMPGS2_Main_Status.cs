@@ -10,379 +10,379 @@ using System.IO;
 
 namespace nsRSMPGS
 {
-	public partial class RSMPGS_Main
-	{
-		private void contextMenuStrip_Status_Opening(object sender, CancelEventArgs e)
-		{
-			if (listView_Status.SelectedItems.Count == 0 || RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected)
-			{
-				ToolStripMenuItem_StatusRequest.Enabled = false;
-				ToolStripMenuItem_StatusSubscribe.Enabled = false;
-				ToolStripMenuItem_StatusUnsubscribe.Enabled = false;
-      }
-      else
-			{
-				ToolStripMenuItem_StatusRequest.Enabled = true;
-				ToolStripMenuItem_StatusSubscribe.Enabled = true;
-				ToolStripMenuItem_StatusUnsubscribe.Enabled = true;
-
-        ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.Enabled = RSMPGS.JSon.NegotiatedRSMPVersion > cJSon.RSMPVersion.RSMP_3_1_4;
-
-       // ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly
-       // ToolStripMenuItem_StatusSubscribe_UpdateOnInterval
-
-      }
-    }
-
-    private void ToolStripMenuItem_Status_Click(object sender, EventArgs e)
+    public partial class RSMPGS_Main
     {
-
-      cRoadSideObject RoadSideObject = null;
-
-      bool bAlwaysUpdateOnChange = false;
-
-      cJSon.StatusMsgType statusMsgType;
-
-      ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
-
-      string sUpdateRate = "";
-
-      if (menuitem.Equals(ToolStripMenuItem_StatusRequest))
-      {
-        statusMsgType = cJSon.StatusMsgType.Request;
-      }
-      else if (menuitem.Equals(ToolStripMenuItem_StatusUnsubscribe))
-      {
-        statusMsgType = cJSon.StatusMsgType.UnSubscribe;
-      }
-      else if (menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly))
-      {
-        bAlwaysUpdateOnChange = true;
-        sUpdateRate = "0";
-        statusMsgType = cJSon.StatusMsgType.Subscribe;
-      }
-      else if (menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually) || menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually))
-      {
-        if (cFormsHelper.InputBox("Enter Update Rate (seconds)", "UpdateRate:", ref sUpdateRate, false, true) != DialogResult.OK)
+        private void contextMenuStrip_Status_Opening(object sender, CancelEventArgs e)
         {
-          return;
-        }
-        if (sUpdateRate == "")
-        {
-          return;
-        }
-        bAlwaysUpdateOnChange = menuitem.OwnerItem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval);
-        statusMsgType = cJSon.StatusMsgType.Subscribe;
-      }
-      else
-      {
-        sUpdateRate = menuitem.Tag.ToString();
-        bAlwaysUpdateOnChange = menuitem.OwnerItem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval);
-        statusMsgType = cJSon.StatusMsgType.Subscribe;
-      }
-
-      // Each group belongs to a RoadSide object
-      foreach (ListViewGroup lvGroup in listView_Status.Groups)
-      {
-
-        RoadSideObject = null;
-
-        List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4> StatusSubscribeValues = new List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4>();
-
-        foreach (ListViewItem lvItem in lvGroup.Items)
-        {
-          if (lvItem.Selected)
-          {
-
-            cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
-
-            if (RoadSideObject == null)
+            if (listView_Status.SelectedItems.Count == 0 || RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected)
             {
-              RoadSideObject = StatusReturnValue.StatusObject.RoadSideObject;
-            }
-
-            RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 statusSubscribe_Status = new RSMP_Messages.StatusSubscribe_Status_Over_3_1_4();
-
-            statusSubscribe_Status.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
-            statusSubscribe_Status.n = StatusReturnValue.sName;
-
-            if (statusMsgType == cJSon.StatusMsgType.Subscribe)
-            {
-              statusSubscribe_Status.uRt = sUpdateRate;
-              statusSubscribe_Status.sOc = bAlwaysUpdateOnChange;
+                ToolStripMenuItem_StatusRequest.Enabled = false;
+                ToolStripMenuItem_StatusSubscribe.Enabled = false;
+                ToolStripMenuItem_StatusUnsubscribe.Enabled = false;
             }
             else
             {
-              statusSubscribe_Status.uRt = null;
-              statusSubscribe_Status.sOc = false;
+                ToolStripMenuItem_StatusRequest.Enabled = true;
+                ToolStripMenuItem_StatusSubscribe.Enabled = true;
+                ToolStripMenuItem_StatusUnsubscribe.Enabled = true;
+
+                ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval.Enabled = RSMPGS.JSon.NegotiatedRSMPVersion > cJSon.RSMPVersion.RSMP_3_1_4;
+
+                // ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly
+                // ToolStripMenuItem_StatusSubscribe_UpdateOnInterval
+
+            }
+        }
+
+        private void ToolStripMenuItem_Status_Click(object sender, EventArgs e)
+        {
+
+            cRoadSideObject RoadSideObject = null;
+
+            bool bAlwaysUpdateOnChange = false;
+
+            cJSon.StatusMsgType statusMsgType;
+
+            ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
+
+            string sUpdateRate = "";
+
+            if (menuitem.Equals(ToolStripMenuItem_StatusRequest))
+            {
+                statusMsgType = cJSon.StatusMsgType.Request;
+            }
+            else if (menuitem.Equals(ToolStripMenuItem_StatusUnsubscribe))
+            {
+                statusMsgType = cJSon.StatusMsgType.UnSubscribe;
+            }
+            else if (menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeOnly))
+            {
+                bAlwaysUpdateOnChange = true;
+                sUpdateRate = "0";
+                statusMsgType = cJSon.StatusMsgType.Subscribe;
+            }
+            else if (menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnInterval_Manually) || menuitem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval_Manually))
+            {
+                if (cFormsHelper.InputBox("Enter Update Rate (seconds)", "UpdateRate:", ref sUpdateRate, false, true) != DialogResult.OK)
+                {
+                    return;
+                }
+                if (sUpdateRate == "")
+                {
+                    return;
+                }
+                bAlwaysUpdateOnChange = menuitem.OwnerItem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval);
+                statusMsgType = cJSon.StatusMsgType.Subscribe;
+            }
+            else
+            {
+                sUpdateRate = menuitem.Tag.ToString();
+                bAlwaysUpdateOnChange = menuitem.OwnerItem.Equals(ToolStripMenuItem_StatusSubscribe_UpdateOnChangeAndInterval);
+                statusMsgType = cJSon.StatusMsgType.Subscribe;
             }
 
-            StatusReturnValue.sLastUpdateRate = statusSubscribe_Status.uRt;
-            StatusReturnValue.bLastUpdateOnChange = statusSubscribe_Status.sOc;
+            // Each group belongs to a RoadSide object
+            foreach (ListViewGroup lvGroup in listView_Status.Groups)
+            {
 
-            StatusSubscribeValues.Add(statusSubscribe_Status);
-          }
+                RoadSideObject = null;
+
+                List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4> StatusSubscribeValues = new List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4>();
+
+                foreach (ListViewItem lvItem in lvGroup.Items)
+                {
+                    if (lvItem.Selected)
+                    {
+
+                        cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
+
+                        if (RoadSideObject == null)
+                        {
+                            RoadSideObject = StatusReturnValue.StatusObject.RoadSideObject;
+                        }
+
+                        RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 statusSubscribe_Status = new RSMP_Messages.StatusSubscribe_Status_Over_3_1_4();
+
+                        statusSubscribe_Status.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
+                        statusSubscribe_Status.n = StatusReturnValue.sName;
+
+                        if (statusMsgType == cJSon.StatusMsgType.Subscribe)
+                        {
+                            statusSubscribe_Status.uRt = sUpdateRate;
+                            statusSubscribe_Status.sOc = bAlwaysUpdateOnChange;
+                        }
+                        else
+                        {
+                            statusSubscribe_Status.uRt = null;
+                            statusSubscribe_Status.sOc = false;
+                        }
+
+                        StatusReturnValue.sLastUpdateRate = statusSubscribe_Status.uRt;
+                        StatusReturnValue.bLastUpdateOnChange = statusSubscribe_Status.sOc;
+
+                        StatusSubscribeValues.Add(statusSubscribe_Status);
+                    }
+                }
+
+                if (StatusSubscribeValues.Count == 0 || RoadSideObject == null)
+                {
+                    continue;
+                }
+
+
+                switch (statusMsgType)
+                {
+                    case cJSon.StatusMsgType.Subscribe:
+                        RSMPGS.JSon.CreateAndSendSubscriptionMessage(RoadSideObject, StatusSubscribeValues);
+                        break;
+
+                    case cJSon.StatusMsgType.Request:
+                        RSMPGS.JSon.CreateAndSendStatusMessage(RoadSideObject, StatusSubscribeValues, "StatusRequest");
+                        break;
+
+                    case cJSon.StatusMsgType.UnSubscribe:
+                        RSMPGS.JSon.CreateAndSendStatusMessage(RoadSideObject, StatusSubscribeValues, "StatusUnsubscribe");
+                        break;
+
+                    default:
+                        return;
+                }
+
+
+            }
         }
 
-        if (StatusSubscribeValues.Count == 0 || RoadSideObject == null)
+        /*
+                private void ToolStripMenuItem_Status_Click(object sender, EventArgs e)
+            {
+                ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
+                ListViewItem lvItem = listView_Status.SelectedItems[0];
+                cStatusObject StatusObject = (cStatusObject)lvItem.Tag;
+                bool bStatReq = false;
+                bool bStatSub = true;
+                string sStatusType = null;
+
+                if (menuitem.Tag.ToString().Equals("SelectReqAndSend", StringComparison.OrdinalIgnoreCase))
+                {
+                    sStatusType = "StatusRequest";
+                    bStatReq = true;
+                }
+                else if (menuitem.Tag.ToString().Equals("SelectUnsubAndSend", StringComparison.OrdinalIgnoreCase))
+                {
+                    sStatusType = "StatusUnsubscribe";
+                    bStatSub = false;
+                }
+
+                RSMPGS2_StatusForm StatusForm = new RSMPGS2_StatusForm(StatusObject.getRoadSideObject(), bStatReq, bStatSub);
+                if (!bStatReq && bStatSub)
+                {
+                    StatusForm.Text = "RSMPGS2 - Status subscription";
+                }
+                else if (!bStatReq && !bStatSub)
+                {
+                    StatusForm.Text = "RSMPGS2 - Status unsubscription";
+                }
+                else
+                {
+                    StatusForm.Text = "RSMPGS2 - Status request";
+                }
+
+
+                StatusForm.ShowDialog(this);
+                List<cStatusReturnValue> selectedStatus = StatusForm.GetSelectedStatus();
+
+                if (selectedStatus != null && selectedStatus.Count > 0)
+                {
+                    if (bStatReq || !bStatSub)
+                    {
+                        RSMPGS.JSon.CreateAndSendStatusMessage(StatusObject.getRoadSideObject(), selectedStatus, sStatusType);
+                    }
+                    else
+                    {
+                        RSMPGS.JSon.CreateAndSendSubscriptionMessage(StatusObject.getRoadSideObject(), selectedStatus);
+                    }
+
+                }
+            }
+        */
+
+        public void UpdateStatusListView(cSiteIdObject SiteIdObject, cRoadSideObject RoadSideObject)
         {
-          continue;
+
+            //
+            // View status objects for the selected RoadSide object
+            //
+
+            listView_Status.Items.Clear();
+
+            listView_StatusEvents.Items.Clear();
+
+            if (SiteIdObject == null && RoadSideObject == null)
+            {
+                return;
+            }
+
+            listView_Status.BeginUpdate();
+            listView_Status.StopSorting();
+
+            listView_StatusEvents.BeginUpdate();
+
+            if (RoadSideObject != null)
+            {
+                listView_Status.ShowGroups = ToolStripMenuItem_View_AlwaysShowGroupHeaders.Checked;
+                UpdateStatusListView(RoadSideObject);
+            }
+            else
+            {
+                listView_Status.ShowGroups = true;
+                foreach (cRoadSideObject roadSideObject in SiteIdObject.RoadSideObjects)
+                {
+                    UpdateStatusListView(roadSideObject);
+                }
+            }
+
+            listView_Status.ResumeSorting();
+            listView_Status.EndUpdate();
+
+            listView_StatusEvents.EndUpdate();
+
         }
 
-
-        switch (statusMsgType)
+        public void UpdateStatusListView(cRoadSideObject RoadSideObject)
         {
-          case cJSon.StatusMsgType.Subscribe:
-            RSMPGS.JSon.CreateAndSendSubscriptionMessage(RoadSideObject, StatusSubscribeValues);
-            break;
 
-          case cJSon.StatusMsgType.Request:
-            RSMPGS.JSon.CreateAndSendStatusMessage(RoadSideObject, StatusSubscribeValues, "StatusRequest");
-            break;
+            RoadSideObject.StatusGroup.Items.Clear();
 
-          case cJSon.StatusMsgType.UnSubscribe:
-            RSMPGS.JSon.CreateAndSendStatusMessage(RoadSideObject, StatusSubscribeValues, "StatusUnsubscribe");
-            break;
+            foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
+            {
+                // Object type;Object (optional);Description;commandCodeId;name;command;type;value;Comment;name;command;type;value;Comment;
 
-          default:
-            return;
-        }
+                foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
+                {
+                    string sKey = StatusObject.sStatusCodeId.ToUpper() + "/" + StatusReturnValue.sName.ToUpper();
 
+                    ListViewItem lvItem = new ListViewItem(StatusObject.sStatusCodeId, -1);
+                    lvItem.Name = sKey;
 
-      }
-    }
+                    string[] sValues = new string[8];
 
-    /*
-     		private void ToolStripMenuItem_Status_Click(object sender, EventArgs e)
-		{
-			ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
-			ListViewItem lvItem = listView_Status.SelectedItems[0];
-			cStatusObject StatusObject = (cStatusObject)lvItem.Tag;
-			bool bStatReq = false;
-			bool bStatSub = true;
-			string sStatusType = null;
+                    //ListViewItem lvItem = listView_Status.Items.Add(sKey, StatusObject.sDescription, -1);
 
-			if (menuitem.Tag.ToString().Equals("SelectReqAndSend", StringComparison.OrdinalIgnoreCase))
-			{
-				sStatusType = "StatusRequest";
-				bStatReq = true;
-			}
-			else if (menuitem.Tag.ToString().Equals("SelectUnsubAndSend", StringComparison.OrdinalIgnoreCase))
-			{
-				sStatusType = "StatusUnsubscribe";
-				bStatSub = false;
-			}
+                    sValues[0] = StatusObject.sDescription;
+                    sValues[1] = StatusReturnValue.sName;
+                    sValues[2] = StatusReturnValue.Value.GetValueType();
+                    sValues[3] = StatusReturnValue.Value.GetValue();
+                    sValues[4] = StatusReturnValue.sQuality;
+                    sValues[5] = StatusReturnValue.sLastUpdateRate;
+                    sValues[6] = StatusReturnValue.bLastUpdateOnChange.ToString();
+                    sValues[7] = StatusReturnValue.sComment.Replace("\n", " / ");
+                    /*
+                     * 
+                    lvItem.SubItems.Add(StatusObject.sDescription);
+                              lvItem.SubItems.Add(StatusReturnValue.sName);
+                              lvItem.SubItems.Add(StatusReturnValue.sType);
+                              lvItem.SubItems.Add(StatusReturnValue.sStatus);
+                              lvItem.SubItems.Add(StatusReturnValue.sQuality);
+                              lvItem.SubItems.Add(StatusReturnValue.sLastUpdateRate);
+                    lvItem.SubItems.Add(StatusReturnValue.bLastUpdateOnChange.ToString());
+                    lvItem.SubItems.Add(StatusReturnValue.sComment);
+                    */
+                    lvItem.SubItems.AddRange(sValues);
 
-			RSMPGS2_StatusForm StatusForm = new RSMPGS2_StatusForm(StatusObject.getRoadSideObject(), bStatReq, bStatSub);
-			if (!bStatReq && bStatSub)
-			{
-				StatusForm.Text = "RSMPGS2 - Status subscription";
-			}
-			else if (!bStatReq && !bStatSub)
-			{
-				StatusForm.Text = "RSMPGS2 - Status unsubscription";
-			}
-			else
-			{
-				StatusForm.Text = "RSMPGS2 - Status request";
-			}
+                    listView_Status.Items.Add(lvItem);
 
+                    lvItem.Tag = StatusReturnValue;
+                    lvItem.Group = RoadSideObject.StatusGroup;
 
-			StatusForm.ShowDialog(this);
-			List<cStatusReturnValue> selectedStatus = StatusForm.GetSelectedStatus();
+                }
+            }
 
-			if (selectedStatus != null && selectedStatus.Count > 0)
-			{
-				if (bStatReq || !bStatSub)
-				{
-					RSMPGS.JSon.CreateAndSendStatusMessage(StatusObject.getRoadSideObject(), selectedStatus, sStatusType);
-				}
-				else
-				{
-					RSMPGS.JSon.CreateAndSendSubscriptionMessage(StatusObject.getRoadSideObject(), selectedStatus);
-				}
-
-			}
-		}
-    */
-
-    public void UpdateStatusListView(cSiteIdObject SiteIdObject, cRoadSideObject RoadSideObject)
-		{
-
-      //
-      // View status objects for the selected RoadSide object
-      //
-
-      listView_Status.Items.Clear();
-
-      listView_StatusEvents.Items.Clear();
-
-      if (SiteIdObject == null && RoadSideObject == null)
-      {
-        return;
-      }
-
-      listView_Status.BeginUpdate();
-      listView_Status.StopSorting();
-
-      listView_StatusEvents.BeginUpdate();
-
-      if (RoadSideObject != null)
-			{
-        listView_Status.ShowGroups = ToolStripMenuItem_View_AlwaysShowGroupHeaders.Checked;
-        UpdateStatusListView(RoadSideObject);
-      }
-      else
-			{
-        listView_Status.ShowGroups = true;
-        foreach (cRoadSideObject roadSideObject in SiteIdObject.RoadSideObjects)
-				{
-					UpdateStatusListView(roadSideObject);
-        }
-      }
-
-			listView_Status.ResumeSorting();
-			listView_Status.EndUpdate();
-
-			listView_StatusEvents.EndUpdate();
-
-		}
-
-		public void UpdateStatusListView(cRoadSideObject RoadSideObject)
-		{
-
-      RoadSideObject.StatusGroup.Items.Clear();
-
-      foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
-			{
-				// Object type;Object (optional);Description;commandCodeId;name;command;type;value;Comment;name;command;type;value;Comment;
-
-				foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
-				{
-          string sKey = StatusObject.sStatusCodeId.ToUpper() + "/" + StatusReturnValue.sName.ToUpper();
-
-          ListViewItem lvItem = new ListViewItem (StatusObject.sStatusCodeId, -1);
-          lvItem.Name = sKey;
-
-          string[] sValues = new string[8];
-
-          //ListViewItem lvItem = listView_Status.Items.Add(sKey, StatusObject.sDescription, -1);
-
-          sValues[0] = StatusObject.sDescription;
-          sValues[1] = StatusReturnValue.sName;
-          sValues[2] = StatusReturnValue.Value.GetValueType();
-          sValues[3] = StatusReturnValue.Value.GetValue();
-          sValues[4] = StatusReturnValue.sQuality;
-          sValues[5] = StatusReturnValue.sLastUpdateRate;
-          sValues[6] = StatusReturnValue.bLastUpdateOnChange.ToString();
-          sValues[7] = StatusReturnValue.sComment.Replace("\n", " / ");
-          /*
-           * 
-          lvItem.SubItems.Add(StatusObject.sDescription);
-					lvItem.SubItems.Add(StatusReturnValue.sName);
-					lvItem.SubItems.Add(StatusReturnValue.sType);
-					lvItem.SubItems.Add(StatusReturnValue.sStatus);
-					lvItem.SubItems.Add(StatusReturnValue.sQuality);
-					lvItem.SubItems.Add(StatusReturnValue.sLastUpdateRate);
-          lvItem.SubItems.Add(StatusReturnValue.bLastUpdateOnChange.ToString());
-          lvItem.SubItems.Add(StatusReturnValue.sComment);
-          */
-          lvItem.SubItems.AddRange(sValues);
-
-          listView_Status.Items.Add(lvItem);
-
-          lvItem.Tag = StatusReturnValue;
-          lvItem.Group = RoadSideObject.StatusGroup;
+            foreach (cStatusEvent StatusEvent in RoadSideObject.StatusEvents)
+            {
+                AddStatusEventToList(RoadSideObject, StatusEvent);
+            }
 
         }
-			}
 
-			foreach (cStatusEvent StatusEvent in RoadSideObject.StatusEvents)
-			{
-				AddStatusEventToList(RoadSideObject, StatusEvent);
-			}
-
-		}
-
-		private void AddStatusEventToList(cRoadSideObject RoadSideObject, cStatusEvent StatusEvent)
-		{
-
-      if (bIsUpdatingStatusEventList == false)
-      {
-        listView_StatusEvents.StopSorting();
-        listView_StatusEvents.BeginUpdate();
-        bIsUpdatingStatusEventList = true;
-      }
-
-      ListViewItem lvItem = new ListViewItem(StatusEvent.sTimeStamp.ToString());
-			lvItem.SubItems.Add(StatusEvent.sMessageId);
-			lvItem.SubItems.Add(StatusEvent.sEvent);
-			lvItem.SubItems.Add(StatusEvent.sStatusCommandId);
-			lvItem.SubItems.Add(StatusEvent.sName);
-			lvItem.SubItems.Add(StatusEvent.sStatus);
-			lvItem.SubItems.Add(StatusEvent.sQuality);
-			lvItem.SubItems.Add(StatusEvent.sUpdateRate);
-      lvItem.SubItems.Add(StatusEvent.bUpdateOnChange.ToString());
-      listView_StatusEvents.Items.Add(lvItem);
-    }
-
-    public void HandleStatusListUpdate(cRoadSideObject RoadSideObject, cStatusEvent StatusEvent, bool bSend)
-		{
-
-      string sKey = StatusEvent.sStatusCommandId.ToUpper() + "/" + StatusEvent.sName.ToUpper();
-
-      if (RoadSideObject.StatusGroup.Items.ContainsKey(sKey))
-      {
-        ListViewItem lvItem = RoadSideObject.StatusGroup.Items[sKey];
-        if (!bSend)
+        private void AddStatusEventToList(cRoadSideObject RoadSideObject, cStatusEvent StatusEvent)
         {
-          lvItem.SubItems[4].Text = StatusEvent.sStatus;
-          lvItem.SubItems[5].Text = StatusEvent.sQuality;
-        }
-        else
-        {
-          lvItem.SubItems[6].Text = StatusEvent.sUpdateRate;
-          lvItem.SubItems[7].Text = StatusEvent.bUpdateOnChange.ToString();
-        }
-      }
-      AddStatusEventToList(RoadSideObject, StatusEvent);
-    }
 
-    /*
+            if (bIsUpdatingStatusEventList == false)
+            {
+                listView_StatusEvents.StopSorting();
+                listView_StatusEvents.BeginUpdate();
+                bIsUpdatingStatusEventList = true;
+            }
 
-    if (SelectedRoadSideObject == RoadSideObject)
-    { 
-      if (!bSend)
-      {
-        for (int i = 0; i < listView_Status.Items.Count; i++)
+            ListViewItem lvItem = new ListViewItem(StatusEvent.sTimeStamp.ToString());
+            lvItem.SubItems.Add(StatusEvent.sMessageId);
+            lvItem.SubItems.Add(StatusEvent.sEvent);
+            lvItem.SubItems.Add(StatusEvent.sStatusCommandId);
+            lvItem.SubItems.Add(StatusEvent.sName);
+            lvItem.SubItems.Add(StatusEvent.sStatus);
+            lvItem.SubItems.Add(StatusEvent.sQuality);
+            lvItem.SubItems.Add(StatusEvent.sUpdateRate);
+            lvItem.SubItems.Add(StatusEvent.bUpdateOnChange.ToString());
+            listView_StatusEvents.Items.Add(lvItem);
+        }
+
+        public void HandleStatusListUpdate(cRoadSideObject RoadSideObject, cStatusEvent StatusEvent, bool bSend)
         {
-          ListViewItem lvItem = listView_Status.Items[i];
-          if (lvItem.SubItems[3].Text.Equals(StatusEvent.sStatusCommandId, StringComparison.OrdinalIgnoreCase)
-          && lvItem.SubItems[4].Text.Equals(StatusEvent.sName, StringComparison.OrdinalIgnoreCase))
+
+            string sKey = StatusEvent.sStatusCommandId.ToUpper() + "/" + StatusEvent.sName.ToUpper();
+
+            if (RoadSideObject.StatusGroup.Items.ContainsKey(sKey))
+            {
+                ListViewItem lvItem = RoadSideObject.StatusGroup.Items[sKey];
+                if (!bSend)
+                {
+                    lvItem.SubItems[4].Text = StatusEvent.sStatus;
+                    lvItem.SubItems[5].Text = StatusEvent.sQuality;
+                }
+                else
+                {
+                    lvItem.SubItems[6].Text = StatusEvent.sUpdateRate;
+                    lvItem.SubItems[7].Text = StatusEvent.bUpdateOnChange.ToString();
+                }
+            }
+            AddStatusEventToList(RoadSideObject, StatusEvent);
+        }
+
+        /*
+
+        if (SelectedRoadSideObject == RoadSideObject)
+        { 
+          if (!bSend)
           {
-            lvItem.SubItems[4].Text = StatusEvent.sStatus;
-            lvItem.SubItems[5].Text = StatusEvent.sQuality;
-            break;
+            for (int i = 0; i < listView_Status.Items.Count; i++)
+            {
+              ListViewItem lvItem = listView_Status.Items[i];
+              if (lvItem.SubItems[3].Text.Equals(StatusEvent.sStatusCommandId, StringComparison.OrdinalIgnoreCase)
+              && lvItem.SubItems[4].Text.Equals(StatusEvent.sName, StringComparison.OrdinalIgnoreCase))
+              {
+                lvItem.SubItems[4].Text = StatusEvent.sStatus;
+                lvItem.SubItems[5].Text = StatusEvent.sQuality;
+                break;
+              }
+            }
           }
-        }
-      }
-      else
-      {
-        for (int i = 0; i < listView_Status.Items.Count; i++)
-        {
-          ListViewItem lvItem = listView_Status.Items[i];
-          if (lvItem.SubItems[3].Text.Equals(StatusEvent.sStatusCommandId, StringComparison.OrdinalIgnoreCase)
-          && lvItem.SubItems[4].Text.Equals(StatusEvent.sName, StringComparison.OrdinalIgnoreCase))
+          else
           {
-            lvItem.SubItems[6].Text = StatusEvent.sUpdateRate;
-            break;
+            for (int i = 0; i < listView_Status.Items.Count; i++)
+            {
+              ListViewItem lvItem = listView_Status.Items[i];
+              if (lvItem.SubItems[3].Text.Equals(StatusEvent.sStatusCommandId, StringComparison.OrdinalIgnoreCase)
+              && lvItem.SubItems[4].Text.Equals(StatusEvent.sName, StringComparison.OrdinalIgnoreCase))
+              {
+                lvItem.SubItems[6].Text = StatusEvent.sUpdateRate;
+                break;
+              }
+            }
           }
+          AddStatusEventToList(RoadSideObject, StatusEvent);
+
         }
-      }
-      AddStatusEventToList(RoadSideObject, StatusEvent);
+        */
 
     }
-    */
-
-  }
 }

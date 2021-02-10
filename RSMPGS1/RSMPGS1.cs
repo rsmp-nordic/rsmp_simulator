@@ -58,80 +58,80 @@ using System.Security.Authentication;
 
 namespace nsRSMPGS
 {
-  public static class RSMPGS
-  {
-
-		public enum RSMPGSType
-		{
-			RSMPGS1,
-			RSMPGS2
-		}
-
-    static public cSysLogAndDebug SysLog;
-    static public cDebugConnection DebugConnection;
-    static public cProcessImage ProcessImage;
-    static public List<RSMPGS_Debug> DebugForms;
-    static public cTcpSocket RSMPConnection;
-    static public string SpecifiedPath = "";
-    static public string DebugName = "";
-    static public string DebugServer = "";
-    static public int ConnectionType;
-
-		static public RSMPGSType SimulatorType = RSMPGSType.RSMPGS1;
-
-		static public Dictionary<string, double> Statistics = new Dictionary<string, double>();
-		static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();		
-
-		static public string IniFileFullname;
-
-		static public cJSonGS1 JSon;
-
-    static public cEncryptionSettings EncryptionSettings = new cEncryptionSettings();
-
-		static public RSMPGS_Main MainForm;
-
-		static public List<ListViewItem> SysLogItems = new List<ListViewItem>();
-
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main(string[] args)
+    public static class RSMPGS
     {
 
-			foreach (string sArgument in args)
-      {
-        //
-        // Use /path:... argument to point to specific folder (settings/logfiles etc)
-        //
-        if (sArgument.StartsWith("/Path:", StringComparison.OrdinalIgnoreCase))
+        public enum RSMPGSType
         {
-          SpecifiedPath = sArgument.Substring(6).Trim();
-          if (SpecifiedPath.Length > 0)
-          {
-            if (SpecifiedPath.EndsWith("\\"))
+            RSMPGS1,
+            RSMPGS2
+        }
+
+        static public cSysLogAndDebug SysLog;
+        static public cDebugConnection DebugConnection;
+        static public cProcessImage ProcessImage;
+        static public List<RSMPGS_Debug> DebugForms;
+        static public cTcpSocket RSMPConnection;
+        static public string SpecifiedPath = "";
+        static public string DebugName = "";
+        static public string DebugServer = "";
+        static public int ConnectionType;
+
+        static public RSMPGSType SimulatorType = RSMPGSType.RSMPGS1;
+
+        static public Dictionary<string, double> Statistics = new Dictionary<string, double>();
+        static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();
+
+        static public string IniFileFullname;
+
+        static public cJSonGS1 JSon;
+
+        static public cEncryptionSettings EncryptionSettings = new cEncryptionSettings();
+
+        static public RSMPGS_Main MainForm;
+
+        static public List<ListViewItem> SysLogItems = new List<ListViewItem>();
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main(string[] args)
+        {
+
+            foreach (string sArgument in args)
             {
-							SpecifiedPath = SpecifiedPath.Substring(0, SpecifiedPath.Length - 1);
+                //
+                // Use /path:... argument to point to specific folder (settings/logfiles etc)
+                //
+                if (sArgument.StartsWith("/Path:", StringComparison.OrdinalIgnoreCase))
+                {
+                    SpecifiedPath = sArgument.Substring(6).Trim();
+                    if (SpecifiedPath.Length > 0)
+                    {
+                        if (SpecifiedPath.EndsWith("\\"))
+                        {
+                            SpecifiedPath = SpecifiedPath.Substring(0, SpecifiedPath.Length - 1);
+                        }
+                    }
+                }
+                if (sArgument.StartsWith("/DebugName:", StringComparison.OrdinalIgnoreCase))
+                {
+                    DebugName = sArgument.Substring(11).Trim();
+                }
+                if (sArgument.StartsWith("/DebugServer:", StringComparison.OrdinalIgnoreCase))
+                {
+                    DebugServer = sArgument.Substring(13).Trim();
+                }
             }
-          }
-        }
-				if (sArgument.StartsWith("/DebugName:", StringComparison.OrdinalIgnoreCase))
-				{
-          DebugName = sArgument.Substring(11).Trim();
-				}
-        if (sArgument.StartsWith("/DebugServer:", StringComparison.OrdinalIgnoreCase))
-        {
-          DebugServer = sArgument.Substring(13).Trim();
-        }
-      }
 
-			// Must be initialized after Argument parsing...
-			IniFileFullname = cPrivateProfile.SettingsPath() + "\\" + "RSMPGS1.ini";
+            // Must be initialized after Argument parsing...
+            IniFileFullname = cPrivateProfile.SettingsPath() + "\\" + "RSMPGS1.ini";
 
-      Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-			MainForm = new RSMPGS_Main();
-			Application.Run(MainForm);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            MainForm = new RSMPGS_Main();
+            Application.Run(MainForm);
+        }
     }
-  }
 }
