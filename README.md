@@ -15,8 +15,8 @@ Full documentation is available [here](https://github.com/rsmp-nordic/rsmp_simul
 
 Installation
 ------------
-Run `RSMPGS1_1_0_1_6_Setup.exe` (for road side equipment) or
-`RSMPGS2_1_0_1_6_Setup.exe` (for supervision system) from 
+Run `RSMPGS1_1_0_1_7_Setup.exe` (for road side equipment) or
+`RSMPGS2_1_0_1_7_Setup.exe` (for supervision system) from 
 the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases)
 
 Configuration
