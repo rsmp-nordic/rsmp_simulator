@@ -9,7 +9,7 @@ using System.Security.Authentication;
 
 //
 //
-// RSMPGS1 - AcobiaFLUX AB / TroSoft AB (c) 2011-2020
+// RSMPGS1 - AcobiaFLUX AB / TroSoft AB (c) 2011-2021
 //
 // Date     / Sign / Vers    / Comment
 // ---------------------------------------------------------------------------------------------------
@@ -37,6 +37,8 @@ using System.Security.Authentication;
 // 20.10.16 / TR / 1.0.1.6 B1/ Updates begin - release 3 updates in RSMPInterreg,Simulatorspec_v0.39.xlsx. CSV-files with " and commas etc are accepted,
 //                           / significally improvement in SysLog (file handling). Group view update bugs fixed.
 // 20.10.16 / TR / 1.0.1.6   / Significally improvement in Debugging. Minor updates.
+// 21.09.27 / TR / 1.0.1.7   / Lockup bug in debug fixed, invariantculture in ISO8601 (pull request #22 / jakobht),
+//                           / and full path of ini file when error occur at startup (pull request #23 / jakobht)
 //
 //
 //

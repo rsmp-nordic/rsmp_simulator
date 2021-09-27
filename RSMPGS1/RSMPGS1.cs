@@ -8,7 +8,7 @@ using System.Security.Authentication;
 
 //
 //
-// RSMPGS1 - TroSoft AB (c) 2011-2020
+// RSMPGS1 - TroSoft AB (c) 2011-2021
 //
 // Date     / Sign / Vers    / Comment
 // ---------------------------------------------------------------------------------------------------
