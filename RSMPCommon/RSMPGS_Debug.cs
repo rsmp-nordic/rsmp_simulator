@@ -504,6 +504,8 @@ namespace nsRSMPGS
 
       }
 
+      bool bListViewWasUpdated = false;
+
       lock (DebuglvItems)
       {
 
@@ -535,10 +537,15 @@ namespace nsRSMPGS
 
           listView_Debug.Update();
 
-          Application.DoEvents();
+          bListViewWasUpdated = true;
 
         }
 
+      }
+
+      if (bListViewWasUpdated)
+      {
+        Application.DoEvents();
       }
 
       timer_System.Enabled = true;
