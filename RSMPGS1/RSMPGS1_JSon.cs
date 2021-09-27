@@ -479,7 +479,7 @@ namespace nsRSMPGS
           {
 
             // Find command in object
-            foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
+            foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects.FindAll(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc)))
             {
               bool bDone = false;
               // Find command name in command
