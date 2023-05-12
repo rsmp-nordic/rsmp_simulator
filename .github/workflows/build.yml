@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Install prerequisites
+    name: Build RSMPGS1 and RSMPGS2
     runs-on: ubuntu-latest
     steps:
       - name: Install prerequisites
