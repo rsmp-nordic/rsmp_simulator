@@ -17,14 +17,14 @@ jobs:
       - name: Install mono
         run: sudo apt install -y mono-devel mono-xbuild
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
   rsmpgs1:
     name: Build RSMPGS1
     runs-on: ubuntu-latest
     needs: prerequisites
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Build RSMPGS1
         run: xbuild RSMPGS1/RSMPGS1.sln
 
@@ -39,6 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: prerequisites
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Build RSMPGS2
         run: xbuild RSMPGS2/RSMPGS2.sln
 
