@@ -5,6 +5,9 @@ name: Build RSMPGS1 and RSMPGS2
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 
 jobs:
   build:
