@@ -22,6 +22,7 @@ jobs:
 
   rsmpgs1:
     name: Build RSMPGS1
+    runs-on: ubuntu-latest
     needs: prerequisites
     steps:
       - name: Build RSMPGS1
@@ -35,6 +36,7 @@ jobs:
 
   rsmpgs2:
     name: Build RSMPGS2
+    runs-on: ubuntu-latest
     needs: prerequisites
     steps:
       - name: Build RSMPGS2
