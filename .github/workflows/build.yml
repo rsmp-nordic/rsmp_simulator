@@ -10,18 +10,38 @@ on:
 
 
 jobs:
-  build:
-    name: Build RSMPGS1 and RSMPGS2
+  prerequisites:
+    name: Install prerequisites
     runs-on: ubuntu-latest
     steps:
-      - name: Install prerequisites
+      - name: Install mono
         run: sudo apt install -y mono-devel mono-xbuild
 
       - name: Checkout repository
         uses: actions/checkout@v3
 
+  rsmpgs1:
+    name: Build RSMPGS1
+    needs: prerequisites
+    steps:
       - name: Build RSMPGS1
         run: xbuild RSMPGS1/RSMPGS1.sln
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: RSMPGS1
+          path: RSMPGS1/bin
+
+  rsmpgs2:
+    name: Build RSMPGS2
+    needs: prerequisites
+    steps:
       - name: Build RSMPGS2
         run: xbuild RSMPGS2/RSMPGS2.sln
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: RSMPGS2
+          path: RSMPGS2/bin
