@@ -1,6 +1,9 @@
 # This workflow will build RSMPGS1 and RSMPGS2 using Mono
+#
+# Please note that this build debug versions. RSMPGSx.exe will look for
+# the RSMPGSx.INI file in "../../Settings".
 
-name: Build RSMPGS1 and RSMPGS2
+name: Build RSMPGS1 and RSMPGS2 using Mono
 
 on:
   push:
