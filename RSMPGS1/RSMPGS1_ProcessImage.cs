@@ -28,17 +28,17 @@ namespace nsRSMPGS
 
     public SubscribeMethod SubscribeStatus;
     public int UpdateRate;
-		public DateTime LastUpdate;
+    public DateTime LastUpdate;
 
     public cSubscription(cStatusObject sO, cStatusReturnValue sS, float fUpdateRate, bool bAlwaysSendOnChange)
     {
       if (fUpdateRate <= 0)
-			{
-				SubscribeStatus = SubscribeMethod.OnChange;
-				UpdateRate = 0;
-			}
-			else
-			{
+      {
+        SubscribeStatus = SubscribeMethod.OnChange;
+        UpdateRate = 0;
+      }
+      else
+      {
         try
         {
           UpdateRate = (int)fUpdateRate * 1000;
@@ -91,7 +91,7 @@ namespace nsRSMPGS
     public string sMessageId;
     public string sSendString;
 
-		public cBufferedMessage(eMessageType MessageType, string PacketType, string MessageId, string SendString)
+    public cBufferedMessage(eMessageType MessageType, string PacketType, string MessageId, string SendString)
     {
       this.MessageType = MessageType;
       sPacketType = PacketType;
@@ -104,7 +104,7 @@ namespace nsRSMPGS
   {
 
     public void LoadProcessImageValues(RSMPGS_Main MainForm, string FileName)
-		{
+    {
 
       bool bWeAreConnected = false;
 
@@ -145,14 +145,14 @@ namespace nsRSMPGS
               string sSection = RoadSideObject.UniqueId() + ".Alarms";
               string sParameter = AlarmObject.sAlarmCodeId + ".Active";
 
-							cAlarmEvent AlarmEvent = null;
-							cAlarmObject NewAlarmObject = new cAlarmObject();
+              cAlarmEvent AlarmEvent = null;
+              cAlarmObject NewAlarmObject = new cAlarmObject();
 
-							NewAlarmObject.bActive = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Active", 0) != 0;
-							NewAlarmObject.bSuspended = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Suspended", 0) != 0;
-							NewAlarmObject.bAcknowledged = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Acknowledged", 0) != 0;
+              NewAlarmObject.bActive = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Active", 0) != 0;
+              NewAlarmObject.bSuspended = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Suspended", 0) != 0;
+              NewAlarmObject.bAcknowledged = cPrivateProfile.GetIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Acknowledged", 0) != 0;
 
-							AlarmObject.AlarmEvents.Clear();
+              AlarmObject.AlarmEvents.Clear();
 
               foreach (cAlarmReturnValue AlarmReturnValue in AlarmObject.AlarmReturnValues)
               {
@@ -165,44 +165,44 @@ namespace nsRSMPGS
               }
 
               if (AlarmObject.bSuspended != NewAlarmObject.bSuspended)
-							{
-								AlarmObject.bSuspended = NewAlarmObject.bSuspended;
-								if (bWeAreConnected)
-								{
-									RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Suspend);
-								}
-							}
+              {
+                AlarmObject.bSuspended = NewAlarmObject.bSuspended;
+                if (bWeAreConnected)
+                {
+                  RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Suspend);
+                }
+              }
 
-							if (AlarmObject.bActive != NewAlarmObject.bActive)
-							{
-								AlarmObject.bActive = NewAlarmObject.bActive;
-								if (bWeAreConnected)
-								{
-									if (NewAlarmObject.bActive)
-									{
-										RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
-										if (AlarmEvent != null)
-										{
-											AlarmObject.AlarmEvents.Add(AlarmEvent);
+              if (AlarmObject.bActive != NewAlarmObject.bActive)
+              {
+                AlarmObject.bActive = NewAlarmObject.bActive;
+                if (bWeAreConnected)
+                {
+                  if (NewAlarmObject.bActive)
+                  {
+                    RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
+                    if (AlarmEvent != null)
+                    {
+                      AlarmObject.AlarmEvents.Add(AlarmEvent);
                     }
                   }
-									else
-									{
+                  else
+                  {
                     RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
                     AlarmObject.AlarmEvents.Clear();
-									}
-								}
-							}
+                  }
+                }
+              }
 
-							if (AlarmObject.bAcknowledged != NewAlarmObject.bAcknowledged)
-							{
-								AlarmObject.bAcknowledged = NewAlarmObject.bAcknowledged;
-								if (bWeAreConnected)
-								{
-									RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge);
-								}
-								AlarmObject.AlarmEvents.Clear();
-							}
+              if (AlarmObject.bAcknowledged != NewAlarmObject.bAcknowledged)
+              {
+                AlarmObject.bAcknowledged = NewAlarmObject.bAcknowledged;
+                if (bWeAreConnected)
+                {
+                  RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge);
+                }
+                AlarmObject.AlarmEvents.Clear();
+              }
 
               AlarmObject.AlarmCount = 0;
 
@@ -273,7 +273,7 @@ namespace nsRSMPGS
             {
               if (bWeAreConnected)
               {
-								RSMPGS.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
+                RSMPGS.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
               }
             }
           }
@@ -306,7 +306,7 @@ namespace nsRSMPGS
                 {
                   if (bWeAreConnected)
                   {
-										RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
+                    RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
                   }
                 }
               }
@@ -328,25 +328,25 @@ namespace nsRSMPGS
                     ListViewItem lvItem = MainForm.listView_AggregatedStatus_StatusBits.Items[iIndex];
                     MainForm.SetStatusBitColor(lvItem, RoadSideObject.bBitStatus[iIndex]);
                   }
-									RSMPGS_Main.bIsCurrentlyChangingSelection = true;
-									MainForm.listBox_AggregatedStatus_FunctionalPosition.ClearSelected();
-									for (int iIndex = 0; iIndex < MainForm.listBox_AggregatedStatus_FunctionalPosition.Items.Count; iIndex++)
-									{
-										if (MainForm.listBox_AggregatedStatus_FunctionalPosition.Items[iIndex].Equals(RoadSideObject.sFunctionalPosition))
-										{
-											MainForm.listBox_AggregatedStatus_FunctionalPosition.SelectedIndex = iIndex;
-										}
-									}
-									MainForm.listBox_AggregatedStatus_FunctionalState.ClearSelected();
-									for (int iIndex = 0; iIndex < MainForm.listBox_AggregatedStatus_FunctionalState.Items.Count; iIndex++)
-									{
-										if (MainForm.listBox_AggregatedStatus_FunctionalState.Items[iIndex].Equals(RoadSideObject.sFunctionalState))
-										{
-											MainForm.listBox_AggregatedStatus_FunctionalState.SelectedIndex = iIndex;
-										}
-									}
-									RSMPGS_Main.bIsCurrentlyChangingSelection = false;
-								}
+                  RSMPGS_Main.bIsCurrentlyChangingSelection = true;
+                  MainForm.listBox_AggregatedStatus_FunctionalPosition.ClearSelected();
+                  for (int iIndex = 0; iIndex < MainForm.listBox_AggregatedStatus_FunctionalPosition.Items.Count; iIndex++)
+                  {
+                    if (MainForm.listBox_AggregatedStatus_FunctionalPosition.Items[iIndex].Equals(RoadSideObject.sFunctionalPosition))
+                    {
+                      MainForm.listBox_AggregatedStatus_FunctionalPosition.SelectedIndex = iIndex;
+                    }
+                  }
+                  MainForm.listBox_AggregatedStatus_FunctionalState.ClearSelected();
+                  for (int iIndex = 0; iIndex < MainForm.listBox_AggregatedStatus_FunctionalState.Items.Count; iIndex++)
+                  {
+                    if (MainForm.listBox_AggregatedStatus_FunctionalState.Items[iIndex].Equals(RoadSideObject.sFunctionalState))
+                    {
+                      MainForm.listBox_AggregatedStatus_FunctionalState.SelectedIndex = iIndex;
+                    }
+                  }
+                  RSMPGS_Main.bIsCurrentlyChangingSelection = false;
+                }
               }
             }
           }
@@ -362,57 +362,57 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
       }
       catch (Exception e)
       {
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to load Process data from '{0}' - {1}", FileName, e.Message);
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to load Process data from '{0}' - {1}", FileName, e.Message);
       }
 
 
-		}
+    }
 
     public void SaveProcessImageValues(string FileName)
-		{
+    {
 
-			try
-			{
-				StreamWriter swProcessImageFile = new StreamWriter((System.IO.Stream)File.Create(FileName));
+      try
+      {
+        StreamWriter swProcessImageFile = new StreamWriter((System.IO.Stream)File.Create(FileName));
 
-				swProcessImageFile.WriteLine(";");
-				swProcessImageFile.WriteLine("; ProcessImage stored " + DateTime.Now.ToString());
-				swProcessImageFile.WriteLine(";");
+        swProcessImageFile.WriteLine(";");
+        swProcessImageFile.WriteLine("; ProcessImage stored " + DateTime.Now.ToString());
+        swProcessImageFile.WriteLine(";");
 
-				swProcessImageFile.Close();
-			}
-			catch
-			{
-			}
+        swProcessImageFile.Close();
+      }
+      catch
+      {
+      }
 
-			foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
-			{
-				foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
-				{
-					if (AlarmObject.bActive)
-					{
-						cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Active", 1);
-					}
-					if (AlarmObject.bSuspended)
-					{
-						cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Suspended", 1);
-					}
-					if (AlarmObject.bAcknowledged)
-					{
-						cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Acknowledged", 1);
-					}
+      foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
+      {
+        foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
+        {
+          if (AlarmObject.bActive)
+          {
+            cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Active", 1);
+          }
+          if (AlarmObject.bSuspended)
+          {
+            cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Suspended", 1);
+          }
+          if (AlarmObject.bAcknowledged)
+          {
+            cPrivateProfile.WriteIniFileInt(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".Acknowledged", 1);
+          }
           /*
-					if (AlarmObject.AlarmEvents.Count > 0)
-					{
-						cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvents", AlarmObject.AlarmEvents.Count.ToString());
-						int iIndex = 0;
-						foreach (cAlarmEvent AlarmEvent in AlarmObject.AlarmEvents)
-						{
-							cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvent_" + iIndex.ToString() + ".MessageId", AlarmEvent.sMessageId);
-							cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvent_" + iIndex.ToString() + ".TimeStamp", AlarmEvent.sTimeStamp);
-							iIndex++;
-						}
-					}
+          if (AlarmObject.AlarmEvents.Count > 0)
+          {
+            cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvents", AlarmObject.AlarmEvents.Count.ToString());
+            int iIndex = 0;
+            foreach (cAlarmEvent AlarmEvent in AlarmObject.AlarmEvents)
+            {
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvent_" + iIndex.ToString() + ".MessageId", AlarmEvent.sMessageId);
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + ".AlarmEvent_" + iIndex.ToString() + ".TimeStamp", AlarmEvent.sTimeStamp);
+              iIndex++;
+            }
+          }
           */
           foreach (cAlarmReturnValue AlarmReturnValue in AlarmObject.AlarmReturnValues)
           {
@@ -422,16 +422,16 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
             }
           }
         }
-				foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
-				{
-					foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
-					{
-						if (StatusReturnValue.Value.GetValue() != "?")
-						{
-							cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Status", StatusObject.sStatusCodeId + "." + StatusReturnValue.sName + ".Status", StatusReturnValue.Value.GetValue());
-						}
-					}
-				}
+        foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
+        {
+          foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
+          {
+            if (StatusReturnValue.Value.GetValue() != "?")
+            {
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Status", StatusObject.sStatusCodeId + "." + StatusReturnValue.sName + ".Status", StatusReturnValue.Value.GetValue());
+            }
+          }
+        }
 
         if (RoadSideObject.bIsComponentGroup)
         {
@@ -453,26 +453,26 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           }
         }
 
-			}
+      }
 
-			RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored Process data to '{0}'", FileName);
-		}
+      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored Process data to '{0}'", FileName);
+    }
 
-		public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sStatus)
-		{
-			if (sStatus == null || sStatus == "?")
-			{
-				s.s = null;
-				s.q = "unknown";
-			}
-			else
-			{
+    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sStatus)
+    {
+      if (sStatus == null || sStatus == "?")
+      {
+        s.s = null;
+        s.q = "unknown";
+      }
+      else
+      {
         // Could be base64
         if (sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
         {
           // Path?
           if (sStatus.Contains("\\"))
-					{
+          {
             try
             {
               byte[] Base64Bytes = null;
@@ -487,14 +487,14 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
               s.s = Convert.ToBase64String(Base64Bytes);
               if (s.s.Length > (cTcpSocketClientThread.BUFLENGTH - 100))
               {
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
                 s.s = null;
               }
               s.q = "recent";
             }
             catch (Exception e)
             {
-							RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", sStatus, e.Message);
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", sStatus, e.Message);
               s.q = "unknown";
             }
           }
@@ -509,11 +509,11 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           s.s = sStatus;
           s.q = "recent";
         }
-			}
-		}
+      }
+    }
 
-		public void CyclicCleanup(int iElapsedMillisecs)
-		{
+    public void CyclicCleanup(int iElapsedMillisecs)
+    {
       List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
@@ -536,10 +536,10 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
         }
         if (sS.Count > 0)
         {
-					RSMPGS.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
+          RSMPGS.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
         }
       }
-		}
-	}
+    }
+  }
 
 }

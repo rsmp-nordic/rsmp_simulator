@@ -273,8 +273,8 @@ namespace nsRSMPGS
     private void ToolStripMenuItem_ProcessImage_Reset_Click(object sender, EventArgs e)
     {
       List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
-      //			if (System.Windows.Forms.MessageBox.Show("This will reset all status' to default (unknown/null).\r\nAre you sure?", "RSMPGS1", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-      //			{
+      //      if (System.Windows.Forms.MessageBox.Show("This will reset all status' to default (unknown/null).\r\nAre you sure?", "RSMPGS1", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      //      {
 
       RSMPGS.ProcessImage.BufferedMessages.Clear();
       ListView_BufferedMessages.Items.Clear();
@@ -307,24 +307,24 @@ namespace nsRSMPGS
           }
         }
         /*
-				sS.Clear();
-				// Delete subscription if it already exists
-				foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
-				{
-					if (Subscription.SubscribeStatus == cSubscription.Subscribe_OnChange)
-					{
-						RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
-						s.sCI = Subscription.StatusObject.sStatusCodeId;
-						s.n = Subscription.StatusReturnValue.sName;
-						RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.sStatus);
-						sS.Add(s);
-					}
-				}
-				if (sS.Count > 0)
-				{
-					RSMPGS_Main.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
-				}
-				 */
+        sS.Clear();
+        // Delete subscription if it already exists
+        foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
+        {
+          if (Subscription.SubscribeStatus == cSubscription.Subscribe_OnChange)
+          {
+            RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
+            s.sCI = Subscription.StatusObject.sStatusCodeId;
+            s.n = Subscription.StatusReturnValue.sName;
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.sStatus);
+            sS.Add(s);
+          }
+        }
+        if (sS.Count > 0)
+        {
+          RSMPGS_Main.JSon.CreateAndSendStatusUpdateMessage(RoadSideObject, sS);
+        }
+         */
         // Update ListView if this RoadSide object is selected
         if (treeView_SitesAndObjects.SelectedNode != null)
         {
@@ -498,10 +498,10 @@ namespace nsRSMPGS
         try
         {
           /*
-					StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
-					textBox_TestPackage_2.Text = swTestPackageFile.ReadToEnd();
-					swTestPackageFile.Close();
-					 */
+          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
+          textBox_TestPackage_2.Text = swTestPackageFile.ReadToEnd();
+          swTestPackageFile.Close();
+           */
           RSMPGS.ProcessImage.LoadProcessImageValues(this, openFileDialog_ProcessImage.FileName);
           cPrivateProfile.WriteIniFileString("Main", "ProcessImageLoadSave_DefaultPath", Path.GetFullPath(openFileDialog_ProcessImage.FileName));
         }
@@ -524,11 +524,11 @@ namespace nsRSMPGS
         {
           RSMPGS.ProcessImage.SaveProcessImageValues(saveFileDialog_ProcessImage.FileName);
           /*
-					textBox_TestPackage_2.Clear();
-					StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
-					textBox_TestPackage_2.Text = swTestPackageFile.ReadToEnd();
-					swTestPackageFile.Close();
-					 */
+          textBox_TestPackage_2.Clear();
+          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
+          textBox_TestPackage_2.Text = swTestPackageFile.ReadToEnd();
+          swTestPackageFile.Close();
+           */
           cPrivateProfile.WriteIniFileString("Main", "ProcessImageLoadSave_DefaultPath", Path.GetFullPath(saveFileDialog_ProcessImage.FileName));
         }
         catch
@@ -561,23 +561,23 @@ namespace nsRSMPGS
     }
 
     /*
-		private void checkBox_SendBufferedAlarmsWhenConnect_CheckedChanged(object sender, EventArgs e)
-		{
+    private void checkBox_SendBufferedAlarmsWhenConnect_CheckedChanged(object sender, EventArgs e)
+    {
 
-			if (listView_RSMPSettings.Items["SendBufferedAlarmsWhenConnect"].Checked == false)
-			{
-				if (RSMPGS.ProcessImage.BufferedAlarms.Count > 0)
-				{
-					if (System.Windows.Forms.MessageBox.Show("There are some buffered alarm, do you wish to remove them?", "RSMPGS1", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
-					{
-						RSMPGS.ProcessImage.BufferedAlarms.Clear();
-					}
-				}
-			}
-			//listView_RSMPSettings.Items["SendActiveOrSuspendedAlarmsWhenConnect"].Enabled = listView_RSMPSettings.Items["SendBufferedAlarmsWhenConnect"].Checked == false;
+      if (listView_RSMPSettings.Items["SendBufferedAlarmsWhenConnect"].Checked == false)
+      {
+        if (RSMPGS.ProcessImage.BufferedAlarms.Count > 0)
+        {
+          if (System.Windows.Forms.MessageBox.Show("There are some buffered alarm, do you wish to remove them?", "RSMPGS1", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
+          {
+            RSMPGS.ProcessImage.BufferedAlarms.Clear();
+          }
+        }
+      }
+      //listView_RSMPSettings.Items["SendActiveOrSuspendedAlarmsWhenConnect"].Enabled = listView_RSMPSettings.Items["SendBufferedAlarmsWhenConnect"].Checked == false;
 
-		}
-		*/
+    }
+    */
 
     private void button_ResetRSMPSettingToDefault_Click(object sender, EventArgs e)
     {
