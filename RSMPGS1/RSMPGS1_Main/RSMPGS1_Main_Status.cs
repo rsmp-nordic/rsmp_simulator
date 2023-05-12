@@ -173,15 +173,15 @@ namespace nsRSMPGS
 
       try
       {
-				// Tag is ex Status_2
+        // Tag is ex Status_2
         if (listview.Columns[iSelectedColumn].Tag.ToString().StartsWith("Status", StringComparison.OrdinalIgnoreCase))
         {
           string sType = lvItem.SubItems[iSelectedColumn - 1].Text;
           string sText = lvHitTest.SubItem.Text;
-					int iIndex = Int32.Parse(listview.Columns[iSelectedColumn].Tag.ToString().Substring(7));
+          int iIndex = Int32.Parse(listview.Columns[iSelectedColumn].Tag.ToString().Substring(7));
           if (cFormsHelper.InputBox("Enter new status", "Status", ref sText, sType.Equals("base64", StringComparison.OrdinalIgnoreCase), true) == DialogResult.OK)
           {
-						cStatusObject StatusObject = (cStatusObject)lvItem.Tag;
+            cStatusObject StatusObject = (cStatusObject)lvItem.Tag;
             StatusObject.StatusReturnValues[iIndex].sStatus = sText;
             lvHitTest.SubItem.Text = sText;
             // Find out if this status is subscribed
@@ -197,7 +197,7 @@ namespace nsRSMPGS
                   s.n = StatusObject.StatusReturnValues[iIndex].sName;
                   RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusObject.StatusReturnValues[iIndex].sType, StatusObject.StatusReturnValues[iIndex].sStatus);
                   sS.Add(s);
-									RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusObject.RoadSideObject, sS);
+                  RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusObject.RoadSideObject, sS);
                 }
               }
             }

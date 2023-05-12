@@ -48,37 +48,37 @@ using System.Security.Authentication;
 
 namespace nsRSMPGS
 {
-	public static class RSMPGS
-	{
+  public static class RSMPGS
+  {
 
-		public enum RSMPGSType
-		{
-			RSMPGS1,
-			RSMPGS2
-		}
+    public enum RSMPGSType
+    {
+      RSMPGS1,
+      RSMPGS2
+    }
 
-		static public cSysLogAndDebug SysLog;
+    static public cSysLogAndDebug SysLog;
     static public cDebugConnection DebugConnection;
     static public cProcessImage ProcessImage;
-		static public List<RSMPGS_Debug> DebugForms;
-		static public cTcpSocket RSMPConnection;
-		static public string SpecifiedPath = "";
+    static public List<RSMPGS_Debug> DebugForms;
+    static public cTcpSocket RSMPConnection;
+    static public string SpecifiedPath = "";
     static public string DebugName = "";
     static public string DebugServer = "";
     static public bool bConnectAsSocketClient = false;
 
-		static public RSMPGSType SimulatorType = RSMPGSType.RSMPGS2;
+    static public RSMPGSType SimulatorType = RSMPGSType.RSMPGS2;
 
-		static public Dictionary<string, double> Statistics = new Dictionary<string, double>();
-		static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();		
+    static public Dictionary<string, double> Statistics = new Dictionary<string, double>();
+    static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();   
 
-		static public string IniFileFullname;
+    static public string IniFileFullname;
 
-		static public cJSonGS2 JSon;
+    static public cJSonGS2 JSon;
 
-		static public RSMPGS_Main MainForm;
+    static public RSMPGS_Main MainForm;
 
-		static public List<ListViewItem> SysLogItems = new List<ListViewItem>();
+    static public List<ListViewItem> SysLogItems = new List<ListViewItem>();
 
     static public cEncryptionSettings EncryptionSettings = new cEncryptionSettings();
 
@@ -86,24 +86,24 @@ namespace nsRSMPGS
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-		static void Main(string[] args)
-		{
-			foreach (string sArgument in args)
-			{
-				//
-				// Use /path:... argument to point to specific folder (settings/logfiles etc)
-				//
-				if (sArgument.StartsWith("/Path:", StringComparison.OrdinalIgnoreCase))
-				{
-					SpecifiedPath = sArgument.Substring(6).Trim();
-					if (SpecifiedPath.Length > 0)
-					{
-						if (SpecifiedPath.EndsWith("\\") == false)
-						{
-							SpecifiedPath += "\\";
-						}
-					}
-				}
+    static void Main(string[] args)
+    {
+      foreach (string sArgument in args)
+      {
+        //
+        // Use /path:... argument to point to specific folder (settings/logfiles etc)
+        //
+        if (sArgument.StartsWith("/Path:", StringComparison.OrdinalIgnoreCase))
+        {
+          SpecifiedPath = sArgument.Substring(6).Trim();
+          if (SpecifiedPath.Length > 0)
+          {
+            if (SpecifiedPath.EndsWith("\\") == false)
+            {
+              SpecifiedPath += "\\";
+            }
+          }
+        }
         if (sArgument.StartsWith("/DebugName:", StringComparison.OrdinalIgnoreCase))
         {
           DebugName = sArgument.Substring(11).Trim();
@@ -114,15 +114,15 @@ namespace nsRSMPGS
         }
       }
 
-			// Must be initialized after Argument parsing...
-			IniFileFullname = cPrivateProfile.SettingsPath() + "\\" + "RSMPGS2.ini";
+      // Must be initialized after Argument parsing...
+      IniFileFullname = cPrivateProfile.SettingsPath() + "\\" + "RSMPGS2.ini";
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			MainForm = new RSMPGS_Main();
-			Application.Run(MainForm);
-		}
-	}
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      MainForm = new RSMPGS_Main();
+      Application.Run(MainForm);
+    }
+  }
 
 
 }

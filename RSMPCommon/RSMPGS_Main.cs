@@ -537,7 +537,7 @@ namespace nsRSMPGS
       {
         listView_Alarms.Columns.Add("Name", 100, HorizontalAlignment.Center);
         listView_Alarms.Columns.Add("Type", 100, HorizontalAlignment.Center);
-        //				listView_Alarms.Columns.Add("Value", 100, HorizontalAlignment.Center);
+        //        listView_Alarms.Columns.Add("Value", 100, HorizontalAlignment.Center);
         ColumnHeader columnHeader = listView_Alarms.Columns.Add("Value", 100, HorizontalAlignment.Center);
         columnHeader.Tag = "Value" + "_" + iIndex.ToString();
         listView_Alarms.Columns.Add("Comment", 200, HorizontalAlignment.Left);
@@ -671,7 +671,7 @@ namespace nsRSMPGS
 
 #if _RSMPGS2
 
-	  listView_AggregatedStatusEvents.Items.Clear();
+    listView_AggregatedStatusEvents.Items.Clear();
       button_AggregatedStatus_Request.Enabled = false;
 
 #endif
@@ -803,7 +803,7 @@ namespace nsRSMPGS
               break;
             }
           }
-		  
+      
 #endif
 
           if (RoadSideObject.bBitStatus != null)

@@ -16,10 +16,10 @@ namespace nsRSMPGS
     private void listView_AggregatedStatus_StatusBits_DoubleClick(object sender, EventArgs e)
     {
 
-			if (treeView_SitesAndObjects.SelectedNode == null)
-			{
-				return;
-			}
+      if (treeView_SitesAndObjects.SelectedNode == null)
+      {
+        return;
+      }
 
       if (treeView_SitesAndObjects.SelectedNode.Parent == null || bIsCurrentlyChangingSelection == true)
       {
@@ -37,7 +37,7 @@ namespace nsRSMPGS
 
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
-				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
+        RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
       }
 
       lvItem.Selected = false;
@@ -46,7 +46,7 @@ namespace nsRSMPGS
 
     private void listBox_AggregatedStatus_FunctionalPosition_SelectedIndexChanged(object sender, EventArgs e)
     {
-			if (treeView_SitesAndObjects.SelectedNode.Parent == null || bIsCurrentlyChangingSelection == true || listBox_AggregatedStatus_FunctionalPosition.SelectedItem == null)
+      if (treeView_SitesAndObjects.SelectedNode.Parent == null || bIsCurrentlyChangingSelection == true || listBox_AggregatedStatus_FunctionalPosition.SelectedItem == null)
       {
         return;
       }
@@ -57,13 +57,13 @@ namespace nsRSMPGS
 
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
-				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
+        RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
       }
     }
 
     private void listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, EventArgs e)
     {
-			if (treeView_SitesAndObjects.SelectedNode.Parent == null || bIsCurrentlyChangingSelection == true || listBox_AggregatedStatus_FunctionalState.SelectedItem == null) //  || listView_AggregatedStatus_StatusBits.SelectedItems.Count == 0 - removed 2014-09-11/TR to enable lvItem.Selected = false above
+      if (treeView_SitesAndObjects.SelectedNode.Parent == null || bIsCurrentlyChangingSelection == true || listBox_AggregatedStatus_FunctionalState.SelectedItem == null) //  || listView_AggregatedStatus_StatusBits.SelectedItems.Count == 0 - removed 2014-09-11/TR to enable lvItem.Selected = false above
       {
         return;
       }
@@ -74,7 +74,7 @@ namespace nsRSMPGS
 
       if (checkBox_AggregatedStatus_SendAutomaticallyWhenChanged.Checked)
       {
-				RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
+        RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
       }
     }
     public void SetStatusBitColor(ListViewItem lvItem, bool bIsSet)
@@ -110,7 +110,7 @@ namespace nsRSMPGS
     private void button_AggregatedStatus_Send_Click(object sender, EventArgs e)
     {
       cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
-			RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
+      RSMPGS.JSon.CreateAndSendAggregatedStatusMessage(RoadSideObject);
     }
 
   }

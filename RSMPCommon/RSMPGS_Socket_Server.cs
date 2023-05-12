@@ -31,7 +31,7 @@ namespace nsRSMPGS
 
       if (iListenPort < 1 || iListenPort > 65535)
       {
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Portnumber is invalid");
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Portnumber is invalid");
       }
       else
       {
@@ -49,7 +49,7 @@ namespace nsRSMPGS
         }
         catch (SocketException se)
         {
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not create socket server thread: " + se.Message);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not create socket server thread: " + se.Message);
         }
       }
     }
@@ -74,7 +74,7 @@ namespace nsRSMPGS
 
         foreach (cTcpSocketServerThread SocketServerThread in ServerSockets)
         {
-					Disconnect();
+          Disconnect();
         }
       }
 
@@ -131,11 +131,11 @@ namespace nsRSMPGS
 
         foreach (cTcpSocketServerThread SocketServerThread in ServerSockets)
         {
-					if (cTcpHelper.CloseAndDeleteStreamAndSocket(ref SocketServerThread.socketStream, ref SocketServerThread.tcpClient))
-					{
-						RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasClosed);
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from RSMP client");
-					}
+          if (cTcpHelper.CloseAndDeleteStreamAndSocket(ref SocketServerThread.socketStream, ref SocketServerThread.tcpClient))
+          {
+            RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasClosed);
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from RSMP client");
+          }
         }
       }
     }
@@ -226,7 +226,7 @@ namespace nsRSMPGS
     public TcpClient tcpClient;
     public cSocketStream socketStream;
 
-    //		public int TimeoutTimer;
+    //    public int TimeoutTimer;
     public int KeepAliveTimer;
 
     byte[] inBuffer = new byte[BUFLENGTH];
@@ -258,8 +258,8 @@ namespace nsRSMPGS
             byte[] SendBytes = Encoding.UTF8.GetBytes(SendString);
             byte[] bFormFeed = new byte[] { (byte)0x0c };
 
-						RSMPGS.Statistics["TxPackets"]++;
-						RSMPGS.Statistics["TxBytes"] += SendBytes.GetLength(0);
+            RSMPGS.Statistics["TxPackets"]++;
+            RSMPGS.Statistics["TxBytes"] += SendBytes.GetLength(0);
 
             switch (SocketServer.TcpSocket.WrapMethod)
             {
@@ -271,21 +271,21 @@ namespace nsRSMPGS
                 byte[] PacketLength = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(SendBytes.GetLength(0)));
                 SendByteArray(PacketLength, 0, PacketLength.GetLength(0), true, true);
                 SendByteArray(SendBytes, 0, SendBytes.GetLength(0), false, false);
-								RSMPGS.Statistics["TxBytes"] += PacketLength.GetLength(0);
-								break;
+                RSMPGS.Statistics["TxBytes"] += PacketLength.GetLength(0);
+                break;
               case cTcpHelper.WrapMethod_FormFeed:
                 SendByteArray(SendBytes, 0, SendBytes.GetLength(0), true, false);
                 SendByteArray(bFormFeed, 0, 1, false, false);
-								RSMPGS.Statistics["TxBytes"] += 1;
-								break;
+                RSMPGS.Statistics["TxBytes"] += 1;
+                break;
             }
             bSuccess = true;
           }
           catch (Exception e)
           {
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not send data: " + e.Message);
-						SocketServer.Disconnect();
-					}
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not send data: " + e.Message);
+            SocketServer.Disconnect();
+          }
         }
       }
 
@@ -329,9 +329,9 @@ namespace nsRSMPGS
       }
       catch (Exception e)
       {
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not send data: " + e.Message);
-				SocketServer.Disconnect();
-				return false;
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not send data: " + e.Message);
+        SocketServer.Disconnect();
+        return false;
       }
     }
 
@@ -364,17 +364,17 @@ namespace nsRSMPGS
 
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Client connection was accepted " + sClientIP);
 
-					tcpClient.NoDelay = RSMPGS.MainForm.ToolStripMenuItem_DisableNagleAlgorithm.Checked;
+          tcpClient.NoDelay = RSMPGS.MainForm.ToolStripMenuItem_DisableNagleAlgorithm.Checked;
 
-					RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasConnected);
+          RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasConnected);
 
           while (SocketServer.TcpSocket.ThreadShouldRun)
           {
-						if (RSMPGS.RSMPConnection.ReadBytesAndParsePacket(ref socketStream, ref tcpClient, ref inBuffer, ref inBufferLength) == false)
-						{
-							break;
-						}
-					}
+            if (RSMPGS.RSMPConnection.ReadBytesAndParsePacket(ref socketStream, ref tcpClient, ref inBuffer, ref inBufferLength) == false)
+            {
+              break;
+            }
+          }
 
         }
 
@@ -383,11 +383,11 @@ namespace nsRSMPGS
       {
         if (socketStream != null)
         {
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Some problem occured (" + sClientIP + "), closed socket: " + e.Message);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Some problem occured (" + sClientIP + "), closed socket: " + e.Message);
         }
       }
 
-			SocketServer.Disconnect();
+      SocketServer.Disconnect();
 
       if (sClientIP.Length > 0)
       {
