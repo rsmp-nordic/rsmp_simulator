@@ -778,6 +778,13 @@ namespace nsRSMPGS
         if (cHelper.IsSettingChecked("BufferAndSendStatusUpdatesWhenConnect"))
         {
 
+          for (int i = 0; i < StatusUpdateMessage.sS.Count; i++)
+          {
+            StatusUpdateMessage.sS[i].q = "buffered";
+          }
+
+          sSendBuffer = JSonSerializer.SerializeObject(StatusUpdateMessage);
+
           cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer);
           RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Buffered Status Update message, Type: " + StatusUpdateMessage.type + ", MsgId: " + StatusUpdateMessage.mId);

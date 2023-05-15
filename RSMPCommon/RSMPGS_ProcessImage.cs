@@ -181,6 +181,21 @@ namespace nsRSMPGS
 
                     string sType = YAMLArgument.GetScalar("type");
                     string sRange = YAMLArgument.GetScalar("range");
+                    Dictionary<string, cYAMLMapping> items = null;
+
+
+                    if (sType == "integer_list")
+                    {
+                       string min = YAMLArgument.GetScalar("min");
+                       string max = YAMLArgument.GetScalar("max");
+                       sRange = "[" + min + "-" + max + "]";
+                       sType = "integer";
+                    }
+
+                    if (sType == "array") {
+                        Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
+                        items = dictionary["items"].YAMLMappings;
+                    }
 
                     string sDescription = YAMLArgument.GetScalar("description");
 
@@ -208,11 +223,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, Values.YAMLScalars, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, Values.YAMLScalars, sDescription, items);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, null, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, null, sDescription, items);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1171,7 +1186,7 @@ namespace nsRSMPGS
       else
       {
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, sComment, null);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }

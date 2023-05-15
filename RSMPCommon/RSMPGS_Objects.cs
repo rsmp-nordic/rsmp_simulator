@@ -549,6 +549,7 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._real:
           case cValueTypeObject.eValueType._boolean:
           case cValueTypeObject.eValueType._ordinal:
+          case cValueTypeObject.eValueType._array:
             sValue = "?";
             break;
 
@@ -638,8 +639,9 @@ namespace nsRSMPGS
     public string sRange;
     public Dictionary<string, string> SelectableValues;
     public string sName;
+    public Dictionary<string, cYAMLMapping> Items;
 
-    public enum eValueType
+        public enum eValueType
     {
       _unknown,
       _string,
@@ -651,7 +653,8 @@ namespace nsRSMPGS
       _raw,
       _scale,
       _unit,
-      _ordinal
+      _ordinal,
+      _array
     }
 
     public string sComment;
@@ -659,7 +662,7 @@ namespace nsRSMPGS
 
     public eValueType ValueType;
 
-    public cValueTypeObject(string sValueTypeKey, string sName, string sType, string sRange, Dictionary<string, string> SelectableValues, string sComment)
+    public cValueTypeObject(string sValueTypeKey, string sName, string sType, string sRange, Dictionary<string, string> SelectableValues, string sComment, Dictionary<string, cYAMLMapping> items)
     {
 
       this.sValueTypeKey = sValueTypeKey;
@@ -667,9 +670,10 @@ namespace nsRSMPGS
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
+      this.Items = items;
 
-      //color
-      foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+            //color
+            foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
       {
         if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
         {
@@ -987,6 +991,10 @@ namespace nsRSMPGS
               return false;
             }
           }
+
+        case eValueType._array:
+
+         return true;
 
         default:
 

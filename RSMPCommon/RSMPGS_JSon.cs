@@ -30,8 +30,8 @@ namespace nsRSMPGS
 	}
 
 
-	public class cJSon
-	{
+  public class cJSon
+  {
 
     public enum AlarmSpecialisation
     {
@@ -64,141 +64,141 @@ namespace nsRSMPGS
     */
 
 
-		public cJSonSerializer JSonSerializer = new cJSonSerializer();
+    public cJSonSerializer JSonSerializer = new cJSonSerializer();
 
-		public DateTime LastSentWatchdogTimeStamp = DateTime.Now;
-		public DateTime LastReceivedWatchdogTimeStamp = DateTime.Now;
+    public DateTime LastSentWatchdogTimeStamp = DateTime.Now;
+    public DateTime LastReceivedWatchdogTimeStamp = DateTime.Now;
 
-		public cJSonMessageIdAndTimeStamp VersionPacket = null;
+    public cJSonMessageIdAndTimeStamp VersionPacket = null;
 
-		// 2019-05-22/TR Removed as watchdog packet ack it should not be expected ni the initial sequence
-		//public cJSonMessageIdAndTimeStamp WatchdogPacket = null;
+    // 2019-05-22/TR Removed as watchdog packet ack it should not be expected ni the initial sequence
+    //public cJSonMessageIdAndTimeStamp WatchdogPacket = null;
 
-		private bool bHaveGotVersionPacket = false;
-		private bool bHaveGotVersionPacketAck = false;
-		private bool bHaveGotWatchdogPacket = false;
-		// 2019-05-22/TR Removed as watchdog packet ack it should not be expected ni the initial sequence
-		//private bool bHaveGotWatchdogPacketAck = false;
+    private bool bHaveGotVersionPacket = false;
+    private bool bHaveGotVersionPacketAck = false;
+    private bool bHaveGotWatchdogPacket = false;
+    // 2019-05-22/TR Removed as watchdog packet ack it should not be expected ni the initial sequence
+    //private bool bHaveGotWatchdogPacketAck = false;
 
-		public bool bInitialNegotiationIsFinished = false;
+    public bool bInitialNegotiationIsFinished = false;
 
-		public RSMPVersion NegotiatedRSMPVersion = RSMPVersion.NotSupported;
+    public RSMPVersion NegotiatedRSMPVersion = RSMPVersion.NotSupported;
 
-		public List<cJSonMessageIdAndTimeStamp> JSonMessageIdAndTimeStamps = new List<cJSonMessageIdAndTimeStamp>();
+    public List<cJSonMessageIdAndTimeStamp> JSonMessageIdAndTimeStamps = new List<cJSonMessageIdAndTimeStamp>();
 
-		public enum RSMPVersion
-		{
-			// Numbering used to determine highest protocol number
-			NotSupported = 0,
+    public enum RSMPVersion
+    {
+      // Numbering used to determine highest protocol number
+      NotSupported = 0,
 
-			RSMP_3_1_1 = 1,
-			RSMP_3_1_2 = 2,
-			RSMP_3_1_3 = 3,
-			RSMP_3_1_4 = 4,
+      RSMP_3_1_1 = 1,
+      RSMP_3_1_2 = 2,
+      RSMP_3_1_3 = 3,
+      RSMP_3_1_4 = 4,
       RSMP_3_1_5 = 5,
     }
 
-		public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
+    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
 
-		public bool DecodeAndParseJSonPacket(string sJSon)
-		{
+    public bool DecodeAndParseJSonPacket(string sJSon)
+    {
 
-			RSMP_Messages.Header Header;
+      RSMP_Messages.Header Header;
 
-			bool bSuccess = true;
+      bool bSuccess = true;
 
-			string sError = "";
+      string sError = "";
 
-			bool bUseStrictProtocolAnalysis = cHelper.IsSettingChecked("UseStrictProtocolAnalysis");
-			bool bUseCaseSensitiveIds = cHelper.IsSettingChecked("UseCaseSensitiveIds");
+      bool bUseStrictProtocolAnalysis = cHelper.IsSettingChecked("UseStrictProtocolAnalysis");
+      bool bUseCaseSensitiveIds = cHelper.IsSettingChecked("UseCaseSensitiveIds");
 
-			StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+      StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-			if (sJSon.Length == 0)
-			{
-				return true;
-			}
+      if (sJSon.Length == 0)
+      {
+        return true;
+      }
 
-			try
-			{
+      try
+      {
 
-				Header = JSonSerializer.Deserialize<RSMP_Messages.Header>(sJSon);
+        Header = JSonSerializer.Deserialize<RSMP_Messages.Header>(sJSon);
 
-				RSMPGS.SysLog.AddJSonDebugData(cSysLogAndDebug.Direction_In, Header.type, sJSon);
+        RSMPGS.SysLog.AddJSonDebugData(cSysLogAndDebug.Direction_In, Header.type, sJSon);
 
-				if (Header.mType == null || Header.type == null)
-				{
-					string sReason = "Packet header is bad";
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sReason);
-					return false;
-				}
+        if (Header.mType == null || Header.type == null)
+        {
+          string sReason = "Packet header is bad";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sReason);
+          return false;
+        }
 
-				if (Header.mType.Equals("rSMsg", sc) == false)
-				{
-					string sReason = "Packet Message Type is not 'rSMsg'";
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sReason);
-					SendPacketAck(false, Header.mId, sReason);
-					return false;
-				}
+        if (Header.mType.Equals("rSMsg", sc) == false)
+        {
+          string sReason = "Packet Message Type is not 'rSMsg'";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sReason);
+          SendPacketAck(false, Header.mId, sReason);
+          return false;
+        }
 
-				// We could have closed the port because of some version issue, throw any packets
-				if (RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected)
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Threw packet we got when we are closing the connection, Type: {0}", Header.type);
-					return false;
-				}
+        // We could have closed the port because of some version issue, throw any packets
+        if (RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Threw packet we got when we are closing the connection, Type: {0}", Header.type);
+          return false;
+        }
 
-				if (bUseStrictProtocolAnalysis)
-				{
-					if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
-					{
-						bSuccess = ValidateGUID(Header.mId, ref sError);
-					}
-				}
+        if (bUseStrictProtocolAnalysis)
+        {
+          if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
+          {
+            bSuccess = ValidateGUID(Header.mId, ref sError);
+          }
+        }
 
-				if (bUseStrictProtocolAnalysis == true && bSuccess == true)
-				{
+        if (bUseStrictProtocolAnalysis == true && bSuccess == true)
+        {
 
-					switch (Header.type.ToLower())
-					{
-						case "version":
+          switch (Header.type.ToLower())
+          {
+            case "version":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "Version", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Version", ref sError);
 
-							break;
+              break;
 
-						case "messageack":
+            case "messageack":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.MessageAck), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "MessageAck", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.MessageAck), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "MessageAck", ref sError);
 
-							break;
+              break;
 
-						case "messagenotack":
+            case "messagenotack":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.MessageNotAck), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "MessageNotAck", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.MessageNotAck), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "MessageNotAck", ref sError);
 
-							break;
+              break;
 
-						case "alarm":
+            case "alarm":
 #if _RSMPGS2
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeaderAndBody), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "Alarm", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeaderAndBody), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Alarm", ref sError);
 #endif
 #if _RSMPGS1
 							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeader), sJSon, ref sError) &&
 								ValidatePropertiesString(Header.type, "Alarm", ref sError);
 #endif
-							break;
+              break;
 
-						case "aggregatedstatus":
+            case "aggregatedstatus":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AggregatedStatus), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "AggregatedStatus", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AggregatedStatus), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "AggregatedStatus", ref sError);
 
-							break;
+              break;
 
             case "aggregatedstatusrequest":
 
@@ -209,26 +209,26 @@ namespace nsRSMPGS
 
             case "commandrequest":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandRequest), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "CommandRequest", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandRequest), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "CommandRequest", ref sError);
 
-							break;
+              break;
 
-						case "commandresponse":
+            case "commandresponse":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandResponse), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "CommandResponse", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandResponse), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "CommandResponse", ref sError);
 
-							break;
+              break;
 
-						case "statusrequest":
+            case "statusrequest":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusRequest), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "StatusRequest", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusRequest), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "StatusRequest", ref sError);
 
-							break;
+              break;
 
-						case "statussubscribe":
+            case "statussubscribe":
               if (NegotiatedRSMPVersion > RSMPVersion.RSMP_3_1_4)
               {
                 bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusSubscribe_Over_3_1_4), sJSon, ref sError) &&
@@ -240,75 +240,75 @@ namespace nsRSMPGS
                   ValidatePropertiesString(Header.type, "StatusSubscribe", ref sError);
               }
 
-							break;
+              break;
 
-						case "statusunsubscribe":
+            case "statusunsubscribe":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusUnsubscribe), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "StatusUnsubscribe", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusUnsubscribe), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "StatusUnsubscribe", ref sError);
 
-							break;
+              break;
 
-						case "statusresponse":
+            case "statusresponse":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusResponse), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "StatusResponse", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusResponse), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "StatusResponse", ref sError);
 
-							break;
+              break;
 
-						case "statusupdate":
+            case "statusupdate":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusUpdate), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "StatusUpdate", ref sError);
-							break;
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusUpdate), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "StatusUpdate", ref sError);
+              break;
 
-						case "watchdog":
+            case "watchdog":
 
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.Watchdog), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "Watchdog", ref sError);
-							break;
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.Watchdog), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Watchdog", ref sError);
+              break;
 
-						default:
-							sError = "Unknown packet type: " + Header.type;
-							bSuccess = false;
-							break;
+            default:
+              sError = "Unknown packet type: " + Header.type;
+              bSuccess = false;
+              break;
 
-					}
+          }
 
-					if (bSuccess == false)
-					{
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to deserialize packet: {0}", sError);
-						if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
-						{
-							SendPacketAck(false, Header.mId, sError);
-						}
-						return false;
-					}
+          if (bSuccess == false)
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to deserialize packet: {0}", sError);
+            if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
+            {
+              SendPacketAck(false, Header.mId, sError);
+            }
+            return false;
+          }
 
-				}
+        }
 
-				if (bInitialNegotiationIsFinished == false)
-				{
+        if (bInitialNegotiationIsFinished == false)
+        {
 
-					switch (Header.type.ToLower())
-					{
-						case "messageack":
+          switch (Header.type.ToLower())
+          {
+            case "messageack":
 
-							RSMP_Messages.MessageAck MessageAck = JSonSerializer.Deserialize<RSMP_Messages.MessageAck>(sJSon);
+              RSMP_Messages.MessageAck MessageAck = JSonSerializer.Deserialize<RSMP_Messages.MessageAck>(sJSon);
 
-							if (bHaveGotVersionPacketAck == false && VersionPacket != null && MessageAck.oMId == VersionPacket.MessageId)
-							{
-								if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-								{
-									RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Version packet was acked");
-								}
-								VersionPacket = null;
-								bHaveGotVersionPacketAck = true;
-								FindOutIfWeAreFinishedWithNegotiation();
+              if (bHaveGotVersionPacketAck == false && VersionPacket != null && MessageAck.oMId == VersionPacket.MessageId)
+              {
+                if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+                {
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Version packet was acked");
+                }
+                VersionPacket = null;
+                bHaveGotVersionPacketAck = true;
+                FindOutIfWeAreFinishedWithNegotiation();
 
-								return true;
-							}
-							/*
+                return true;
+              }
+              /*
 
 							if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageAck.oMId == WatchdogPacket.MessageId)
 							{
@@ -323,20 +323,20 @@ namespace nsRSMPGS
 							}
 							*/
 
-							break;
+              break;
 
-						case "messagenotack":
+            case "messagenotack":
 
-							RSMP_Messages.MessageNotAck MessageNotAck = JSonSerializer.Deserialize<RSMP_Messages.MessageNotAck>(sJSon);
+              RSMP_Messages.MessageNotAck MessageNotAck = JSonSerializer.Deserialize<RSMP_Messages.MessageNotAck>(sJSon);
 
-							if (bHaveGotVersionPacketAck == false && VersionPacket != null && MessageNotAck.oMId == VersionPacket.MessageId)
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Version packet was rejected, reason: {0}", MessageNotAck.rea);
-								VersionPacket = null;
-								RSMPGS.RSMPConnection.Disconnect();
-								return false;
-							}
-							/*
+              if (bHaveGotVersionPacketAck == false && VersionPacket != null && MessageNotAck.oMId == VersionPacket.MessageId)
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Version packet was rejected, reason: {0}", MessageNotAck.rea);
+                VersionPacket = null;
+                RSMPGS.RSMPConnection.Disconnect();
+                return false;
+              }
+              /*
 							if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageNotAck.oMId == WatchdogPacket.MessageId)
 							{
 								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Initial watchdog was rejected, reason: {0}", MessageNotAck.rea);
@@ -350,106 +350,106 @@ namespace nsRSMPGS
 							}
 							*/
 
-							break;
+              break;
 
-						case "version":
+            case "version":
 
-							if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got version packet, Type: {0}, mId: {1}", Header.type, Header.mId);
-							}
+              if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got version packet, Type: {0}, mId: {1}", Header.type, Header.mId);
+              }
 
-							if (DecodeAndParseVersionMessage(sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref sError) == false)
-							{
-								SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible");
-								// Allow for some negotiation
-								Thread.Sleep(100);
-								RSMPGS.RSMPConnection.Disconnect();
-								return false;
-							}
-							else
-							{
+              if (DecodeAndParseVersionMessage(sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref sError) == false)
+              {
+                SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible");
+                // Allow for some negotiation
+                Thread.Sleep(100);
+                RSMPGS.RSMPConnection.Disconnect();
+                return false;
+              }
+              else
+              {
 
-								SendPacketAck(true, Header.mId, "");
+                SendPacketAck(true, Header.mId, "");
 
-								bHaveGotVersionPacket = true;
+                bHaveGotVersionPacket = true;
 
-								if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
-								{
-									if (cHelper.IsSettingChecked("SendVersionInfoAtConnect"))
-									{
-										// We are supervision (SCADA), send version now when we got the roadside version
-										VersionPacket = RSMPGS.JSon.CreateAndSendVersionMessage();
-									}
-									else
-									{
-										// Don't expect any starting packets, just begin comms
-										NegotiatedRSMPVersion = FindOutHighestCheckedRSMPVersion();
-										bHaveGotVersionPacketAck = true;
+                if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
+                {
+                  if (cHelper.IsSettingChecked("SendVersionInfoAtConnect"))
+                  {
+                    // We are supervision (SCADA), send version now when we got the roadside version
+                    VersionPacket = RSMPGS.JSon.CreateAndSendVersionMessage();
+                  }
+                  else
+                  {
+                    // Don't expect any starting packets, just begin comms
+                    NegotiatedRSMPVersion = FindOutHighestCheckedRSMPVersion();
+                    bHaveGotVersionPacketAck = true;
 
-										if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
-										{
-											//WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
-											RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
-										}
-										else
-										{
-											//bHaveGotWatchdogPacketAck = true;
-											bHaveGotWatchdogPacket = true;
-										}
+                    if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
+                    {
+                      //WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
+                      RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
+                    }
+                    else
+                    {
+                      //bHaveGotWatchdogPacketAck = true;
+                      bHaveGotWatchdogPacket = true;
+                    }
 
-									}
-								}
-								if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
-								{
-									if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
-									{
-										//WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
-										RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
-									}
-									else
-									{
-										//bHaveGotWatchdogPacketAck = true;
-										bHaveGotWatchdogPacket = true;
-									}
-								}
-							}
-							FindOutIfWeAreFinishedWithNegotiation();
-							return true;
+                  }
+                }
+                if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
+                {
+                  if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
+                  {
+                    //WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
+                    RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
+                  }
+                  else
+                  {
+                    //bHaveGotWatchdogPacketAck = true;
+                    bHaveGotWatchdogPacket = true;
+                  }
+                }
+              }
+              FindOutIfWeAreFinishedWithNegotiation();
+              return true;
 
-						case "watchdog":
+            case "watchdog":
 
-							if (bHaveGotWatchdogPacket == false)
-							{
+              if (bHaveGotWatchdogPacket == false)
+              {
 
-								if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-								{
-									RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got initial Watchdog packet, Type: {0}, mId: {1}", Header.type, Header.mId);
-								}
+                if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+                {
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got initial Watchdog packet, Type: {0}, mId: {1}", Header.type, Header.mId);
+                }
 
-								SendPacketAck(true, Header.mId, "");
+                SendPacketAck(true, Header.mId, "");
 
-								bHaveGotWatchdogPacket = true;
+                bHaveGotWatchdogPacket = true;
 
-								if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
-								{
-									if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
-									{
-										//WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
-										RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
-									}
-									else
-									{
-										//bHaveGotWatchdogPacketAck = true;
-										bHaveGotWatchdogPacket = true;
-									}
-								}
-								FindOutIfWeAreFinishedWithNegotiation();
-								return true;
-							}
-							break;
+                if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
+                {
+                  if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
+                  {
+                    //WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
+                    RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
+                  }
+                  else
+                  {
+                    //bHaveGotWatchdogPacketAck = true;
+                    bHaveGotWatchdogPacket = true;
+                  }
+                }
+                FindOutIfWeAreFinishedWithNegotiation();
+                return true;
+              }
+              break;
 
-					}
+          }
 
           // 2019-05-22/TR Don't care about these
           if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
@@ -462,453 +462,453 @@ namespace nsRSMPGS
               return false;
             }
           }
-				}
-
-				switch (Header.type.ToLower())
-				{
-					case "messageack":
-						bSuccess = DecodeAndParseMessageAckMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
-						break;
-
-					case "messagenotack":
-						bSuccess = DecodeAndParseMessageNotAckMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
-						break;
-
-					case "watchdog":
-						bSuccess = DecodeAndParseWatchdogMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
-						if (bSuccess)
-						{
-							if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got message, Type: {0}, mId: {1}", Header.type, Header.mId);
-							}
-							SendPacketAck(true, Header.mId, "");
-						}
-						break;
-
-					default:
-						if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-						{
-							RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got message, Type: {0}, mId: {1}", Header.type, Header.mId);
-						}
-						bool bHasSentAckOrNack = false;
-						bSuccess = DecodeAndParseGSSpecificJSonPacket(Header, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
-						if (bHasSentAckOrNack == false)
-						{
-							SendPacketAck(bSuccess, Header.mId, sError);
-						}
-
-						break;
-				}
-			}
-			catch (Exception e)
-			{
-				sError = "Failed to deserialize packet: " + e.Message;
-				SendPacketAck(false, "00000000-0000-0000-0000-000000000000", sError);
-				bSuccess = false;
-			}
-
-			if (bSuccess == false)
-			{
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to parse packet: {0}", sError);
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-
-		}
-
-
-		public virtual void SocketWasConnected()
-		{
-
-			LastSentWatchdogTimeStamp = DateTime.MinValue;
-
-			//initSequence = InitSequence.None;
-
-			//RSMPVersion HighestRSMPVersion = FindOutHighestCheckedRSMPVersion();
-
-			NegotiatedRSMPVersion = RSMPVersion.NotSupported;
-
-			VersionPacket = null;
-			//WatchdogPacket = null;
-
-			bHaveGotVersionPacket = false;
-			bHaveGotVersionPacketAck = false;
-			bHaveGotWatchdogPacket = false;
-			//bHaveGotWatchdogPacketAck = false;
-
-			bInitialNegotiationIsFinished = false;
-
-			if (cHelper.IsSettingChecked("SendVersionInfoAtConnect"))
-			{
-				if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
-				{
-					// We are roadside, send version first
-					VersionPacket = RSMPGS.JSon.CreateAndSendVersionMessage();
-				}
-			}
-			else
-			{
-				NegotiatedRSMPVersion = FindOutHighestCheckedRSMPVersion(); ;
-				bHaveGotVersionPacket = true;
-				bHaveGotVersionPacketAck = true;
-				if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
-				{
-					if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
-					{
-						RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
-						//WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
-					}
-				}
-			}
+        }
+
+        switch (Header.type.ToLower())
+        {
+          case "messageack":
+            bSuccess = DecodeAndParseMessageAckMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
+            break;
+
+          case "messagenotack":
+            bSuccess = DecodeAndParseMessageNotAckMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
+            break;
+
+          case "watchdog":
+            bSuccess = DecodeAndParseWatchdogMessage(sJSon, bUseStrictProtocolAnalysis, ref sError);
+            if (bSuccess)
+            {
+              if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got message, Type: {0}, mId: {1}", Header.type, Header.mId);
+              }
+              SendPacketAck(true, Header.mId, "");
+            }
+            break;
+
+          default:
+            if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+            {
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got message, Type: {0}, mId: {1}", Header.type, Header.mId);
+            }
+            bool bHasSentAckOrNack = false;
+            bSuccess = DecodeAndParseGSSpecificJSonPacket(Header, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+            if (bHasSentAckOrNack == false)
+            {
+              SendPacketAck(bSuccess, Header.mId, sError);
+            }
+
+            break;
+        }
+      }
+      catch (Exception e)
+      {
+        sError = "Failed to deserialize packet: " + e.Message;
+        SendPacketAck(false, "00000000-0000-0000-0000-000000000000", sError);
+        bSuccess = false;
+      }
+
+      if (bSuccess == false)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to parse packet: {0}", sError);
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+
+    }
+
+
+    public virtual void SocketWasConnected()
+    {
+
+      LastSentWatchdogTimeStamp = DateTime.MinValue;
+
+      //initSequence = InitSequence.None;
+
+      //RSMPVersion HighestRSMPVersion = FindOutHighestCheckedRSMPVersion();
+
+      NegotiatedRSMPVersion = RSMPVersion.NotSupported;
+
+      VersionPacket = null;
+      //WatchdogPacket = null;
+
+      bHaveGotVersionPacket = false;
+      bHaveGotVersionPacketAck = false;
+      bHaveGotWatchdogPacket = false;
+      //bHaveGotWatchdogPacketAck = false;
+
+      bInitialNegotiationIsFinished = false;
+
+      if (cHelper.IsSettingChecked("SendVersionInfoAtConnect"))
+      {
+        if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
+        {
+          // We are roadside, send version first
+          VersionPacket = RSMPGS.JSon.CreateAndSendVersionMessage();
+        }
+      }
+      else
+      {
+        NegotiatedRSMPVersion = FindOutHighestCheckedRSMPVersion(); ;
+        bHaveGotVersionPacket = true;
+        bHaveGotVersionPacketAck = true;
+        if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup"))
+        {
+          if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1)
+          {
+            RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
+            //WatchdogPacket = RSMPGS.JSon.CreateAndSendWatchdogMessage(false);
+          }
+        }
+      }
 
-			// For both RSMP-simulators
-			if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup") == false)
-			{
-				//bHaveGotWatchdogPacketAck = true;
-				bHaveGotWatchdogPacket = true;
-			}
-
-			FindOutIfWeAreFinishedWithNegotiation();
+      // For both RSMP-simulators
+      if (cHelper.IsSettingChecked("SendWatchdogPacketAtStartup") == false)
+      {
+        //bHaveGotWatchdogPacketAck = true;
+        bHaveGotWatchdogPacket = true;
+      }
+
+      FindOutIfWeAreFinishedWithNegotiation();
 
-		}
+    }
 
-		private void FindOutIfWeAreFinishedWithNegotiation()
-		{
-			if (bInitialNegotiationIsFinished == false &&
-				bHaveGotVersionPacket == true &&
-				bHaveGotVersionPacketAck == true &&
-				bHaveGotWatchdogPacket == true)
-				//bHaveGotWatchdogPacketAck == true)
-			{
-
-				bInitialNegotiationIsFinished = true;
-				SocketIsConnectedAndInitSequenceIsNegotiated();
-			}
-		}
-
-		public virtual void SocketIsConnectedAndInitSequenceIsNegotiated()
-		{
-
-			RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Initial negotiation has finished, ready for communication");
-
-			RSMPGS.JSon.LastReceivedWatchdogTimeStamp = DateTime.Now;
-			LastSentWatchdogTimeStamp = DateTime.Now;
-
-			bInitialNegotiationIsFinished = true;
-
-		}
-
-		public virtual void SocketWasClosed()
-		{
-
-			NegotiatedRSMPVersion = RSMPVersion.NotSupported;
-
-			VersionPacket = null;
-			//WatchdogPacket = null;
-
-			bHaveGotVersionPacket = false;
-			bHaveGotVersionPacketAck = false;
-			bHaveGotWatchdogPacket = false;
-			//bHaveGotWatchdogPacketAck = false;
-
-			bInitialNegotiationIsFinished = false;
-
-			JSonMessageIdAndTimeStamps.Clear();
-		}
-
-		public virtual bool DecodeAndParseGSSpecificJSonPacket(RSMP_Messages.Header Header, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
-		{
-			return false;
-		}
-
-		protected bool SendPacketAck(bool bSendPositiveAck, string oMId, string sReason)
-		{
-
-			bool bSuccess = false;
-
-			if (cHelper.IsSettingChecked("DontAckPackets"))
-			{
-				return true;
-			}
-
-			if (bSendPositiveAck)
-			{
-				RSMP_Messages.MessageAck MsgAck = new RSMP_Messages.MessageAck();
-				MsgAck.mType = "rSMsg";
-				MsgAck.type = "MessageAck";
-				MsgAck.oMId = oMId;
-				string sSendBuffer = JSonSerializer.SerializeObject(MsgAck);
-				bSuccess = RSMPGS.JSon.SendJSonPacket(MsgAck.type, null, sSendBuffer, false);
-			}
-			else
-			{
-				RSMP_Messages.MessageNotAck MsgNAck = new RSMP_Messages.MessageNotAck();
-				MsgNAck.mType = "rSMsg";
-				MsgNAck.type = "MessageNotAck";
-				MsgNAck.rea = sReason;
-				MsgNAck.oMId = oMId;
-				string sSendBuffer = JSonSerializer.SerializeObject(MsgNAck);
-				bSuccess = RSMPGS.JSon.SendJSonPacket(MsgNAck.type, null, sSendBuffer, false);
-			}
-
-			return bSuccess;
-
-		}
-
-		public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
-		{
-
-			RSMP_Messages.rsVersion rsVersion = new RSMP_Messages.rsVersion();
-
-			int iIndex;
-
-			rsVersion.mType = "rSMsg";
-			rsVersion.type = "Version";
-			rsVersion.mId = System.Guid.NewGuid().ToString();
-			rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
-			rsVersion.siteId = new List<RSMP_Messages.SiteId>();
-
-			cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
-
-			for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
-			{
-				if (setting.GetActualValue((RSMPVersion)iIndex))
-				{
-					rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
-				}
-			}
-			
-			rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
-			foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
-			{
-				RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
-				sId.sId = SiteIdObject.sSiteId;
-				rsVersion.siteId.Add(sId);
-			}
-
-			string sSendBuffer = JSonSerializer.SerializeObject(rsVersion);
-
-			cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(rsVersion.type, rsVersion.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
-
-			// Don't pass through message queueing
-			if (RSMPGS.RSMPConnection.SendJSonPacket(rsVersion.type, rsVersion.mId, sSendBuffer))
-			{
-				if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent Version packet, MsgId: {0}", rsVersion.mId);
-				}
-				return JSonMessageIdAndTimeStamp;
-			}
-			else
-			{
-				return null;
-			}
-
-		}
-
-		private bool DecodeAndParseVersionMessage(string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref string sError)
-		{
-
-			RSMPVersion HighestRSMPVersion = RSMPVersion.NotSupported;
-
-			bool bSXLVersionIsOk = false;
-
-			int iIndex;
-
-			try
-			{
-				RSMP_Messages.rsVersion rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion>(sJSon);
-
-				cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
-
-				foreach (RSMP_Messages.Version_RSMP Version_RSMP in rsVersion.RSMP)
-				{
-					// Validate this version is not unknown
-					for (iIndex = 1; iIndex < sRSMPVersions.Count(); iIndex++)
-					{
-						if (Version_RSMP.vers.Trim() == sRSMPVersions[iIndex])
-						{
-							if (setting.GetActualValue((RSMPVersion)iIndex) == true && (int)HighestRSMPVersion < iIndex)
-							{
-								HighestRSMPVersion = (RSMPVersion)iIndex;
-							}
-							break;
-						}
-					}
-					if (iIndex == sRSMPVersions.Count())
-					{
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Client RSMP version '{0}' is unknown", Version_RSMP.vers.Trim());
-					}
-				}
-				bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
-			}
-			catch (Exception e)
-			{
-				sError = "Failed to deserialize version packet: " + e.Message;
-				return false;
-			}
-
-			if (HighestRSMPVersion == RSMPVersion.NotSupported)
-			{
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Client RSMP version is not compatible");
-			}
-			else
-			{
-
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We will use RSMP protocol version {0}", sRSMPVersions[(int)HighestRSMPVersion]);
-			}
-
-			if (bSXLVersionIsOk == false)
-			{
-				RSMPGS.SysLog.SysLog(cHelper.IsSettingChecked("SXL_VersionIgnore") ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Error,
-					"Client SXL (SUL) version is not compatible");
-			}
-
-			if (HighestRSMPVersion == RSMPVersion.NotSupported || bSXLVersionIsOk == false)
-			{
-				if (cHelper.IsSettingChecked("SXL_VersionIgnore") == true)
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Ignoring client version incompability");
-				}
-				else
-				{
-					sError = "Client version(s) are incompatible, closing connection";
-					return false;
-				}
-			}
-
-			NegotiatedRSMPVersion = HighestRSMPVersion;
-
-			return true;
-
-		}
-
-		private bool DecodeAndParseMessageAckMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
-		{
-
-			RSMP_Messages.MessageAck MessageAck = JSonSerializer.Deserialize<RSMP_Messages.MessageAck>(sJSon);
-
-			if (MessageAck.oMId == null)
-			{
-				sError = "MessageAck.oMId is null";
-				return bUseStrictProtocolAnalysis ? false : true;
-			}
-
-			if (MessageAck.oMId == "")
-			{
-				sError = "MessageAck.oMId does not contain any GUID";
-				return bUseStrictProtocolAnalysis ? false : true;
-			}
-
-			RemovePacketFromJSonMessageIdAndTimeStamps(MessageAck.oMId);
-
-			return true;
-
-		}
-
-		private bool DecodeAndParseMessageNotAckMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
-		{
-
-			RSMP_Messages.MessageNotAck MessageNotAck = JSonSerializer.Deserialize<RSMP_Messages.MessageNotAck>(sJSon);
-
-			if (MessageNotAck.oMId == null)
-			{
-				sError = "MessageNotAck.oMId is null";
-				return bUseStrictProtocolAnalysis ? false : true;
-			}
-
-			if (MessageNotAck.oMId == "")
-			{
-				sError = "MessageNotAck.oMId is null";
-				return bUseStrictProtocolAnalysis ? false : true;
-			}
-
-			RemovePacketFromJSonMessageIdAndTimeStamps(MessageNotAck.oMId);
-
-			RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Message mId: {0} was refused, reason: {1}", MessageNotAck.oMId, MessageNotAck.rea);
-
-			return true;
-
-		}
-
-		public bool DecodeAndParseWatchdogMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
-		{
-
-			bool bSuccess = false;
-
-			try
-			{
-
-				RSMP_Messages.Watchdog Watchdog = JSonSerializer.Deserialize<RSMP_Messages.Watchdog>(sJSon);
-
-				LastReceivedWatchdogTimeStamp = DateTime.Now;
-
-				bSuccess = true;
-
-			}
-			catch (Exception e)
-			{
-				sError = "Failed to deserialize packet: " + e.Message;
-			}
-			return bSuccess;
-
-		}
-
-		public cJSonMessageIdAndTimeStamp CreateAndSendWatchdogMessage(bool bExpectAckOrNack)
-		{
-
-			RSMP_Messages.Watchdog Watchdog = new RSMP_Messages.Watchdog();
-
-			Watchdog.mType = "rSMsg";
-			Watchdog.type = "Watchdog";
-			Watchdog.mId = System.Guid.NewGuid().ToString();
-			//Watchdog.wTs = DateTime.UtcNow;
-			// 2012-10-25/TR CreateLocalTimeStamp() changed to CreateISO8601UTCTimeStamp()
-			Watchdog.wTs = CreateISO8601UTCTimeStamp();
-
-			cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = null;
-
-			LastSentWatchdogTimeStamp = DateTime.Now;
-
-			string sSendBuffer = JSonSerializer.SerializeObject(Watchdog);
-
-			if (bExpectAckOrNack == false)
-			{
-				if (RSMPGS.RSMPConnection.SendJSonPacket(Watchdog.type, Watchdog.mId, sSendBuffer))
-				{
-					JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(Watchdog.type, Watchdog.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
-					if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-					{
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent initial Watchdog message, MsgId: {0}", Watchdog.mId);
-					}
-				}
-				else
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to send initial Watchdog message, MsgId: {0}", Watchdog.mId);
-				}
-			}
-			else
-			{
-				if (RSMPGS.JSon.SendJSonPacket(Watchdog.type, Watchdog.mId, sSendBuffer, false))
-				{
-					if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-					{
-						RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent Watchdog message, MsgId: {0}", Watchdog.mId);
-					}
-				}
-				else
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to send Watchdog message, MsgId: {0}", Watchdog.mId);
-				}
-			}
-
-			return JSonMessageIdAndTimeStamp;
-
-		}
+    private void FindOutIfWeAreFinishedWithNegotiation()
+    {
+      if (bInitialNegotiationIsFinished == false &&
+        bHaveGotVersionPacket == true &&
+        bHaveGotVersionPacketAck == true &&
+        bHaveGotWatchdogPacket == true)
+      //bHaveGotWatchdogPacketAck == true)
+      {
+
+        bInitialNegotiationIsFinished = true;
+        SocketIsConnectedAndInitSequenceIsNegotiated();
+      }
+    }
+
+    public virtual void SocketIsConnectedAndInitSequenceIsNegotiated()
+    {
+
+      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Initial negotiation has finished, ready for communication");
+
+      RSMPGS.JSon.LastReceivedWatchdogTimeStamp = DateTime.Now;
+      LastSentWatchdogTimeStamp = DateTime.Now;
+
+      bInitialNegotiationIsFinished = true;
+
+    }
+
+    public virtual void SocketWasClosed()
+    {
+
+      NegotiatedRSMPVersion = RSMPVersion.NotSupported;
+
+      VersionPacket = null;
+      //WatchdogPacket = null;
+
+      bHaveGotVersionPacket = false;
+      bHaveGotVersionPacketAck = false;
+      bHaveGotWatchdogPacket = false;
+      //bHaveGotWatchdogPacketAck = false;
+
+      bInitialNegotiationIsFinished = false;
+
+      JSonMessageIdAndTimeStamps.Clear();
+    }
+
+    public virtual bool DecodeAndParseGSSpecificJSonPacket(RSMP_Messages.Header Header, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
+    {
+      return false;
+    }
+
+    protected bool SendPacketAck(bool bSendPositiveAck, string oMId, string sReason)
+    {
+
+      bool bSuccess = false;
+
+      if (cHelper.IsSettingChecked("DontAckPackets"))
+      {
+        return true;
+      }
+
+      if (bSendPositiveAck)
+      {
+        RSMP_Messages.MessageAck MsgAck = new RSMP_Messages.MessageAck();
+        MsgAck.mType = "rSMsg";
+        MsgAck.type = "MessageAck";
+        MsgAck.oMId = oMId;
+        string sSendBuffer = JSonSerializer.SerializeObject(MsgAck);
+        bSuccess = RSMPGS.JSon.SendJSonPacket(MsgAck.type, null, sSendBuffer, false);
+      }
+      else
+      {
+        RSMP_Messages.MessageNotAck MsgNAck = new RSMP_Messages.MessageNotAck();
+        MsgNAck.mType = "rSMsg";
+        MsgNAck.type = "MessageNotAck";
+        MsgNAck.rea = sReason;
+        MsgNAck.oMId = oMId;
+        string sSendBuffer = JSonSerializer.SerializeObject(MsgNAck);
+        bSuccess = RSMPGS.JSon.SendJSonPacket(MsgNAck.type, null, sSendBuffer, false);
+      }
+
+      return bSuccess;
+
+    }
+
+    public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
+    {
+
+      RSMP_Messages.rsVersion rsVersion = new RSMP_Messages.rsVersion();
+
+      int iIndex;
+
+      rsVersion.mType = "rSMsg";
+      rsVersion.type = "Version";
+      rsVersion.mId = System.Guid.NewGuid().ToString();
+      rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
+      rsVersion.siteId = new List<RSMP_Messages.SiteId>();
+
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+
+      for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      {
+        if (setting.GetActualValue((RSMPVersion)iIndex))
+        {
+          rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+        }
+      }
+
+      rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
+      foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
+      {
+        RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
+        sId.sId = SiteIdObject.sSiteId;
+        rsVersion.siteId.Add(sId);
+      }
+
+      string sSendBuffer = JSonSerializer.SerializeObject(rsVersion);
+
+      cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(rsVersion.type, rsVersion.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
+
+      // Don't pass through message queueing
+      if (RSMPGS.RSMPConnection.SendJSonPacket(rsVersion.type, rsVersion.mId, sSendBuffer))
+      {
+        if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent Version packet, MsgId: {0}", rsVersion.mId);
+        }
+        return JSonMessageIdAndTimeStamp;
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
+    private bool DecodeAndParseVersionMessage(string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref string sError)
+    {
+
+      RSMPVersion HighestRSMPVersion = RSMPVersion.NotSupported;
+
+      bool bSXLVersionIsOk = false;
+
+      int iIndex;
+
+      try
+      {
+        RSMP_Messages.rsVersion rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion>(sJSon);
+
+        cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+
+        foreach (RSMP_Messages.Version_RSMP Version_RSMP in rsVersion.RSMP)
+        {
+          // Validate this version is not unknown
+          for (iIndex = 1; iIndex < sRSMPVersions.Count(); iIndex++)
+          {
+            if (Version_RSMP.vers.Trim() == sRSMPVersions[iIndex])
+            {
+              if (setting.GetActualValue((RSMPVersion)iIndex) == true && (int)HighestRSMPVersion < iIndex)
+              {
+                HighestRSMPVersion = (RSMPVersion)iIndex;
+              }
+              break;
+            }
+          }
+          if (iIndex == sRSMPVersions.Count())
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Client RSMP version '{0}' is unknown", Version_RSMP.vers.Trim());
+          }
+        }
+        bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
+      }
+      catch (Exception e)
+      {
+        sError = "Failed to deserialize version packet: " + e.Message;
+        return false;
+      }
+
+      if (HighestRSMPVersion == RSMPVersion.NotSupported)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Client RSMP version is not compatible");
+      }
+      else
+      {
+
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We will use RSMP protocol version {0}", sRSMPVersions[(int)HighestRSMPVersion]);
+      }
+
+      if (bSXLVersionIsOk == false)
+      {
+        RSMPGS.SysLog.SysLog(cHelper.IsSettingChecked("SXL_VersionIgnore") ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Error,
+          "Client SXL (SUL) version is not compatible");
+      }
+
+      if (HighestRSMPVersion == RSMPVersion.NotSupported || bSXLVersionIsOk == false)
+      {
+        if (cHelper.IsSettingChecked("SXL_VersionIgnore") == true)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Ignoring client version incompability");
+        }
+        else
+        {
+          sError = "Client version(s) are incompatible, closing connection";
+          return false;
+        }
+      }
+
+      NegotiatedRSMPVersion = HighestRSMPVersion;
+
+      return true;
+
+    }
+
+    private bool DecodeAndParseMessageAckMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
+    {
+
+      RSMP_Messages.MessageAck MessageAck = JSonSerializer.Deserialize<RSMP_Messages.MessageAck>(sJSon);
+
+      if (MessageAck.oMId == null)
+      {
+        sError = "MessageAck.oMId is null";
+        return bUseStrictProtocolAnalysis ? false : true;
+      }
+
+      if (MessageAck.oMId == "")
+      {
+        sError = "MessageAck.oMId does not contain any GUID";
+        return bUseStrictProtocolAnalysis ? false : true;
+      }
+
+      RemovePacketFromJSonMessageIdAndTimeStamps(MessageAck.oMId);
+
+      return true;
+
+    }
+
+    private bool DecodeAndParseMessageNotAckMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
+    {
+
+      RSMP_Messages.MessageNotAck MessageNotAck = JSonSerializer.Deserialize<RSMP_Messages.MessageNotAck>(sJSon);
+
+      if (MessageNotAck.oMId == null)
+      {
+        sError = "MessageNotAck.oMId is null";
+        return bUseStrictProtocolAnalysis ? false : true;
+      }
+
+      if (MessageNotAck.oMId == "")
+      {
+        sError = "MessageNotAck.oMId is null";
+        return bUseStrictProtocolAnalysis ? false : true;
+      }
+
+      RemovePacketFromJSonMessageIdAndTimeStamps(MessageNotAck.oMId);
+
+      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Message mId: {0} was refused, reason: {1}", MessageNotAck.oMId, MessageNotAck.rea);
+
+      return true;
+
+    }
+
+    public bool DecodeAndParseWatchdogMessage(string sJSon, bool bUseStrictProtocolAnalysis, ref string sError)
+    {
+
+      bool bSuccess = false;
+
+      try
+      {
+
+        RSMP_Messages.Watchdog Watchdog = JSonSerializer.Deserialize<RSMP_Messages.Watchdog>(sJSon);
+
+        LastReceivedWatchdogTimeStamp = DateTime.Now;
+
+        bSuccess = true;
+
+      }
+      catch (Exception e)
+      {
+        sError = "Failed to deserialize packet: " + e.Message;
+      }
+      return bSuccess;
+
+    }
+
+    public cJSonMessageIdAndTimeStamp CreateAndSendWatchdogMessage(bool bExpectAckOrNack)
+    {
+
+      RSMP_Messages.Watchdog Watchdog = new RSMP_Messages.Watchdog();
+
+      Watchdog.mType = "rSMsg";
+      Watchdog.type = "Watchdog";
+      Watchdog.mId = System.Guid.NewGuid().ToString();
+      //Watchdog.wTs = DateTime.UtcNow;
+      // 2012-10-25/TR CreateLocalTimeStamp() changed to CreateISO8601UTCTimeStamp()
+      Watchdog.wTs = CreateISO8601UTCTimeStamp();
+
+      cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = null;
+
+      LastSentWatchdogTimeStamp = DateTime.Now;
+
+      string sSendBuffer = JSonSerializer.SerializeObject(Watchdog);
+
+      if (bExpectAckOrNack == false)
+      {
+        if (RSMPGS.RSMPConnection.SendJSonPacket(Watchdog.type, Watchdog.mId, sSendBuffer))
+        {
+          JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(Watchdog.type, Watchdog.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
+          if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent initial Watchdog message, MsgId: {0}", Watchdog.mId);
+          }
+        }
+        else
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to send initial Watchdog message, MsgId: {0}", Watchdog.mId);
+        }
+      }
+      else
+      {
+        if (RSMPGS.JSon.SendJSonPacket(Watchdog.type, Watchdog.mId, sSendBuffer, false))
+        {
+          if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent Watchdog message, MsgId: {0}", Watchdog.mId);
+          }
+        }
+        else
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to send Watchdog message, MsgId: {0}", Watchdog.mId);
+        }
+      }
+
+      return JSonMessageIdAndTimeStamp;
+
+    }
 
     public string CreateISO8601UTCTimeStamp()
     {
@@ -921,223 +921,377 @@ namespace nsRSMPGS
       return sTimeStamp;
     }
 
-		public string UnpackISO8601UTCTimeStamp(string sDateTime)
-		{
-			string dtReturnDateTime;
-			try
-			{
-				dtReturnDateTime = DateTime.ParseExact(sDateTime.ToUpper(), @"yyyy-MM-dd\THH:mm:ss.fff\Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
-			}
-			catch (Exception e)
-			{
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not deserialize timestamp '{0}', error: {1}", sDateTime, e.Message);
-				dtReturnDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-			}
+    public string UnpackISO8601UTCTimeStamp(string sDateTime)
+    {
+      string dtReturnDateTime;
+      try
+      {
+        dtReturnDateTime = DateTime.ParseExact(sDateTime.ToUpper(), @"yyyy-MM-dd\THH:mm:ss.fff\Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
+      }
+      catch (Exception e)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not deserialize timestamp '{0}', error: {1}", sDateTime, e.Message);
+        dtReturnDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+      }
 
-			return dtReturnDateTime;
-		}
+      return dtReturnDateTime;
+    }
 
-		protected bool ValidateJSONProperties(Type T, string sJSon, ref string sError)
-		{
+    protected bool ValidateJSONProperties(Type T, string sJSon, ref string sError)
+    {
 
-			FieldInfo[] fields = T.GetFields();
+      FieldInfo[] fields = T.GetFields();
 
-			// Pack to ensure there is no space between "Tag" and ':'
-			sJSon = sJSon.Replace(" ", "");
+      // Pack to ensure there is no space between "Tag" and ':'
+      sJSon = sJSon.Replace(" ", "");
 
-			foreach (FieldInfo field in fields)
-			{
-				// Ugly stuff to find out if the field exists and has bad casing
-				if (sJSon.IndexOf("\"" + field.Name + "\":", StringComparison.OrdinalIgnoreCase) >= 0)
-				{
-					if (sJSon.IndexOf("\"" + field.Name + "\":", StringComparison.Ordinal) == -1)
-					{
-						sError = "Upper/lower case error when deserializing object '" + T.Name + "', property/field '" + field.Name + "'";
-						return false;
-					}
-				}
-				else
-				{
-					sError = "Missing property field '" + field.Name + "' when deserializing object '" + T.Name + "'";
-					return false;
-				}
-			}
+      foreach (FieldInfo field in fields)
+      {
+        // Ugly stuff to find out if the field exists and has bad casing
+        if (sJSon.IndexOf("\"" + field.Name + "\":", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+          if (sJSon.IndexOf("\"" + field.Name + "\":", StringComparison.Ordinal) == -1)
+          {
+            sError = "Upper/lower case error when deserializing object '" + T.Name + "', property/field '" + field.Name + "'";
+            return false;
+          }
+        }
+        else
+        {
+          sError = "Missing property field '" + field.Name + "' when deserializing object '" + T.Name + "'";
+          return false;
+        }
+      }
 
-			return true;
+      return true;
 
-		}
+    }
 
-		protected bool ValidateJSONProperties(object obj, string sJSon, ref string sError)
-		{
+    protected bool ValidateJSONProperties(object obj, string sJSon, ref string sError)
+    {
 
-			Type T = obj.GetType();
+      Type T = obj.GetType();
 
-			return ValidateJSONProperties(T, sJSon, ref sError);
+      return ValidateJSONProperties(T, sJSon, ref sError);
 
-		}
+    }
 
-		protected bool ValidatePropertiesString(string sFirstString, string sSecondString, ref string sError)
-		{
+    protected bool ValidatePropertiesString(string sFirstString, string sSecondString, ref string sError)
+    {
 
-			if (sFirstString != sSecondString)
-			{
-				sError = "Invalid property, '" + sFirstString + "' does not match '" + sSecondString + "'";
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
+      if (sFirstString != sSecondString)
+      {
+        sError = "Invalid property, '" + sFirstString + "' does not match '" + sSecondString + "'";
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
 
-		protected bool ValidateGUID(string sGUID, ref string sError)
-		{
-			if (cHelper.IsGuid(sGUID) == false)
-			{
-				sError = "Invalid message id (is not a valid GUID): '" + sGUID + "'";
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+    protected bool ValidateGUID(string sGUID, ref string sError)
+    {
+      if (cHelper.IsGuid(sGUID) == false)
+      {
+        sError = "Invalid message id (is not a valid GUID): '" + sGUID + "'";
+        return false;
+      }
+      else
+      {
+        return true;
+      }
 
-		}
+    }
 
-		public bool SendJSonPacket(string PacketType, string MessageId, string SendString, bool ResendPacketIfWeGetNoAck)
-		{
+    public bool SendJSonPacket(string PacketType, string MessageId, string SendString, bool ResendPacketIfWeGetNoAck)
+    {
 
-			if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, MessageId, SendString))
-			{
-				// Crap packets and Ack/NAck does not have any mId
-				if (MessageId != null)
-				{
-					// Do some noncase compare if we are sending case faulty packets for protocol testing
-					if (PacketType.Equals("Version", StringComparison.OrdinalIgnoreCase) == false)
-					{
-						// Store message id for ack determination
-						JSonMessageIdAndTimeStamps.Add(new cJSonMessageIdAndTimeStamp(PacketType, MessageId, SendString, RSMPGS.RSMPConnection.PacketTimeout, ResendPacketIfWeGetNoAck));
-					}
-				}
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+      if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, MessageId, SendString))
+      {
+        // Crap packets and Ack/NAck does not have any mId
+        if (MessageId != null)
+        {
+          // Do some noncase compare if we are sending case faulty packets for protocol testing
+          if (PacketType.Equals("Version", StringComparison.OrdinalIgnoreCase) == false)
+          {
+            // Store message id for ack determination
+            JSonMessageIdAndTimeStamps.Add(new cJSonMessageIdAndTimeStamp(PacketType, MessageId, SendString, RSMPGS.RSMPConnection.PacketTimeout, ResendPacketIfWeGetNoAck));
+          }
+        }
+        return true;
+      }
+      else
+      {
+        return false;
+      }
 
-		}
+    }
 
-		public void CyclicCleanup(int iElapsedMillisecs, int iWatchdogInterval, int iWatchdogTimeout)
-		{
+    public void CyclicCleanup(int iElapsedMillisecs, int iWatchdogInterval, int iWatchdogTimeout)
+    {
 
-			if (RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected)
-			{
-				if (bInitialNegotiationIsFinished)
-				{
-					bool bUseStrictProtocolAnalysis = cHelper.IsSettingChecked("UseStrictProtocolAnalysis");
-					bool bResendUnackedPackets = cHelper.IsSettingChecked("ResendUnackedPackets");
+      if (RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected)
+      {
+        if (bInitialNegotiationIsFinished)
+        {
+          bool bUseStrictProtocolAnalysis = cHelper.IsSettingChecked("UseStrictProtocolAnalysis");
+          bool bResendUnackedPackets = cHelper.IsSettingChecked("ResendUnackedPackets");
 
-					// Find out if we have received som msgack's
-					for (int iIndex = 0; iIndex < JSonMessageIdAndTimeStamps.Count; )
-					{
-						cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = JSonMessageIdAndTimeStamps[iIndex];
+          // Find out if we have received som msgack's
+          for (int iIndex = 0; iIndex < JSonMessageIdAndTimeStamps.Count;)
+          {
+            cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = JSonMessageIdAndTimeStamps[iIndex];
 
-						if (JSonMessageIdAndTimeStamp.IsPacketToOld())
-						{
-							if (JSonMessageIdAndTimeStamp.ResendPacketIfWeGetNoAck && bResendUnackedPackets)
-							{
-								// Don't pass queuing algorithm
-								RSMPGS.RSMPConnection.SendJSonPacket(JSonMessageIdAndTimeStamp.PacketType, JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.SendString);
-								JSonMessageIdAndTimeStamp.TimeStamp = DateTime.Now;
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No message ack received for mId: {0} within {1} msecs, it has been retransmitted", JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.TimeToWaitForAck);
-								iIndex++;
-							}
-							else
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No message ack received for mId: {0} within {1} msecs, it will not be retransmitted", JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.TimeToWaitForAck);
-								JSonMessageIdAndTimeStamps.RemoveAt(iIndex);
-							}
-						}
-						else
-						{
-							iIndex++;
-						}
-					}
-					if (iWatchdogInterval > 0 && cHelper.IsSettingChecked("SendWatchdogPacketCyclically") == true)
-					{
-						if (LastSentWatchdogTimeStamp.AddMilliseconds(iWatchdogInterval) <= DateTime.Now)
-						{
-							CreateAndSendWatchdogMessage(true);
-						}
-					}
-					else
-					{
-						LastSentWatchdogTimeStamp = DateTime.Now;
-					}
-					if (cHelper.IsSettingChecked("ExpectWatchdogPackets"))
-					{
-						if (iWatchdogTimeout > 0)
-						{
-							if (LastReceivedWatchdogTimeStamp.AddMilliseconds(iWatchdogTimeout) <= DateTime.Now)
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No Watchdog message received within {0} msecs", iWatchdogTimeout);
-								if (bUseStrictProtocolAnalysis)
-								{
-									RSMPGS.RSMPConnection.Disconnect();
-								}
-								LastReceivedWatchdogTimeStamp = DateTime.Now;
-							}
-						}
-					}
-				}
-			}
-		}
+            if (JSonMessageIdAndTimeStamp.IsPacketToOld())
+            {
+              if (JSonMessageIdAndTimeStamp.ResendPacketIfWeGetNoAck && bResendUnackedPackets)
+              {
+                // Don't pass queuing algorithm
+                RSMPGS.RSMPConnection.SendJSonPacket(JSonMessageIdAndTimeStamp.PacketType, JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.SendString);
+                JSonMessageIdAndTimeStamp.TimeStamp = DateTime.Now;
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No message ack received for mId: {0} within {1} msecs, it has been retransmitted", JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.TimeToWaitForAck);
+                iIndex++;
+              }
+              else
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No message ack received for mId: {0} within {1} msecs, it will not be retransmitted", JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.TimeToWaitForAck);
+                JSonMessageIdAndTimeStamps.RemoveAt(iIndex);
+              }
+            }
+            else
+            {
+              iIndex++;
+            }
+          }
+          if (iWatchdogInterval > 0 && cHelper.IsSettingChecked("SendWatchdogPacketCyclically") == true)
+          {
+            if (LastSentWatchdogTimeStamp.AddMilliseconds(iWatchdogInterval) <= DateTime.Now)
+            {
+              CreateAndSendWatchdogMessage(true);
+            }
+          }
+          else
+          {
+            LastSentWatchdogTimeStamp = DateTime.Now;
+          }
+          if (cHelper.IsSettingChecked("ExpectWatchdogPackets"))
+          {
+            if (iWatchdogTimeout > 0)
+            {
+              if (LastReceivedWatchdogTimeStamp.AddMilliseconds(iWatchdogTimeout) <= DateTime.Now)
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No Watchdog message received within {0} msecs", iWatchdogTimeout);
+                if (bUseStrictProtocolAnalysis)
+                {
+                  RSMPGS.RSMPConnection.Disconnect();
+                }
+                LastReceivedWatchdogTimeStamp = DateTime.Now;
+              }
+            }
+          }
+        }
+      }
+    }
 
-		public void RemovePacketFromJSonMessageIdAndTimeStamps(string sMsgId)
-		{
+    public void RemovePacketFromJSonMessageIdAndTimeStamps(string sMsgId)
+    {
 
-			int iFoundPackets = 0;
+      int iFoundPackets = 0;
 
-			if (sMsgId == "")
-			{
-				return;
-			}
+      if (sMsgId == "")
+      {
+        return;
+      }
 
-			// Find out if we have received some msgack's
-			for (int iIndex = 0; iIndex < JSonMessageIdAndTimeStamps.Count; )
-			{
-				cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = JSonMessageIdAndTimeStamps[iIndex];
-				if (JSonMessageIdAndTimeStamp.MessageId.Equals(sMsgId))
-				{
+      // Find out if we have received some msgack's
+      for (int iIndex = 0; iIndex < JSonMessageIdAndTimeStamps.Count;)
+      {
+        cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = JSonMessageIdAndTimeStamps[iIndex];
+        if (JSonMessageIdAndTimeStamp.MessageId.Equals(sMsgId))
+        {
 
-					iFoundPackets++;
+          iFoundPackets++;
 
-					JSonMessageIdAndTimeStamps.RemoveAt(iIndex);
+          JSonMessageIdAndTimeStamps.RemoveAt(iIndex);
 
-					RSMPGS.Statistics["TxRTTimeInMsec"] = ((TimeSpan)(DateTime.Now - JSonMessageIdAndTimeStamp.TimeStamp)).TotalMilliseconds;
-					RSMPGS.Statistics["TxRTTimeTotalTimeInMsec"] += RSMPGS.Statistics["TxRTTimeInMsec"];
-					RSMPGS.Statistics["TxRTTimeNoOfPackets"]++;
+          RSMPGS.Statistics["TxRTTimeInMsec"] = ((TimeSpan)(DateTime.Now - JSonMessageIdAndTimeStamp.TimeStamp)).TotalMilliseconds;
+          RSMPGS.Statistics["TxRTTimeTotalTimeInMsec"] += RSMPGS.Statistics["TxRTTimeInMsec"];
+          RSMPGS.Statistics["TxRTTimeNoOfPackets"]++;
 
-					break;
-				}
-				else
-				{
-					iIndex++;
-				}
-			}
-			if (iFoundPackets == 0)
-			{
-				RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Got ack for unknown packet, mId: {0}", sMsgId);
-			}
-			else
-			{
-				if (iFoundPackets > 1)
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Found more than one packet to ack, mId: {0}", sMsgId);
-				}
-			}
-		}
+          break;
+        }
+        else
+        {
+          iIndex++;
+        }
+      }
+      if (iFoundPackets == 0)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Got ack for unknown packet, mId: {0}", sMsgId);
+      }
+      else
+      {
+        if (iFoundPackets > 1)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Found more than one packet to ack, mId: {0}", sMsgId);
+        }
+      }
+    }
+
+    public string ValidateArrayString(Dictionary<string, cYAMLMapping> items, string jsonString)
+    {
+      if (jsonString == "?") { return "?"; }
+
+      string[] objectStrings;
+
+      jsonString = jsonString.Substring(2);                     // remove '['
+      jsonString = jsonString.Remove(jsonString.Length - 2);    // remove ']'
+      jsonString = jsonString.Replace("},{", "¤");
+      objectStrings = jsonString.Split('¤');
+
+      // YAMLMapping
+      KeyValuePair<string, cYAMLMapping> item;
+      string schemaKey;
+      cYAMLMapping schemaValue;
+
+      // YAMLScalar
+      Dictionary<string, string> schemaScalars;
+      KeyValuePair<string, string> schemaScalar;
+      string schemaScalarType;
+      Boolean schemaScalarOptional;
+      string schemaScalarMin;
+      string schemaScalarMax;
+      string cellName;
+
+      // incoming status
+      string[] fieldStrings;
+      string statusKey;
+      string statusValue;
+      Boolean hit;
+
+      // loop alla YAMLMappings
+      for (int i = 0; i < items.Count; i++)
+      {
+
+        // get YAMLMapping
+        item = items.ElementAt(i);
+        schemaKey = item.Key;
+        schemaValue = item.Value;
+        schemaScalars = schemaValue.YAMLScalars;
+        schemaScalarOptional = false;
+        schemaScalarType = "";
+        schemaScalarMin = "";
+        schemaScalarMax = "";
+        cellName = "";
+
+        // loop YAMLScalars
+        for (int j = 0; j < schemaScalars.Count; j++) {
+          schemaScalar = schemaScalars.ElementAt(j);
+          if (schemaScalar.Key == "type")
+          {
+            schemaScalarType = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "description")
+          {
+            if (schemaScalar.Value.StartsWith("(Optional)"))
+            {
+              schemaScalarOptional = true;
+            }
+          }
+          if (schemaScalar.Key == "min")
+          {
+            schemaScalarMin = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "max")
+          {
+            schemaScalarMax = schemaScalar.Value;
+          }
+        }
+
+        // validate incoming values to verify YAMLMapping
+        for (int k = 0; k < objectStrings.Length; k++)
+        {
+          string objectString = objectStrings[k];
+          fieldStrings = objectString.Split(',');
+
+          hit = false;
+          for (int l = 0; l < fieldStrings.Length; l++)
+          {
+            cellName = "row:" + (k + 1).ToString() + " col:" + schemaKey + " ";
+            statusKey = fieldStrings[l].Split(':')[0];
+            statusKey = statusKey.Substring(1);                    // remove '"'
+            statusKey = statusKey.Remove(statusKey.Length - 1);    // remove '"'
+
+            statusValue = fieldStrings[l].Split(':')[1];
+            statusValue = statusValue.Substring(1);                   // remove '"'
+            statusValue = statusValue.Remove(statusValue.Length - 1); // remove '"'
+
+            if (schemaKey == statusKey)
+            {
+              hit = true;
+              if (schemaScalarType == "integer")
+              {
+                try
+                {
+                  Int16 iValue = Int16.Parse(statusValue);
+                  Int16 iMin = Int16.Parse(schemaScalarMin);
+                  Int16 iMax = Int16.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType == "long")
+              {
+                try
+                {
+                  Int32 iValue = Int32.Parse(statusValue);
+                  Int32 iMin = Int32.Parse(schemaScalarMin);
+                  Int32 iMax = Int32.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName +  " wrong type";
+                }
+              }
+              else if (schemaScalarType == "real")
+              {
+                try
+                {
+                  Double dValue = Double.Parse(statusValue);
+                  Double dMin = Double.Parse(schemaScalarMin);
+                  Double dMax = Double.Parse(schemaScalarMax);
+                  if (dValue < dMin) { return cellName + " to small"; }
+                  if (dValue > dMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType != "string")
+              {
+                return cellName + "type:" + schemaScalarType + " not supported";
+              }
+            }
+          }
+
+          // error if key not found and not optional
+          if (!hit && !schemaScalarOptional)
+          {
+            return cellName + " required";
+          }
+
+        }
+      }
+
+      return "success";
+    }
 
     public bool ValidateTypeAndRange(string sType, string sValue)
     {

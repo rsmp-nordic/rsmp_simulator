@@ -19,14 +19,14 @@ using System.Security.Authentication;
 // xx.xx.xx / BS / 1.0.0.x   / Some versions
 // 12.10.19 / TR / 1.0.1.0   / Added base64 debug file
 // 12.10.25 / TR / 1.0.1.1   / Watchdog.wTs = CreateLocalTimeStamp() changed to CreateISO8601UTCTimeStamp()
-//                           / StatusEvent.sTimeStamp = CreateISO8601UTCTimeStamp() changed to CreateLocalTimeStamp() 
+//                           / StatusEvent.sTimeStamp = CreateISO8601UTCTimeStamp() changed to CreateLocalTimeStamp()
 // 14.09.11 / TR / 1.0.1.2   / Changed to platform target x86 to be able to debug in runtime on Win 7 64-bit
 // 15.05.29 / TR / 1.0.1.3   / value upper/lowercase issues addressed
 // 18.10.03 / TR / 1.0.1.4   / Changed point 16, needs to be fixed and added to RSMPGS1
 // 19.02.05 / TR / 1.0.1.4 B1/ Major updates
-// 19.04.14 / TR / 1.0.1.4 B2/ SysLog speed improved, some changes to JSon test forms, timestamp decoding in debug fixed, 
+// 19.04.14 / TR / 1.0.1.4 B2/ SysLog speed improved, some changes to JSon test forms, timestamp decoding in debug fixed,
 //                           / /Path: did not work (IniFileFullname was initialized too early and '/' was missing) (NOT RELEASED)
-// 19.05.22 / TR / 1.0.1.4 B3/ Proper info when alarm object is not found, changed initial sequence expectations to not wait for watchdog packet MessageAck 
+// 19.05.22 / TR / 1.0.1.4 B3/ Proper info when alarm object is not found, changed initial sequence expectations to not wait for watchdog packet MessageAck
 // 19.06.27 / TR / 1.0.1.4 B4/ AutoScroll in SysLog is disabled if some other than last item is selected
 // 19.08.28 / TR / 1.0.1.4 B5/ Socket implemented for performance testing, IgnoreFileTimeStamps parameter added
 // 20.03.09 / TR / 1.0.1.4 B6/ Lifted to VS2015 and .NET 4.6.1. Did not show all objects if SXL had empty rows. Major updates in treeview/grouping
@@ -39,7 +39,7 @@ using System.Security.Authentication;
 // 20.10.16 / TR / 1.0.1.6   / Significally improvement in Debugging. Minor updates.
 // 21.09.27 / TR / 1.0.1.7   / Lockup bug in debug fixed, invariantculture in ISO8601 (pull request #22 / jakobht),
 //                           / and full path of ini file when error occur at startup (pull request #23 / jakobht)
-//
+// 23.05.04 / MB / 1.1.0.0	 / RSMPGS 3.2 (status array)
 //
 //
 // ---------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ namespace nsRSMPGS
 		static public RSMPGSType SimulatorType = RSMPGSType.RSMPGS2;
 
 		static public Dictionary<string, double> Statistics = new Dictionary<string, double>();
-		static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();		
+		static public Dictionary<string, cSetting> Settings = new Dictionary<string, cSetting>();
 
 		static public string IniFileFullname;
 

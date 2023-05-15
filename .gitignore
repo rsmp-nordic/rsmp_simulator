@@ -3,3 +3,4 @@ Settings
 bin
 obj
 .vs
+RSMPGS1/YAML/*.yaml

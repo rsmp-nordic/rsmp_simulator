@@ -369,23 +369,35 @@ namespace nsRSMPGS
           }
           StatusReturnValue.sQuality = Reply.q;
 
-          if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s))
+          if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
           {
-            bSuccess = true;
-          }
-          else
-          {
-            string sStatusValue;
-            if (Reply.s == null)
+            string arrayResult = ValidateArrayString(StatusReturnValue.Value.ValueTypeObject.Items, Reply.s);
+            if (arrayResult == "success")
             {
-              sStatusValue = "(null)";
+              bSuccess = true;
             }
             else
             {
-              sStatusValue = (Reply.s.Length < 10) ? Reply.s : Reply.s.Substring(0, 9) + "...";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
             }
-            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          }
+          else
+          {
+            if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s))
+            {
+              bSuccess = true;
+              string sStatusValue;
+              if (Reply.s == null)
+              {
+                sStatusValue = "(null)";
+              }
+              else
+              {
+                sStatusValue = (Reply.s.Length < 10) ? Reply.s : Reply.s.Substring(0, 9) + "...";
+              }
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            }
           }
 
           cStatusEvent StatusEvent = new cStatusEvent();
