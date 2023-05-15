@@ -2157,10 +2157,13 @@ namespace nsRSMPGS
       arrayListViewIndex = index;
       arrayForm.Controls.Clear();
 
-      Button buttonOk = new Button();
       Button buttonCancel = new Button();
+      Button buttonDelete = new Button();
+      Button buttonOk = new Button();
 
       buttonCancel.Text = "Cancel";
+      buttonDelete.Text = "Radera";
+      buttonDelete.Click += new EventHandler(deleteArrayRow);
       buttonOk.Text = "OK";
       buttonOk.Click += new EventHandler(saveArrayRow);
 
@@ -2171,59 +2174,154 @@ namespace nsRSMPGS
       arrayForm.MaximizeBox = false;
       arrayForm.AcceptButton = buttonOk;
       arrayForm.CancelButton = buttonCancel;
-      arrayForm.Controls.AddRange(new Control[] { buttonOk, buttonCancel });
+      arrayForm.Controls.AddRange(new Control[] { buttonCancel, buttonDelete, buttonOk });
 
       Label label;
       TextBox textBox;
+      NumericUpDown numericUpDown;
       int y = 10;
       int itemIndex = 0;
 
       Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
 
-      foreach (var item in items)
-      {
-         label = new Label();
-         label.Text = item.Key;
-         textBox = new TextBox();
+      // YAMLMapping
+      KeyValuePair<string, cYAMLMapping> item;
+      string schemaKey;
+      cYAMLMapping schemaValue;
 
-         if (arrayListViewIndex != -1)
-         {  
+      // YAMLScalar
+      Dictionary<string, string> schemaScalars;
+      KeyValuePair<string, string> schemaScalar;
+      string schemaScalarType;
+      Boolean schemaScalarOptional;
+      string schemaScalarMin;
+      string schemaScalarMax;
+
+      for (int i = 0; i < items.Count; i++)
+      {
+
+        // get YAMLMapping
+        item = items.ElementAt(i);
+        schemaKey = item.Key;
+        schemaValue = item.Value;
+        schemaScalars = schemaValue.YAMLScalars;
+        schemaScalarOptional = false;
+        schemaScalarType = "";
+        schemaScalarMin = "";
+        schemaScalarMax = "";
+
+        // loop YAMLScalars
+        for (int j = 0; j < schemaScalars.Count; j++)
+        {
+          schemaScalar = schemaScalars.ElementAt(j);
+          if (schemaScalar.Key == "type")
+          {
+            schemaScalarType = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "description")
+          {
+            if (schemaScalar.Value.StartsWith("(Optional)"))
+            {
+              schemaScalarOptional = true;
+            }
+          }
+          if (schemaScalar.Key == "min")
+          {
+            schemaScalarMin = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "max")
+          {
+            schemaScalarMax = schemaScalar.Value;
+          }
+        }
+
+        label = new Label();
+        label.Text = item.Key;
+        label.SetBounds(10, y, 75, 23);
+        if (!schemaScalarOptional)
+        {
+          label.Text = label.Text + " *";
+        }
+
+        if (schemaScalarType == "string")
+        {
+          textBox = new TextBox();
+          textBox.SetBounds(110, y, 150, 23);
+          textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+          arrayForm.Controls.AddRange(new Control[] { label, textBox });
+
+          if (arrayListViewIndex != -1)
+          {
             if (itemIndex == 0)
             {
-                textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+              textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
             }
             else
             {
-                textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+              textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
             }
             itemIndex = itemIndex + 1;
-         }
+          }
+        }
 
-         label.SetBounds(10, y, 75, 23);
-         textBox.SetBounds(90, y, 150, 23);
+        if (schemaScalarType == "integer")
+        {
+          numericUpDown = new NumericUpDown();
+          numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
+          numericUpDown.SetBounds(110, y, 150, 23);
+          arrayForm.Controls.AddRange(new Control[] { label, numericUpDown });
 
-         y = y + 23;
+          if (schemaScalarMin != "")
+          {
+            numericUpDown.Minimum = Int32.Parse(schemaScalarMin);
+          }
+          if (schemaScalarMax != "")
+          {
+            numericUpDown.Maximum = Int32.Parse(schemaScalarMax);
+          }
 
-         arrayForm.Controls.AddRange(new Control[] { label, textBox });
+          if (arrayListViewIndex != -1)
+          {
+            numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
+            itemIndex = itemIndex + 1;
+          }
+        }
+
+        y = y + 23;
+
       }
 
-      buttonCancel.SetBounds(85, y + 10, 75, 23);
-      buttonOk.SetBounds(165, y + 10, 75, 23);
+      buttonCancel.SetBounds(25, y + 10, 75, 23);
+      buttonDelete.SetBounds(105, y + 10, 75, 23);
+      buttonOk.SetBounds(185, y + 10, 75, 23);
 
-      arrayForm.ClientSize = new Size(260, y + 45);
+      arrayForm.ClientSize = new Size(280, y + 45);
 
       DialogResult dialogResult = arrayForm.ShowDialog();
     }
 
     private static void saveArrayRow(object sender, EventArgs e)
     {
+      string value = "";
+      string schemaScalarOptional;
+      string schemaScalarType;
+
+      value = arrayForm.Controls[4].Text;
+      schemaScalarType = arrayForm.Controls[4].Tag.ToString().Split('#')[0];
+      schemaScalarOptional = arrayForm.Controls[4].Tag.ToString().Split('#')[1];
+
+      if (schemaScalarOptional == "False" && value == "")
+      {
+        MessageBox.Show(arrayForm.Controls[3].Text + " måste fyllas i", "Fel");
+        return;
+      }
+
       ListViewItem newItem = null;
       ListViewItem currentItem = null;
 
       if (arrayListViewIndex == -1)
       {
         newItem = new ListViewItem();
-        arrayListView.Items.Add(newItem);
       }
       else
       {
@@ -2232,35 +2330,54 @@ namespace nsRSMPGS
 
       Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
 
-      int controlIndex = 3;
-
       if (arrayListViewIndex == -1)
       {
-        newItem.Text = arrayForm.Controls[controlIndex].Text;
+        newItem.Text = value;
       }
       else
       {
-        currentItem.Text = arrayForm.Controls[controlIndex].Text;
+        currentItem.Text = value;
       }
 
-      controlIndex = controlIndex + 2;
-
+      int controlIndex = 6;
       var controls = arrayForm.Controls;
 
       for (int i = 0; i < items.Count - 1; i++)
       {
+        value = controls[controlIndex].Text;
+        schemaScalarType = controls[controlIndex].Tag.ToString().Split('#')[0];
+        schemaScalarOptional = controls[controlIndex].Tag.ToString().Split('#')[1];
+
+        if (schemaScalarOptional == "False" && value == "")
+        {
+          MessageBox.Show(arrayForm.Controls[controlIndex - 1].Text + " måste fyllas i", "Fel");
+          return;
+        }
+
         if (arrayListViewIndex == -1)
         {
-            newItem.SubItems.Add(controls[controlIndex].Text);
+            newItem.SubItems.Add(value);
             controlIndex = controlIndex + 2;
         }
         else
         {
-          currentItem.SubItems[i + 1].Text = controls[controlIndex].Text;
+          currentItem.SubItems[i + 1].Text = value;
           controlIndex = controlIndex + 2;
         }
       }
 
+      if (arrayListViewIndex == -1)
+      {
+        arrayListView.Items.Add(newItem);
+      }
+
+      arrayForm.Close();
+    }
+
+    private static void deleteArrayRow(object sender, EventArgs e)
+    {
+      int i = arrayListView.SelectedIndices[0];
+      arrayListView.Items.RemoveAt(i);
       arrayForm.Close();
     }
 
