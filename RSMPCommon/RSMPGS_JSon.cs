@@ -96,9 +96,10 @@ namespace nsRSMPGS
       RSMP_3_1_3 = 3,
       RSMP_3_1_4 = 4,
       RSMP_3_1_5 = 5,
+      RSMP_3_2_0 = 6,
     }
 
-    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
+    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2.0" };
 
     public bool DecodeAndParseJSonPacket(string sJSon)
     {
@@ -1300,6 +1301,9 @@ namespace nsRSMPGS
 
     public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
 		{
+      bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
+      var comparisonType = StringComparison.Ordinal;
+      if (!bUseCaseSensitiveValue) { comparisonType = StringComparison.OrdinalIgnoreCase; }
 
       if (sValue == null)
       {
@@ -1343,10 +1347,10 @@ namespace nsRSMPGS
 					break;
 
 				case "boolean":
-					bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-						sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-						sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-						sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
+					bValueIsValid = sValue.Equals("true", comparisonType) ||
+					sValue.Equals("false", comparisonType) ||
+					sValue.Equals("0", comparisonType) ||
+					sValue.Equals("1", comparisonType);
 					break;
 
 				case "base64":
@@ -1498,6 +1502,11 @@ namespace nsRSMPGS
       if (setting.GetActualValue(RSMPVersion.RSMP_3_1_5))
       {
         HighestRSMPVersion = RSMPVersion.RSMP_3_1_5;
+      }
+
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_2_0))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_2_0;
       }
 
       return HighestRSMPVersion;

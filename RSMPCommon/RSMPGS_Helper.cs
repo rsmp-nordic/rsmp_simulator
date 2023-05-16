@@ -33,6 +33,7 @@ namespace nsRSMPGS
 		private bool bActualValue_RSMP_3_1_3;
 		private bool bActualValue_RSMP_3_1_4;
     private bool bActualValue_RSMP_3_1_5;
+    private bool bActualValue_RSMP_3_2_0;
 
     private bool bDefaultValue;
 
@@ -41,8 +42,9 @@ namespace nsRSMPGS
 		private bool bDefaultValue_RSMP_3_1_3;
 		private bool bDefaultValue_RSMP_3_1_4;
     private bool bDefaultValue_RSMP_3_1_5;
+    private bool bDefaultValue_RSMP_3_2_0;
 
-    public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5)
+    public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5, bool bDefaultValue_RSMP_3_2_0)
 		{
 
 			this.sKey = sKey;
@@ -59,6 +61,7 @@ namespace nsRSMPGS
 			this.bDefaultValue_RSMP_3_1_3 = bDefaultValue_RSMP_3_1_3;
 			this.bDefaultValue_RSMP_3_1_4 = bDefaultValue_RSMP_3_1_4;
       this.bDefaultValue_RSMP_3_1_5 = bDefaultValue_RSMP_3_1_5;
+      this.bDefaultValue_RSMP_3_2_0 = bDefaultValue_RSMP_3_2_0;
 
     }
 
@@ -100,8 +103,11 @@ namespace nsRSMPGS
         case cJSon.RSMPVersion.RSMP_3_1_5:
           return bActualValue_RSMP_3_1_5;
 
+        case cJSon.RSMPVersion.RSMP_3_2_0:
+          return bActualValue_RSMP_3_2_0;
+
       }
-			return false;
+      return false;
 		}
 
 		public bool GetDefaultValue(int iColumnIndex)
@@ -132,6 +138,9 @@ namespace nsRSMPGS
 
         case cJSon.RSMPVersion.RSMP_3_1_5:
           return bDefaultValue_RSMP_3_1_5;
+
+        case cJSon.RSMPVersion.RSMP_3_2_0:
+          return bDefaultValue_RSMP_3_2_0;
 
         default:
 					return false;
@@ -172,8 +181,12 @@ namespace nsRSMPGS
           bActualValue_RSMP_3_1_5 = bValue;
           break;
 
+        case cJSon.RSMPVersion.RSMP_3_2_0:
+          bActualValue_RSMP_3_2_0 = bValue;
+          break;
+
       }
-		}
+    }
 	}
 
 	public class cPrivateProfile
@@ -486,7 +499,7 @@ namespace nsRSMPGS
     public static void LoadRSMPSettings()
     {
 
-      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true);
+      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true, true);
 
       AddSetting("SendVersionInfoAtConnect", "Send and expect version info when connecting", true);
       AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL (SUL) version incompability", false);
@@ -503,18 +516,19 @@ namespace nsRSMPGS
 
 #if _RSMPGS1
 
-      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false);
-      AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true);
-      AddSetting("Buffer10000Messages", "Buffer upto 10000 messages (instead of 1000)", false, false, false, true, true);
-      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true, true);
-      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true);
-      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true);
-      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true);
-      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true, true);
+      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false);
+      AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true);
+      AddSetting("Buffer10000Messages", "Buffer upto 10000 messages (instead of 1000)", false, false, false, true, true, true);
+      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true, true, true);
+      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true, true);
+      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true, true);
+      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true, true);
+      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true, true, true);
 
 #endif
-      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true);
-      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true);
+      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true);
+      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true);
+      AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", true);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
@@ -533,23 +547,23 @@ namespace nsRSMPGS
 
     private static void AddSetting(string sKey, string sDescription, bool bDefaultValue)
     {
-      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false);
+      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false, false);
     }
 
-    private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5)
+    private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0)
     {
-      AddSetting(sKey, sDescription, true, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
+      AddSetting(sKey, sDescription, true, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0);
     }
 
-    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5)
+    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0)
    {
 
-      int iRowIndex = RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(sDescription, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
+      int iRowIndex = RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(sDescription, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[2]
 
-      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5);
+      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0);
 
       RSMPGS.Settings.Add(sKey, Setting);
 
@@ -582,6 +596,10 @@ namespace nsRSMPGS
         Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
         RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
 
+        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0);
+        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported));
 
       }
@@ -599,6 +617,7 @@ namespace nsRSMPGS
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5));
+        HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0));
 
       }
 
@@ -609,6 +628,7 @@ namespace nsRSMPGS
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_3);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_4);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_5);
+      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_0);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[iRowIndex].Cells[1].Style.BackColor = Color.Red;
 
@@ -747,6 +767,7 @@ namespace nsRSMPGS
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_3) ? 1 : 0);
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_4) ? 1 : 0);
           cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_5) ? 1 : 0);
+          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_0) ? 1 : 0);
         }
         else
         {
@@ -774,6 +795,8 @@ namespace nsRSMPGS
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
         }
         else
@@ -1943,7 +1966,7 @@ namespace nsRSMPGS
         array = Value;
         Button buttonNewRow = new Button();
         buttonNewRow.Click += new EventHandler(newArrayRow);
-        buttonNewRow.Text = "Ny rad";
+        buttonNewRow.Text = "New row";
         arrayListView.View = View.Details;
         buttonNewRow.SetBounds(80, 5, 75, 23);
         buttonCancel.SetBounds(160, 5, 75, 23);
@@ -2162,7 +2185,7 @@ namespace nsRSMPGS
       Button buttonOk = new Button();
 
       buttonCancel.Text = "Cancel";
-      buttonDelete.Text = "Radera";
+      buttonDelete.Text = "Delete";
       buttonDelete.Click += new EventHandler(deleteArrayRow);
       buttonOk.Text = "OK";
       buttonOk.Click += new EventHandler(saveArrayRow);

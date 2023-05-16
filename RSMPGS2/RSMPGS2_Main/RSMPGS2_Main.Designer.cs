@@ -120,6 +120,7 @@
       this.RSMP_3_1_3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.RSMP_3_2_0 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.button_ResetRSMPSettingToDefault = new System.Windows.Forms.Button();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
       this.button_ClearStatistics = new System.Windows.Forms.Button();
@@ -1158,7 +1159,8 @@
             this.RSMP_3_1_2,
             this.RSMP_3_1_3,
             this.RSMP_3_1_4,
-            this.RSMP_3_1_5});
+            this.RSMP_3_1_5,
+            this.RSMP_3_2_0});
       this.dataGridView_Behaviour.Location = new System.Drawing.Point(2, 14);
       this.dataGridView_Behaviour.Margin = new System.Windows.Forms.Padding(2);
       this.dataGridView_Behaviour.MultiSelect = false;
@@ -1214,6 +1216,12 @@
       this.RSMP_3_1_5.HeaderText = "3.1.5";
       this.RSMP_3_1_5.Name = "RSMP_3_1_5";
       this.RSMP_3_1_5.Width = 50;
+      // 
+      // RSMP_3_2_0
+      // 
+      this.RSMP_3_2_0.HeaderText = "3.2.0";
+      this.RSMP_3_2_0.Name = "RSMP_3_2_0";
+      this.RSMP_3_2_0.Width = 50;
       // 
       // button_ResetRSMPSettingToDefault
       // 
@@ -2597,12 +2605,13 @@
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_2;
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_3;
 				private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_4;
-    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_0;
     private System.Windows.Forms.Button button_ResetRSMPSettingToDefault;
-				private System.Windows.Forms.GroupBox groupBox_Statistics;
-				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Desription;
-				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Value;
-				private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Unit;
+		private System.Windows.Forms.GroupBox groupBox_Statistics;
+		private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Desription;
+		private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Value;
+		private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Unit;
     private ListViewDoubleBuffered listView_Alarms;
     private ListViewDoubleBuffered listView_AlarmEvents;
     private ListViewDoubleBuffered listView_AggregatedStatus_StatusBits;

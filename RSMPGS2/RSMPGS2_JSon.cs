@@ -385,15 +385,22 @@ namespace nsRSMPGS
           {
             if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s))
             {
+              bSuccess = true;
+
               Dictionary<string, string> selectableValues;
-              if (StatusReturnValue.Value.ValueTypeObject.SelectableValues == null)
+              if (StatusReturnValue.Value.ValueTypeObject.SelectableValues != null)
               {
                 selectableValues = StatusReturnValue.Value.ValueTypeObject.SelectableValues;
+                bool containsKey = selectableValues.ContainsKey(Reply.s);
+                if (!containsKey) { bSuccess = false; }
               }
-
-              bSuccess = true;
             }
             else
+            {
+              bSuccess = false;
+            }
+
+            if (!bSuccess)
             {
               string sStatusValue;
               if (Reply.s == null)
