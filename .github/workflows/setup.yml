@@ -1,6 +1,6 @@
 # This workflow will build RSMPGS1 and RSMPGS2 and create installer
 
-name: Build RSMPGS1 and RSMPGS2 using Mono
+name: Build installer
 
 on:
   push:
@@ -13,7 +13,6 @@ jobs:
   rsmpgs1:
     name: Build RSMPGS1
     runs-on: windows-latest
-    needs: prerequisites
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
