@@ -1,5 +1,3 @@
-InnoSetupVersion=6.0.0 (Unicode)
-
 [Setup]
 AppName=RSMPGS1 (Roadside Simulator)
 AppVerName=RSMPGS1 (Roadside Simulator) 1.0.1.7
