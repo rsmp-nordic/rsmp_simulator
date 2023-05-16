@@ -22,7 +22,7 @@ jobs:
         run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
       - id: setup
-        run: cat RSMPGS1.exe > "$GITHUB_OUTPUT"
+        run: cat RSMPGS1/bin/Release/RSMPGS1.exe > "$GITHUB_OUTPUT"
   setup:
     name: Create Installer
     runs-on: windows-latest
