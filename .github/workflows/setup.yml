@@ -13,7 +13,8 @@ jobs:
     name: Build RSMPGS1
     runs-on: ubuntu-latest
     outputs:
-      RSMPGS1: ${{ steps.step1.outputs.test }}
+      RSMPGS1: ${{ steps.rsmpgs1.outputs.test }}
+      RSMPGS2: ${{ steps.rsmpgs2.outputs.test }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,15 +22,23 @@ jobs:
       - name: Build RSMPGS1 (Release)
         run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
-      - id: setup
-        run: cat RSMPGS1/bin/Release/RSMPGS1.exe > "$GITHUB_OUTPUT"
+      - name: Build RSMPGS2 (Release)
+        run: xbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
+
+      - id: rsmpgs1
+        run: echo "rsmpgs1=`base64 RSMPGS1/bin/Release/RSMPGS1.exe`" >> "$GITHUB_OUTPUT"
+
+      - id: rsmpgs2
+        run: echo "rsmpgs2=`base64 RSMPGS2/bin/Release/RSMPGS2.exe`" >> "$GITHUB_OUTPUT"
   setup:
     name: Create Installer
     runs-on: windows-latest
     needs: build
     steps:
       - env:
-          SETUP: ${{needs.build.outputs.RSMPGS1}}
+          RSMPGS1: ${{needs.build.outputs.rsmpgs1}}
+          RSMPGS2: ${{needs.build.outputs.rsmpgs2}}
+
         run: echo "$SETUP" > RSMPGS1.exe
 
       - name: Checkout repository
