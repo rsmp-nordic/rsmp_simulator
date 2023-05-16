@@ -12,20 +12,29 @@ jobs:
   build:
     name: Build RSMPGS1
     runs-on: ubuntu-latest
+    outputs:
+      RSMPGS1: ${{ steps.step1.outputs.test }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build RSMPGS1 (Debug)
-        run: xbuild RSMPGS1/RSMPGS1.sln
-
       - name: Build RSMPGS1 (Release)
         run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
+      - id: setup
+        run: cat RSMPGS1.exe > "$GITHUB_OUTPUT"
   setup:
     name: Create Installer
     runs-on: windows-latest
+    needs: build
     steps:
+      - env:
+          SETUP: ${{needs.build.outputs.RSMPGS1}}
+        run: echo "$SETUP" > RSMPGS1.exe
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Building the installer
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "RSMPGS1\Setup\install_script.iss"
