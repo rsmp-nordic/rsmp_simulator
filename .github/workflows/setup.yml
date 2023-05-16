@@ -45,6 +45,10 @@ jobs:
           name: RSMPGS1EXE
           path: RSMPGS1/Setup/RSMPGS1.exe
 
+      - name: Check path
+        run: dir RSMPGS1/Setup
+        shell: cmd
+
       - name: Building the installer
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "RSMPGS1\Setup\install_script.iss"
