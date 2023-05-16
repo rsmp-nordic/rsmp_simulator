@@ -46,8 +46,8 @@ jobs:
           path: RSMPGS1/Setup/RSMPGS1.exe
 
       - name: Check path
-        run: dir RSMPGS1/Setup
-        shell: cmd
+        run: ls RSMPGS1/Setup
+        shell: powershell
 
       - name: Building the installer
         run: |
