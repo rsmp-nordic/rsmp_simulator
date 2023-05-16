@@ -43,7 +43,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: RSMPGS1EXE
-          path: RSMPGS1/Setup/RSMPGS1.EXE
+          path: RSMPGS1/Setup/RSMPGS1.exe
 
       - name: Building the installer
         run: |
