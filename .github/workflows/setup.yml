@@ -22,6 +22,7 @@ jobs:
       - name: Build RSMPGS1 (Release)
         run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
+  setup:
     name: Create Installer
     runs-on: windows-latest
     steps:
