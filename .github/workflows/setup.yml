@@ -8,11 +8,10 @@ on:
   pull_request:
     branches: [ master ]
 
-
 jobs:
-  rsmpgs1:
+  build:
     name: Build RSMPGS1
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,6 +22,9 @@ jobs:
       - name: Build RSMPGS1 (Release)
         run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
+    name: Create Installer
+    runs-on: windows-latest
+    steps:
       - name: Building the installer
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "RSMPGS1\Setup\install_script.iss"
