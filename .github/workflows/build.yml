@@ -28,8 +28,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build RSMPGS1
+      - name: Build RSMPGS1 (Debug)
         run: xbuild RSMPGS1/RSMPGS1.sln
+
+      - name: Build RSMPGS1 (Release)
+        run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
@@ -45,8 +48,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build RSMPGS2
+      - name: Build RSMPGS2 (Debug)
         run: xbuild RSMPGS2/RSMPGS2.sln
+
+      - name: Build RSMPGS2 (Release)
+        run: xbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
