@@ -1,0 +1,5 @@
+;
+; ProcessImage stored 2020-11-17 06:37:28
+;
+[AA+BBCC.AA+BBCCC=DDDEEFFF.Traffic Light Controller.Traffic Light Controller.AA+BBCCC=DDDEEFFF.Status]
+S0001.basecyclecounter.Status=10

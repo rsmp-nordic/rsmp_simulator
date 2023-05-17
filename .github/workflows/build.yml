@@ -3,7 +3,7 @@
 # Please note that this build debug versions. RSMPGSx.exe will look for
 # the RSMPGSx.INI file in "../../Settings".
 
-name: Build RSMPGS1 and RSMPGS2 using Mono
+name: Build RSMPGS1 and RSMPGS2 (debug)
 
 on:
   push:
@@ -31,9 +31,6 @@ jobs:
       - name: Build RSMPGS1 (Debug)
         run: xbuild RSMPGS1/RSMPGS1.sln
 
-      - name: Build RSMPGS1 (Release)
-        run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -50,9 +47,6 @@ jobs:
 
       - name: Build RSMPGS2 (Debug)
         run: xbuild RSMPGS2/RSMPGS2.sln
-
-      - name: Build RSMPGS2 (Release)
-        run: xbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
