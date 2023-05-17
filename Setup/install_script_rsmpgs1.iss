@@ -35,10 +35,12 @@ Source: "Documents\sxl-tlc-1.0.15.pdf"; DestDir: "{app}\Documents"; MinVersion: 
 
 [Dirs]
 Name: "{app}"; 
-Name: "{app}\LogFiles"; 
-Name: "{app}\LogFiles\SysLogFiles"; 
-Name: "{app}\LogFiles\EventFiles"; 
-Name: "{app}\Settings"; 
+Name: "{app}\LogFiles"; Permissions: users-modify
+Name: "{app}\LogFiles\SysLogFiles"; Permissions: users-modify
+Name: "{app}\LogFiles\EventFiles"; Permissions: users-modify
+Name: "{app}\Settings"; Permissions: users-modify
+Name: "{app}\YAML"; Permissions: users-modify
+Name: "{app}\Objects"; Permissions: users-modify
 
 [Icons]
 Name: "{group}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
