@@ -36,6 +36,7 @@ Source: "Documents\sxl-tlc-1.0.15.pdf"; DestDir: "{app}\Documents"; MinVersion: 
 [Dirs]
 Name: "{app}"; 
 Name: "{app}\LogFiles"; 
+Name: "{app}\LogFiles\SysLogFiles"; 
 Name: "{app}\Settings"; 
 
 [Icons]
