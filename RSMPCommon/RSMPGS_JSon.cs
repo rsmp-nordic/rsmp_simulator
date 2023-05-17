@@ -1139,7 +1139,6 @@ namespace nsRSMPGS
         }
       }
     }
-<<<<<<< HEAD
 
     public string ValidateArrayString(Dictionary<string, cYAMLMapping> items, string jsonString)
     {
