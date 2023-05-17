@@ -16,89 +16,89 @@ using System.Diagnostics;
 
 namespace nsRSMPGS
 {
-	public class cSetting
-	{
+  public class cSetting
+  {
 
-		public string sKey;
-		public string sDescription;
+    public string sKey;
+    public string sDescription;
 
-		public int RowIndex;
+    public int RowIndex;
 
-		public bool IsAffectedByRSMPVersion;
+    public bool IsAffectedByRSMPVersion;
 
-		private bool bActualValue;
+    private bool bActualValue;
 
-		private bool bActualValue_RSMP_3_1_1;
-		private bool bActualValue_RSMP_3_1_2;
-		private bool bActualValue_RSMP_3_1_3;
-		private bool bActualValue_RSMP_3_1_4;
+    private bool bActualValue_RSMP_3_1_1;
+    private bool bActualValue_RSMP_3_1_2;
+    private bool bActualValue_RSMP_3_1_3;
+    private bool bActualValue_RSMP_3_1_4;
     private bool bActualValue_RSMP_3_1_5;
     private bool bActualValue_RSMP_3_2_0;
 
     private bool bDefaultValue;
 
-		private bool bDefaultValue_RSMP_3_1_1;
-		private bool bDefaultValue_RSMP_3_1_2;
-		private bool bDefaultValue_RSMP_3_1_3;
-		private bool bDefaultValue_RSMP_3_1_4;
+    private bool bDefaultValue_RSMP_3_1_1;
+    private bool bDefaultValue_RSMP_3_1_2;
+    private bool bDefaultValue_RSMP_3_1_3;
+    private bool bDefaultValue_RSMP_3_1_4;
     private bool bDefaultValue_RSMP_3_1_5;
     private bool bDefaultValue_RSMP_3_2_0;
 
     public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5, bool bDefaultValue_RSMP_3_2_0)
-		{
+    {
 
-			this.sKey = sKey;
-			this.sDescription = sDescription;
+      this.sKey = sKey;
+      this.sDescription = sDescription;
 
-			this.RowIndex = iRowIndex;
+      this.RowIndex = iRowIndex;
 
-			this.IsAffectedByRSMPVersion = IsAffectedByRSMPVersion;
+      this.IsAffectedByRSMPVersion = IsAffectedByRSMPVersion;
 
-			this.bDefaultValue = bDefaultValue;
+      this.bDefaultValue = bDefaultValue;
 
-			this.bDefaultValue_RSMP_3_1_1 = bDefaultValue_RSMP_3_1_1;
-			this.bDefaultValue_RSMP_3_1_2 = bDefaultValue_RSMP_3_1_2;
-			this.bDefaultValue_RSMP_3_1_3 = bDefaultValue_RSMP_3_1_3;
-			this.bDefaultValue_RSMP_3_1_4 = bDefaultValue_RSMP_3_1_4;
+      this.bDefaultValue_RSMP_3_1_1 = bDefaultValue_RSMP_3_1_1;
+      this.bDefaultValue_RSMP_3_1_2 = bDefaultValue_RSMP_3_1_2;
+      this.bDefaultValue_RSMP_3_1_3 = bDefaultValue_RSMP_3_1_3;
+      this.bDefaultValue_RSMP_3_1_4 = bDefaultValue_RSMP_3_1_4;
       this.bDefaultValue_RSMP_3_1_5 = bDefaultValue_RSMP_3_1_5;
       this.bDefaultValue_RSMP_3_2_0 = bDefaultValue_RSMP_3_2_0;
 
     }
 
     public int GetColumnIndex(cJSon.RSMPVersion rsmpVersion)
-		{
-			return (int)(rsmpVersion + 1);
-		}
+    {
+      return (int)(rsmpVersion + 1);
+    }
 
-		public cJSon.RSMPVersion GetRSMPVersion(int iColumnIndex)
-		{
-			return (cJSon.RSMPVersion)(iColumnIndex - 1);
-		}
+    public cJSon.RSMPVersion GetRSMPVersion(int iColumnIndex)
+    {
+      return (cJSon.RSMPVersion)(iColumnIndex - 1);
+    }
 
-		public bool GetActualValue(int iColumnIndex)
-		{
-			return GetActualValue(GetRSMPVersion(iColumnIndex));
-		}
+    public bool GetActualValue(int iColumnIndex)
+    {
+      return GetActualValue(GetRSMPVersion(iColumnIndex));
+    }
 
-		public bool GetActualValue(cJSon.RSMPVersion rsmpVersion)
-		{
+    public bool GetActualValue(cJSon.RSMPVersion rsmpVersion)
+    {
 
-			switch (rsmpVersion)
-			{
-				case cJSon.RSMPVersion.NotSupported:
-					return bActualValue;
+      switch (rsmpVersion)
+      {
+        case cJSon.RSMPVersion.NotSupported:
+          return bActualValue;
 
-				case cJSon.RSMPVersion.RSMP_3_1_1:
-					return bActualValue_RSMP_3_1_1;
+        case cJSon.RSMPVersion.RSMP_3_1_1:
+          return bActualValue_RSMP_3_1_1;
 
-				case cJSon.RSMPVersion.RSMP_3_1_2:
-					return bActualValue_RSMP_3_1_2;
+        case cJSon.RSMPVersion.RSMP_3_1_2:
+          return bActualValue_RSMP_3_1_2;
 
-				case cJSon.RSMPVersion.RSMP_3_1_3:
-					return bActualValue_RSMP_3_1_3;
+        case cJSon.RSMPVersion.RSMP_3_1_3:
+          return bActualValue_RSMP_3_1_3;
 
-				case cJSon.RSMPVersion.RSMP_3_1_4:
-					return bActualValue_RSMP_3_1_4;
+        case cJSon.RSMPVersion.RSMP_3_1_4:
+          return bActualValue_RSMP_3_1_4;
 
         case cJSon.RSMPVersion.RSMP_3_1_5:
           return bActualValue_RSMP_3_1_5;
@@ -108,33 +108,33 @@ namespace nsRSMPGS
 
       }
       return false;
-		}
+    }
 
-		public bool GetDefaultValue(int iColumnIndex)
-		{
-			return GetDefaultValue(GetRSMPVersion(iColumnIndex));
-		}
+    public bool GetDefaultValue(int iColumnIndex)
+    {
+      return GetDefaultValue(GetRSMPVersion(iColumnIndex));
+    }
 
-		public bool GetDefaultValue(cJSon.RSMPVersion rsmpVersion)
-		{
+    public bool GetDefaultValue(cJSon.RSMPVersion rsmpVersion)
+    {
 
-			switch (rsmpVersion)
-			{
+      switch (rsmpVersion)
+      {
 
-				case cJSon.RSMPVersion.NotSupported:
-					return bDefaultValue;
+        case cJSon.RSMPVersion.NotSupported:
+          return bDefaultValue;
 
-				case cJSon.RSMPVersion.RSMP_3_1_1:
-					return bDefaultValue_RSMP_3_1_1;
+        case cJSon.RSMPVersion.RSMP_3_1_1:
+          return bDefaultValue_RSMP_3_1_1;
 
-				case cJSon.RSMPVersion.RSMP_3_1_2:
-					return bDefaultValue_RSMP_3_1_2;
+        case cJSon.RSMPVersion.RSMP_3_1_2:
+          return bDefaultValue_RSMP_3_1_2;
 
-				case cJSon.RSMPVersion.RSMP_3_1_3:
-					return bDefaultValue_RSMP_3_1_3;
+        case cJSon.RSMPVersion.RSMP_3_1_3:
+          return bDefaultValue_RSMP_3_1_3;
 
-				case cJSon.RSMPVersion.RSMP_3_1_4:
-					return bDefaultValue_RSMP_3_1_4;
+        case cJSon.RSMPVersion.RSMP_3_1_4:
+          return bDefaultValue_RSMP_3_1_4;
 
         case cJSon.RSMPVersion.RSMP_3_1_5:
           return bDefaultValue_RSMP_3_1_5;
@@ -143,39 +143,39 @@ namespace nsRSMPGS
           return bDefaultValue_RSMP_3_2_0;
 
         default:
-					return false;
-			}
-		}
+          return false;
+      }
+    }
 
-		public void SetActualValue(int iColumnIndex, bool bValue)
-		{
-			SetActualValue(GetRSMPVersion(iColumnIndex), bValue);
-		}
+    public void SetActualValue(int iColumnIndex, bool bValue)
+    {
+      SetActualValue(GetRSMPVersion(iColumnIndex), bValue);
+    }
 
-		public void SetActualValue(cJSon.RSMPVersion rsmpVersion, bool bValue)
-		{
-			switch (rsmpVersion)
-			{
+    public void SetActualValue(cJSon.RSMPVersion rsmpVersion, bool bValue)
+    {
+      switch (rsmpVersion)
+      {
 
-				case cJSon.RSMPVersion.NotSupported:
-					bActualValue = bValue;
-					break;
+        case cJSon.RSMPVersion.NotSupported:
+          bActualValue = bValue;
+          break;
 
-				case cJSon.RSMPVersion.RSMP_3_1_1:
-					bActualValue_RSMP_3_1_1 = bValue;
-					break;
+        case cJSon.RSMPVersion.RSMP_3_1_1:
+          bActualValue_RSMP_3_1_1 = bValue;
+          break;
 
-				case cJSon.RSMPVersion.RSMP_3_1_2:
-					bActualValue_RSMP_3_1_2 = bValue;
-					break;
+        case cJSon.RSMPVersion.RSMP_3_1_2:
+          bActualValue_RSMP_3_1_2 = bValue;
+          break;
 
-				case cJSon.RSMPVersion.RSMP_3_1_3:
-					bActualValue_RSMP_3_1_3 = bValue;
-					break;
+        case cJSon.RSMPVersion.RSMP_3_1_3:
+          bActualValue_RSMP_3_1_3 = bValue;
+          break;
 
-				case cJSon.RSMPVersion.RSMP_3_1_4:
-					bActualValue_RSMP_3_1_4 = bValue;
-					break;
+        case cJSon.RSMPVersion.RSMP_3_1_4:
+          bActualValue_RSMP_3_1_4 = bValue;
+          break;
 
         case cJSon.RSMPVersion.RSMP_3_1_5:
           bActualValue_RSMP_3_1_5 = bValue;
@@ -187,168 +187,168 @@ namespace nsRSMPGS
 
       }
     }
-	}
+  }
 
-	public class cPrivateProfile
-	{
+  public class cPrivateProfile
+  {
 
-		[DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileStringW",
-			SetLastError = true,
-			CharSet = CharSet.Unicode, ExactSpelling = true,
-			CallingConvention = CallingConvention.StdCall)]
-		private static extern int GetPrivateProfileString(
-		string lpAppName,
-		string lpKeyName,
-		string lpDefault,
-		string lpReturnString,
-		int nSize,
-		string lpFilename);
+    [DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileStringW",
+      SetLastError = true,
+      CharSet = CharSet.Unicode, ExactSpelling = true,
+      CallingConvention = CallingConvention.StdCall)]
+    private static extern int GetPrivateProfileString(
+    string lpAppName,
+    string lpKeyName,
+    string lpDefault,
+    string lpReturnString,
+    int nSize,
+    string lpFilename);
 
-		[DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileIntW",
-			SetLastError = true,
-			CharSet = CharSet.Unicode, ExactSpelling = true,
-			CallingConvention = CallingConvention.StdCall)]
-		private static extern int GetPrivateProfileInt(
-		string lpAppName,
-		string lpKeyName,
-		int iDefault,
-		string lpFilename);
+    [DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileIntW",
+      SetLastError = true,
+      CharSet = CharSet.Unicode, ExactSpelling = true,
+      CallingConvention = CallingConvention.StdCall)]
+    private static extern int GetPrivateProfileInt(
+    string lpAppName,
+    string lpKeyName,
+    int iDefault,
+    string lpFilename);
 
-		[DllImport("KERNEL32.DLL", EntryPoint = "WritePrivateProfileStringW",
-			SetLastError = true,
-			CharSet = CharSet.Unicode, ExactSpelling = true,
-			CallingConvention = CallingConvention.StdCall)]
-		private static extern int WritePrivateProfileString(
-		string lpAppName,
-		string lpKeyName,
-		string lpString,
-		string lpFilename);
+    [DllImport("KERNEL32.DLL", EntryPoint = "WritePrivateProfileStringW",
+      SetLastError = true,
+      CharSet = CharSet.Unicode, ExactSpelling = true,
+      CallingConvention = CallingConvention.StdCall)]
+    private static extern int WritePrivateProfileString(
+    string lpAppName,
+    string lpKeyName,
+    string lpString,
+    string lpFilename);
 
-		public static string ApplicationPath()
-		{
+    public static string ApplicationPath()
+    {
 
-			if (RSMPGS.SpecifiedPath.Length == 0)
-			{
+      if (RSMPGS.SpecifiedPath.Length == 0)
+      {
 #if DEBUG
-				return "..\\..";
+        return "..\\..";
 #else
                 string AssemblyName = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 System.IO.FileInfo file = new System.IO.FileInfo(AssemblyName);
                 return file.Directory.FullName;
 #endif
-			}
-			else
-			{
-				return RSMPGS.SpecifiedPath;
-			}
+      }
+      else
+      {
+        return RSMPGS.SpecifiedPath;
+      }
 
 
-		}
+    }
 
-		public static string SettingsPath()
-		{
-			return ApplicationPath() + "\\Settings";
-		}
+    public static string SettingsPath()
+    {
+      return ApplicationPath() + "\\Settings";
+    }
 
-		public static string DefaultObjectFilesPath()
-		{
-			return ApplicationPath() + "\\Objects";
-		}
+    public static string DefaultObjectFilesPath()
+    {
+      return ApplicationPath() + "\\Objects";
+    }
 
-		public static string LogFilesPath()
-		{
-			return ApplicationPath() + "\\LogFiles";
-		}
+    public static string LogFilesPath()
+    {
+      return ApplicationPath() + "\\LogFiles";
+    }
 
-		public static string SysLogFilesPath()
-		{
-			return LogFilesPath() + "\\SysLogFiles";
-		}
+    public static string SysLogFilesPath()
+    {
+      return LogFilesPath() + "\\SysLogFiles";
+    }
 
-		public static string DebugFilesPath()
-		{
-			return LogFilesPath() + "\\DebugFiles";
-		}
+    public static string DebugFilesPath()
+    {
+      return LogFilesPath() + "\\DebugFiles";
+    }
 
-		public static string EventFilesPath()
-		{
-			return LogFilesPath() + "\\EventFiles";
-		}
+    public static string EventFilesPath()
+    {
+      return LogFilesPath() + "\\EventFiles";
+    }
     /*
-		public static string ProcessImageFileFullName()
-		{
-			return cPrivateProfile.ObjectFilesPath() + "\\" + "ProcessImage.dat";
-		}
+    public static string ProcessImageFileFullName()
+    {
+      return cPrivateProfile.ObjectFilesPath() + "\\" + "ProcessImage.dat";
+    }
     */
-		public static string GetIniFileString(string category, string key, string defaultValue)
-		{
-			return GetIniFileString(RSMPGS.IniFileFullname, category, key, defaultValue);
-		}
+    public static string GetIniFileString(string category, string key, string defaultValue)
+    {
+      return GetIniFileString(RSMPGS.IniFileFullname, category, key, defaultValue);
+    }
 
-		public static string GetIniFileString(string iniFile, string category, string key, string defaultValue)
-		{
-			string returnString = new string(' ', 1024);
-			GetPrivateProfileString(category, key, defaultValue, returnString, 1024, iniFile);
-			return returnString.Split('\0')[0];
-		}
+    public static string GetIniFileString(string iniFile, string category, string key, string defaultValue)
+    {
+      string returnString = new string(' ', 1024);
+      GetPrivateProfileString(category, key, defaultValue, returnString, 1024, iniFile);
+      return returnString.Split('\0')[0];
+    }
 
-		public static int GetIniFileInt(string category, string key, int defaultValue)
-		{
-			return GetIniFileInt(RSMPGS.IniFileFullname, category, key, defaultValue);
-		}
+    public static int GetIniFileInt(string category, string key, int defaultValue)
+    {
+      return GetIniFileInt(RSMPGS.IniFileFullname, category, key, defaultValue);
+    }
 
-		public static int GetIniFileInt(string iniFile, string category, string key, int defaultValue)
-		{
-			return GetPrivateProfileInt(category, key, defaultValue, iniFile);
-		}
+    public static int GetIniFileInt(string iniFile, string category, string key, int defaultValue)
+    {
+      return GetPrivateProfileInt(category, key, defaultValue, iniFile);
+    }
 
-		public static void WriteIniFileString(string category, string key, string value)
-		{
-			WriteIniFileString(RSMPGS.IniFileFullname, category, key, value);
-		}
+    public static void WriteIniFileString(string category, string key, string value)
+    {
+      WriteIniFileString(RSMPGS.IniFileFullname, category, key, value);
+    }
 
-		public static void WriteIniFileString(string iniFile, string category, string key, string value)
-		{
-			WritePrivateProfileString(category, key, value, iniFile);
-		}
+    public static void WriteIniFileString(string iniFile, string category, string key, string value)
+    {
+      WritePrivateProfileString(category, key, value, iniFile);
+    }
 
-		public static void WriteIniFileInt(string category, string key, int value)
-		{
-			WriteIniFileInt(RSMPGS.IniFileFullname, category, key, value);
-		}
+    public static void WriteIniFileInt(string category, string key, int value)
+    {
+      WriteIniFileInt(RSMPGS.IniFileFullname, category, key, value);
+    }
 
-		public static void WriteIniFileInt(string iniFile, string category, string key, int value)
-		{
-			WritePrivateProfileString(category, key, value.ToString(), iniFile);
-		}
+    public static void WriteIniFileInt(string iniFile, string category, string key, int value)
+    {
+      WritePrivateProfileString(category, key, value.ToString(), iniFile);
+    }
 
-		public static List<string> GetCategories()
-		{
-			return GetCategories(RSMPGS.IniFileFullname);
-		}
+    public static List<string> GetCategories()
+    {
+      return GetCategories(RSMPGS.IniFileFullname);
+    }
 
-		public static List<string> GetCategories(string iniFile)
-		{
-			string returnString = new string(' ', 65536);
-			GetPrivateProfileString(null, null, null, returnString, 65536, iniFile);
-			List<string> result = new List<string>(returnString.Split('\0'));
-			result.RemoveRange(result.Count - 2, 2);
-			return result;
-		}
+    public static List<string> GetCategories(string iniFile)
+    {
+      string returnString = new string(' ', 65536);
+      GetPrivateProfileString(null, null, null, returnString, 65536, iniFile);
+      List<string> result = new List<string>(returnString.Split('\0'));
+      result.RemoveRange(result.Count - 2, 2);
+      return result;
+    }
 
-		public static List<string> GetKeys(string category)
-		{
-			return GetKeys(RSMPGS.IniFileFullname, category);
-		}
+    public static List<string> GetKeys(string category)
+    {
+      return GetKeys(RSMPGS.IniFileFullname, category);
+    }
 
-		public static List<string> GetKeys(string iniFile, string category)
-		{
-			string returnString = new string(' ', 32768);
-			GetPrivateProfileString(category, null, null, returnString, 32768, iniFile);
-			List<string> result = new List<string>(returnString.Split('\0'));
-			result.RemoveRange(result.Count - 2, 2);
-			return result;
-		}
+    public static List<string> GetKeys(string iniFile, string category)
+    {
+      string returnString = new string(' ', 32768);
+      GetPrivateProfileString(category, null, null, returnString, 32768, iniFile);
+      List<string> result = new List<string>(returnString.Split('\0'));
+      result.RemoveRange(result.Count - 2, 2);
+      return result;
+    }
 
     public static string Base64Encode(string plainText)
     {
@@ -1441,46 +1441,46 @@ namespace nsRSMPGS
 
   }
 
-	public class cTcpHelper
-	{
+  public class cTcpHelper
+  {
 
-		public const int WrapMethod_None = 0;
-		public const int WrapMethod_FormFeed = 1;
-		public const int WrapMethod_LengthPrefix = 2;
+    public const int WrapMethod_None = 0;
+    public const int WrapMethod_FormFeed = 1;
+    public const int WrapMethod_LengthPrefix = 2;
 
-		public static bool CloseAndDeleteStreamAndSocket(ref cSocketStream socketStream, ref TcpClient tcpClient)
-		{
+    public static bool CloseAndDeleteStreamAndSocket(ref cSocketStream socketStream, ref TcpClient tcpClient)
+    {
 
-			bool bDidCloseSomething = false;
+      bool bDidCloseSomething = false;
 
-			if (socketStream != null)
-			{
-				try
-				{
+      if (socketStream != null)
+      {
+        try
+        {
           socketStream.Close();
           socketStream = null;
-				}
-				catch
-				{
-				}
-				bDidCloseSomething = true;
-			}
-			if (tcpClient != null)
-			{
-				try
-				{
-					tcpClient.Close();
-					tcpClient = null;
-				}
-				catch
-				{
-				}
-				bDidCloseSomething = true;
-			}
+        }
+        catch
+        {
+        }
+        bDidCloseSomething = true;
+      }
+      if (tcpClient != null)
+      {
+        try
+        {
+          tcpClient.Close();
+          tcpClient = null;
+        }
+        catch
+        {
+        }
+        bDidCloseSomething = true;
+      }
 
-			return bDidCloseSomething;
+      return bDidCloseSomething;
 
-		}
+    }
     public static bool CloseAndDeleteStreamAndSocket(ref NetworkStream networkStream, ref TcpClient tcpClient)
     {
 
@@ -1518,35 +1518,35 @@ namespace nsRSMPGS
   }
 
   public class cJSonMessageIdAndTimeStamp
-	{
-		public string PacketType;
-		public string MessageId;
-		public string SendString;
-		public DateTime TimeStamp;
-		public double TimeToWaitForAck;
-		public bool ResendPacketIfWeGetNoAck;
+  {
+    public string PacketType;
+    public string MessageId;
+    public string SendString;
+    public DateTime TimeStamp;
+    public double TimeToWaitForAck;
+    public bool ResendPacketIfWeGetNoAck;
 
-		public cJSonMessageIdAndTimeStamp(string sPacketType, string sMessageId, string sSendString, double dTimeToWaitForAck, bool bResendPacketIfWeGetNoAck)
-		{
-			PacketType = sPacketType;
-			MessageId = sMessageId;
-			SendString = sSendString;
-			TimeToWaitForAck = dTimeToWaitForAck;
-			TimeStamp = DateTime.Now;
-			ResendPacketIfWeGetNoAck = bResendPacketIfWeGetNoAck;
-		}
+    public cJSonMessageIdAndTimeStamp(string sPacketType, string sMessageId, string sSendString, double dTimeToWaitForAck, bool bResendPacketIfWeGetNoAck)
+    {
+      PacketType = sPacketType;
+      MessageId = sMessageId;
+      SendString = sSendString;
+      TimeToWaitForAck = dTimeToWaitForAck;
+      TimeStamp = DateTime.Now;
+      ResendPacketIfWeGetNoAck = bResendPacketIfWeGetNoAck;
+    }
 
-		public bool IsPacketToOld()
-		{
-			if (cHelper.IsSettingChecked("WaitInfiniteForUnackedPackets"))
-			{
-				return false;
-			}
-			else
-			{
-				return (TimeStamp.AddMilliseconds(TimeToWaitForAck) < DateTime.Now) ? true : false;
-			}
-		}
+    public bool IsPacketToOld()
+    {
+      if (cHelper.IsSettingChecked("WaitInfiniteForUnackedPackets"))
+      {
+        return false;
+      }
+      else
+      {
+        return (TimeStamp.AddMilliseconds(TimeToWaitForAck) < DateTime.Now) ? true : false;
+      }
+    }
 
   }
 

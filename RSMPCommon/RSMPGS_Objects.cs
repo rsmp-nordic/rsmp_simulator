@@ -401,7 +401,7 @@ namespace nsRSMPGS
 
 #if _RSMPGS2
 
-		public List<cStatusSubscription> StatusSubscriptions = new List<cStatusSubscription>();
+    public List<cStatusSubscription> StatusSubscriptions = new List<cStatusSubscription>();
 
 #endif
 

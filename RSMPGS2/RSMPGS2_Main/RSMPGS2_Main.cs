@@ -11,10 +11,10 @@ using System.IO;
 namespace nsRSMPGS
 {
 
-	[System.ComponentModel.DesignerCategory("form")]
+  [System.ComponentModel.DesignerCategory("form")]
 
-	public partial class RSMPGS_Main : Form
-	{
+  public partial class RSMPGS_Main : Form
+  {
 
     public bool bIsUpdatingAlarmEventList = false;
     public bool bIsUpdatingStatusEventList = false;
@@ -81,280 +81,280 @@ namespace nsRSMPGS
     // View all forms
     //
     private void RSMPGS_Main_Shown(object sender, EventArgs e)
-		{
+    {
 
-			if (bLoadFailed)
-			{
-				return;
-			}
+      if (bLoadFailed)
+      {
+        return;
+      }
 
-			foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
-			{
-				DebugForm.Show();
-				DebugForm.BringToFront();
-			}
-		}
+      foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
+      {
+        DebugForm.Show();
+        DebugForm.BringToFront();
+      }
+    }
 
-		//
-		// Closing main form
-		//
-		private void Main_Closing()
-		{
-
-
-			cPrivateProfile.WriteIniFileString("Main", "SaveAsInitialDirectory", saveFileDialog_SXL.InitialDirectory);
-			cPrivateProfile.WriteIniFileString("Main", "SaveAsFileName", saveFileDialog_SXL.FileName);
-
-			cPrivateProfile.WriteIniFileInt("Main", "LoadProcessImageAtStartUp", ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked == true ? 1 : 0);
-
-			RSMPGS.ProcessImage.SaveProcessImageValues();
-
-		}
-
-		// Tooltip on/off
-		private void checkBox_ShowTooltip_CheckedChanged(object sender, EventArgs e)
-		{
-			treeView_SitesAndObjects.ShowNodeToolTips = checkBox_ShowTooltip.Checked;
-		}
-
-		// Create new debug form
-		private void ToolStripMenuItem_File_Debug_CreateNew_Click(object sender, EventArgs e)
-		{
-			RSMPGS_Debug DebugForm = new RSMPGS_Debug();
-			//DebugForm.MainForm = this;
-			DebugForm.CalcNewCaption();
-			RSMPGS.DebugForms.Add(DebugForm);
-			DebugForm.Show();
-		}
-
-		// Tile debug forms
-		private void ToolStripMenuItem_File_Debug_Tile_Click(object sender, EventArgs e)
-		{
-			int iX = this.Left + this.Width;
-			int iY = this.Top;
-
-			if (iX > Screen.PrimaryScreen.Bounds.Width) iX = 0;
-			if (iY > Screen.PrimaryScreen.Bounds.Height) iY = 0;
-
-			foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
-			{
-				DebugForm.WindowState = FormWindowState.Normal;
-				DebugForm.Left = iX;
-				DebugForm.Top = iY;
-				DebugForm.Width = 500;
-				DebugForm.Height = 500;
-				DebugForm.BringToFront();
-				iX += 50;
-				iY += 50;
-			}
-		}
-
-		// Close all debug forms
-		private void ToolStripMenuItem_File_Debug_CloseAll_Click(object sender, EventArgs e)
-		{
-			while (RSMPGS.DebugForms.Count() > 0)
-			{
-				RSMPGS.DebugForms[0].Close();
-			}
-		}
-
-		public void AddSysLogListItemMethod(cSysLogAndDebug.Severity severity, string sDateTime, string sLogText)
-		{
-
-			ListViewItem lvItem = new ListViewItem();
-
-			lvItem.ImageIndex = (int)severity;
-			lvItem.SubItems.Add(sDateTime);
-			lvItem.SubItems.Add(sLogText);
-
-			lock (RSMPGS.SysLogItems)
-			{
-				RSMPGS.SysLogItems.Add(lvItem);
-			}
-
-		}
-
-		private void ToolStripMenuItem_ProcessImage_RestoreAtStartUp_Click(object sender, EventArgs e)
-		{
-			ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked = !ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked;
-		}
-
-		private void ToolStripMenuItem_ProcessImage_Load_Click(object sender, EventArgs e)
-		{
-			if (System.Windows.Forms.MessageBox.Show("This will replace the current ProcessImage with the last saved one.\r\nAre you sure?", "RSMPGS2", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				RSMPGS.ProcessImage.ResetProcessImage();
-				RSMPGS.ProcessImage.LoadProcessImageValues(sProcessImageDefaultName);
-			}
-		}
-
-		private void ToolStripMenuItem_ProcessImage_Reset_Click(object sender, EventArgs e)
-		{
-			if (System.Windows.Forms.MessageBox.Show("This will reset all eventlists, subscriptions and statuses to default.\r\nAre you sure?", "RSMPGS2", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				RSMPGS.ProcessImage.ResetProcessImage();
-			}
-		}
+    //
+    // Closing main form
+    //
+    private void Main_Closing()
+    {
 
 
-		private void ToolStripMenuItem_File_Close_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+      cPrivateProfile.WriteIniFileString("Main", "SaveAsInitialDirectory", saveFileDialog_SXL.InitialDirectory);
+      cPrivateProfile.WriteIniFileString("Main", "SaveAsFileName", saveFileDialog_SXL.FileName);
 
-		public void DecodeJSonPacketMethod(string sJSon)
-		{
-			RSMPGS.JSon.DecodeAndParseJSonPacket(sJSon);
-		}
+      cPrivateProfile.WriteIniFileInt("Main", "LoadProcessImageAtStartUp", ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked == true ? 1 : 0);
 
-		public void SocketWasClosedMethod()
-		{
-			ToolStripMenuItem_SendWatchdog.Enabled = false;
-			RSMPGS.JSon.SocketWasClosed();
-		}
+      RSMPGS.ProcessImage.SaveProcessImageValues();
 
-		public void SocketWasConnectedMethod()
-		{
-			ToolStripMenuItem_SendWatchdog.Enabled = true;
-			RSMPGS.JSon.SocketWasConnected();
-		}
+    }
 
-		private void ToolStripMenuItem_Connection_DropDownOpening(object sender, EventArgs e)
-		{
-			ToolStripMenuItem_ConnectNow.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected && RSMPGS.bConnectAsSocketClient == true;
-			ToolStripMenuItem_Disconnect.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
+    // Tooltip on/off
+    private void checkBox_ShowTooltip_CheckedChanged(object sender, EventArgs e)
+    {
+      treeView_SitesAndObjects.ShowNodeToolTips = checkBox_ShowTooltip.Checked;
+    }
 
-			ToolStripMenuItem_SendSomeRandomCrap.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
-			ToolStripMenuItem_SendWatchdog.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
-		}
+    // Create new debug form
+    private void ToolStripMenuItem_File_Debug_CreateNew_Click(object sender, EventArgs e)
+    {
+      RSMPGS_Debug DebugForm = new RSMPGS_Debug();
+      //DebugForm.MainForm = this;
+      DebugForm.CalcNewCaption();
+      RSMPGS.DebugForms.Add(DebugForm);
+      DebugForm.Show();
+    }
 
-		private void ToolStripMenuItem_ConnectNow_Click(object sender, EventArgs e)
-		{
-			RSMPGS.RSMPConnection.Connect();
-		}
+    // Tile debug forms
+    private void ToolStripMenuItem_File_Debug_Tile_Click(object sender, EventArgs e)
+    {
+      int iX = this.Left + this.Width;
+      int iY = this.Top;
 
-		private void ToolStripMenuItem_Disconnect_Click(object sender, EventArgs e)
-		{
-			RSMPGS.RSMPConnection.Disconnect();
-		}
+      if (iX > Screen.PrimaryScreen.Bounds.Width) iX = 0;
+      if (iY > Screen.PrimaryScreen.Bounds.Height) iY = 0;
 
-		private void ToolStripMenuItem_ConnectAutomatically_CheckedChanged(object sender, EventArgs e)
-		{
-			// May not be created when we resore status from INI-file
-			if (RSMPGS.RSMPConnection != null)
-			{
-				RSMPGS.RSMPConnection.SetConnectBehaviour(ToolStripMenuItem_ConnectAutomatically.Checked);
-			}
-		}
+      foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
+      {
+        DebugForm.WindowState = FormWindowState.Normal;
+        DebugForm.Left = iX;
+        DebugForm.Top = iY;
+        DebugForm.Width = 500;
+        DebugForm.Height = 500;
+        DebugForm.BringToFront();
+        iX += 50;
+        iY += 50;
+      }
+    }
 
-		private void ToolStripMenuItem_DisableNagleAlgorithm_Click(object sender, EventArgs e)
-		{
-			RSMPGS.RSMPConnection.NagleAlgorithm(ToolStripMenuItem_DisableNagleAlgorithm.Checked);
-		}
+    // Close all debug forms
+    private void ToolStripMenuItem_File_Debug_CloseAll_Click(object sender, EventArgs e)
+    {
+      while (RSMPGS.DebugForms.Count() > 0)
+      {
+        RSMPGS.DebugForms[0].Close();
+      }
+    }
 
-		private void ToolStripMenuItem_Subscriptions_ResendAll_Click(object sender, EventArgs e)
-		{
-			RSMPGS.ProcessImage.ReSendSubscriptions(true);
-		}
+    public void AddSysLogListItemMethod(cSysLogAndDebug.Severity severity, string sDateTime, string sLogText)
+    {
 
-		private void ToolStripMenuItem_Subscriptions_UnsubscribeAll_Click(object sender, EventArgs e)
-		{
-			RSMPGS.ProcessImage.ReSendSubscriptions(false);
-		}
+      ListViewItem lvItem = new ListViewItem();
 
-		private void ToolStripMenuItem_EventFiles_SaveCont_Click(object sender, EventArgs e)
-		{
-			ToolStripMenuItem_EventFiles_SaveCont.Checked = !ToolStripMenuItem_EventFiles_SaveCont.Checked;
-			bWriteEventsContinous = ToolStripMenuItem_EventFiles_SaveCont.Checked;
-		}
+      lvItem.ImageIndex = (int)severity;
+      lvItem.SubItems.Add(sDateTime);
+      lvItem.SubItems.Add(sLogText);
 
-		private void ToolStripMenuItem_SendSomeRandomCrap_Click(object sender, EventArgs e)
-		{
-			Random Rnd = new Random();
-			Encoding encoding = Encoding.GetEncoding("iso-8859-1");
+      lock (RSMPGS.SysLogItems)
+      {
+        RSMPGS.SysLogItems.Add(lvItem);
+      }
 
-			byte[] RandomArray = new byte[Rnd.Next(1, 2048)];
-			Rnd.NextBytes(RandomArray);
-			RSMPGS.JSon.SendJSonPacket("crap", null, encoding.GetString(RandomArray), false);
+    }
 
-		}
+    private void ToolStripMenuItem_ProcessImage_RestoreAtStartUp_Click(object sender, EventArgs e)
+    {
+      ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked = !ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked;
+    }
 
-		private void checkBox_AlwaysUseSXLFromFile_CheckedChanged(object sender, EventArgs e)
-		{
-			if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSULRevision.Length > 0)
-			{
-				if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSULRevision, StringComparison.OrdinalIgnoreCase) == false)
-				{
-					RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSULRevision, textBox_SignalExchangeListVersion.Text);
-					textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSULRevision;
-				}
-				textBox_SignalExchangeListVersion.Enabled = false;
-			}
-			else
-			{
-				textBox_SignalExchangeListVersion.Enabled = true;
-			}
-		}
+    private void ToolStripMenuItem_ProcessImage_Load_Click(object sender, EventArgs e)
+    {
+      if (System.Windows.Forms.MessageBox.Show("This will replace the current ProcessImage with the last saved one.\r\nAre you sure?", "RSMPGS2", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      {
+        RSMPGS.ProcessImage.ResetProcessImage();
+        RSMPGS.ProcessImage.LoadProcessImageValues(sProcessImageDefaultName);
+      }
+    }
+
+    private void ToolStripMenuItem_ProcessImage_Reset_Click(object sender, EventArgs e)
+    {
+      if (System.Windows.Forms.MessageBox.Show("This will reset all eventlists, subscriptions and statuses to default.\r\nAre you sure?", "RSMPGS2", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      {
+        RSMPGS.ProcessImage.ResetProcessImage();
+      }
+    }
+
+
+    private void ToolStripMenuItem_File_Close_Click(object sender, EventArgs e)
+    {
+      Close();
+    }
+
+    public void DecodeJSonPacketMethod(string sJSon)
+    {
+      RSMPGS.JSon.DecodeAndParseJSonPacket(sJSon);
+    }
+
+    public void SocketWasClosedMethod()
+    {
+      ToolStripMenuItem_SendWatchdog.Enabled = false;
+      RSMPGS.JSon.SocketWasClosed();
+    }
+
+    public void SocketWasConnectedMethod()
+    {
+      ToolStripMenuItem_SendWatchdog.Enabled = true;
+      RSMPGS.JSon.SocketWasConnected();
+    }
+
+    private void ToolStripMenuItem_Connection_DropDownOpening(object sender, EventArgs e)
+    {
+      ToolStripMenuItem_ConnectNow.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected && RSMPGS.bConnectAsSocketClient == true;
+      ToolStripMenuItem_Disconnect.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
+
+      ToolStripMenuItem_SendSomeRandomCrap.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
+      ToolStripMenuItem_SendWatchdog.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
+    }
+
+    private void ToolStripMenuItem_ConnectNow_Click(object sender, EventArgs e)
+    {
+      RSMPGS.RSMPConnection.Connect();
+    }
+
+    private void ToolStripMenuItem_Disconnect_Click(object sender, EventArgs e)
+    {
+      RSMPGS.RSMPConnection.Disconnect();
+    }
+
+    private void ToolStripMenuItem_ConnectAutomatically_CheckedChanged(object sender, EventArgs e)
+    {
+      // May not be created when we resore status from INI-file
+      if (RSMPGS.RSMPConnection != null)
+      {
+        RSMPGS.RSMPConnection.SetConnectBehaviour(ToolStripMenuItem_ConnectAutomatically.Checked);
+      }
+    }
+
+    private void ToolStripMenuItem_DisableNagleAlgorithm_Click(object sender, EventArgs e)
+    {
+      RSMPGS.RSMPConnection.NagleAlgorithm(ToolStripMenuItem_DisableNagleAlgorithm.Checked);
+    }
+
+    private void ToolStripMenuItem_Subscriptions_ResendAll_Click(object sender, EventArgs e)
+    {
+      RSMPGS.ProcessImage.ReSendSubscriptions(true);
+    }
+
+    private void ToolStripMenuItem_Subscriptions_UnsubscribeAll_Click(object sender, EventArgs e)
+    {
+      RSMPGS.ProcessImage.ReSendSubscriptions(false);
+    }
+
+    private void ToolStripMenuItem_EventFiles_SaveCont_Click(object sender, EventArgs e)
+    {
+      ToolStripMenuItem_EventFiles_SaveCont.Checked = !ToolStripMenuItem_EventFiles_SaveCont.Checked;
+      bWriteEventsContinous = ToolStripMenuItem_EventFiles_SaveCont.Checked;
+    }
+
+    private void ToolStripMenuItem_SendSomeRandomCrap_Click(object sender, EventArgs e)
+    {
+      Random Rnd = new Random();
+      Encoding encoding = Encoding.GetEncoding("iso-8859-1");
+
+      byte[] RandomArray = new byte[Rnd.Next(1, 2048)];
+      Rnd.NextBytes(RandomArray);
+      RSMPGS.JSon.SendJSonPacket("crap", null, encoding.GetString(RandomArray), false);
+
+    }
+
+    private void checkBox_AlwaysUseSXLFromFile_CheckedChanged(object sender, EventArgs e)
+    {
+      if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSULRevision.Length > 0)
+      {
+        if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSULRevision, StringComparison.OrdinalIgnoreCase) == false)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSULRevision, textBox_SignalExchangeListVersion.Text);
+          textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSULRevision;
+        }
+        textBox_SignalExchangeListVersion.Enabled = false;
+      }
+      else
+      {
+        textBox_SignalExchangeListVersion.Enabled = true;
+      }
+    }
     /*
-		private void ToolStripMenuItem_File_SaveAs_Click(object sender, EventArgs e)
-		{
+    private void ToolStripMenuItem_File_SaveAs_Click(object sender, EventArgs e)
+    {
 
-			if (saveFileDialog_SXL.ShowDialog() == DialogResult.OK)
-			{
+      if (saveFileDialog_SXL.ShowDialog() == DialogResult.OK)
+      {
 
-				saveFileDialog_SXL.AddExtension = true;
+        saveFileDialog_SXL.AddExtension = true;
 
-				string sFileExtension = Path.GetExtension(saveFileDialog_SXL.FileName).ToLower();
+        string sFileExtension = Path.GetExtension(saveFileDialog_SXL.FileName).ToLower();
 
-				switch (sFileExtension)
-				{
-					case ".xml":
-					case ".json":
+        switch (sFileExtension)
+        {
+          case ".xml":
+          case ".json":
 
-						RSMPGS.ProcessImage.SaveReferenceFile(saveFileDialog_SXL.FileName, sFileExtension);
+            RSMPGS.ProcessImage.SaveReferenceFile(saveFileDialog_SXL.FileName, sFileExtension);
 
-						break;
+            break;
 
-					default:
+          default:
 
-						MessageBox.Show("Unknown file format", "Saving file as", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Unknown file format", "Saving file as", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-						break;
-				}
-			}
-		}
+            break;
+        }
+      }
+    }
     */
 
-		private void button_ClearSystemLog_Click(object sender, EventArgs e)
-		{
-			listView_SysLog.Items.Clear();
+    private void button_ClearSystemLog_Click(object sender, EventArgs e)
+    {
+      listView_SysLog.Items.Clear();
 
-		}
+    }
 
-		private void ToolStripMenuItem_SendWatchdog_Click(object sender, EventArgs e)
-		{
-			RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
-		}
+    private void ToolStripMenuItem_SendWatchdog_Click(object sender, EventArgs e)
+    {
+      RSMPGS.JSon.CreateAndSendWatchdogMessage(true);
+    }
 
-		private void button_ResetRSMPSettingToDefault_Click(object sender, EventArgs e)
-		{
-			cHelper.ResetRSMPSettingToDefault();
-		}
+    private void button_ResetRSMPSettingToDefault_Click(object sender, EventArgs e)
+    {
+      cHelper.ResetRSMPSettingToDefault();
+    }
 
-		private void button_ClearStatistics_Click(object sender, EventArgs e)
-		{
-			cHelper.ClearStatistics();
-		}
+    private void button_ClearStatistics_Click(object sender, EventArgs e)
+    {
+      cHelper.ClearStatistics();
+    }
 
-		private void dataGridView_Behaviour_CellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-			dataGridView_Behaviour.CommitEdit(DataGridViewDataErrorContexts.Commit);
-		}
+    private void dataGridView_Behaviour_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
+      dataGridView_Behaviour.CommitEdit(DataGridViewDataErrorContexts.Commit);
+    }
 
-		private void dataGridView_Behaviour_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-		{
-			cHelper.SettingCheckChanged(e);
-		}
+    private void dataGridView_Behaviour_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    {
+      cHelper.SettingCheckChanged(e);
+    }
 
     private void listView_ColumnClick(object sender, ColumnClickEventArgs e)
     {

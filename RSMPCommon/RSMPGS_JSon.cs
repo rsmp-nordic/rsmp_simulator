@@ -15,19 +15,19 @@ using System.Reflection;
 namespace nsRSMPGS
 {
 
-	public class cJSonSerializer : JavaScriptSerializer
-	{
+  public class cJSonSerializer : JavaScriptSerializer
+  {
 
-		public string SerializeObject(Object obj)
-		{
-			string sJSon = base.Serialize(obj);
-			if (cHelper.IsSettingChecked("JSonPropertyCaseChange10"))
-			{
-				cHelper.ChangeJSONPropertiesCasing(obj, ref sJSon, 10);
-			}
-			return sJSon;
-		}
-	}
+    public string SerializeObject(Object obj)
+    {
+      string sJSon = base.Serialize(obj);
+      if (cHelper.IsSettingChecked("JSonPropertyCaseChange10"))
+      {
+        cHelper.ChangeJSONPropertiesCasing(obj, ref sJSon, 10);
+      }
+      return sJSon;
+    }
+  }
 
 
   public class cJSon
@@ -59,8 +59,8 @@ namespace nsRSMPGS
 
     /*
     public const int StatusMsgType_Request = 1;
-		public const int StatusMsgType_Subscribe = 2;
-		public const int StatusMsgType_UnSubscribe = 3;
+    public const int StatusMsgType_Subscribe = 2;
+    public const int StatusMsgType_UnSubscribe = 3;
     */
 
 
@@ -189,8 +189,8 @@ namespace nsRSMPGS
                 ValidatePropertiesString(Header.type, "Alarm", ref sError);
 #endif
 #if _RSMPGS1
-							bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeader), sJSon, ref sError) &&
-								ValidatePropertiesString(Header.type, "Alarm", ref sError);
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeader), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Alarm", ref sError);
 #endif
               break;
 
@@ -311,18 +311,18 @@ namespace nsRSMPGS
               }
               /*
 
-							if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageAck.oMId == WatchdogPacket.MessageId)
-							{
-								if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
-								{
-									RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Initial watchdog packet was acked");
-									WatchdogPacket = null;
-									bHaveGotWatchdogPacketAck = true;
-									FindOutIfWeAreFinishedWithNegotiation();
-									return true;
-								}
-							}
-							*/
+              if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageAck.oMId == WatchdogPacket.MessageId)
+              {
+                if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+                {
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Initial watchdog packet was acked");
+                  WatchdogPacket = null;
+                  bHaveGotWatchdogPacketAck = true;
+                  FindOutIfWeAreFinishedWithNegotiation();
+                  return true;
+                }
+              }
+              */
 
               break;
 
@@ -338,18 +338,18 @@ namespace nsRSMPGS
                 return false;
               }
               /*
-							if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageNotAck.oMId == WatchdogPacket.MessageId)
-							{
-								RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Initial watchdog was rejected, reason: {0}", MessageNotAck.rea);
-								WatchdogPacket = null;
-								RSMPGS.RSMPConnection.Disconnect();
-								bHaveGotWatchdogPacketAck = true;
+              if (bHaveGotWatchdogPacketAck == false && WatchdogPacket != null && MessageNotAck.oMId == WatchdogPacket.MessageId)
+              {
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Initial watchdog was rejected, reason: {0}", MessageNotAck.rea);
+                WatchdogPacket = null;
+                RSMPGS.RSMPConnection.Disconnect();
+                bHaveGotWatchdogPacketAck = true;
 
-								FindOutIfWeAreFinishedWithNegotiation();
+                FindOutIfWeAreFinishedWithNegotiation();
 
-								return true;
-							}
-							*/
+                return true;
+              }
+              */
 
               break;
 
@@ -583,7 +583,7 @@ namespace nsRSMPGS
         bHaveGotVersionPacket == true &&
         bHaveGotVersionPacketAck == true &&
         bHaveGotWatchdogPacket == true)
-      //bHaveGotWatchdogPacketAck == true)
+        //bHaveGotWatchdogPacketAck == true)
       {
 
         bInitialNegotiationIsFinished = true;
@@ -1139,6 +1139,7 @@ namespace nsRSMPGS
         }
       }
     }
+<<<<<<< HEAD
 
     public string ValidateArrayString(Dictionary<string, cYAMLMapping> items, string jsonString)
     {
@@ -1300,7 +1301,7 @@ namespace nsRSMPGS
     }
 
     public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
-		{
+    {
       bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
       var comparisonType = StringComparison.Ordinal;
       if (!bUseCaseSensitiveValue) { comparisonType = StringComparison.OrdinalIgnoreCase; }
@@ -1310,85 +1311,85 @@ namespace nsRSMPGS
         return false;
       }
 
-			bool bValueIsValid = false;
+      bool bValueIsValid = false;
 
-			switch (sType.ToLower())
-			{
+      switch (sType.ToLower())
+      {
 
-				case "string":
-					bValueIsValid = true;
-					break;
+        case "string":
+          bValueIsValid = true;
+          break;
 
-				case "integer":
-					try
-					{
-						Int16 iValue = Int16.Parse(sValue);
-						bValueIsValid = true;
-					}
-					catch { }
-					break;
+        case "integer":
+          try
+          {
+            Int16 iValue = Int16.Parse(sValue);
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
 
-				case "long":
-					try
-					{
-						Int32 iValue = Int32.Parse(sValue);
-						bValueIsValid = true;
-					}
-					catch { }
-					break;
+        case "long":
+          try
+          {
+            Int32 iValue = Int32.Parse(sValue);
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
 
-				case "real":
-					try
-					{
-						Double dValue = Double.Parse(sValue);
-						bValueIsValid = true;
-					}
-					catch { }
-					break;
+        case "real":
+          try
+          {
+            Double dValue = Double.Parse(sValue);
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
 
-				case "boolean":
-					bValueIsValid = sValue.Equals("true", comparisonType) ||
-					sValue.Equals("false", comparisonType) ||
-					sValue.Equals("0", comparisonType) ||
-					sValue.Equals("1", comparisonType);
-					break;
+        case "boolean":
+          bValueIsValid = sValue.Equals("true", comparisonType) ||
+            sValue.Equals("false", comparisonType) ||
+            sValue.Equals("0", comparisonType) ||
+            sValue.Equals("1", comparisonType);
+          break;
 
-				case "base64":
-					try
-					{
-						Encoding encoding;
-						encoding = Encoding.GetEncoding("IBM437");
-						byte[] Base64Bytes = encoding.GetBytes(sValue);
-						char[] Base64Chars = encoding.GetChars(Base64Bytes);
-						byte[] Base8Bytes = System.Convert.FromBase64CharArray(Base64Chars, 0, Base64Chars.GetLength(0));
-						bValueIsValid = true;
-					}
-					catch { }
-					break;
+        case "base64":
+          try
+          {
+            Encoding encoding;
+            encoding = Encoding.GetEncoding("IBM437");
+            byte[] Base64Bytes = encoding.GetBytes(sValue);
+            char[] Base64Chars = encoding.GetChars(Base64Bytes);
+            byte[] Base8Bytes = System.Convert.FromBase64CharArray(Base64Chars, 0, Base64Chars.GetLength(0));
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
 
-				case "ordinal":
+        case "ordinal":
 
-					if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
-					{
-						try
-						{
-							UInt32 iValue = UInt32.Parse(sValue);
-							bValueIsValid = true;
-						}
-						catch { }
-					}
-					break;
+          if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
+          {
+            try
+            {
+              UInt32 iValue = UInt32.Parse(sValue);
+              bValueIsValid = true;
+            }
+            catch { }
+          }
+          break;
 
-				// These are all valid
-				case "raw":
-				case "scale":
-				case "unit":
-					if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
-					{
-						bValueIsValid = true;
-					}
-					break;
-			}
+        // These are all valid
+        case "raw":
+        case "scale":
+        case "unit":
+          if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
+          {
+            bValueIsValid = true;
+          }
+          break;
+      }
 
       // Validate range
       if (bValueIsValid == true && sValues != "")
@@ -1470,34 +1471,34 @@ namespace nsRSMPGS
       
       return bValueIsValid;
 
-		}
+    }
 
-		public RSMPVersion FindOutHighestCheckedRSMPVersion()
-		{
+    public RSMPVersion FindOutHighestCheckedRSMPVersion()
+    {
 
-			RSMPVersion HighestRSMPVersion = RSMPVersion.NotSupported;
+      RSMPVersion HighestRSMPVersion = RSMPVersion.NotSupported;
 
-			cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
-			if (setting.GetActualValue(RSMPVersion.RSMP_3_1_1))
-			{
-				HighestRSMPVersion = RSMPVersion.RSMP_3_1_1;
-			}
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_1_1))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_1_1;
+      }
 
-			if (setting.GetActualValue(RSMPVersion.RSMP_3_1_2))
-			{
-				HighestRSMPVersion = RSMPVersion.RSMP_3_1_2;
-			}
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_1_2))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_1_2;
+      }
 
-			if (setting.GetActualValue(RSMPVersion.RSMP_3_1_3))
-			{
-				HighestRSMPVersion = RSMPVersion.RSMP_3_1_3;
-			}
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_1_3))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_1_3;
+      }
 
-			if (setting.GetActualValue(RSMPVersion.RSMP_3_1_4))
-			{
-				HighestRSMPVersion = RSMPVersion.RSMP_3_1_4;
-			}
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_1_4))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_1_4;
+      }
 
       if (setting.GetActualValue(RSMPVersion.RSMP_3_1_5))
       {
@@ -1511,8 +1512,8 @@ namespace nsRSMPGS
 
       return HighestRSMPVersion;
 
-		}
+    }
 
-	}
+  }
 
 }
