@@ -42,6 +42,10 @@ jobs:
           name: exe
           path: Setup
 
+      - name: Check Setup directory
+        run: ls Setup
+        shell: powershell
+
       - name: Building the installer (RSMPGS1)
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "Setup\install_script_rsmpgs1.iss"
