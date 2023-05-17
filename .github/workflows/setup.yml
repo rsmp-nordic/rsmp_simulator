@@ -43,7 +43,7 @@ jobs:
           path: Setup
 
       - name: Check Setup directory
-        run: ls Setup
+        run: ls Setup/RSMPGS1
         shell: powershell
 
       - name: Building the installer (RSMPGS1)
