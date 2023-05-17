@@ -24,13 +24,10 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: RSMPGS1EXE
-          path: RSMPGS1/bin/Release/RSMPGS1.exe
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: RSMPGS2EXE
-          path: RSMPGS2/bin/Release/RSMPGS2.exe
+          name: exe
+          path: |
+            RSMPGS1/bin/Release/RSMPGS1.exe
+            RSMPGS2/bin/Release/RSMPGS2.exe
   setup:
     name: Create Installer
     runs-on: windows-latest
@@ -42,12 +39,7 @@ jobs:
 
       - uses: actions/download-artifact@master
         with:
-          name: RSMPGS1EXE
-          path: Setup
-
-      - uses: actions/download-artifact@master
-        with:
-          name: RSMPGS2EXE
+          name: exe
           path: Setup
 
       - name: Building the installer (RSMPGS1)
