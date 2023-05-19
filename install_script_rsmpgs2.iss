@@ -12,8 +12,8 @@ OutputBaseFilename=RSMPGS2_1_0_1_7_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-WizardImageFile=embedded\WizardImage0.bmp
-WizardSmallImageFile=embedded\WizardSmallImage0.bmp
+WizardImageFile=Setup\WizardImage0.bmp
+WizardSmallImageFile=Setup\WizardSmallImage0.bmp
 
 [Files]
 Source: "RSMPGS2\bin\Release\RSMPGS2.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
@@ -66,4 +66,4 @@ eng.AddonHostProgramNotFound=%1 could not be located in the folder you selected.
 [Languages]
 ; These files are stubs
 ; To achieve better results after recompilation, use the real language files
-Name: "eng"; MessagesFile: "embedded\eng.isl"; 
+Name: "eng"; MessagesFile: "Setup\eng.isl"; 
