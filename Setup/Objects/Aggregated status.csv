@@ -4,9 +4,7 @@ Revision date:;yyyy-mm-dd;;;
 ;;;;
 ;;Obs! Leading '-' should not exist in protocol level;;
 ObjectType;State;functionalPosition;functionalState;Description
-Traffic Light Controller;See state-bit definitions below;- Dark
-- NormalControl
-- YellowFlash;;
+Traffic Light Controller;See state-bit definitions below;;;
 ;;;;
 ;;;;
 ;;;;
