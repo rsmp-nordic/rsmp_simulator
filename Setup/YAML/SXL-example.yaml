@@ -34,9 +34,9 @@ objects:
           NOTE! When dark according to configuration the controller is considered to be in use
       8:
         title: Not Connected
-    functional_position: 
+    functional_position:
     functional_state: 
-    alarms:
+      alarms:
       A0001:
         description: |-
           Serious hardware error.
