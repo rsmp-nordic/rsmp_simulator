@@ -30,12 +30,12 @@ jobs:
 
       - name: Building the installer (RSMPGS1)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "Setup\install_script_rsmpgs1.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
         shell: cmd
 
       - name: Building the installer (RSMPGS2)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "Setup\install_script_rsmpgs2.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs2.iss"
         shell: cmd
 
       - name: Upload build artifacts
