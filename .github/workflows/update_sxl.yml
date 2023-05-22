@@ -19,6 +19,9 @@ jobs:
     name: Create SXL
     runs-on: ubuntu-latest
     steps:
+      - name: Install prerequisites
+        run: sudo apt install python3-xlsxwriter
+
       - name: Checkout rsmp_schema
         uses: actions/checkout@v3
         with:
