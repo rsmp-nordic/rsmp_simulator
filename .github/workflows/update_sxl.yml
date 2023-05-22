@@ -23,11 +23,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v3
         with:
           repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
 
       - name: Adapt data types for Core 3.2
         run: |-
