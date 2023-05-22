@@ -59,13 +59,22 @@ jobs:
           sxl-tools/xlsx2csv.rb SXL-example.xlsx
           unzip -o SXL-example.zip -d Objects
 
-      - name: Upload artifacts
+      - name: Upload artifacts (YAML)
         uses: actions/upload-artifact@v3
         with:
-          name: Setup
-          path: |-
-            SXL-example.yaml
-            SXL-example.xlsx
-            Objects
+          name: SXL YAML
+          path: SXL-example.yaml
+
+      - name: Upload artifacts (XLSX)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL XLSX
+          path: SXL-example.xlsx
+
+      - name: Upload artifacts (CSV)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL CSV
+          path: Objects/
 
 
