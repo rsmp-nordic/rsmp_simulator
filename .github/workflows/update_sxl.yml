@@ -20,7 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install prerequisites
-        run: sudo apt install python3-xlsxwriter
+        run: |-
+          sudo apt install python3-xlsxwriter
+          gem install rubyXL --user
 
       - name: Checkout rsmp_schema
         uses: actions/checkout@v3
