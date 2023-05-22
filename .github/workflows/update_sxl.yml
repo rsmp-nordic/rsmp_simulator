@@ -1,0 +1,63 @@
+# This workflow will create example SXL files
+
+name: Example SXL
+
+on:
+  dispatch_workflow:
+
+env:
+  SXL_SOURCE: ../rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  OBJECTS: sxl_temp.yaml
+  SITE: /sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
+
+jobs:
+  create_sxl:
+    name: Create SXL
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/sxl-tools
+
+      - name: Adapt data types for Core 3.2
+        run: |-
+          # Convert "timestamp" to "string", because it doesn't officially
+          # exist in 3.2
+          sed 's/type: timestamp/type: string/g' < $SXL_SOURCE > $OBJECTS
+          # Remove any trailing _list because it is only used for comma
+          # separated values during schema validation
+          sed -i 's/_list$//g' $OBJECTS
+
+      - name: Create YAML file
+        run: sxl-tools/merge_yaml.rb --objects $OBJECTS --site $SITE > YAML/SXL-example.yaml
+
+      - name: Create XLSX template
+        run: sxl-tools/create_template.py
+
+      - name: Create XLSX file
+        run: |-
+          sxl-tools/yaml2xlsx.rb \
+	  --template RSMP_Template_SignalExchangeList.xlsx \
+	  --objects $OBJECTS --site $SITE --stdout > YAML/SXL-example.xlsx
+
+      - name: Create CSV files
+        run: |-
+          sxl-tools/xlsx2csv.rb YAML/SXL-example.xlsx
+          unzip -o YAML/SXL-example.zip -d Objects
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Setup
+          path: |-
+            YAML/SXL-example.yaml
+            YAML/SXL-example.xlsx
+            Objects
+
+
