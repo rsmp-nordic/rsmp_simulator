@@ -3,7 +3,7 @@
 name: Example SXL
 
 on:
-  dispatch_workflow:
+  workflow_dispatch:
 
 env:
   SXL_SOURCE: ../rsmp_schema/schemas/tlc/1.1/sxl.yaml
