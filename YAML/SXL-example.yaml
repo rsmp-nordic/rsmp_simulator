@@ -5,7 +5,7 @@ meta:
   version: 1.1
 objects:
   Traffic Light Controller:
-    description: 
+    description:
     aggregated_status:
       1:
         title: Local mode
@@ -35,8 +35,8 @@ objects:
       8:
         title: Not Connected
     functional_position:
-    functional_state: 
-      alarms:
+    functional_state:
+    alarms:
       A0001:
         description: |-
           Serious hardware error.
@@ -1735,7 +1735,7 @@ objects:
             max: 59
         command: setDate
   Signal group:
-    description: 
+    description:
     alarms:
       A0008:
         description: |-
@@ -1869,7 +1869,7 @@ objects:
             description: Security code 2
         command: setStop
   Detector logic:
-    description: 
+    description:
     alarms:
       A0301:
         description: |-
@@ -1891,8 +1891,8 @@ objects:
             type: string
             description: Detector forced on/off while detector error
             values:
-              'on': 
-              'off': 
+              'on':
+              'off':
           manual:
             type: boolean
             description: Manually controlled detector logic (True/False)
