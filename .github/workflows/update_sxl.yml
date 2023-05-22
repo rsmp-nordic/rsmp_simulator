@@ -41,10 +41,7 @@ jobs:
         run: sxl-tools/create_template.py
 
       - name: Create XLSX file
-        run: |-
-          sxl-tools/yaml2xlsx.rb \
-	  --template RSMP_Template_SignalExchangeList.xlsx \
-	  --objects $OBJECTS --site $SITE --stdout > YAML/SXL-example.xlsx
+        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $OBJECTS --site $SITE --stdout > YAML/SXL-example.xlsx
 
       - name: Create CSV files
         run: |-
