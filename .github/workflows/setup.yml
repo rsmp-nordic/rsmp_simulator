@@ -41,5 +41,9 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Setup
-          path: Output/*.exe
+          path: Output/RSMPGS1_1_0_1_7_Setup.exe
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: Output/RSMPGS2_1_0_1_7_Setup.exe
