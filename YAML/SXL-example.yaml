@@ -1,8 +1,11 @@
 ---
-meta:
-  name: tlc
-  description: Traffic Light Controllers
-  version: 1.1
+id: Plant id
+version: '1.1'
+date: '2022-07-23'
+description: Plant name
+constructor: RSMP Nordic
+created-date: '2010-04-20'
+rsmp-version: '3.2'
 objects:
   Traffic Light Controller:
     description:
