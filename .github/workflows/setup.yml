@@ -38,12 +38,14 @@ jobs:
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs2.iss"
         shell: cmd
 
-      - name: Upload build artifacts
+      - name: Upload build artifact (RSMPGS1)
         uses: actions/upload-artifact@v3
         with:
+          name: RSMPGS1_1_0_1_7_Setup.exe
           path: Output/RSMPGS1_1_0_1_7_Setup.exe
 
-      - name: Upload build artifacts
+      - name: Upload build artifact (RSMPGS2)
         uses: actions/upload-artifact@v3
         with:
+          name: RSMPGS2_1_0_1_7_Setup.exe
           path: Output/RSMPGS2_1_0_1_7_Setup.exe
