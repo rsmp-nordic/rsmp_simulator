@@ -264,12 +264,12 @@ Each offset time is separated with a comma
 E.g.
 pp-tt,pp-tt";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Signal group;;S0025;"Time-of-Green / Time-of-Red.
-Provides predicted signal timings of green and red for each signal group. Max, min and likely time to green and red.";minToGEstimate;timestamp;;"Time stamp for the minimum time for the signal group to go to green. If the signal group is green, it is the minimum time for the next green.
-Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";maxToGEstimate;timestamp;;"Time stamp for the maximum time for the signal group to go to green. If the signal group is green, it is the maximum time for the next green.
-Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";likelyToGEstimate;timestamp;;"Time stamp for the most likely time for the signal group to go to green. If the signal group is green, it is the most likely time for the next green.
-Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";ToGConfidence;integer;[0-100];Confidence of the likelyToGEstimate. 0-100%;minToREstimate;timestamp;;"Time stamp for the minimum time for the signal group to go to red. If the signal group is red, it is the minimum time for the next red.
-Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";maxToREstimate;timestamp;;"Time stamp for the maximum time for the signal group to go to red. If the signal group is red, it is the maximum time for the next red.
-Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";likelyToREstimate;timestamp;;"Time stamp for the most likely time for the signal group to go to red. If the signal group is red, it is the most likely time for the next red.
+Provides predicted signal timings of green and red for each signal group. Max, min and likely time to green and red.";minToGEstimate;string;[string];"Time stamp for the minimum time for the signal group to go to green. If the signal group is green, it is the minimum time for the next green.
+Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";maxToGEstimate;string;[string];"Time stamp for the maximum time for the signal group to go to green. If the signal group is green, it is the maximum time for the next green.
+Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";likelyToGEstimate;string;[string];"Time stamp for the most likely time for the signal group to go to green. If the signal group is green, it is the most likely time for the next green.
+Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";ToGConfidence;integer;[0-100];Confidence of the likelyToGEstimate. 0-100%;minToREstimate;string;[string];"Time stamp for the minimum time for the signal group to go to red. If the signal group is red, it is the minimum time for the next red.
+Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";maxToREstimate;string;[string];"Time stamp for the maximum time for the signal group to go to red. If the signal group is red, it is the maximum time for the next red.
+Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";likelyToREstimate;string;[string];"Time stamp for the most likely time for the signal group to go to red. If the signal group is red, it is the most likely time for the next red.
 Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z";ToRConfidence;integer;[0-100];Confidence of the likelyToREstimate. 0-100%;;;;;;;;
 Traffic Light Controller;;S0026;"Week time table.
 Week time table for signal programs (time plan) to use for each day during a week.
@@ -377,7 +377,7 @@ r:
   type: string
   description: ID of the priority request
 t:
-  type: timestamp
+  type: string
   description: |-
     Timestamp, indicating when the priority last changed state.
     Format according to W3C XML dateTime with a resolution of 3 decimal places.
@@ -454,7 +454,7 @@ It should NOT include:
 
 Note:
 - The checksum should be calculated using the same data as used in S0098
-- Data Downloaded with S0098 and hashed with SHA-2 should match this value.";timestamp;timestamp;;Time stamp of the checksum. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+- Data Downloaded with S0098 and hashed with SHA-2 should match this value.";timestamp;string;[string];Time stamp of the checksum. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Traffic Light Controller;;S0098;"Configuration of traffic parameters.
 Can be used to download all traffic parameters from the controller.
 For instance, depending on controller, maintenance personnel can modify traffic parameters on site to optimize traffic flow. This status provides the ability to downloaded them.";config;base64;[base64];"Traffic parameters.
@@ -474,43 +474,43 @@ It should NOT include:
 
 Note:
 - There is no way to upload this binary file to the TLC using RSMP
-- The format of the binary file is not specified and is not expected to be compatible between suppliers";timestamp;timestamp;;Time stamp of the config. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;version;string;[string];"Version information of the configuration. Contains basic information such as controller id, changes to config and other information.
+- The format of the binary file is not specified and is not expected to be compatible between suppliers";timestamp;string;[string];Time stamp of the config. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;version;string;[string];"Version information of the configuration. Contains basic information such as controller id, changes to config and other information.
 The format is not specified in detail.";;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Detector logic;;S0201;"Traffic Counting: Number of vehicles.
-Used for Traffic counting.";starttime;timestamp;;Time stamp for start of measuring. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;vehicles;integer;[0-65535];Number of vehicles on a given detector logic (since last update);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Used for Traffic counting.";starttime;string;[string];Time stamp for start of measuring. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;vehicles;integer;[0-65535];Number of vehicles on a given detector logic (since last update);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Detector logic;;S0202;"Traffic Counting: Vehicle speed.
-Used for Traffic counting.";starttime;timestamp;;"Time stamp for start of measuring. Format according to W3C
+Used for Traffic counting.";starttime;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";speed;integer;[0-65535];Average speed in km/h;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Detector logic;;S0203;"Traffic Counting: Occupancy.
-Used for Traffic counting.";starttime;timestamp;;"Time stamp for start of measuring. Format according to W3C
+Used for Traffic counting.";starttime;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";occupancy;integer;[0-100];Occupancy in percent (0-100%);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Detector logic;;S0204;"Traffic Counting: Number of vehicles of given classification.
-Used for Traffic counting.";starttime;timestamp;;"Time stamp for start of measuring. Format according to W3C
+Used for Traffic counting.";starttime;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";P;integer;[0-65535];Number of cars;PS;integer;[0-65535];Number of cars with trailers;L;integer;[0-65535];Number of trucks;LS;integer;[0-65535];Number of trucks with trailers;B;integer;[0-65535];Number of buses;SP;integer;[0-65535];Number of trams;MC;integer;[0-65535];Number of motor cycles;C;integer;[0-65535];Number of bicycles;F;integer;[0-65535];Number of pedestrians
 Traffic Light Controller;;S0205;"Traffic Counting: Number of vehicles.
-This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;timestamp;;Time stamp for start of measuring. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;vehicles;integer;[-1-65535];"Number of vehicles.
+This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;string;[string];Time stamp for start of measuring. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z;vehicles;integer;[-1-65535];"Number of vehicles.
 - Value expressed as an integer with a range of 0-65535.
 - Contains data from all detector logics. Each detector logic is separated with a comma.
 - The value is set to “-1” if no data could be measured (e.g. detector fault)";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Traffic Light Controller;;S0206;"Traffic Counting: Vehicle speed
-This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;timestamp;;"Time stamp for start of measuring. Format according to W3C
+This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";speed;integer;[-1-65535];"Average speed in km/h (integer).
 - Value expressed as an integer with a range of 0-65535.
 - Contains data from all detector logics. Each detector logic is separated with a comma.
 - The value is set to “-1” if no data could be measured (e.g. detector fault)";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Traffic Light Controller;;S0207;"Traffic Counting: Occupancy.
-This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;timestamp;;"Time stamp for start of measuring. Format according to W3C
+This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";occupancy;integer;[-1-100];"Occupancy in percent (%) (0-100)
 - Value expressed as an integer with a range of 0-100.
 - Contains data from all detector logics. Each detector logic is separated with a comma.
 - The value is set to “-1” if no data could be measured (e.g. detector fault)";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Traffic Light Controller;;S0208;"Traffic Counting: Number of vehicles of given classification.
-This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;timestamp;;"Time stamp for start of measuring. Format according to W3C
+This status was introduced to improve performance in case traffic counting is done on all all detectors.";start;string;[string];"Time stamp for start of measuring. Format according to W3C
 XML dateTime with a resolution of 3 decimal places. All time stamps
 in UTC. E.g. 2009-10-02T14:34:34.341Z";P;integer;[-1-65535];"Number of cars.
 - Value expressed as an integer with a range of 0-65535.

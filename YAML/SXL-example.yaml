@@ -246,20 +246,20 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "0" and "True" (one intersection) or "1,2" and "True,False" (two intersections).
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: Traffic Light Controller in dark mode
               True: Traffic Light Controller not in dark mode
           source:
             description: Source of the status change
-            type: string_list
+            type: string
             values:
               operator_panel: Operator panel
               calendar_clock: Calendar/clock
@@ -275,19 +275,19 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "0" and "True" (one intersection) or "1,2" and "True,False" (two intersections).
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: Manual control inactive
               True: Manual control active
           source:
-            type: string_list
+            type: string
             description: Source of the status change
             values:
               operator_panel: Operator panel
@@ -304,19 +304,19 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "0" and "True" (one intersection) or "1,2" and "True,False" (two intersections).
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: Fixed time control inactive
               True: Fixed time control active
           source:
-            type: string_list
+            type: string
             description: Source of the status change
             values:
               operator_panel: Operator panel
@@ -333,19 +333,19 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "0" and "True" (one intersection) or "1,2" and "True,False" (two intersections).
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: Isolated control disabled
               True: Isolated control enabled (Vehicle actuated control or Fixed time control)
           source:
-            type: string_list
+            type: string
             description: Source of the status change
             values:
               operator_panel: Operator panel
@@ -363,19 +363,19 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "1,2" and "True,False"
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: Yellow flash disabled
               True: Yellow flash enabled
           source:
-            type: string_list
+            type: string
             description: Source of the status change
             values:
               operator_panel: Operator panel
@@ -392,19 +392,19 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "1,2" and "True,False"
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: boolean_list
+            type: boolean
             description: |-
               False: All red disabled
               True: All red enabled
           source:
-            type: string_list
+            type: string
             description: Source of the status change
             values:
               operator_panel: Operator panel
@@ -421,14 +421,14 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "1,2" and "0,1"
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: integer_list
+            type: integer
             values:
               0: disabled
               1: dark mode
@@ -524,14 +524,14 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. "1,2" and "startup,control"
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           controlmode:
-            type: string_list
+            type: string
             values:
               startup: Startup mode
               control: Normal control
@@ -706,21 +706,21 @@ objects:
           Please note that all values in this status uses comma-separated lists - one value for each intersection, e.g. “1,2” and “centralized,off”
         arguments:
           intersection:
-            type: integer_list
+            type: integer
             description: |-
               Comma separated list of intersections which the status relates to, e.g. “1,2”.
               Use “0” for all intersections of the TLC.
             min: 0
             max: 255
           status:
-            type: string_list
+            type: string
             values:
               local: Local coordination
               centralized: Coordination with synchronized clock
               'off': Coordination not active
           source:
             description: Source of the status change
-            type: string_list
+            type: string
             values:
               operator_panel: Operator panel
               calendar_clock: Calendar/clock
@@ -759,7 +759,7 @@ objects:
                 type: string
                 description: ID of the priority request
               t:
-                type: timestamp
+                type: string
                 description: |-
                   Timestamp, indicating when the priority last changed state.
                   Format according to W3C XML dateTime with a resolution of 3 decimal places.
@@ -902,7 +902,7 @@ objects:
               - The checksum should be calculated using the same data as used in S0098
               - Data Downloaded with S0098 and hashed with SHA-2 should match this value.
           timestamp:
-            type: timestamp
+            type: string
             description: Time stamp of the checksum. Format according to W3C XML dateTime
               with a resolution of 3 decimal places. All time stamps in UTC. E.g.
               2009-10-02T14:34:34.341Z
@@ -934,7 +934,7 @@ objects:
               - There is no way to upload this binary file to the TLC using RSMP
               - The format of the binary file is not specified and is not expected to be compatible between suppliers
           timestamp:
-            type: timestamp
+            type: string
             description: Time stamp of the config. Format according to W3C XML dateTime
               with a resolution of 3 decimal places. All time stamps in UTC. E.g.
               2009-10-02T14:34:34.341Z
@@ -949,12 +949,12 @@ objects:
           This status was introduced to improve performance in case traffic counting is done on all all detectors.
         arguments:
           start:
-            type: timestamp
+            type: string
             description: Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
               in UTC. E.g. 2009-10-02T14:34:34.341Z
           vehicles:
-            type: integer_list
+            type: integer
             description: |-
               Number of vehicles.
               - Value expressed as an integer with a range of 0-65535.
@@ -968,13 +968,13 @@ objects:
           This status was introduced to improve performance in case traffic counting is done on all all detectors.
         arguments:
           start:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
               in UTC. E.g. 2009-10-02T14:34:34.341Z
           speed:
-            type: integer_list
+            type: integer
             description: |-
               Average speed in km/h (integer).
               - Value expressed as an integer with a range of 0-65535.
@@ -988,13 +988,13 @@ objects:
           This status was introduced to improve performance in case traffic counting is done on all all detectors.
         arguments:
           start:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
               in UTC. E.g. 2009-10-02T14:34:34.341Z
           occupancy:
-            type: integer_list
+            type: integer
             description: |-
               Occupancy in percent (%) (0-100)
               - Value expressed as an integer with a range of 0-100.
@@ -1008,13 +1008,13 @@ objects:
           This status was introduced to improve performance in case traffic counting is done on all all detectors.
         arguments:
           start:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
               in UTC. E.g. 2009-10-02T14:34:34.341Z
           P:
-            type: integer_list
+            type: integer
             description: |-
               Number of cars.
               - Value expressed as an integer with a range of 0-65535.
@@ -1023,7 +1023,7 @@ objects:
             min: -1
             max: 65535
           PS:
-            type: integer_list
+            type: integer
             description: |-
               Number of cars with trailers.
               - Value expressed as an integer with a range of 0-65535.
@@ -1032,7 +1032,7 @@ objects:
             min: -1
             max: 65535
           L:
-            type: integer_list
+            type: integer
             description: |-
               Number of trucks.
               - Value expressed as an integer with a range of 0-65535.
@@ -1041,7 +1041,7 @@ objects:
             min: -1
             max: 65535
           LS:
-            type: integer_list
+            type: integer
             description: |-
               Number of trucks with trailers.
               - Value expressed as an integer with a range of 0-65535.
@@ -1050,7 +1050,7 @@ objects:
             min: -1
             max: 65535
           B:
-            type: integer_list
+            type: integer
             description: |-
               Number of buses.
               - Value expressed as an integer with a range of 0-65535.
@@ -1059,7 +1059,7 @@ objects:
             min: -1
             max: 65535
           SP:
-            type: integer_list
+            type: integer
             description: |-
               Number of trams.
               - Value expressed as an integer with a range of 0-65535.
@@ -1068,7 +1068,7 @@ objects:
             min: -1
             max: 65535
           MC:
-            type: integer_list
+            type: integer
             description: |-
               Number of motor cycles.
               - Value expressed as an integer with a range of 0-65535.
@@ -1077,7 +1077,7 @@ objects:
             min: -1
             max: 65535
           C:
-            type: integer_list
+            type: integer
             description: |-
               Number of bicycles.
               - Value expressed as an integer with a range of 0-65535.
@@ -1086,7 +1086,7 @@ objects:
             min: -1
             max: 65535
           F:
-            type: integer_list
+            type: integer
             description: |-
               Number of pedestrians.
               - Value expressed as an integer with a range of 0-65535.
@@ -1797,17 +1797,17 @@ objects:
           Provides predicted signal timings of green and red for each signal group. Max, min and likely time to green and red.
         arguments:
           minToGEstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the minimum time for the signal group to go to green. If the signal group is green, it is the minimum time for the next green.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
           maxToGEstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the maximum time for the signal group to go to green. If the signal group is green, it is the maximum time for the next green.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
           likelyToGEstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the most likely time for the signal group to go to green. If the signal group is green, it is the most likely time for the next green.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
@@ -1817,17 +1817,17 @@ objects:
             min: 0
             max: 100
           minToREstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the minimum time for the signal group to go to red. If the signal group is red, it is the minimum time for the next red.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
           maxToREstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the maximum time for the signal group to go to red. If the signal group is red, it is the maximum time for the next red.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
           likelyToREstimate:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for the most likely time for the signal group to go to red. If the signal group is red, it is the most likely time for the next red.
               Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
@@ -1997,7 +1997,7 @@ objects:
           Used for Traffic counting.
         arguments:
           starttime:
-            type: timestamp
+            type: string
             description: Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
               in UTC. E.g. 2009-10-02T14:34:34.341Z
@@ -2013,7 +2013,7 @@ objects:
           Used for Traffic counting.
         arguments:
           starttime:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
@@ -2029,7 +2029,7 @@ objects:
           Used for Traffic counting.
         arguments:
           starttime:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
@@ -2045,7 +2045,7 @@ objects:
           Used for Traffic counting.
         arguments:
           starttime:
-            type: timestamp
+            type: string
             description: |-
               Time stamp for start of measuring. Format according to W3C
               XML dateTime with a resolution of 3 decimal places. All time stamps
