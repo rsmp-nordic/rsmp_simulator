@@ -41,7 +41,7 @@ jobs:
           sed -i 's/_list$//g' $OBJECTS
 
       - name: Create YAML file
-        run: sxl-tools/merge_yaml.rb --objects $OBJECTS --site $SITE > YAML/SXL-example.yaml
+        run: sxl-tools/merge_yaml.rb --objects $OBJECTS --site $SITE > SXL-example.yaml
 
       - name: Create XLSX template
         run: sxl-tools/create_template.py
@@ -51,16 +51,16 @@ jobs:
 
       - name: Create CSV files
         run: |-
-          sxl-tools/xlsx2csv.rb YAML/SXL-example.xlsx
-          unzip -o YAML/SXL-example.zip -d Objects
+          sxl-tools/xlsx2csv.rb SXL-example.xlsx
+          unzip -o SXL-example.zip -d Objects
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Setup
           path: |-
-            YAML/SXL-example.yaml
-            YAML/SXL-example.xlsx
+            SXL-example.yaml
+            SXL-example.xlsx
             Objects
 
 
