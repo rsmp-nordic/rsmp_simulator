@@ -185,7 +185,7 @@ namespace RSMP_Messages
   {
     public string sCI; // StatusCodeId
     public string n;   // Name
-    public string s;   // Status
+    public object s;   // Status
     public string q;   // Quality
 
   }
