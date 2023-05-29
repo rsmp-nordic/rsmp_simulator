@@ -1,23 +1,23 @@
 [Setup]
-AppName=RSMPGS2 (Roadside Simulator)
-AppVerName=RSMPGS2 (Roadside Simulator) 1.0.1.7
-AppId=RSMPGS2 (Roadside Simulator)
+AppName=RSMPGS1 (Roadside Simulator)
+AppVerName=RSMPGS1 (Roadside Simulator) 1.0.1.7
+AppId=RSMPGS1 (Roadside Simulator)
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
 AppSupportURL=http://www.automatisera.nu
 AppUpdatesURL=http://www.automatisera.nu
-DefaultDirName={pf}\RSMPGS2
+DefaultDirName={pf}\RSMPGS1
 DefaultGroupName=RSMP
-OutputBaseFilename=RSMPGS2_1_0_1_7_Setup
+OutputBaseFilename=RSMPGS1_1_0_1_7_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-WizardImageFile=embedded\WizardImage0.bmp
-WizardSmallImageFile=embedded\WizardSmallImage0.bmp
+WizardImageFile=Setup\WizardImage0.bmp
+WizardSmallImageFile=Setup\WizardSmallImage0.bmp
 
 [Files]
-Source: "RSMPGS2.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
-Source: "Settings\RSMPGS2.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "RSMPGS1\bin\Release\RSMPGS1.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
+Source: "RSMPGS1\Settings\RSMPGS1.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Aggregated status.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Alarms.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Commands.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
@@ -43,8 +43,8 @@ Name: "{app}\YAML"; Permissions: users-modify
 Name: "{app}\Objects"; Permissions: users-modify
 
 [Icons]
-Name: "{group}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
-Name: "{userdesktop}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
+Name: "{group}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
+Name: "{userdesktop}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; MinVersion: 0.0,6.0; 
@@ -66,4 +66,4 @@ eng.AddonHostProgramNotFound=%1 could not be located in the folder you selected.
 [Languages]
 ; These files are stubs
 ; To achieve better results after recompilation, use the real language files
-Name: "eng"; MessagesFile: "embedded\eng.isl"; 
+Name: "eng"; MessagesFile: "Setup\eng.isl"; 

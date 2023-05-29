@@ -10,60 +10,36 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build RSMP Simulator
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Build RSMPGS1 (Release)
-        run: xbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
-
-      - name: Build RSMPGS2 (Release)
-        run: xbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: RSMPGS1_EXE
-          path: RSMPGS1/bin/Release/RSMPGS1.exe
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: RSMPGS2_EXE
-          path: RSMPGS2/bin/Release/RSMPGS2.exe
-
   setup:
     name: Create Installer
-    runs-on: windows-latest
-    needs: build
+    runs-on: windows-2019
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@master
-        with:
-          name: RSMPGS1_EXE
-          path: Setup
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
 
-      - uses: actions/download-artifact@master
-        with:
-          name: RSMPGS2_EXE
-          path: Setup
+      - name: Build RSMPGS1 (Release)
+        run: msbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
+        # path: RSMPGS1/bin/Release/RSMPGS1.exe
+
+      - name: Build RSMPGS2 (Release)
+        run: msbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
+        # path: RSMPGS2/bin/Release/RSMPGS2.exe
 
       - name: Building the installer (RSMPGS1)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "Setup\install_script_rsmpgs1.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
         shell: cmd
 
       - name: Building the installer (RSMPGS2)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "Setup\install_script_rsmpgs2.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs2.iss"
         shell: cmd
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Setup
-          path: Setup/Output/*.exe
+          path: Output/*.exe

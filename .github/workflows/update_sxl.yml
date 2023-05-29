@@ -1,0 +1,80 @@
+# This workflow will create example SXL files
+
+name: Example SXL
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  SXL_SOURCE: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  OBJECTS: sxl_temp.yaml
+  SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
+
+jobs:
+  create_sxl:
+    name: Create SXL
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install prerequisites
+        run: |-
+          sudo apt install python3-xlsxwriter
+          gem install rubyXL --user
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      - name: Adapt data types for Core 3.2
+        run: |-
+          # Convert "timestamp" to "string", because it doesn't officially
+          # exist in 3.2
+          sed 's/type: timestamp/type: string/g' < $SXL_SOURCE > $OBJECTS
+          # Remove any trailing _list because it is only used for comma
+          # separated values during schema validation
+          sed -i 's/_list$//g' $OBJECTS
+
+      - name: Create YAML file
+        run: sxl-tools/merge_yaml.rb --objects $OBJECTS --site $SITE > SXL-example.yaml
+
+      - name: Create XLSX template
+        run: sxl-tools/create_template.py
+
+      - name: Create XLSX file
+        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $OBJECTS --site $SITE --stdout > SXL-example.xlsx
+
+      - name: Create CSV files
+        run: |-
+          sxl-tools/xlsx2csv.rb SXL-example.xlsx
+          unzip -o SXL-example.zip -d Objects
+
+      - name: Upload artifacts (YAML)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL YAML
+          path: SXL-example.yaml
+
+      - name: Upload artifacts (XLSX)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL XLSX
+          path: SXL-example.xlsx
+
+      - name: Upload artifacts (CSV)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL CSV
+          path: Objects/
+
+
