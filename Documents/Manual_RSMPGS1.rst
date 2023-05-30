@@ -432,7 +432,7 @@ with RSMP protocol versions 3.1.1..3.1.5
 
 .. image:: img/rsmp.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: View
 
 **Behaviour**
@@ -464,7 +464,7 @@ AlarmCodeId may occur on several objects.
 
 .. image:: img/alarms.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Alarms
 
 At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
@@ -498,7 +498,7 @@ Consequently, status is configured manually.
 
 .. image:: img/aggregated_status.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Aggregated Status
 
 **Status bits**
@@ -530,7 +530,7 @@ changes when the supervision system is subscribing to them.
 
 .. image:: img/status.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Status
 
 To change status, double click in the ’Status’ column at the value that should
@@ -562,7 +562,7 @@ system. At startup, only question marks are shown.
 
 .. image:: img/commands.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Commands
 
 RSMPGS1 makes a basic check that the value is kept within the limits of the
@@ -576,7 +576,7 @@ be JSon debug data from the debug-forms.
 
 .. image:: img/test_send.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Test send
 
 There are two textboxes which can be used simultaneously. In the textboxes, it
@@ -598,7 +598,7 @@ When disconnected RSMPGS1 may buffer messages and send when reconnecting.
 
 .. image:: img/buffered.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Buffered messages
 
 **Create**
