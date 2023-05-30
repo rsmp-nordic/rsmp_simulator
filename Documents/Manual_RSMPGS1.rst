@@ -33,16 +33,16 @@ The installation program recommends a suitable folder.
 RSMPGS1 is written in C# with Microsoft Visual Studio 2015 and requires
 .NET Framework 4.6.1.
 
-======================  ==========================
-Filename                Description
-======================  ==========================
-RSMPGS1.exe             Main program
-.\Settings\RSMPGS1.INI  Configuration of RSMPGS1
-.\Objects               Reference files (example)
-.\YAML                 
-.\Source                Source code
-.\Documents             Manual, RSMP spec etc
-======================  ==========================
+==========================  ==========================
+Filename                    Description
+==========================  ==========================
+``RSMPGS1.exe``             Main program
+``.\Settings\RSMPGS1.INI``  Configuration of RSMPGS1
+``.\Objects``               Reference files (example)
+``.\YAML``                 
+``.\Source``                Source code
+``.\Documents``             Manual, RSMP spec etc
+==========================  ==========================
 
 Files and folders which are included in the RSMPGS1 installation. All files/maps
 are placed under the installation folder.
@@ -53,7 +53,7 @@ Configuration
 RSMPGS1.ini
 ^^^^^^^^^^^
 
-All base configuration is made in `.\Settings\RSMPGS1.INI`
+All base configuration is made in ``.\Settings\RSMPGS1.INI``
 
 The INI-file has the following parameters in the [RSMP] section:
 
@@ -84,13 +84,14 @@ The watchdog timeout in milliseconds, set to 0 to ignore failed watchdogs.
 
 **MaxEventsPerObject**
 Max number of events in the event views per object (oldest will be removed).
-The INI-file has the following parameters in the *[AggregatedStatus]* section:
+The INI-file has the following parameters in the ``[AggregatedStatus]``
+section:
 
 **BitText_1..9**
 Texts which are associated (and presented in the user interface) in tab
 *Aggregated Status.*
 
-The INI-file also has a *[Main]* section where for instance the current user
+The INI-file also has a ``[Main]`` section where for instance the current user
 interface configuration is saved.
 
 SXL
@@ -105,14 +106,14 @@ SXL file (Excel) must be saved as a separate comma separated text file (CSV or
 SKV-file).
 
 It is appropriate to name the file according to the content, e.g alarm.csv,
-41101.csv, commands.csv etc. The files are saved in the sub-folder.\Objects.
-If the folder does not exist, it must be created. RSMPGS2 will create the folder
-automatically the first time the program is started. When the program is
-installed, several example files are included.
+41101.csv, commands.csv etc. The files are saved in the sub-folder
+``.\Objects``. If the folder does not exist, it must be created. RSMPGS2 will
+create the folder automatically the first time the program is started. When the
+program is installed, several example files are included.
 
 Do not forget to change or add a new revision number and save the first sheet
-again if any change is made. RSMPGS2 will point out if any file in .\Objects is
-changed without revision number change.
+again if any change is made. RSMPGS2 will point out if any file in
+``.\Objects`` is changed without revision number change.
 
 It is important that the SXL format follows the template and the
 recommendations, otherwise RSMPGS2 won’t be able to read the information
@@ -133,9 +134,9 @@ project folder.
 
 If not already present, RSMPGS2 will create the LogFiles folders.
 
-The program can also be started with the startparameter */path* to use another
-project folder, e. g to use c:\RoadSide\TestConfig1 as a project folder:
-`RSMPGS1.EXE /path:c:\RoadSide\TestConfig1`
+The program can also be started with the startparameter ``/path`` to use
+another project folder, e.g to use ``c:\RoadSide\TestConfig1`` as a project
+folder: ``RSMPGS1.EXE /path:c:\RoadSide\TestConfig1``
 
 In this way, it is possible to create shortcuts for an unlimited number of
 projects. These projects can also be run simultaneously. The program will by
@@ -153,9 +154,9 @@ If there is no connection the box is red.
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
-At program startup the entire SXL is read from .\Objects and an hierarchical
-tree structure is built to the left. Clicking on an object group or object
-selects what should be presented on the tabs to the right.
+At program startup the entire SXL is read from ``.\Objects`` and an
+hierarchical tree structure is built to the left. Clicking on an object group
+or object selects what should be presented on the tabs to the right.
 
 When hovering over a node and ’Show all node info in Tooltip’ is selected,
 tooltip will show all information that RSMPGS1 have been able to read about
@@ -168,8 +169,8 @@ for instance if messages are received, if errors occur or a connection is
 established.
 
 All events in the system log are continuously saved in ordinary text files in
-the folder .\LogFiles\SysLogFiles and marked with today’s date. The files are
-automatically deleted when they are too old (according to settings in
+the folder ``.\LogFiles\SysLogFiles`` and marked with today’s date. The files
+are automatically deleted when they are too old (according to settings in
 RSMPGS1.INI).
 
 The System log will show different status icons, depending of the message itself
@@ -188,39 +189,39 @@ When RSMPGS1 is connected to the supervision system, information about SXL and
 the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
 
-*Active SXL (SUL) version to be used when connecting*
+**Active SXL (SUL) version to be used when connecting**
 SXL version which is sent over via the protocol when connection is made.
 
-*SXL (SUL) version found in file*
-SXL version which is found in reference files in .\Objects folder.
+**SXL (SUL) version found in file**
+SXL version which is found in reference files in ``.\Objects`` folder.
 
-*Always use SXL (SUL) version from file (if found)*
+**Always use SXL (SUL) version from file (if found)**
 Select to always use version number from the SXL files in protocol negotiation.
 
-*Automatically load last objects at startup*
+**Automatically load last objects at startup**
 If selected RSMPGS1 will load the most recent used SXL object files/file at
 startup.
 
-*Automatically load process data at startup*
+**Automatically load process data at startup**
 Select to always load the last roadside data from ProcessImage.dat at startup
 
-*Automatically save process data on exit*
-Select to always save the last roadside data to  ProcessImage.dat when exiting
+**Automatically save process data on exit**
+Select to always save the last roadside data to ProcessImage.dat when exiting
 RSMPGS1
 
-*When loading... Alarm status*
+**When loading... Alarm status**
 Select to load last Alarm status from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
-*When loading... Aggregated status values*
+**When loading... Aggregated status values**
 Select to load last Aggregated status from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
-*When loading... Status values*
+**When loading... Status values**
 Select to load last Status values from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
-*Encryption protocols*
+**Encryption protocols**
 The RSMP protocol specification defines it is possible to use encryption (from
 version 3.1.3) based upon SSL 3.0 or TLS 1.0. As SSL 3.0 have been deprecated
 by the Internet Engineering Task Force (IETF) the simulator only supports the
@@ -335,7 +336,7 @@ Immediately performs a connection attempt, which is done regardless if
 ’connect automatically' has been marked or not.
 
 **Disconnect**
-Closes the connection. If ’connect automatically’is marked, a connection
+Closes the connection. If *connect automatically* is marked, a connection
 attempt will be performed within the stated interval.
 
 
@@ -479,7 +480,7 @@ If the data type is ’base64’, an extra button ’Browse’ will be shown whe
 double clicking ’status’ and a file can be selected, for example a bitmap.
 
 Alternatively, the path to the file can be entered. If there is at least one
-’\’ in the status field RSMPGS1 assumes that it is a file path/name and that
+``\`` in the status field RSMPGS1 assumes that it is a file path/name and that
 the file should be base64-encoded and sent. If not, the field is sent as-is.
 
 Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive
