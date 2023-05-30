@@ -576,7 +576,7 @@ be JSon debug data from the debug-forms.
 
 .. image:: img/test_send.png
    :align: left
-   :scale: 150%
+   :scale: 160%
    :alt: Test send
 
 There are two textboxes which can be used simultaneously. In the textboxes, it
@@ -598,7 +598,7 @@ When disconnected RSMPGS1 may buffer messages and send when reconnecting.
 
 .. image:: img/buffered.png
    :align: left
-   :scale: 150%
+   :scale: 170%
    :alt: Buffered messages
 
 **Create**
@@ -622,6 +622,11 @@ Debug form
 The Debug form shows sent and received data more or less formatted depending on
 chosen display format.
 
+.. image:: img/debug.png
+   :align: left
+   :scale: 100%
+   :alt: Debug window
+
 The red texts are messages which are received, green texts are the ones which
 are sent out. The time stamp has millisecond resolution which is shown if the
 column is expanded somewhat.
@@ -635,6 +640,11 @@ RSMPGS1 is always removing CR/LF, tabs and finalizing form feed (FF) before
 deserializing.
 
 Time stamps are also presented decoded in both UTC and local time.
+
+.. image:: img/select_debug.png
+   :align: left
+   :scale: 100%
+   :alt: Select what to debug
 
 **Select what to debug – Show all traffic in raw format**
 Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
