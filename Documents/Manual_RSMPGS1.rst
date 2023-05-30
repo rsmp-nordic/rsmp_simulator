@@ -678,6 +678,7 @@ chosen display format.
 
 .. image:: img/debug.png
    :align: left
+   :width: 70%
    :alt: Debug window
 
 The red texts are messages which are received, green texts are the ones which
@@ -696,6 +697,7 @@ Time stamps are also presented decoded in both UTC and local time.
 
 .. image:: img/select_debug.png
    :align: left
+   :width: 50%
    :alt: Select what to debug
 
 **Select what to debug – Show all traffic in raw format**
