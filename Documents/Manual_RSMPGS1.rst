@@ -147,6 +147,8 @@ Main Window
 -----------
 The program has two forms, one main window and one (or several) debug windows.
 
+.. image: img/main_window.png
+
 At the top right, there is a presentation of connection status to the
 supervision system. If the box is green, the connection is ok. The IP address
 is also showing. When connection attempts are performed, the box is grey.
