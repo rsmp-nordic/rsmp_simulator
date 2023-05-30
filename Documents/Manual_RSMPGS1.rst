@@ -149,7 +149,7 @@ The program has two forms, one main window and one (or several) debug windows.
 
 .. image:: img/main_window.png
    :align: left
-   :scale: 140%
+   :scale: 150%
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
@@ -166,7 +166,7 @@ or object selects what should be presented on the tabs to the right.
 
 .. image:: img/sites_and_objects.png
    :align: left
-   :scale: 50%
+   :scale: 100%
    :alt: Sits and objects
 
 When hovering over a node and ’Show all node info in Tooltip’ is selected,
