@@ -413,7 +413,7 @@ attempt will be performed within the stated interval.
    :align: left
    :alt: Send watchdog
 
-**Send options – Send watchdog packet now**¨
+**Send options – Send watchdog packet now**
 
 Sends a watchdog package
 
