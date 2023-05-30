@@ -1161,6 +1161,11 @@ namespace nsRSMPGS
       Boolean schemaScalarOptional;
       string schemaScalarMin;
       string schemaScalarMax;
+
+      Dictionary<string, cYAMLMapping> schemaMappings;
+      KeyValuePair<string, cYAMLMapping> schemaMapping;
+      List<string> keys;
+
       string cellName;
 
       // incoming status
@@ -1192,11 +1197,15 @@ namespace nsRSMPGS
           {
             schemaScalarType = schemaScalar.Value;
           }
-          if (schemaScalar.Key == "description")
+          if (schemaScalar.Key == "optional")
           {
-            if (schemaScalar.Value.StartsWith("(Optional)"))
+            if (schemaScalar.Value == "true")
             {
               schemaScalarOptional = true;
+            }
+            else
+            {
+              schemaScalarOptional = false;
             }
           }
           if (schemaScalar.Key == "min")
@@ -1206,6 +1215,21 @@ namespace nsRSMPGS
           if (schemaScalar.Key == "max")
           {
             schemaScalarMax = schemaScalar.Value;
+          }
+        }
+
+        schemaMappings = schemaValue.YAMLMappings;
+        keys = new List<string>();
+        if (schemaMappings.Count > 0)
+        {
+          for (int j = 0; j < schemaMappings.Count; j++)
+          {
+            schemaMapping = schemaMappings.ElementAt(j);
+            for (int k = 0; k < schemaMapping.Value.YAMLScalars.Count; k++)
+            {
+              schemaScalar = schemaMapping.Value.YAMLScalars.ElementAt(k);
+              keys.Add(schemaScalar.Key);
+            }
           }
         }
 
@@ -1279,9 +1303,14 @@ namespace nsRSMPGS
               {
                 return cellName + "type:" + schemaScalarType + " not supported";
               }
+              if (keys.Count > 0)
+              {
+                if (!keys.Contains(statusValue))
+                {
+                  return cellName + " must be a dropdown value";
+                }
+              }
             }
-
-
           }
 
           // error if key not found and not optional

@@ -2309,9 +2309,16 @@ namespace nsRSMPGS
           if (schemaScalar.Key == "description")
           {
             schemaDescription = schemaScalar.Value;
-            if (schemaScalar.Value.StartsWith("(Optional)"))
+          }
+          if (schemaScalar.Key == "optional")
+          {
+            if (schemaScalar.Value == "true")
             {
               schemaScalarOptional = true;
+            }
+            else
+            {
+              schemaScalarOptional = false;
             }
           }
           if (schemaScalar.Key == "min")
@@ -2492,7 +2499,7 @@ namespace nsRSMPGS
 
       if (schemaScalarOptional == "False" && value == "")
       {
-        MessageBox.Show(arrayForm.Controls[3].Text + " måste fyllas i", "Fel");
+        MessageBox.Show(arrayForm.Controls[3].Text + " have to be filled in", "Error");
         return;
       }
 
@@ -2537,7 +2544,7 @@ namespace nsRSMPGS
 
         if (schemaScalarOptional == "False" && value == "")
         {
-          MessageBox.Show(arrayForm.Controls[controlIndex - 1].Text + " måste fyllas i", "Fel");
+          MessageBox.Show(arrayForm.Controls[controlIndex - 1].Text + " have to be filled in", "Error");
           return;
         }
 
