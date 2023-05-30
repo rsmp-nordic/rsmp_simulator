@@ -285,6 +285,11 @@ Select the YAML-file where the SXL-objects reside
 
 Loading new objects is only available if the simulator is disconnected
 
+.. image:: img/file_debug.png
+   :align: left
+   :scale: 100%
+   :alt: Create new debug window
+
 **Debug - Create new debug window**
 Creates a new debug window. Any number of debug forms can be created, but it
 will affect performance.
@@ -307,6 +312,11 @@ marked) is saved in RSMPGS1.INI, so it looks the same at next program start.
 Process Image
 -------------
 The process image contains information about status, commands and alarms.
+
+.. image:: img/process_image.png
+   :align: left
+   :scale: 100%
+   :alt: Process image
 
 **Random update all subscriptions**
 If a client is subscribing to status updates, this selection can randomly change
@@ -360,6 +370,10 @@ Immediately performs a connection attempt, which is done regardless if
 Closes the connection. If *connect automatically* is marked, a connection
 attempt will be performed within the stated interval.
 
+.. image:: img/connection.png
+   :align: left
+   :scale: 100%
+   :alt: Process image
 
 **Send options – Send watchdog packet now**
 Sends a watchdog package
