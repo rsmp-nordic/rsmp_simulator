@@ -149,12 +149,13 @@ The program has two forms, one main window and one (or several) debug windows.
 
 .. image:: img/main_window.png
    :align: left
-   :scale: 100%
+   :scale: 140%
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
 supervision system. If the box is green, the connection is ok. The IP address
 is also showing. When connection attempts are performed, the box is grey.
+
 If there is no connection the box is red.
 
 Sites and objects
@@ -162,6 +163,11 @@ Sites and objects
 At program startup the entire SXL is read from ``.\Objects`` and an
 hierarchical tree structure is built to the left. Clicking on an object group
 or object selects what should be presented on the tabs to the right.
+
+.. image:: img/sites_and_objects.png
+   :align: left
+   :scale: 50%
+   :alt: Sits and objects
 
 When hovering over a node and ’Show all node info in Tooltip’ is selected,
 tooltip will show all information that RSMPGS1 have been able to read about
