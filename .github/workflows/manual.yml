@@ -27,4 +27,4 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                 name: Manual RSMPGS1
-                path: Manual_RSMPGS1.pdf
+                path: Documents/Manual_RSMPGS1.pdf
