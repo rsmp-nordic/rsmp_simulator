@@ -410,6 +410,11 @@ which may be hard to detect.
 View
 ----
 
+.. image:: img/view.png
+   :align: left
+   :scale: 100%
+   :alt: View
+
 **Always show group headers**
 If a parent node is selected in the Sites and Objects list view all its
 children will populate the listview in the selected tab (Alarms, Status,
@@ -424,6 +429,11 @@ RSMP
 ----
 RSMP protocol specific settings have an own tab. The simulator could be used
 with RSMP protocol versions 3.1.1..3.1.5
+
+.. image:: img/rsmp.png
+   :align: left
+   :scale: 100%
+   :alt: View
 
 **Behaviour**
 The protocol behaviour could be adjusted to test different functionality. The
@@ -451,6 +461,11 @@ Alarms
 
 Alarms are read from SXL and created for each object type, which means the same
 AlarmCodeId may occur on several objects.
+
+.. image:: img/alarms.png
+   :align: left
+   :scale: 100%
+   :alt: Alarms
 
 At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
 
@@ -481,6 +496,11 @@ equipment. RSMPGS1 lacks that kind of dynamic, the reason for this is that it
 is hard to keep track of which objects that are put in alarm mode.
 Consequently, status is configured manually.
 
+.. image:: img/aggregated_status.png
+   :align: left
+   :scale: 100%
+   :alt: Aggregated Status
+
 **Status bits**
 Double click to change bit status, on or off. Bit-texts are sourced from
 RSMPGS1.INI. The colors follow NTS standard.
@@ -507,6 +527,11 @@ Status
 ------
 Status is sent to the supervision system after requests or cyclically/at
 changes when the supervision system is subscribing to them.
+
+.. image:: img/status.png
+   :align: left
+   :scale: 100%
+   :alt: Status
 
 To change status, double click in the ’Status’ column at the value that should
 be changed. At startup, a question mark is shown which will result in that the
@@ -535,6 +560,11 @@ Commands
 The Commands tab displays the values which have been sent from the supervision
 system. At startup, only question marks are shown.
 
+.. image:: img/commands.png
+   :align: left
+   :scale: 100%
+   :alt: Commands
+
 RSMPGS1 makes a basic check that the value is kept within the limits of the
 data type. If the value seems invalid, an error message is shown in the system
 log.
@@ -543,6 +573,11 @@ Test send
 ---------
 JSon is text based and in this tab text files can be sent as is. The files may
 be JSon debug data from the debug-forms.
+
+.. image:: img/test_send.png
+   :align: left
+   :scale: 100%
+   :alt: Test send
 
 There are two textboxes which can be used simultaneously. In the textboxes, it
 is possible to copy/paste text as desired.
@@ -560,6 +595,11 @@ Open and read a text file inte the above text form.
 Buffered messages
 -----------------
 When disconnected RSMPGS1 may buffer messages and send when reconnecting.
+
+.. image:: img/buffered.png
+   :align: left
+   :scale: 100%
+   :alt: Buffered messages
 
 **Create**
 Creates the selected message type and queue it. The number of messages to
