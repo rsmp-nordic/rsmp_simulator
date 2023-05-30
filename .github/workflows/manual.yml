@@ -14,6 +14,12 @@ jobs:
         name: Create manual
         runs-on: ubuntu-latest
         steps:
+            - name: Install prerequisites
+              run: sudo apt install rst2pdf
+            
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
             - name: Convert with rst2pdf
               run: rst2pdf Documents/Manual_RSMPGS1.rst
 
