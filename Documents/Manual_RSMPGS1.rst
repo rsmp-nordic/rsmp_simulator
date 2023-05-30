@@ -301,173 +301,298 @@ Removes all alarms, status, aggregated status and command values. This can be
 done only when we are not connected.
 
 **Random update all Status values**
-Randomly change all Status values. This can be done only when we are not connected. Se data type value ranges above (Random update all subscriptions)
-Save Process data to file...
-Process data could be save to any file for later use. The process data file has a file ending of .dat but is basically a text file. The default process data file is the ProcessImage.dat file.
-Load Process data from file...
+Randomly change all Status values. This can be done only when we are not
+connected. Se data type value ranges above (Random update all subscriptions)
+
+**Save Process data to file...**
+Process data could be save to any file for later use. The process data file has
+a file ending of .dat but is basically a text file. The default process data
+file is the ProcessImage.dat file.
+
+**Load Process data from file...**
 Loads the process data file
-Clear automatically saved process data
+
+**Clear automatically saved process data**
 Removes the default process data file ProcessImage.dat.
 
 Connection
 ----------
-Functions that are related to the supervision system connection is handled here. RSMPGS1 is acting as a server when it comes to providing data, alarms etc. But in connection terms, it is a client (TCP socket client).
-The reason for this is that it´s easier to configure a firewall which is centrally located and where the supervision system likely is placed, rather than the opposite. Roadside equipment can consequently be situated behind a simpler firewall.
+Functions that are related to the supervision system connection is handled
+here. RSMPGS1 is acting as a server when it comes to providing data, alarms
+etc. But in connection terms, it is a client (TCP socket client).
 
-Connect automatically
-Select to let RSMPGS1make automatic connection attempts to the supervision system. In RSMPGS1.INI, the interval for connection attempts are configured.
-Connect now
-Immediately performs a connection attempt, which is done regardless if ’connect automatically' has been marked or not.
-Disconnect
-Closes the connection. If ’connect automatically’is marked, a connection attempt will be performed within the stated interval.
+The reason for this is that it´s easier to configure a firewall which is
+centrally located and where the supervision system likely is placed, rather
+than the opposite. Roadside equipment can consequently be situated behind a
+simpler firewall.
+
+**Connect automatically**
+Select to let RSMPGS1 make automatic connection attempts to the supervision
+system. In RSMPGS1.INI, the interval for connection attempts are configured.
+
+**Connect now**
+Immediately performs a connection attempt, which is done regardless if
+’connect automatically' has been marked or not.
+
+**Disconnect**
+Closes the connection. If ’connect automatically’is marked, a connection
+attempt will be performed within the stated interval.
 
 
-
-Send options – Send watchdog packet now
+**Send options – Send watchdog packet now**
 Sends a watchdog package
-Send options – Send some random crap
-To test the resilience of supervision system regarding incoming junk data. It randomly produces 2048 bytes between 0x00..0xff. Just like an ordinary Json package it is terminated with 0xc0 (formfeed).
-Send options – Disable Nagle algorithm (send coalescing)
-This alternative affects the algorithm usually used in TCP to make the sending of many small packets more efficient. Ordinarily these are grouped together in larger packages.
-RSMPGS1 is buffering all JSon packages with the C# function NetworkStream.Write() in two calls, where the first is the serialized data and the last is the packet termination character 0x0c (fromfeed).
-If the algorithm is shut off, there will always be two packets out on the network. The purpose is, just like the next function, to test the buffer algorithm and packet decoding of supervision system.
-Send options – Split packets
-This alternative splits all packets randomly and sends them in small packets, 1..10 bytes each and 10 ms break between each packet. The purpose is to test the buffer algorithm and packet decoding, which are common error causes, and which may be hard to detect.
+
+**Send options – Send some random crap**
+To test the resilience of supervision system regarding incoming junk data. It
+randomly produces 2048 bytes between 0x00..0xff. Just like an ordinary Json
+package it is terminated with 0xc0 (formfeed).
+
+**Send options – Disable Nagle algorithm (send coalescing)**
+This alternative affects the algorithm usually used in TCP to make the sending
+of many small packets more efficient. Ordinarily these are grouped together in
+larger packages.
+
+RSMPGS1 is buffering all JSon packages with the C# function
+NetworkStream.Write() in two calls, where the first is the serialized data and
+the last is the packet termination character 0x0c (fromfeed).
+
+If the algorithm is shut off, there will always be two packets out on the
+network. The purpose is, just like the next function, to test the buffer
+algorithm and packet decoding of supervision system.
+
+**Send options – Split packets**
+This alternative splits all packets randomly and sends them in small packets,
+1..10 bytes each and 10 ms break between each packet. The purpose is to test
+the buffer algorithm and packet decoding, which are common error causes, and
+which may be hard to detect.
 
 View
 ----
 
+**Always show group headers**
+If a parent node is selected in the Sites and Objects list view all its
+children will populate the listview in the selected tab (Alarms, Status,
+Commands). To separate them they will be grouped and there will be a group
+header. If only one child is selected by default the group header is not shown
+but will be shown if it is selected here.
 
-Always show group headers
-If a parent node is selected in the Sites and Objects list view all its children will populate the listview in the selected tab (Alarms, Status, Commands). To separate them they will be grouped and there will be a group header. If only one child is selected by default the group header is not shown but will be shown if it is selected here.
-Clear Alarm Events list
+**Clear Alarm Events list**
 This will clear the alarm event list (it does not change any status)
 
 RSMP
 ----
-RSMP protocol specific settings have an own tab. The simulator could be used with RSMP protocol versions 3.1.1..3.1.5
+RSMP protocol specific settings have an own tab. The simulator could be used
+with RSMP protocol versions 3.1.1..3.1.5
 
+**Behaviour**
+The protocol behaviour could be adjusted to test different functionality. The
+settings could be changed  for each version of the RSMP protocol (not common
+settings). If any setting deviate from the default setting, it will be
+indicated by a red background.
 
+The RSMP versions the simulator will allow and use when connecting are selected
+by the first row.
 
-Behaviour
-The protocol behaviour could be adjusted to test different functionality. The settings could be changed  for each version of the RSMP protocol (not common settings). If any setting deviate from the default setting, it will be indicated by a red background.
+The setting *Use strict and unforgiving protocol parsing* enables a more strict
+mode, where amongst other protocol checking all JSon names and (where
+applicable) values are case-sensitive.
 
-The RSMP versions the simulator will allow and use when connecting are selected by the first row.
+Each individual setting is not explained in this document, since they mostly
+reflects the version document history of the RSMP protocol and the protocol
+specification itself, hence are pretty much self-explanatory.
 
-The setting Use strict and unforgiving protocol parsing enables a more strict mode, where amongst other protocol checking all JSon names and (where applicable) values are case-sensitive.
-
-Each individual setting is not explained in this document, since they mostly reflects the version document history of the RSMP protocol and the protocol specification itself, hence are pretty much self-explanatory.
-
-Connection statistics
-Some statistics (sent bytes/packets etc) are viewed here. Select Clear to reset them.
+**Connection statistics**
+Some statistics (sent bytes/packets etc) are viewed here. Select Clear to reset
+them.
 
 Alarms
 ------
 
-Alarms are read from SXL and created for each object type, which means the same AlarmCodeId may occur on several objects.
+Alarms are read from SXL and created for each object type, which means the same
+AlarmCodeId may occur on several objects.
 
-At the bottom, Timestamp and MsgId are shown for occurred events.
-Select the alarm that should be tested and select from the pop-up menu with the right button.
-Activate
-Sets the alarm in active status (alternatively Inactive) and creates an Alarm-message with aSp == ’Issue’. The alarm automatically gets the status Acknowledge = false when activated.
-Acknowledge
-Sets the alarm in acknowledged status and creates an Alarm-message with aSp == ’Acknowledge’.
-Suspend
-Sets the alarm in suspended status (alternatively not suspended) and creates an Alarm-message with aSp == ’Suspend’.
-Alarm Events
-Alarm event history, Timestamp, MsgId, AlarmCodeId and Event are shown for sent and received events.
+At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
+
+Select the alarm that should be tested and select from the pop-up menu with the
+right button.
+
+**Activate**
+Sets the alarm in active status (alternatively Inactive) and creates an
+Alarm message with ``aSp == "Issue"``. The alarm automatically gets the status
+Acknowledge = false when activated.
+
+**Acknowledge**
+Sets the alarm in acknowledged status and creates an Alarm-message with
+``aSp == "Acknowledge"``.
+
+**Suspend**
+Sets the alarm in suspended status (alternatively not suspended) and creates an
+Alarm-message with ``aSp == "Suspend"``.
+
+**Alarm Events**
+Alarm event history, *Timestamp*, *MsgId*, *AlarmCodeId* and *Event* are shown
+for sent and received events.
 
 Aggregated status
 -----------------
-Aggregated status is normally compiled on each grouped object of the road side equipment. RSMPGS1 lacks that kind of dynamic, the reason for this is that it is hard to keep track of which objects that are put in alarm mode. Consequently, status is configured manually.
+Aggregated status is normally compiled on each grouped object of the road side
+equipment. RSMPGS1 lacks that kind of dynamic, the reason for this is that it
+is hard to keep track of which objects that are put in alarm mode.
+Consequently, status is configured manually.
 
+**Status bits**
+Double click to change bit status, on or off. Bit-texts are sourced from
+RSMPGS1.INI. The colors follow NTS standard.
 
-Status bits
-Double click to change bit status, on or off. Bit-texts are sourced from RSMPGS1.INI. The colors follow NTS standard.
-Functional position
-Click to choose a Functional Position. The empty field set Functional Position to null.
-Functional state
-Click to choose a Functional State. The empty field set Functional State to null.
-Both FunctionalPosition and FunctionalState are read from SXL. Any ’-’ are automatically removed.
-Send aggregated Status update
+**Functional position**
+Click to choose a Functional Position. The empty field set Functional Position
+to null.
+
+**Functional state**
+Click to choose a Functional State. The empty field set Functional State to
+null.
+
+Both FunctionalPosition and FunctionalState are read from SXL. Any ’-’ are
+automatically removed.
+
+**Send aggregated Status update**
 Send an ’AggregatedStatus’ message.
 
-Automatically send update when anything is changed Status update
-Select to send an ’AggregatedStatus’ message each time something has been changed.
+**Automatically send update when anything is changed Status update**
+Select to send an ’AggregatedStatus’ message each time something has been
+changed.
 
 Status
 ------
-Status is sent to the supervision system after requests or cyclically/at changes when the supervision system is subscribing to them.
+Status is sent to the supervision system after requests or cyclically/at
+changes when the supervision system is subscribing to them.
 
-To change status, double click in the ’Status’column at the value that should be changed. At startup, a question mark is shown which will result in that the value which are sent up becomes null (unknown). If the value is manually changed, it will get the status ’recent’.
-Values can be set to any value, all values are sent up as ’string’, which means that it can be tested how the supervision system reacts to invalid values.
-If the data type is ’base64’, an extra button’Browse’ will be shown when double clicking ’status’ and a file can be selected, for example a bitmap.
-Alternatively, the path to the file can be entered. If there is at least one ’\’ in the status field RSMPGS1 assumes that it is a file path/name and that the file should be base64-encoded and sent. If not, the field is sent as-is.
-Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive files larger than 2 MB.
-In subscription mode, new status is sent directly when it has has changed if the subscription parameter UpdateRateis set to 0, in other cases when the interval expires next time.
+To change status, double click in the ’Status’ column at the value that should
+be changed. At startup, a question mark is shown which will result in that the
+value which are sent up becomes null (unknown). If the value is manually
+changed, it will get the status ’recent’.
+
+Values can be set to any value, all values are sent up as ’string’, which means
+that it can be tested how the supervision system reacts to invalid values.
+
+If the data type is ’base64’, an extra button ’Browse’ will be shown when
+double clicking ’status’ and a file can be selected, for example a bitmap.
+
+Alternatively, the path to the file can be entered. If there is at least one
+’\’ in the status field RSMPGS1 assumes that it is a file path/name and that
+the file should be base64-encoded and sent. If not, the field is sent as-is.
+
+Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive
+files larger than 2 MB.
+
+In subscription mode, new status is sent directly when it has has changed if
+the subscription parameter UpdateRateis set to 0, in other cases when the
+interval expires next time.
 
 Commands
 --------
-The Commands tab displays the values which have been sent from the supervision system. At startup, only question marks are shown.
+The Commands tab displays the values which have been sent from the supervision
+system. At startup, only question marks are shown.
 
-RSMPGS1 makes a basic check that the value is kept within the limits of the data type. If the value seems invalid, an error message is shown in the system log.
+RSMPGS1 makes a basic check that the value is kept within the limits of the
+data type. If the value seems invalid, an error message is shown in the system
+log.
 
 Test send
 ---------
-JSon is text based and in this tab text files can be sent as is. The files may be JSon debug data from the debug-forms.
+JSon is text based and in this tab text files can be sent as is. The files may
+be JSon debug data from the debug-forms.
 
+There are two textboxes which can be used simultaneously. In the textboxes, it
+is possible to copy/paste text as desired.
 
-There are two textboxes which can be used simultaneously. In the textboxes, it is possible to copy/paste text as desired.
-Send above package
-Sends Json message in textbox above. The ending 0x0c (formfeed) is automatically added at the end.
-Please note that RSMPGS1 does not remove CR/LF or tabs in the text before it is sent.
-Browse
+**Send above package**
+Sends Json message in textbox above. The ending 0x0c (formfeed) is
+automatically added at the end.
+
+Please note that RSMPGS1 does not remove CR/LF or tabs in the text before it is
+sent.
+
+**Browse**
 Open and read a text file inte the above text form.
 
 Buffered messages
 -----------------
-
 When disconnected RSMPGS1 may buffer messages and send when reconnecting.
 
+**Create**
+Creates the selected message type and queue it. The number of messages to
+create may be set in the text box. RSMGS1 have no upper buffered message limit
+(memory only) but max 30’000 messages may be created per click on the Create
+button.
 
-
-Create
-Creates the selected message type and queue it. The number of messages to create may be set in the text box. RSMGS1 have no upper buffered message limit (memory only) but max 30’000 messages may be created per click on the Create button.
 Buffered events may be deleted using the buttons to the right.
-Buffered count
+
+**Buffered count**
 Indicates the total number of buffered events
-Don't show these packets in system log if they are more than 10
-If a lot of buffered messages are to be sent when connected, the system log will be flooded and take some time to fill. Ticking this box will significally improve speed.
+
+**Don't show these packets in system log if they are more than 10**
+If a lot of buffered messages are to be sent when connected, the system log
+will be flooded and take some time to fill. Ticking this box will significally
+improve speed.
 
 Debug form
 ----------
-The Debug form shows sent and received data more or less formatted depending on chosen display format.
+The Debug form shows sent and received data more or less formatted depending on
+chosen display format.
 
+The red texts are messages which are received, green texts are the ones which
+are sent out. The time stamp has millisecond resolution which is shown if the
+column is expanded somewhat.
 
+If show raw data is not selection, then RSMPGS1 will format the text for better
+readability. If there are CR/LF and tabs in the received Json, these control
+characters will be used to increase readability. If not, RSMPGS1 will use a set
+of simple rules to format the text.
 
+RSMPGS1 is always removing CR/LF, tabs and finalizing form feed (FF) before
+deserializing.
 
-The red texts are messages which are received, green texts are the ones which are sent out. The time stamp has millisecond resolution which is shown if the column is expanded somewhat.
-If show raw data is not selection, then RSMPGS1 will format the text for better readability. If there are CR/LF and tabs in the received Json, these control characters will be used to increase readability. If not, RSMPGS1 will use a set of simple rules to format the text.
-RSMPGS1 is always removing CR/LF, tabs and finalizing form feed (FF) before deserializing.
 Time stamps are also presented decoded in both UTC and local time.
 
+**Select what to debug – Show all traffic in raw format**
+Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
+not certain if they are writable are shown as <ASCII> i hex-format, e. g.
+<0x0c> for formfeed.
 
-
-Select what to debug – Show all traffic in raw format
-Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is not certain if they are writable are shown as <ASCII> i hex-format, e. g.<0x0c>forformfeed.
-Select what to debug – All packet types
+**Select what to debug – All packet types**
 Shows all packet types.
-Select what to debug –Version packets, Alarm Packets etc…
-If not all packet types are selected to be shown, one packet type or a selection of packet types can be selected for display. Because that it is possible to display any number of debug formulas, it is possible to have different types of formulas for every packet type.
-Copy selection to Clipboard
-In the debug window, it is possible to select one or more lines and copy to the clipboard with this function. RSMPGS1 delimits every line with CR/LF (0x0d/0x0a) as text in the clipboard.
+
+**Select what to debug –Version packets, Alarm Packets etc…**
+If not all packet types are selected to be shown, one packet type or a
+selection of packet types can be selected for display. Because that it is
+possible to display any number of debug formulas, it is possible to have
+different types of formulas for every packet type.
+
+**Copy selection to Clipboard**
+In the debug window, it is possible to select one or more lines and copy to the
+clipboard with this function. RSMPGS1 delimits every line with CR/LF
+(0x0d/0x0a) as text in the clipboard.
+
 Every column is delimited with a tab (0x09).
-Clear debug list
+
+**Clear debug list**
 Empties the debug form.
-Save continuous to file (record)…
+
+**Save continuous to file (record)…**
 Begins a recording to file from this specific debug window.
-File name and file location are determined by the user. RSMPGS1 suggests the folder name\LogFiles\DebugFiles.
-If the file does not exist it will be created and filled up with new debug data. The same data which is presented in the form is stored in the file. The file is an ordinary text file and will be flushed every 100 milliseconds. Because of this, it can be copied or opened (only for reading) with complete contents without having to be closed first.
-To close the file and stop recording this option must be unchecked (it will be checked when the file is opened and recording is in progress).
-Close debug form
+
+File name and file location are determined by the user. RSMPGS1 suggests the
+folder name ``\LogFiles\DebugFiles.``
+
+If the file does not exist it will be created and filled up with new debug
+data. The same data which is presented in the form is stored in the file. The
+file is an ordinary text file and will be flushed every 100 milliseconds.
+Because of this, it can be copied or opened (only for reading) with complete
+contents without having to be closed first.
+
+To close the file and stop recording this option must be unchecked (it will be
+checked when the file is opened and recording is in progress).
+
+**Close debug form**
 Closes the debug window.
