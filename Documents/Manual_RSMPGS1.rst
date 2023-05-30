@@ -158,7 +158,7 @@ The program has two forms, one main window and one (or several) debug windows.
 
 .. image:: img/main_window.png
    :align: left
-   :scale: 150%
+   :width: 100%
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
@@ -175,7 +175,6 @@ or object selects what should be presented on the tabs to the right.
 
 .. image:: img/sites_and_objects.png
    :align: left
-   :scale: 100%
    :alt: Sits and objects
 
 When hovering over a node and ’Show all node info in Tooltip’ is selected,
@@ -207,6 +206,7 @@ configured here.
 
 .. image:: img/generic.png
    :align: left
+   :width: 100%
    :alt: Generic
 
 When RSMPGS1 is connected to the supervision system, information about SXL and
@@ -296,7 +296,6 @@ File
 
 .. image:: img/file_csv.png
    :align: left
-   :scale: 100%
    :alt: Load project from CSV-files
 
 **Load projects from – CSV-files**
@@ -311,7 +310,6 @@ Loading new objects is only available if the simulator is disconnected
 
 .. image:: img/file_debug.png
    :align: left
-   :scale: 100%
    :alt: Create new debug window
 
 **Debug - Create new debug window**
@@ -344,7 +342,6 @@ The process image contains information about status, commands and alarms.
 
 .. image:: img/process_image.png
    :align: left
-   :scale: 100%
    :alt: Process image
 
 **Random update all subscriptions**
@@ -395,7 +392,6 @@ simpler firewall.
 
 .. image:: img/connection.png
    :align: left
-   :scale: 100%
    :alt: Connection
 
 **Connect automatically**
@@ -415,7 +411,6 @@ attempt will be performed within the stated interval.
 
 .. image:: img/watchdog.png
    :align: left
-   :scale: 100%
    :alt: Send watchdog
 
 **Send options – Send watchdog packet now**¨
@@ -454,7 +449,6 @@ View
 
 .. image:: img/view.png
    :align: left
-   :scale: 100%
    :alt: View
 
 **Always show group headers**
@@ -476,7 +470,7 @@ with RSMP protocol versions 3.1.1..3.1.5
 
 .. image:: img/rsmp.png
    :align: left
-   :scale: 150%
+   :width: 100%
    :alt: View
 
 **Behaviour**
@@ -510,6 +504,7 @@ AlarmCodeId may occur on several objects.
 
 .. image:: img/alarms.png
    :align: left
+   :width: 100%
    :alt: Alarms
 
 At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
@@ -547,6 +542,7 @@ Consequently, status is configured manually.
 
 .. image:: img/aggregated_status.png
    :align: left
+   :width: 100%
    :alt: Aggregated Status
 
 **Status bits**
@@ -583,7 +579,7 @@ changes when the supervision system is subscribing to them.
 
 .. image:: img/status.png
    :align: left
-   :scale: 150%
+   :width: 100%
    :alt: Status
 
 To change status, double click in the ’Status’ column at the value that should
@@ -615,7 +611,7 @@ system. At startup, only question marks are shown.
 
 .. image:: img/commands.png
    :align: left
-   :scale: 150%
+   :width: 100%
    :alt: Commands
 
 RSMPGS1 makes a basic check that the value is kept within the limits of the
@@ -629,7 +625,7 @@ be JSon debug data from the debug-forms.
 
 .. image:: img/test_send.png
    :align: left
-   :scale: 160%
+   :width: 100%
    :alt: Test send
 
 There are two textboxes which can be used simultaneously. In the textboxes, it
@@ -653,7 +649,7 @@ When disconnected RSMPGS1 may buffer messages and send when reconnecting.
 
 .. image:: img/buffered.png
    :align: left
-   :scale: 170%
+   :width: 100%
    :alt: Buffered messages
 
 **Create**
@@ -682,7 +678,6 @@ chosen display format.
 
 .. image:: img/debug.png
    :align: left
-   :scale: 150%
    :alt: Debug window
 
 The red texts are messages which are received, green texts are the ones which
@@ -701,7 +696,6 @@ Time stamps are also presented decoded in both UTC and local time.
 
 .. image:: img/select_debug.png
    :align: left
-   :scale: 100%
    :alt: Select what to debug
 
 **Select what to debug – Show all traffic in raw format**
