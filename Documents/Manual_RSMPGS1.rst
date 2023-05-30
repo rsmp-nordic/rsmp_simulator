@@ -624,7 +624,7 @@ chosen display format.
 
 .. image:: img/debug.png
    :align: left
-   :scale: 100%
+   :scale: 150%
    :alt: Debug window
 
 The red texts are messages which are received, green texts are the ones which
