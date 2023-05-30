@@ -57,37 +57,46 @@ All base configuration is made in ``.\Settings\RSMPGS1.INI``
 
 The INI-file has the following parameters in the [RSMP] section:
 
-**IPAddress**
+**IP Address**
+
 IP-address and port number at the location of the supervision system,
 e.g 192.168.123.20:12666. The DNS name can also be used.
 
 **ReconnectInterval**
+
 Reconnection attempts will use this interval if automatic reconnection has been
 selected in the interface. Interval in milliseconds.
 
 **MaxDebugLines**
+
 Number of lines shown in the Debug-forms.
 
 **DaysToKeepLogFiles**
+
 Number of days before the log files are automatically deleted.
 
 **PacketTimeout**
+
 Packet timeout in milliseconds. The time which RSMPGS1 waits for ack/nack before
 an error message are written in the system log and the packet is resent.
 
 **WatchdogInterval**
+
 This interval will be used if cyclical watchdog has been selected in the user
 interface. The interval is in milliseconds.
 
 **WatchdogTimeout**
+
 The watchdog timeout in milliseconds, set to 0 to ignore failed watchdogs.
 
 **MaxEventsPerObject**
+
 Max number of events in the event views per object (oldest will be removed).
 The INI-file has the following parameters in the ``[AggregatedStatus]``
 section:
 
 **BitText_1..9**
+
 Texts which are associated (and presented in the user interface) in tab
 *Aggregated Status.*
 
@@ -206,38 +215,48 @@ the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
 
 **Active SXL (SUL) version to be used when connecting**
+
 SXL version which is sent over via the protocol when connection is made.
 
 **SXL (SUL) version found in file**
+
 SXL version which is found in reference files in ``.\Objects`` folder.
 
 **Always use SXL (SUL) version from file (if found)**
+
 Select to always use version number from the SXL files in protocol negotiation.
 
 **Automatically load last objects at startup**
+
 If selected RSMPGS1 will load the most recent used SXL object files/file at
 startup.
 
 **Automatically load process data at startup**
+
 Select to always load the last roadside data from ProcessImage.dat at startup
 
 **Automatically save process data on exit**
+
 Select to always save the last roadside data to ProcessImage.dat when exiting
 RSMPGS1
 
 **When loading... Alarm status**
+
 Select to load last Alarm status from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
 **When loading... Aggregated status values**
+
 Select to load last Aggregated status from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
 **When loading... Status values**
+
 Select to load last Status values from ProcessImage.dat during startup (if
 Automatically load process data at startup is selected)
 
 **Encryption protocols**
+
 The RSMP protocol specification defines it is possible to use encryption (from
 version 3.1.3) based upon SSL 3.0 or TLS 1.0. As SSL 3.0 have been deprecated
 by the Internet Engineering Task Force (IETF) the simulator only supports the
@@ -251,19 +270,23 @@ The idea is that the simulator should be used for testing a specific certificate
 To enable encryption it must be selected in the RSMP tab.
 
 **Server name**
+
 The server name is essential to validate the server certificate and is part of
 the negotiation process.
 
 **Ignore certificate errors**
+
 During the negotiation of the encrypted connection the system log will show some
 info. If there are any certificate errors the connection will be closed unless
 this choice is ticked.
 
 **Check certificate against certificate revocation list**
+
 Determines if the certificate should be checked against the revoced certificates
 and their CA's
 
 **Authenticate as client using this certificate file**
+
 If also the client should identify itself using a certificate it may be selected
 here using the Browse button. If it is a pfx-file the simulator will also ask
 for a password. Be aware of that the password is stored Base-64 encoded in the
@@ -278,9 +301,11 @@ File
    :alt: Load project from CSV-files
 
 **Load projects from – CSV-files**
+
 Select folder where the SXL-objects (CSV-files) reside
 
 **Load projects from – YAML-file**
+
 Select the YAML-file where the SXL-objects reside
 
 Loading new objects is only available if the simulator is disconnected
@@ -291,21 +316,26 @@ Loading new objects is only available if the simulator is disconnected
    :alt: Create new debug window
 
 **Debug - Create new debug window**
+
 Creates a new debug window. Any number of debug forms can be created, but it
 will affect performance.
 
 **Debug -Tile all debug windows**
+
 Moves all debug forms to the right of RSMPGS1 (if there is space) and puts them
 in a line.
 
 **Debug - Close all debug windows**
+
 Closes all debug forms.
 
 **Debug - Store base64 updates**
+
 If checked, all incoming base64 encoded updates (commands) will be stored in the
 *DebugFiles* folder. The files will be named ``Base64_`` followed by date/timestamp.
 
 **Exit**
+
 Closes RSMPGS1. Some process data is saved. Form settings (positions and what is
 marked) is saved in RSMPGS1.INI, so it looks the same at next program start.
 
@@ -319,6 +349,7 @@ The process image contains information about status, commands and alarms.
    :alt: Process image
 
 **Random update all subscriptions**
+
 If a client is subscribing to status updates, this selection can randomly change
 them. If the subscriptions are updated by events, the new values are sent
 directly up to the client otherwise they will be transmitted when it´s time
@@ -329,22 +360,27 @@ The values of data type boolean, string and real will be updated to true/false,
 to -1000..1000.
 
 **Reset Alarm, Status, Aggregated and Command objects**
+
 Removes all alarms, status, aggregated status and command values. This can be
 done only when we are not connected.
 
 **Random update all Status values**
+
 Randomly change all Status values. This can be done only when we are not
 connected. Se data type value ranges above (Random update all subscriptions)
 
 **Save Process data to file...**
+
 Process data could be save to any file for later use. The process data file has
 a file ending of .dat but is basically a text file. The default process data
 file is the ProcessImage.dat file.
 
 **Load Process data from file...**
+
 Loads the process data file
 
 **Clear automatically saved process data**
+
 Removes the default process data file ProcessImage.dat.
 
 Connection
@@ -364,14 +400,17 @@ simpler firewall.
    :alt: Connection
 
 **Connect automatically**
+
 Select to let RSMPGS1 make automatic connection attempts to the supervision
 system. In RSMPGS1.INI, the interval for connection attempts are configured.
 
 **Connect now**
+
 Immediately performs a connection attempt, which is done regardless if
 ’connect automatically' has been marked or not.
 
 **Disconnect**
+
 Closes the connection. If *connect automatically* is marked, a connection
 attempt will be performed within the stated interval.
 
@@ -380,15 +419,18 @@ attempt will be performed within the stated interval.
    :scale: 100%
    :alt: Send watchdog
 
-**Send options – Send watchdog packet now**
+**Send options – Send watchdog packet now**¨
+
 Sends a watchdog package
 
 **Send options – Send some random crap**
+
 To test the resilience of supervision system regarding incoming junk data. It
 randomly produces 2048 bytes between 0x00..0xff. Just like an ordinary Json
 package it is terminated with 0xc0 (formfeed).
 
 **Send options – Disable Nagle algorithm (send coalescing)**
+
 This alternative affects the algorithm usually used in TCP to make the sending
 of many small packets more efficient. Ordinarily these are grouped together in
 larger packages.
@@ -402,6 +444,7 @@ network. The purpose is, just like the next function, to test the buffer
 algorithm and packet decoding of supervision system.
 
 **Send options – Split packets**
+
 This alternative splits all packets randomly and sends them in small packets,
 1..10 bytes each and 10 ms break between each packet. The purpose is to test
 the buffer algorithm and packet decoding, which are common error causes, and
@@ -416,6 +459,7 @@ View
    :alt: View
 
 **Always show group headers**
+
 If a parent node is selected in the Sites and Objects list view all its
 children will populate the listview in the selected tab (Alarms, Status,
 Commands). To separate them they will be grouped and there will be a group
@@ -423,6 +467,7 @@ header. If only one child is selected by default the group header is not shown
 but will be shown if it is selected here.
 
 **Clear Alarm Events list**
+
 This will clear the alarm event list (it does not change any status)
 
 RSMP
@@ -436,6 +481,7 @@ with RSMP protocol versions 3.1.1..3.1.5
    :alt: View
 
 **Behaviour**
+
 The protocol behaviour could be adjusted to test different functionality. The
 settings could be changed  for each version of the RSMP protocol (not common
 settings). If any setting deviate from the default setting, it will be
@@ -453,6 +499,7 @@ reflects the version document history of the RSMP protocol and the protocol
 specification itself, hence are pretty much self-explanatory.
 
 **Connection statistics**
+
 Some statistics (sent bytes/packets etc) are viewed here. Select Clear to reset
 them.
 
@@ -473,19 +520,23 @@ Select the alarm that should be tested and select from the pop-up menu with the
 right button.
 
 **Activate**
+
 Sets the alarm in active status (alternatively Inactive) and creates an
 Alarm message with ``aSp == "Issue"``. The alarm automatically gets the status
 Acknowledge = false when activated.
 
 **Acknowledge**
+
 Sets the alarm in acknowledged status and creates an Alarm-message with
 ``aSp == "Acknowledge"``.
 
 **Suspend**
+
 Sets the alarm in suspended status (alternatively not suspended) and creates an
 Alarm-message with ``aSp == "Suspend"``.
 
 **Alarm Events**
+
 Alarm event history, *Timestamp*, *MsgId*, *AlarmCodeId* and *Event* are shown
 for sent and received events.
 
@@ -502,14 +553,17 @@ Consequently, status is configured manually.
    :alt: Aggregated Status
 
 **Status bits**
+
 Double click to change bit status, on or off. Bit-texts are sourced from
 RSMPGS1.INI. The colors follow NTS standard.
 
 **Functional position**
+
 Click to choose a Functional Position. The empty field set Functional Position
 to null.
 
 **Functional state**
+
 Click to choose a Functional State. The empty field set Functional State to
 null.
 
@@ -517,9 +571,11 @@ Both FunctionalPosition and FunctionalState are read from SXL. Any ’-’ are
 automatically removed.
 
 **Send aggregated Status update**
+
 Send an ’AggregatedStatus’ message.
 
 **Automatically send update when anything is changed Status update**
+
 Select to send an ’AggregatedStatus’ message each time something has been
 changed.
 
@@ -583,6 +639,7 @@ There are two textboxes which can be used simultaneously. In the textboxes, it
 is possible to copy/paste text as desired.
 
 **Send above package**
+
 Sends Json message in textbox above. The ending 0x0c (formfeed) is
 automatically added at the end.
 
@@ -590,6 +647,7 @@ Please note that RSMPGS1 does not remove CR/LF or tabs in the text before it is
 sent.
 
 **Browse**
+
 Open and read a text file inte the above text form.
 
 Buffered messages
@@ -602,6 +660,7 @@ When disconnected RSMPGS1 may buffer messages and send when reconnecting.
    :alt: Buffered messages
 
 **Create**
+
 Creates the selected message type and queue it. The number of messages to
 create may be set in the text box. RSMGS1 have no upper buffered message limit
 (memory only) but max 30’000 messages may be created per click on the Create
@@ -610,9 +669,11 @@ button.
 Buffered events may be deleted using the buttons to the right.
 
 **Buffered count**
+
 Indicates the total number of buffered events
 
 **Don't show these packets in system log if they are more than 10**
+
 If a lot of buffered messages are to be sent when connected, the system log
 will be flooded and take some time to fill. Ticking this box will significally
 improve speed.
@@ -647,20 +708,24 @@ Time stamps are also presented decoded in both UTC and local time.
    :alt: Select what to debug
 
 **Select what to debug – Show all traffic in raw format**
+
 Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
 
 **Select what to debug – All packet types**
+
 Shows all packet types.
 
 **Select what to debug –Version packets, Alarm Packets etc…**
+
 If not all packet types are selected to be shown, one packet type or a
 selection of packet types can be selected for display. Because that it is
 possible to display any number of debug formulas, it is possible to have
 different types of formulas for every packet type.
 
 **Copy selection to Clipboard**
+
 In the debug window, it is possible to select one or more lines and copy to the
 clipboard with this function. RSMPGS1 delimits every line with CR/LF
 (0x0d/0x0a) as text in the clipboard.
@@ -668,9 +733,11 @@ clipboard with this function. RSMPGS1 delimits every line with CR/LF
 Every column is delimited with a tab (0x09).
 
 **Clear debug list**
+
 Empties the debug form.
 
 **Save continuous to file (record)…**
+
 Begins a recording to file from this specific debug window.
 
 File name and file location are determined by the user. RSMPGS1 suggests the
@@ -686,4 +753,5 @@ To close the file and stop recording this option must be unchecked (it will be
 checked when the file is opened and recording is in progress).
 
 **Close debug form**
+
 Closes the debug window.
