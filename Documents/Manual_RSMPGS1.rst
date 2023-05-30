@@ -207,7 +207,6 @@ configured here.
 
 .. image:: img/generic.png
    :align: left
-   :scale: 100%
    :alt: Generic
 
 When RSMPGS1 is connected to the supervision system, information about SXL and
@@ -511,7 +510,6 @@ AlarmCodeId may occur on several objects.
 
 .. image:: img/alarms.png
    :align: left
-   :scale: 150%
    :alt: Alarms
 
 At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
@@ -549,7 +547,6 @@ Consequently, status is configured manually.
 
 .. image:: img/aggregated_status.png
    :align: left
-   :scale: 150%
    :alt: Aggregated Status
 
 **Status bits**
