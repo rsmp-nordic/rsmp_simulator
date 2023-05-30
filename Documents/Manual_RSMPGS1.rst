@@ -358,6 +358,11 @@ centrally located and where the supervision system likely is placed, rather
 than the opposite. Roadside equipment can consequently be situated behind a
 simpler firewall.
 
+.. image:: img/connection.png
+   :align: left
+   :scale: 100%
+   :alt: Connection
+
 **Connect automatically**
 Select to let RSMPGS1 make automatic connection attempts to the supervision
 system. In RSMPGS1.INI, the interval for connection attempts are configured.
@@ -370,10 +375,10 @@ Immediately performs a connection attempt, which is done regardless if
 Closes the connection. If *connect automatically* is marked, a connection
 attempt will be performed within the stated interval.
 
-.. image:: img/connection.png
+.. image:: img/watchdog.png
    :align: left
    :scale: 100%
-   :alt: Process image
+   :alt: Send watchdog
 
 **Send options – Send watchdog packet now**
 Sends a watchdog package
