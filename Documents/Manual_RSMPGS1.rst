@@ -196,6 +196,11 @@ Generic
 Various information concerning the connection to the supervision system is
 configured here.
 
+.. image:: img/generic.png
+   :align: left
+   :scale: 100%
+   :alt: Generic
+
 When RSMPGS1 is connected to the supervision system, information about SXL and
 the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
@@ -266,6 +271,11 @@ INI-file.
 
 File
 ----
+
+.. image:: img/file_csv.png
+   :align: left
+   :scale: 100%
+   :alt: Load project from CSV-files
 
 **Load projects from – CSV-files**
 Select folder where the SXL-objects (CSV-files) reside
