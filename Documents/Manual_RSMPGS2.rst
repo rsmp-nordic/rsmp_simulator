@@ -503,10 +503,10 @@ AlarmCodeId may occur on several objects.
    :width: 100%
    :alt: Alarms
 
-At the bottom, *Timestamp* and *MsgId* are shown for occurred events.
+At the bottom, *Timestamp* and *MessagesgId* are shown for occurred events.
 
 Select the alarm that should be tested and select from the pop-up menu with the
-right button.
+right mouse button.
 
 **Acknowledge**
 
