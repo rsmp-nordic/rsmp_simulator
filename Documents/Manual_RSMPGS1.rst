@@ -305,7 +305,7 @@ centrally located and where the supervision system likely is placed, rather
 than the opposite. Roadside equipment can consequently be situated behind a
 simpler firewall.
 
-.. image:: img/connection.png
+.. image:: img/rsmpgs1_connection.png
    :align: left
    :alt: Connection
 
