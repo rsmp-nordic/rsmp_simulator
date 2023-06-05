@@ -7,7 +7,8 @@ Manual RSMPGS1 simulator
 
 Introduction
 ------------
-This document describes the interface simulator for Road side systems which are communicating with RSMP.
+This document describes the interface simulator for Road side systems which are
+communicating with RSMP.
 
 Terms & definitions
 -------------------
@@ -23,33 +24,32 @@ RSMP      RoadSide Messaging Protocol
 JSon      JavaScript Object Notation
 TCP       Transfer Control Protocol
 IP        Internet Protocol
-GPRS      General Packet Radio Service
 RSMPGS1   Interface simulator for Roadside Equipment
 RSMPGS2   Interface simulator for supervision system
 =======   ===========================================
 
 Installation
 ------------
-Installation should be with the file RSMPGS1_1_0_1_7_Setup.exe
+Start installation by running ``RSMPGS1_1_0_1_7_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
 RSMPGS1 is written in C# with Microsoft Visual Studio 2015 and requires
 .NET Framework 4.6.1.
 
-==========================  ==========================
+The following files and folders which are included in the RSMPGS1 installation.
+All files and folders are placed under the installation folder.
+
+==========================  ==============================================
 Filename                    Description
-==========================  ==========================
+==========================  ==============================================
 ``RSMPGS1.exe``             Main program
 ``.\Settings\RSMPGS1.INI``  Configuration of RSMPGS1
-``.\Objects``               Reference files (example)
-``.\YAML``                 
+``.\Objects``               Reference files (example). SXL in CSV format
+``.\YAML``                  Reference files (example). SXL in YAML format
 ``.\Source``                Source code
 ``.\Documents``             Manual, RSMP spec etc
-==========================  ==========================
-
-Files and folders which are included in the RSMPGS1 installation. All files/maps
-are placed under the installation folder.
+==========================  ==============================================
 
 Configuration
 -------------
@@ -57,14 +57,14 @@ Configuration
 RSMPGS1.ini
 ^^^^^^^^^^^
 
-All base configuration is made in ``.\Settings\RSMPGS1.INI``
+The RSMPGS1 configuration is saved in ``.\Settings\RSMPGS1.INI``.
 
-The INI-file has the following parameters in the [RSMP] section:
+The INI-file has the following parameters in the ``[RSMP]`` section:
 
-**IP Address**
+**IPAddress**
 
 IP-address and port number at the location of the supervision system,
-e.g 192.168.123.20:12666. The DNS name can also be used.
+e.g 192.168.123.20:12666. A DNS name can also be used.
 
 **ReconnectInterval**
 
@@ -116,7 +116,7 @@ SXL – CSV-format
 ^^^^^^^^^^^^^^^^
 RSMPGS2 cannot read the Excel format which SXL is saved in. Every sheet of the
 SXL file (Excel) must be saved as a separate comma separated text file (CSV or
-SKV-file).
+SKV file).
 
 It is appropriate to name the file according to the content, e.g alarm.csv,
 41101.csv, commands.csv etc. The files are saved in the sub-folder
@@ -135,9 +135,13 @@ manually edit the CSV/SKV files if needed.
 
 SXL – YAML-format
 ^^^^^^^^^^^^^^^^^
-RSMPGS1 may import the YAML format found in GitHub – rsmp-nordic/sxl-tools.
-This format is more easy to read from code – yet still maintaining a human
+The YAML format is more easy to read from code – yet still maintaining a human
 readable format.
+
+RSMPGS1 may import the YAML found in GitHub –
+`rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_schema>`_.
+But RSMPGS1 requires an extended format which includes the objects as well.
+An example is saved in the sub-folder ``.\YAML`
 
 Starting the simulator
 ----------------------
@@ -410,7 +414,7 @@ Immediately performs a connection attempt, which is done regardless if
 
 **Disconnect**
 
-Closes the connection. If *connect automatically* is marked, a connection
+Closes the connection. If *connect automatically* is enabled, a connection
 attempt will be performed within the stated interval.
 
 .. image:: img/watchdog.png
