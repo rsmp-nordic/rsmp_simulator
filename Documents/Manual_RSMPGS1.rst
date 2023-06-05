@@ -112,8 +112,8 @@ SXL
 
 RSMPGS1 supports both Excel-based SXL and YAML-based SXL.
 
-SXL – CSV-format
-^^^^^^^^^^^^^^^^
+**CSV format**
+
 RSMPGS1 cannot read the Excel format which SXL is saved in. Every sheet of the
 SXL file (Excel) must be saved as a separate comma separated text file (CSV or
 SKV file).
@@ -133,8 +133,8 @@ recommendations, otherwise RSMPGS1 won’t be able to read the information
 correctly. See the functional specification for more information on how to
 manually edit the CSV/SKV files if needed.
 
-SXL – YAML-format
-^^^^^^^^^^^^^^^^^
+**YAML format**
+
 The YAML format is more easy to read from code – yet still maintaining a human
 readable format.
 
