@@ -586,7 +586,7 @@ Status
 Status is sent to the supervision system after requests or cyclically/at
 changes when the supervision system is subscribing to them.
 
-.. image:: img/status.png
+.. image:: img/rsmpgs1_status.png
    :align: left
    :width: 100%
    :alt: Status
