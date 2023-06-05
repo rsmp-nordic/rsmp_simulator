@@ -95,6 +95,7 @@ The watchdog timeout in milliseconds, set to 0 to ignore failed watchdogs.
 **MaxEventsPerObject**
 
 Max number of events in the event views per object (oldest will be removed).
+
 The INI-file has the following parameters in the ``[AggregatedStatus]``
 section:
 
@@ -113,7 +114,7 @@ RSMPGS1 supports both Excel-based SXL and YAML-based SXL.
 
 SXL – CSV-format
 ^^^^^^^^^^^^^^^^
-RSMPGS2 cannot read the Excel format which SXL is saved in. Every sheet of the
+RSMPGS1 cannot read the Excel format which SXL is saved in. Every sheet of the
 SXL file (Excel) must be saved as a separate comma separated text file (CSV or
 SKV file).
 
@@ -124,11 +125,11 @@ create the folder automatically the first time the program is started. When the
 program is installed, several example files are included.
 
 Do not forget to change or add a new revision number and save the first sheet
-again if any change is made. RSMPGS2 will point out if any file in
+again if any change is made. RSMPGS1 will point out if any file in
 ``.\Objects`` is changed without revision number change.
 
 It is important that the SXL format follows the template and the
-recommendations, otherwise RSMPGS2 won’t be able to read the information
+recommendations, otherwise RSMPGS1 won’t be able to read the information
 correctly. See the functional specification for more information on how to
 manually edit the CSV/SKV files if needed.
 
@@ -148,7 +149,7 @@ When RSMPGS1 is started it will automatically use the installation folder as
 the project folder. RSMPGS1 is expecting to find the Settings folder in the
 project folder.
 
-If not already present, RSMPGS2 will create the LogFiles folders.
+If not already present, RSMPGS1 will create the LogFiles folders.
 
 The program can also be started with the startparameter ``/path`` to use
 another project folder, e.g to use ``c:\RoadSide\TestConfig1`` as a project
@@ -204,99 +205,6 @@ The System log will show different status icons, depending of the message itself
 If View only failed packets is selected, the System log will only show failed
 packets. Click Clear to empty the System log list. The System log files will
 not be deleted.
-
-Generic
-^^^^^^^
-
-Various information concerning the connection to the supervision system is
-configured here.
-
-.. image:: img/generic.png
-   :align: left
-   :width: 100%
-   :alt: Generic
-
-When RSMPGS1 is connected to the supervision system, information about SXL and
-the RSMP-interface version is sent over for the software to determine whether
-communication is possible or not.
-
-**Active SXL (SUL) version to be used when connecting**
-
-SXL version which is sent over via the protocol when connection is made.
-
-**SXL (SUL) version found in file**
-
-SXL version which is found in reference files in ``.\Objects`` folder.
-
-**Always use SXL (SUL) version from file (if found)**
-
-Select to always use version number from the SXL files in protocol negotiation.
-
-**Automatically load last objects at startup**
-
-If selected RSMPGS1 will load the most recent used SXL object files/file at
-startup.
-
-**Automatically load process data at startup**
-
-Select to always load the last roadside data from ProcessImage.dat at startup
-
-**Automatically save process data on exit**
-
-Select to always save the last roadside data to ProcessImage.dat when exiting
-RSMPGS1
-
-**When loading... Alarm status**
-
-Select to load last Alarm status from ProcessImage.dat during startup (if
-Automatically load process data at startup is selected)
-
-**When loading... Aggregated status values**
-
-Select to load last Aggregated status from ProcessImage.dat during startup (if
-Automatically load process data at startup is selected)
-
-**When loading... Status values**
-
-Select to load last Status values from ProcessImage.dat during startup (if
-Automatically load process data at startup is selected)
-
-**Encryption protocols**
-
-The RSMP protocol specification defines it is possible to use encryption (from
-version 3.1.3) based upon SSL 3.0 or TLS 1.0. As SSL 3.0 have been deprecated
-by the Internet Engineering Task Force (IETF) the simulator only supports the
-never TLS protocols.
-
-*Default* will let the OS select the .NET version most suitable protocol.
-
-The simulator does not look in the server's certificate store (beside to
-validate the CA), the certificate to use must be pointed out by the server.
-The idea is that the simulator should be used for testing a specific certificate.
-To enable encryption it must be selected in the RSMP tab.
-
-**Server name**
-
-The server name is essential to validate the server certificate and is part of
-the negotiation process.
-
-**Ignore certificate errors**
-
-During the negotiation of the encrypted connection the system log will show some
-info. If there are any certificate errors the connection will be closed unless
-this choice is ticked.
-
-**Check certificate against certificate revocation list**
-
-Determines if the certificate should be checked against the revoced certificates
-and their CA's
-
-**Authenticate as client using this certificate file**
-
-If also the client should identify itself using a certificate it may be selected
-here using the Browse button. If it is a pfx-file the simulator will also ask
-for a password. Be aware of that the password is stored Base-64 encoded in the
-INI-file.
 
 File
 ^^^^
@@ -470,6 +378,100 @@ but will be shown if it is selected here.
 
 This will clear the alarm event list (it does not change any status)
 
+Generic
+^^^^^^^
+
+Various information concerning the connection to the supervision system is
+configured here.
+
+.. image:: img/generic.png
+   :align: left
+   :width: 100%
+   :alt: Generic
+
+When RSMPGS1 is connected to the supervision system, information about SXL and
+the RSMP-interface version is sent over for the software to determine whether
+communication is possible or not.
+
+**Active SXL (SUL) version to be used when connecting**
+
+SXL version which is sent over via the protocol when connection is made.
+
+**SXL (SUL) version found in file**
+
+SXL version which is found in reference files in ``.\Objects`` folder.
+
+**Always use SXL (SUL) version from file (if found)**
+
+Select to always use version number from the SXL files in protocol negotiation.
+
+**Automatically load last objects at startup**
+
+If selected RSMPGS1 will load the most recent used SXL object files/file at
+startup.
+
+**Automatically load process data at startup**
+
+Select to always load the last roadside data from ProcessImage.dat at startup
+
+**Automatically save process data on exit**
+
+Select to always save the last roadside data to ProcessImage.dat when exiting
+RSMPGS1
+
+**When loading... Alarm status**
+
+Select to load last Alarm status from ProcessImage.dat during startup (if
+Automatically load process data at startup is selected)
+
+**When loading... Aggregated status values**
+
+Select to load last Aggregated status from ProcessImage.dat during startup (if
+Automatically load process data at startup is selected)
+
+**When loading... Status values**
+
+Select to load last Status values from ProcessImage.dat during startup (if
+Automatically load process data at startup is selected)
+
+**Encryption protocols**
+
+The RSMP protocol specification defines it is possible to use encryption (from
+version 3.1.3) based upon SSL 3.0 or TLS 1.0. As SSL 3.0 have been deprecated
+by the Internet Engineering Task Force (IETF) the simulator only supports the
+never TLS protocols.
+
+*Default* will let the OS select the .NET version most suitable protocol.
+
+The simulator does not look in the server's certificate store (beside to
+validate the CA), the certificate to use must be pointed out by the server.
+The idea is that the simulator should be used for testing a specific certificate.
+To enable encryption it must be selected in the RSMP tab.
+
+**Server name**
+
+The server name is essential to validate the server certificate and is part of
+the negotiation process.
+
+**Ignore certificate errors**
+
+During the negotiation of the encrypted connection the system log will show some
+info. If there are any certificate errors the connection will be closed unless
+this choice is ticked.
+
+**Check certificate against certificate revocation list**
+
+Determines if the certificate should be checked against the revoced certificates
+and their CA's
+
+**Authenticate as client using this certificate file**
+
+If also the client should identify itself using a certificate it may be selected
+here using the Browse button. If it is a pfx-file the simulator will also ask
+for a password. Be aware of that the password is stored Base-64 encoded in the
+INI-file.
+
+
 RSMP
 ^^^^
 RSMP protocol specific settings have an own tab. The simulator could be used
@@ -608,7 +610,7 @@ Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive
 files larger than 2 MB.
 
 In subscription mode, new status is sent directly when it has has changed if
-the subscription parameter UpdateRateis set to 0, in other cases when the
+the subscription parameter UpdateRate is set to 0, in other cases when the
 interval expires next time.
 
 Commands
