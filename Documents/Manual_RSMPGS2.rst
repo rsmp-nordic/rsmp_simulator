@@ -615,6 +615,11 @@ To send a command, right click on any row and select **Commands**. Select what
 command (CommandCodeId) and Name to send using the checkboxes. Enter a value in
 the ``Value`` column.
 
+.. image:: img/send_commands.png
+   :align: left
+   :width: 100%
+   :alt: Send commands
+
 Test send
 ^^^^^^^^^
 JSon is text based and in this tab text files can be sent as is. The files may
