@@ -498,7 +498,7 @@ Alarms
 Alarms are read from SXL and created for each object type, which means the same
 AlarmCodeId may occur on several objects.
 
-.. image:: img/alarms.png
+.. image:: img/rsmpgs2_alarms.png
    :align: left
    :width: 100%
    :alt: Alarms
