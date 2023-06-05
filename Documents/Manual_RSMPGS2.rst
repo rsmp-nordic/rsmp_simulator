@@ -364,7 +364,7 @@ which may be hard to detect.
 View
 ^^^^
 
-.. image:: img/view.png
+.. image:: img/rsmpgs2_view.png
    :align: left
    :alt: View
 
@@ -572,7 +572,7 @@ the status vill be shown and quality set to ’recent’
 Values can be set to any value, but values are sent up as ’string’.
 
 If the data type is ’base64’ and the option ``Store base64 updates`` is enabled
-in the File menu, the value is saved as a file to in the ``DebugFiles`` folder.
+in the File menu, the value is saved as a file in the ``DebugFiles`` folder.
 The files will be named ``Base64_`` followed by date/timestamp.
 
 Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive

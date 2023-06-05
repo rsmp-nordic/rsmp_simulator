@@ -362,7 +362,7 @@ which may be hard to detect.
 View
 ^^^^
 
-.. image:: img/view.png
+.. image:: img/rsmpgs1_view.png
    :align: left
    :alt: View
 
