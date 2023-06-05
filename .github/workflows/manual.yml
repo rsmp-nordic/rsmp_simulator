@@ -21,10 +21,14 @@ jobs:
               uses: actions/checkout@v3
 
             - name: Convert with rst2pdf
-              run: rst2pdf Documents/Manual_RSMPGS1.rst
+              run: |-
+                rst2pdf Documents/Manual_RSMPGS1.rst
+                rst2pdf Documents/Manual_RSMPGS2.rst
 
             - name: Upload artifacts (XLSX)
               uses: actions/upload-artifact@v3
               with:
-                name: Manual RSMPGS1
-                path: Documents/Manual_RSMPGS1.pdf
+                name: Manual
+                path: |-
+                  Documents/Manual_RSMPGS1.pdf
+                  Documents/Manual_RSMPGS2.pdf
