@@ -549,7 +549,7 @@ equipment. RSMPGS1 lacks that kind of dynamic, the reason for this is that it
 is hard to keep track of which objects that are put in alarm mode.
 Consequently, status is configured manually.
 
-.. image:: img/aggregated_status.png
+.. image:: img/rsmpgs1_aggregated_status.png
    :align: left
    :width: 100%
    :alt: Aggregated Status
