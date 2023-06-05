@@ -398,7 +398,7 @@ Generic
 Various information concerning the connection to the supervision system is
 configured here.
 
-.. image:: img/generic.png
+.. image:: img/rsmpgs2_generic.png
    :align: left
    :width: 100%
    :alt: Generic
