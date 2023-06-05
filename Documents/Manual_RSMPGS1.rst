@@ -1,6 +1,10 @@
 Manual RSMPGS1 simulator
 ========================
 
+.. sectnum::
+
+.. contents::
+
 Introduction
 ------------
 This document describes the interface simulator for Road side systems which are communicating with RSMP.
