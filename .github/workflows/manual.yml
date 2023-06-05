@@ -14,6 +14,9 @@ jobs:
         name: Create manual
         runs-on: windows-2019
         steps:
+            - name: Install rst2pdf
+              run: pip install --user rst2pdf
+
             - name: Checkout repo
               uses: actions/checkout@v3
 
