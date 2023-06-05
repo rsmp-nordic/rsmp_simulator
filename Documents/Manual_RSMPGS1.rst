@@ -296,7 +296,7 @@ for a password. Be aware of that the password is stored Base-64 encoded in the
 INI-file.
 
 File
-----
+^^^^
 
 .. image:: img/file_csv.png
    :align: left
@@ -341,7 +341,7 @@ Closes RSMPGS1. Some process data is saved. Form settings (positions and what is
 marked) is saved in RSMPGS1.INI, so it looks the same at next program start.
 
 Process Image
--------------
+^^^^^^^^^^^^^
 The process image contains information about status, commands and alarms.
 
 .. image:: img/process_image.png
@@ -384,7 +384,7 @@ Loads the process data file
 Removes the default process data file ProcessImage.dat.
 
 Connection
-----------
+^^^^^^^^^^
 Functions that are related to the supervision system connection is handled
 here. RSMPGS1 is acting as a server when it comes to providing data, alarms
 etc. But in connection terms, it is a client (TCP socket client).
@@ -449,7 +449,7 @@ the buffer algorithm and packet decoding, which are common error causes, and
 which may be hard to detect.
 
 View
-----
+^^^^
 
 .. image:: img/view.png
    :align: left
@@ -468,7 +468,7 @@ but will be shown if it is selected here.
 This will clear the alarm event list (it does not change any status)
 
 RSMP
-----
+^^^^
 RSMP protocol specific settings have an own tab. The simulator could be used
 with RSMP protocol versions 3.1.1..3.1.5
 
@@ -501,7 +501,7 @@ Some statistics (sent bytes/packets etc) are viewed here. Select Clear to reset
 them.
 
 Alarms
-------
+^^^^^^
 
 Alarms are read from SXL and created for each object type, which means the same
 AlarmCodeId may occur on several objects.
@@ -538,7 +538,7 @@ Alarm event history, *Timestamp*, *MsgId*, *AlarmCodeId* and *Event* are shown
 for sent and received events.
 
 Aggregated status
------------------
+^^^^^^^^^^^^^^^^^
 Aggregated status is normally compiled on each grouped object of the road side
 equipment. RSMPGS1 lacks that kind of dynamic, the reason for this is that it
 is hard to keep track of which objects that are put in alarm mode.
@@ -577,7 +577,7 @@ Select to send an ’AggregatedStatus’ message each time something has been
 changed.
 
 Status
-------
+^^^^^^
 Status is sent to the supervision system after requests or cyclically/at
 changes when the supervision system is subscribing to them.
 
@@ -609,7 +609,7 @@ the subscription parameter UpdateRateis set to 0, in other cases when the
 interval expires next time.
 
 Commands
---------
+^^^^^^^^
 The Commands tab displays the values which have been sent from the supervision
 system. At startup, only question marks are shown.
 
@@ -623,7 +623,7 @@ data type. If the value seems invalid, an error message is shown in the system
 log.
 
 Test send
----------
+^^^^^^^^^
 JSon is text based and in this tab text files can be sent as is. The files may
 be JSon debug data from the debug-forms.
 
@@ -648,7 +648,7 @@ sent.
 Open and read a text file inte the above text form.
 
 Buffered messages
------------------
+^^^^^^^^^^^^^^^^^
 When disconnected RSMPGS1 may buffer messages and send when reconnecting.
 
 .. image:: img/buffered.png
