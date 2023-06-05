@@ -255,7 +255,7 @@ Process Image
 ^^^^^^^^^^^^^
 The process image contains information about status, commands and alarms.
 
-.. image:: img/process_image.png
+.. image:: img/rsmpgs1_process_image.png
    :align: left
    :alt: Process image
 
