@@ -617,7 +617,6 @@ the ``Value`` column.
 
 .. image:: img/send_commands.png
    :align: left
-   :width: 100%
    :alt: Send commands
 
 Test send
