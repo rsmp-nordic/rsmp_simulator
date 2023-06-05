@@ -260,7 +260,7 @@ Closes all debug forms.
 
 **Debug - Store base64 updates**
 
-If checked, all incoming base64 encoded updates (commands) will be stored in the
+If checked, all incoming base64 encoded updates (statuses) will be stored in the
 *DebugFiles* folder. The files will be named ``Base64_`` followed by date/timestamp.
 
 **Exit**
@@ -571,8 +571,9 @@ the status vill be shown and quality set to ’recent’
 
 Values can be set to any value, but values are sent up as ’string’.
 
-If the data type is ’base64’, the value is saved as a file to the log
-directory.
+If the data type is ’base64’ and the option ``Store base64 updates`` is enabled
+in the File menu, the value is saved as a file to in the ``DebugFiles`` folder.
+The files will be named ``Base64_`` followed by date/timestamp.
 
 Please note that RSMPGS1/RSMPGS2 has limited buffer size and it cannot receive
 files larger than 2 MB.
