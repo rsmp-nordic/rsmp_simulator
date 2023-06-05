@@ -141,7 +141,7 @@ readable format.
 RSMPGS1 may import the YAML found in GitHub –
 `rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_schema>`_.
 But RSMPGS1 requires an extended format which includes the objects as well.
-An example is saved in the sub-folder ``.\YAML`
+An example is saved in the sub-folder ``.\YAML``.
 
 Starting the simulator
 ----------------------
