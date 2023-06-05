@@ -294,7 +294,7 @@ Subscriptions
 
 **Resend all Subscriptions**
 
-Restablish all subscriptions
+Reestablish all subscriptions
 
 **Unsubscribe all Subscriptions**
 
@@ -310,7 +310,7 @@ Save all events to log file ``.\LogFiles\EventFiles``.
 Connection
 ^^^^^^^^^^
 Functions that are related to the supervision system connection is handled
-here. RSMPGS2 is acting as a client when it comes to recieving data, alarms
+here. RSMPGS2 is acting as a client when it comes to receiving data, alarms
 etc. But in connection terms, it is a server (TCP socket server).
 
 The reason for this is that it´s easier to configure a firewall which is
@@ -348,7 +348,7 @@ larger packages.
 
 RSMPGS2 is buffering all JSon packages with the C# function
 NetworkStream.Write() in two calls, where the first is the serialized data and
-the last is the packet termination character 0x0c (fromfeed).
+the last is the packet termination character 0x0c (formfeed).
 
 If the algorithm is shut off, there will always be two packets out on the
 network. The purpose is, just like the next function, to test the buffer
@@ -450,7 +450,7 @@ this choice is ticked.
 
 **Check certificate against certificate revocation list**
 
-Determines if the certificate should be checked against the revoced certificates
+Determines if the certificate should be checked against the revoked certificates
 and their CA's
 
 **Server certificate file**
@@ -566,7 +566,7 @@ changes when the supervision system is subscribing to them.
    :width: 100%
    :alt: Status
 
-At startup, a question mark is shown for each status. Upon recieving a status,
+At startup, a question mark is shown for each status. Upon receiving a status,
 the status vill be shown and quality set to ’recent’
 
 Values can be set to any value, but values are sent up as ’string’.

@@ -461,7 +461,7 @@ this choice is ticked.
 
 **Check certificate against certificate revocation list**
 
-Determines if the certificate should be checked against the revoced certificates
+Determines if the certificate should be checked against the revoked certificates
 and their CA's
 
 **Authenticate as client using this certificate file**
