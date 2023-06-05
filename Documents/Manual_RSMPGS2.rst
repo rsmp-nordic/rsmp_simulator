@@ -200,7 +200,7 @@ or object selects what should be presented on the tabs to the right.
 
 .. image:: img/sites_and_objects.png
    :align: left
-   :alt: Sits and objects
+   :alt: Sites and objects
 
 When hovering over a node and ’Show all node info in Tooltip’ is selected,
 tooltip will show all information that RSMPGS2 have been able to read about
