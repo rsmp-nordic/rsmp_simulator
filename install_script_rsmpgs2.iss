@@ -32,6 +32,7 @@ Source: "YAML\YAML exempel.pdf"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Fla
 Source: "Documents\rsmp-spec-3.2.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\sxl-tlc-1.1.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Documents\Manual_RSMPGS2.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 
 [Dirs]
 Name: "{app}"; 
