@@ -606,7 +606,7 @@ Commands
 The Commands tab displays the values which have been sent from the supervision
 system. At startup, only values are shown.
 
-.. image:: img/commands.png
+.. image:: img/rsmpgs2_commands.png
    :align: left
    :width: 100%
    :alt: Commands
