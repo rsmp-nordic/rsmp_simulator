@@ -615,6 +615,7 @@ namespace nsRSMPGS
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5));
+        HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2));
 
       }
 
@@ -625,6 +626,7 @@ namespace nsRSMPGS
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_3);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_4);
       ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_5);
+      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[iRowIndex].Cells[1].Style.BackColor = Color.Red;
 
@@ -791,6 +793,8 @@ namespace nsRSMPGS
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
         }
         else
