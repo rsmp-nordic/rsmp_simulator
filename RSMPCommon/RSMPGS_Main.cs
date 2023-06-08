@@ -418,13 +418,13 @@ namespace nsRSMPGS
 
       try
       {
-        cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
-        if (RoadSideObject == null)
+        if (treeView_SitesAndObjects.SelectedNode == null)
         {
           cPrivateProfile.WriteIniFileString("Main", "SelectedObject", "");
         }
         else
         {
+          cRoadSideObject RoadSideObject = (cRoadSideObject)treeView_SitesAndObjects.SelectedNode.Tag;
           cPrivateProfile.WriteIniFileString("Main", "SelectedObject", RoadSideObject.UniqueId());
         }
       }
