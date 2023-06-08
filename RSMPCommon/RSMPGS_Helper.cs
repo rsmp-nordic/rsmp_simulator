@@ -440,6 +440,8 @@ namespace nsRSMPGS
           DebugForm.ToolStripMenuItem_PacketTypes_Watchdog.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Watchdog", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_PacketAck.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "PacketAck", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_Unknown.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Unknown", 0) != 0;
+          DebugForm.SetDebugSaveFile(cPrivateProfile.GetIniFileString("Debug", sPrefix + "SaveFile", ""));
+          DebugForm.toolStripMenuItem_SaveContinousToFile.Checked = DebugForm.GetDebugSaveFile() != "";
 
           DebugForm.CalcNewCaption();
           // Forms will be shown at show event
@@ -480,6 +482,7 @@ namespace nsRSMPGS
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Watchdog", DebugForm.ToolStripMenuItem_PacketTypes_Watchdog.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "PacketAck", DebugForm.ToolStripMenuItem_PacketTypes_PacketAck.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Unknown", DebugForm.ToolStripMenuItem_PacketTypes_Unknown.Checked == true ? 1 : 0);
+        cPrivateProfile.WriteIniFileString("Debug", sPrefix + "SaveFile", DebugForm.GetDebugSaveFile());
 
         iDebugFormIndex++;
       }

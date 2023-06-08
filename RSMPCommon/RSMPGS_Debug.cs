@@ -21,6 +21,7 @@ namespace nsRSMPGS
    // public AddJSonDebugData DelegateAddJSonDebugData;
 
     private StreamWriter swDebugFile = null;
+    private String DebugSaveFile = "";
     private int MaxDebugLines;
 
     System.Drawing.Color rgbForeColor = Color.White;
@@ -127,13 +128,7 @@ namespace nsRSMPGS
         }
       }
 
-#if _RSMPGS1
-      this.Text = "RSMPGS1 Debug - " + this.Text;
-#endif
-
-#if _RSMPGS2
-      this.Text = "RSMPGS2 Debug - " + this.Text;
-#endif
+      this.Text = RSMPGS.SimulatorType.ToString() + " Debug - " + this.Text;
 
       if (swDebugFile != null)
       {
@@ -450,14 +445,7 @@ namespace nsRSMPGS
     {
       if (toolStripMenuItem_SaveContinousToFile.Checked)
       {
-        lock (this)
-        {
-          if (swDebugFile != null)
-          {
-            swDebugFile.Close();
-            swDebugFile = null;
-          }
-        }
+        SetDebugSaveFile("");
       }
       else
       {
@@ -468,14 +456,47 @@ namespace nsRSMPGS
 
     private void saveFileDialog_Debug_FileOk(object sender, CancelEventArgs e)
     {
-      try
+      SetDebugSaveFile(saveFileDialog_Debug.FileName);
+    }
+
+    public String GetDebugSaveFile()
+    {
+      return DebugSaveFile;
+    }
+    public void SetDebugSaveFile(String filename)
+    {
+      DebugSaveFile = filename;
+      if (DebugSaveFile != "")
+      {
+        try
+        {
+          lock (this)
+          {
+            swDebugFile = File.AppendText(filename);
+            swDebugFile.WriteLine("");
+            swDebugFile.WriteLine("========== Starting " + RSMPGS.SimulatorType.ToString() + " Debug record ==========");
+            swDebugFile.WriteLine("");
+
+            toolStripMenuItem_SaveContinousToFile.ToolTipText = "Recording to : '" + filename + "'";
+          }
+        }
+        catch (Exception e)
+        {
+          DebugSaveFile = ""; // forget file on which we can't write...
+        }
+      }
+      else
       {
         lock (this)
         {
-          swDebugFile = File.AppendText(saveFileDialog_Debug.FileName);
+          if (swDebugFile != null)
+          {
+            swDebugFile.Close();
+            swDebugFile = null;
+          }
         }
+        toolStripMenuItem_SaveContinousToFile.ToolTipText = "";
       }
-      catch { }
     }
 
     private void RSMPGS_Debug_FormClosing(object sender, FormClosingEventArgs e)
