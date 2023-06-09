@@ -562,6 +562,7 @@ namespace nsRSMPGS
       if (checkBox_AlwaysUseSXLFromFile.Checked == true && textBox_SignalExchangeListVersionFromFile.Text.Length > 0)
       {
         textBox_SignalExchangeListVersion.Text = textBox_SignalExchangeListVersionFromFile.Text;
+        textBox_SignalExchangeListVersion.Enabled = false;
       }
 
       if (cPrivateProfile.GetIniFileInt("Main", "IgnoreFileTimeStamps", 0) == 0)
