@@ -2,6 +2,5 @@ LogFiles
 bin
 obj
 .vs
-/RSMPGS1/Settings/RSMPGS1.INI
-/RSMPGS2/Settings/RSMPGS2.INI
+/RSMPGS1/Settings/ProcessImage.dat
 /RSMPGS2/Settings/ProcessImage.dat
