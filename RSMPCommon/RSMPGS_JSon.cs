@@ -96,6 +96,7 @@ namespace nsRSMPGS
       RSMP_3_1_3 = 3,
       RSMP_3_1_4 = 4,
       RSMP_3_1_5 = 5,
+      RSMP_3_2 = 6,
     }
 
     public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
