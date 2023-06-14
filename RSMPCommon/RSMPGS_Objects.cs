@@ -517,7 +517,8 @@ namespace nsRSMPGS
     public enum eQuality
     {
       unknown,
-      recent
+      recent,
+      old
     }
 
     public string GetValueType()
