@@ -99,7 +99,7 @@ namespace nsRSMPGS
       RSMP_3_2 = 6,
     }
 
-    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5" };
+    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2" };
 
     public bool DecodeAndParseJSonPacket(string sJSon)
     {
