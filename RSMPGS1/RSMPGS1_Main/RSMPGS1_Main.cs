@@ -797,7 +797,7 @@ namespace nsRSMPGS
               RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
               s.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
               s.n = StatusReturnValue.sName;
-              s.q = StatusReturnValue.Value.Quality.ToString();
+              s.q = cValue.eQuality.old.ToString();
               s.s = StatusReturnValue.Value.Quality == cValue.eQuality.unknown ? null : StatusReturnValue.Value.GetValue();
               sS.Add(s);
 
