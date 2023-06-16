@@ -1147,6 +1147,9 @@ namespace nsRSMPGS
 
     public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
     {
+      bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
+      var comparisonType = StringComparison.Ordinal;
+      if (!bUseCaseSensitiveValue) { comparisonType = StringComparison.OrdinalIgnoreCase; }
 
       if (sValue == null)
       {
@@ -1190,10 +1193,10 @@ namespace nsRSMPGS
           break;
 
         case "boolean":
-          bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
+          bValueIsValid = sValue.Equals("true", comparisonType) ||
+            sValue.Equals("false", comparisonType) ||
+            sValue.Equals("0", comparisonType) ||
+            sValue.Equals("1", comparisonType);
           break;
 
         case "base64":

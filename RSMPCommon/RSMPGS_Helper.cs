@@ -530,6 +530,7 @@ namespace nsRSMPGS
 #endif
       AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true);
       AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true);
+      AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", true);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
