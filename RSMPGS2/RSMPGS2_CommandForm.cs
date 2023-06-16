@@ -61,7 +61,7 @@ namespace nsRSMPGS
               aCommands[j] = aCommands[j].TrimEnd('"');
             }
             */
-          if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.count == 0) || aCommands.Length < 2)
+          if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) || aCommands.Length < 2)
           {
             DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
             this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
