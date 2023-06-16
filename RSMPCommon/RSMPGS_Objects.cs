@@ -734,6 +734,7 @@ namespace nsRSMPGS
                 }
               }
             }
+            this.SelectableValues = SelectableValues;
             break;
 
           case eValueType._raw:
