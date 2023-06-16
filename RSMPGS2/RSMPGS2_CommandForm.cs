@@ -50,7 +50,20 @@ namespace nsRSMPGS
             }
           }
 
-          if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) || aCommands.Length < 2)
+          // 
+          if (CommandArguments.Value.GetValueType().Equals("boolean", StringComparison.OrdinalIgnoreCase))
+          {
+            // Create a selectable list of boolean elements if YAML format is used.
+            // (If CSV format is used, it uses whatever defined in the "Values" column)
+            if (aCommands.Length < 2)
+            {
+              aCommands.Append("True");
+              aCommands.Append("False");
+            }
+ 
+          }
+
+          if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) && aCommands.Length < 2)
           {
             DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
             this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
