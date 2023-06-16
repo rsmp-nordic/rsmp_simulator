@@ -36,7 +36,7 @@ namespace nsRSMPGS
           string[] aCommands;
           if (CommandArguments.Value.ValueTypeObject.SelectableValues != null && CommandArguments.Value.ValueTypeObject.SelectableValues.Count > 0)
           {
-            aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Values.ToArray<string>();
+            aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Keys.ToArray<string>();
           }
           else
           {
