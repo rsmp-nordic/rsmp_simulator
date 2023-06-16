@@ -50,17 +50,6 @@ namespace nsRSMPGS
             }
           }
 
-
-            /*
-                string[] aCommands = CommandArguments.sValue.Split('\n');
-
-            for (int j = 0; j < aCommands.Length; j++)
-            {
-              aCommands[j] = aCommands[j].TrimStart('"');
-              aCommands[j] = aCommands[j].TrimStart('-');
-              aCommands[j] = aCommands[j].TrimEnd('"');
-            }
-            */
           if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) || aCommands.Length < 2)
           {
             DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
