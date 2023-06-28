@@ -209,11 +209,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", Values.YAMLScalars, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", Values.YAMLScalars, dMin, dMax, sDescription);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", null, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", null, dMin, dMax, sDescription);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1172,7 +1172,7 @@ namespace nsRSMPGS
       else
       {
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, 0, 0, sComment);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }

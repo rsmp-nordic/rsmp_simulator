@@ -660,11 +660,13 @@ namespace nsRSMPGS
 
     public eValueType ValueType;
 
-    public cValueTypeObject(string sValueTypeKey, string sName, string sType, string sRange, Dictionary<string, string> SelectableValues, string sComment)
+    public cValueTypeObject(string sValueTypeKey, string sName, string sType, string sRange, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment)
     {
 
       this.sValueTypeKey = sValueTypeKey;
       this.sRange = sRange;
+      this.dMinValue = dMin;
+      this.dMaxValue = dMax;
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
