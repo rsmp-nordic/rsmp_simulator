@@ -180,7 +180,6 @@ namespace nsRSMPGS
                     string sValueTypeKey = YAMLObjectType.sMappingName + "\t" + ObjectTypeObject.sMappingName + "\t" + ObjectTypeObjectItem.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     string sType = YAMLArgument.GetScalar("type");
-                    string sRange = YAMLArgument.GetScalar("range");
                     double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
                     double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
 
@@ -210,11 +209,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, Values.YAMLScalars, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", Values.YAMLScalars, sDescription);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, null, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", null, sDescription);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
