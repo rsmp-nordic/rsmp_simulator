@@ -181,6 +181,8 @@ namespace nsRSMPGS
 
                     string sType = YAMLArgument.GetScalar("type");
                     string sRange = YAMLArgument.GetScalar("range");
+                    double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
+                    double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
 
                     string sDescription = YAMLArgument.GetScalar("description");
 
