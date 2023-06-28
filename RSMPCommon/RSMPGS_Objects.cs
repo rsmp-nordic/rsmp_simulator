@@ -521,6 +521,21 @@ namespace nsRSMPGS
       old
     }
 
+    public Dictionary<string, string> GetSelectableValues()
+    {
+      return ValueTypeObject.GetSelectableValues();
+    }
+
+    public double GetValueMin()
+    {
+      return ValueTypeObject.GetValueMin();
+    }
+
+    public double GetValueMax()
+    {
+      return ValueTypeObject.GetValueMax();
+    }
+
     public string GetValueType()
     {
       return ValueTypeObject.GetValueTypeAsString();
@@ -834,6 +849,21 @@ namespace nsRSMPGS
 
       Debug.WriteLine("cValueTypeObject: " + sValueTypeKey + "\t" + ValueType.ToString() + "\t" + "Range: " + sRange + "\t" + "Values: " + sSelectableValues + "\t" + "sComment: " + sComment.Replace("\n", "\\n"));
       */
+    }
+
+    public Dictionary<string, string> GetSelectableValues()
+    {
+      return this.SelectableValues;
+    }
+
+    public double GetValueMin()
+    {
+      return this.dMinValue;
+    }
+
+    public double GetValueMax()
+    {
+      return this.dMaxValue;
     }
 
     public string GetValueTypeAsString()
