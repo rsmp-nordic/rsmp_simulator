@@ -1198,13 +1198,18 @@ namespace nsRSMPGS
               case eValueType._long:
               case eValueType._ordinal:
               case eValueType._real:
-                if (Double.TryParse(sRange.Split('-')[0], out dMin) == false)
+                sRange = sRange.Substring(1, sRange.Length - 2); // Remove []
+                char[] sep = new char[] { '-' };
+                string[] sRangeArray = sRange.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                string sMin = sRangeArray[0];
+                string sMax = sRangeArray[1];
+                if (Double.TryParse(sMin, out dMin) == false)
                 {
-                  dMin = Double.Parse(sRange.Split('-')[0]);
+                  dMin = Double.Parse(sMin);
                 }
-                if (Double.TryParse(sRange.Split('-')[1], out dMax) == false)
+                if (Double.TryParse(sMax, out dMax) == false)
                 {
-                  dMax = Double.Parse(sRange.Split('-')[1]);
+                  dMax = Double.Parse(sMax);
                 }
                 break;
             }
