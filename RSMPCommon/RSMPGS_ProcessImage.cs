@@ -1231,7 +1231,7 @@ namespace nsRSMPGS
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
         }
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, "", eNums, dMin, dMax, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, eNums, dMin, dMax, sComment);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }
