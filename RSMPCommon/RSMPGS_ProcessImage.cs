@@ -1183,10 +1183,11 @@ namespace nsRSMPGS
           if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
           {
             eValueType ValueType = eValueType._unknown;
-            foreach (ValueType in Enum.GetValues(typeof(eValueType)))
+            foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
             {
-              if (sType.Equals(ValueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+              if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
               {
+                ValueType = valueType;
                 break;
               }
             }
