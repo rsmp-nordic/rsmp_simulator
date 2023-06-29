@@ -280,7 +280,7 @@ namespace nsRSMPGS
                     CommandReturnValue.sLastRecValue = Reply.v;
                     CommandReturnValue.sLastRecAge = Reply.age;
 
-                    if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v))
+                    if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v, CommandReturnValue.Value.GetSelectableValues(), CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
                     {
                       bSuccess = true;
                     }
@@ -369,7 +369,7 @@ namespace nsRSMPGS
           }
           StatusReturnValue.sQuality = Reply.q;
 
-          if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s))
+          if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             bSuccess = true;
           }
