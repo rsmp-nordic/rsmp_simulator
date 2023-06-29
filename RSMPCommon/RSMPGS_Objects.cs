@@ -517,7 +517,8 @@ namespace nsRSMPGS
     public enum eQuality
     {
       unknown,
-      recent
+      recent,
+      old
     }
 
     public string GetValueType()
@@ -733,6 +734,7 @@ namespace nsRSMPGS
                 }
               }
             }
+            this.SelectableValues = SelectableValues;
             break;
 
           case eValueType._raw:
