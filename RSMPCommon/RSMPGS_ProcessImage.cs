@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.Linq;
 using System.Diagnostics;
+using static nsRSMPGS.cValueTypeObject;
 
 namespace nsRSMPGS
 {
@@ -1172,7 +1173,64 @@ namespace nsRSMPGS
       else
       {
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, 0, 0, sComment);
+        Double dMin = 0;
+        Double dMax = 0;
+        Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        try
+        {
+          // Transalte "range" to min and max
+          if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
+          {
+            eValueType ValueType = eValueType._unknown;
+            foreach (ValueType in Enum.GetValues(typeof(eValueType)))
+            {
+              if (sType.Equals(ValueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+              {
+                break;
+              }
+            }
+
+            switch (ValueType)
+            {
+              case eValueType._integer:
+              case eValueType._long:
+              case eValueType._ordinal:
+              case eValueType._real:
+                if (Double.TryParse(sRange.Split('-')[0], out dMin) == false)
+                {
+                  dMin = Double.Parse(sRange.Split('-')[0]);
+                }
+                if (Double.TryParse(sRange.Split('-')[1], out dMax) == false)
+                {
+                  dMax = Double.Parse(sRange.Split('-')[1]);
+                }
+                break;
+            }
+          }
+
+          // Transalte "range" to selectable objects
+          if (sRange.StartsWith("-"))
+          {
+            foreach (string sValueItem in sRange.Split('\n'))
+            {
+              if(sValueItem.StartsWith("-"))
+              {
+                try
+                {
+                  eNums.Add(sValueItem.Substring(1), "");
+                }
+                catch { }
+              }
+            }
+          }
+        }
+        catch
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
+        }
+
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, "", eNums, dMin, dMax, sComment);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }
