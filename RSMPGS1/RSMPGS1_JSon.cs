@@ -489,7 +489,8 @@ namespace nsRSMPGS
                   CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
                 {
                   // Do some validation
-                  if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v))
+                  if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v, CommandReturnValue.Value.GetSelectableValues(),
+                    CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
                   {
                     if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
                     {
