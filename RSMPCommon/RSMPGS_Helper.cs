@@ -1934,9 +1934,9 @@ namespace nsRSMPGS
 
       form.Text = title + " (" + Value.GetValueType() + ")";
 
-      if (Value.ValueTypeObject.sRange.Length > 0)
+      if (Value.ValueTypeObject.GetValueMax() > 0)
       {
-        form.Text += " / " + Value.ValueTypeObject.sRange;
+        form.Text += " / [" + Value.ValueTypeObject.GetValueMin().ToString() + "-" + Value.ValueTypeObject.GetValueMax().ToString() + "]";
       }
 
       //label.Text = promptText;
@@ -2093,8 +2093,14 @@ namespace nsRSMPGS
     {
 
       cInputBoxValue InputBoxValue = (cInputBoxValue)comboBox.Tag;
+      Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-      if (RSMPGS.JSon.ValidateTypeAndRange(InputBoxValue.sType, comboBox.Text, InputBoxValue.sValues))
+      foreach(string sValueItem in InputBoxValue.sValues.Split('\n'))
+      {
+        eNums.Add(sValueItem, "");
+      }
+
+      if (RSMPGS.JSon.ValidateTypeAndRange(InputBoxValue.sType, comboBox.Text, eNums))
       {
         comboBox.ForeColor = default(Color);
         comboBox.BackColor = default(Color);
