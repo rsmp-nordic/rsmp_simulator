@@ -1140,12 +1140,12 @@ namespace nsRSMPGS
       }
     }
 
-    public bool ValidateTypeAndRange(string sType, string sValue)
+    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)
     {
-      return ValidateTypeAndRange(sType, sValue, "");
+      return ValidateTypeAndRange(sType, sValue, sEnums, 0, 0);
     }
 
-    public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
+    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums, double dMin, double dMax)
     {
       bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
       var comparisonType = StringComparison.Ordinal;
@@ -1237,7 +1237,7 @@ namespace nsRSMPGS
       }
 
       // Validate range
-      if (bValueIsValid == true && sValues != "")
+      if (bValueIsValid == true)
       {
         switch (sType.ToLower())
         {
@@ -1248,68 +1248,39 @@ namespace nsRSMPGS
             try
             {
               Double dValue = Double.Parse(sValue);
-              if (sValues.StartsWith("[") && sValues.EndsWith("]"))
+              bValueIsValid = dValue <= dMax && dValue >= dMin;
+
+              if (sEnums.Count > 0)
               {
-                string sRange = sValues.Substring(1, sValues.Length - 2);
-                if (sRange.Contains("-"))
+                bValueIsValid = false;
+                foreach (string sEnum in sEnums.Keys)
                 {
-                  Double dMin = Double.Parse(sRange.Split('-')[0]);
-                  Double dMax = Double.Parse(sRange.Split('-')[1]);
-                  bValueIsValid = dValue <= dMax && dValue >= dMin;
-                }
-                else
-                {
-                  bValueIsValid = (dValue == Double.Parse(sRange)) ? true : false;
-                }
-              }
-              else
-              {
-                if (sValues.StartsWith("-"))
-                {
-                  bValueIsValid = false;
-                  foreach (string sValueItem in sValues.Split('\n'))
+                  if (sValue == sEnum)
                   {
-                    if (sValueItem.StartsWith("-"))
-                    {
-                      try
-                      {
-                        if (dValue == Double.Parse(sValueItem.Substring(1)))
-                        {
-                          bValueIsValid = true;
-                          break;
-                        }
-                      }
-                      catch { }
-                    }
+                    bValueIsValid = true;
                   }
                 }
               }
             }
             catch { }
-
             break;
-
           case "string":
 
-            if (sValues.StartsWith("-"))
+            try
             {
-              bValueIsValid = false;
-              foreach (string sValueItem in sValues.Split('\n'))
+              if (sEnums.Count > 0)
               {
-                if (sValueItem.StartsWith("-"))
+                bValueIsValid = false;
+                foreach (string sEnum in sEnums.Keys)
                 {
-                  try
+                  if (sValue == sEnum)
                   {
-                    if (sValue == sValueItem.Substring(1))
-                    {
-                      bValueIsValid = true;
-                      break;
-                    }
+                    bValueIsValid = true;
                   }
-                  catch { }
                 }
               }
             }
+            catch { }
             break;
         }
       }
