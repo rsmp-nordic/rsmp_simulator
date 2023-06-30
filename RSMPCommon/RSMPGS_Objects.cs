@@ -733,8 +733,13 @@ namespace nsRSMPGS
           {
             foreach (string sScanValue in SelectableValues.Keys)
             {
-              // Behöver uppdatering
-              if (sScanValue.Equals(sValue, StringComparison.OrdinalIgnoreCase))
+              bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
+              var comparisonType = StringComparison.Ordinal;
+              if (!bUseCaseSensitiveValue) {
+                comparisonType = StringComparison.OrdinalIgnoreCase;
+              }
+
+              if (sScanValue.Equals(sValue, comparisonType))
               {
                 return true;
               }
