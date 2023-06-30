@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Diagnostics.Eventing.Reader;
 
 namespace nsRSMPGS
 {
@@ -97,12 +98,43 @@ namespace nsRSMPGS
                 AlarmEvent.sMessageId = AlarmHeader.mId;
                 AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
 
-                //foreach (cAlarmReturnValue AlarmReturnValue in AlarmHeader.rvs)
                 if (AlarmHeader.rvs != null)
                 {
-                  foreach (RSMP_Messages.AlarmReturnValue AlarmReturnValue in AlarmHeader.rvs)
+                  foreach (RSMP_Messages.AlarmReturnValue Reply in AlarmHeader.rvs)
                   {
-                    AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(AlarmReturnValue.n, AlarmReturnValue.v));
+                    cAlarmObject ao = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmEvent.sAlarmCodeId, sc));
+
+                    if (ao == null)
+                    {
+                      continue;
+                    }
+
+                    cAlarmReturnValue AlarmReturnValue = ao.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
+
+                    if (AlarmReturnValue == null)
+                    {
+                      continue;
+                    }
+                    AlarmReturnValue.Value.SetValue(Reply.v);
+
+                    if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(), Reply.v, AlarmReturnValue.Value.GetSelectableValues(), AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
+                    {
+                      AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
+                    }
+                    else
+                    {
+                      string sReturnValue;
+                      if (Reply.v == null)
+                      {
+                        sReturnValue = "(null)";
+                      }
+                      else
+                      {
+                        sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+                      }
+                      sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + AlarmReturnValue.Value.GetValueType() + ", returnvalue: " + sReturnValue;
+                      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+                    }
                   }
                 }
                 switch (AlarmHeader.aSp.ToLower())
