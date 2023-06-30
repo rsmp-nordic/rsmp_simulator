@@ -33,34 +33,20 @@ namespace nsRSMPGS
         {
           bool bWasSelected = SelectedCRVs.IndexOf(CommandArguments) >= 0 ? true : false;
 
-          string[] aCommands;
+          string[] aCommands = {};
           if (CommandArguments.Value.ValueTypeObject.SelectableValues != null && CommandArguments.Value.ValueTypeObject.SelectableValues.Count > 0)
           {
             aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Keys.ToArray<string>();
           }
-          else
-          {
-            aCommands = CommandArguments.Value.ValueTypeObject.sRange.Split('\n');
 
-            for (int j = 0; j < aCommands.Length; j++)
-            {
-              aCommands[j] = aCommands[j].TrimStart('"');
-              aCommands[j] = aCommands[j].TrimStart('-');
-              aCommands[j] = aCommands[j].TrimEnd('"');
-            }
-          }
-
-          // 
           if (CommandArguments.Value.GetValueType().Equals("boolean", StringComparison.OrdinalIgnoreCase))
           {
             // Create a selectable list of boolean elements if YAML format is used.
             // (If CSV format is used, it uses whatever defined in the "Values" column)
             if (aCommands.Length < 2)
             {
-              aCommands.Append("True");
-              aCommands.Append("False");
+              aCommands = new string[] { "True", "False" };
             }
- 
           }
 
           if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) && aCommands.Length < 2)
