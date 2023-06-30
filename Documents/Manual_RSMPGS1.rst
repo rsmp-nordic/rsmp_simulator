@@ -173,7 +173,7 @@ At the top right, there is a presentation of connection status to the
 supervision system. If the box is green, the connection is ok. The IP address
 is also showing. When connection attempts are performed, the box is grey.
 
-If there is no connection the box is red.
+If there is no connection the box is blue.
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
