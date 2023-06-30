@@ -525,7 +525,7 @@ namespace nsRSMPGS
           iCommandObjects += RoadSideObject.CommandObjects.Count;
           StatusObjects += RoadSideObject.StatusObjects.Count;
 
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Expanded {0} alarms, {1} commands {1} and {2} status for component: {3}",
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Expanded {0} alarms, {1} commands and {2} status for component: {3}",
             RoadSideObject.AlarmObjects.Count, RoadSideObject.CommandObjects.Count, RoadSideObject.StatusObjects.Count, RoadSideObject.sComponentId);
         }
       }
@@ -1029,7 +1029,7 @@ namespace nsRSMPGS
             case cTcpSocket.ConnectionStatus_Disconnected:
               ToolStripMenuItem_ConnectionStatus.Text = "Disconnected";
               ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Red;
+              ToolStripMenuItem_ConnectionStatus.BackColor = Color.MediumBlue;
               break;
             case cTcpSocket.ConnectionStatus_Connecting:
               ToolStripMenuItem_ConnectionStatus.Text = "Connecting to " + RSMPGS.RSMPConnection.RemoteServerOrClientIP() + "...";
@@ -1051,7 +1051,7 @@ namespace nsRSMPGS
             case cTcpSocket.ConnectionStatus_Disconnected:
               ToolStripMenuItem_ConnectionStatus.Text = "Waiting, serverport: " + RSMPGS.RSMPConnection.ListenPort();
               ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
-              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Red;
+              ToolStripMenuItem_ConnectionStatus.BackColor = Color.MediumBlue;
               break;
             case cTcpSocket.ConnectionStatus_Connecting:
               ToolStripMenuItem_ConnectionStatus.Text = "(not valid)";
@@ -1060,6 +1060,11 @@ namespace nsRSMPGS
               ToolStripMenuItem_ConnectionStatus.Text = "Connected from " + RSMPGS.RSMPConnection.RemoteServerOrClientIP();
               ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
               ToolStripMenuItem_ConnectionStatus.BackColor = Color.Green;
+              break;
+            case cTcpSocket.ConnectionStatus_ServerListenBindError:
+              ToolStripMenuItem_ConnectionStatus.Text = "Listen error, serverport: " + RSMPGS.RSMPConnection.ListenPort();
+              ToolStripMenuItem_ConnectionStatus.ForeColor = Color.White;
+              ToolStripMenuItem_ConnectionStatus.BackColor = Color.Red;
               break;
           }
         }
