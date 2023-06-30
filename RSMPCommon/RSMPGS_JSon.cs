@@ -1193,10 +1193,13 @@ namespace nsRSMPGS
           break;
 
         case "boolean":
-          bValueIsValid = sValue.Equals("true", comparisonType) ||
-            sValue.Equals("false", comparisonType) ||
-            sValue.Equals("0", comparisonType) ||
-            sValue.Equals("1", comparisonType);
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compability we need to treat this as case
+          // insensitive for now
+          bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
           break;
 
         case "base64":

@@ -779,7 +779,9 @@ namespace nsRSMPGS
 
         case eValueType._boolean:
 
-          // Ej uppdaterat
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compability we need to treat this as case
+          // insensitive for now
           if (sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
             sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
             sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
