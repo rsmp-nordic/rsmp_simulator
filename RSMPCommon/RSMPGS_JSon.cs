@@ -1255,7 +1255,7 @@ namespace nsRSMPGS
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
                 {
-                  if (sValue == sEnum)
+                  if (sValue.Equals(sEnum, comparisonType))
                   {
                     bValueIsValid = true;
                   }
@@ -1273,7 +1273,7 @@ namespace nsRSMPGS
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
                 {
-                  if (sValue == sEnum)
+                  if (sValue.Equals(sEnum, comparisonType))
                   {
                     bValueIsValid = true;
                   }
