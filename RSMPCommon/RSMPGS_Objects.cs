@@ -651,7 +651,6 @@ namespace nsRSMPGS
     public double dMaxValue = double.MaxValue;
 
     // string values, either range or a list of selectable values
-    public string sRange;
     public Dictionary<string, string> SelectableValues;
     public string sName;
 
@@ -675,180 +674,17 @@ namespace nsRSMPGS
 
     public eValueType ValueType;
 
-    public cValueTypeObject(string sValueTypeKey, string sName, string sType, string sRange, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment)
+    // sRange is used if loaded from CSV
+    // SelectableValues, Min and Max used if loaded from YAML
+    public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment)
     {
 
       this.sValueTypeKey = sValueTypeKey;
-      this.sRange = sRange;
       this.dMinValue = dMin;
       this.dMaxValue = dMax;
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
-
-      //color
-      foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
-      {
-        if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
-        {
-          ValueType = valueType;
-          break;
-        }
-      }
-
-      //
-      // sValueRange:
-      //
-      // [1-65025]
-      // [text]
-      // YYYY
-      // -[username]
-      // "-False\n- True"
-      // [time stamp]
-      // [binary]
-      // [number]
-      // [speed]
-      // [0-100]
-      // "-0\n-1\n-2"
-      //
-      // sComment:
-      //
-      // "False:  Fixed time control inactive\nTrue:  Fixed time control active"
-      // "0: disabled\n1: dark mode\n2: yellow flash"
-      // Number of emergency stage
-      // Time stamp of the checksum. Format according to W3C XML dateTime with a resolution of 3 decimal places. All time stamps in UTC. E.g. 2009-10-02T14:34:34.341Z
-
-      if (ValueType == eValueType._unknown)
-      {
-        return;
-      }
-
-      try
-      {
-
-        switch (ValueType)
-        {
-
-          case eValueType._string:
-
-            if (SelectableValues == null)
-            {
-              SelectableValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            }
-            else
-            {
-
-            }
-
-            foreach (string sValue in sRange.Trim(new char[] { '\"', '[', ']', ' ' }).Split('\n'))
-            {
-              if (sValue.StartsWith("-"))
-              {
-                string sKey = sValue.Substring(1);
-                if (SelectableValues.ContainsKey(sKey) == false)
-                {
-                  SelectableValues.Add(sKey, "");
-                }
-              }
-            }
-            this.SelectableValues = SelectableValues;
-            break;
-
-          case eValueType._raw:
-          case eValueType._scale:
-          case eValueType._unit:
-          case eValueType._base64:
-            {
-              // "-on\n-off"
-              // Accept just about anything...
-            }
-            break;
-
-
-          case eValueType._boolean:
-            {
-            }
-            break;
-
-          case eValueType._integer:
-          case eValueType._long:
-          case eValueType._real:
-          case eValueType._ordinal:
-
-            if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
-            {
-
-              string[] sFromTo = sRange.Trim(new char[] { '\"', '[', ']', ' ' }).Split('-');
-
-              if (sFromTo[1].Contains(","))
-              {
-                sFromTo[1] = cHelper.Item(sFromTo[1], 0, ',');
-              }
-              switch (ValueType)
-              {
-                case eValueType._integer:
-
-                  if (Int16.TryParse(sFromTo[0], out iMinValue) == false)
-                  {
-                    iMinValue = Int16.MinValue;
-                  }
-                  if (Int16.TryParse(sFromTo[1], out iMaxValue) == false)
-                  {
-                    iMaxValue = Int16.MaxValue;
-                  }
-
-                  break;
-
-                case eValueType._long:
-                case eValueType._ordinal:
-
-                  if (Int32.TryParse(sFromTo[0], out lMinValue) == false)
-                  {
-                    lMinValue = Int32.MinValue;
-                  }
-                  if (Int32.TryParse(sFromTo[1], out lMaxValue) == false)
-                  {
-                    lMaxValue = Int32.MaxValue;
-                  }
-
-                  break;
-
-                case eValueType._real:
-
-                  if (double.TryParse(sFromTo[0], out dMinValue) == false)
-                  {
-                    dMinValue = double.MinValue;
-                  }
-                  if (double.TryParse(sFromTo[1], out dMaxValue) == false)
-                  {
-                    dMaxValue = double.MaxValue;
-                  }
-
-                  break;
-              }
-
-            }
-
-            break;
-        }
-
-      }
-      catch
-      {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
-      }
-      /*
-      string sSelectableValues = "";
-      if (SelectableValues != null)
-      {
-        foreach (string SelectableValue in SelectableValues.Keys)
-        {
-          sSelectableValues += SelectableValue + ".";
-        }
-      }
-
-      Debug.WriteLine("cValueTypeObject: " + sValueTypeKey + "\t" + ValueType.ToString() + "\t" + "Range: " + sRange + "\t" + "Values: " + sSelectableValues + "\t" + "sComment: " + sComment.Replace("\n", "\\n"));
-      */
     }
 
     public Dictionary<string, string> GetSelectableValues()
@@ -887,6 +723,7 @@ namespace nsRSMPGS
           {
             foreach (string sScanValue in SelectableValues.Keys)
             {
+              // Behöver uppdatering
               if (sScanValue.Equals(sValue, StringComparison.OrdinalIgnoreCase))
               {
                 return true;
@@ -927,6 +764,7 @@ namespace nsRSMPGS
 
         case eValueType._boolean:
 
+          // Ej uppdaterat
           if (sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
             sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
             sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||

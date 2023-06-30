@@ -210,11 +210,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", Values.YAMLScalars, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, "", null, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1224,7 +1224,11 @@ namespace nsRSMPGS
               {
                 try
                 {
-                  eNums.Add(sValueItem.Substring(1), "");
+                  string sKey = sValueItem.Substring(1);
+                  if (eNums.ContainsKey(sKey) == false)
+                  { 
+                    eNums.Add(sValueItem.Substring(1), "");
+                  }
                 }
                 catch { }
               }
@@ -1236,7 +1240,7 @@ namespace nsRSMPGS
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
         }
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, eNums, dMin, dMax, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }
