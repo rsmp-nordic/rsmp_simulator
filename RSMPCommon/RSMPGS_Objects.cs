@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 using static nsRSMPGS.cJSon;
 using System.Diagnostics;
+using static nsRSMPGS.cValueTypeObject;
 
 namespace nsRSMPGS
 {
@@ -685,6 +686,15 @@ namespace nsRSMPGS
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
+
+      foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+      {
+        if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+        {
+          ValueType = valueType;
+          break;
+        }
+      }
     }
 
     public Dictionary<string, string> GetSelectableValues()
