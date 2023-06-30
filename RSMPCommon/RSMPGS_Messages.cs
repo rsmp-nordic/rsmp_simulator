@@ -65,8 +65,8 @@ namespace RSMP_Messages
 
   public class AlarmReturnValue
   {
+    public string aCId; // AlarmCodeId
     public string n; // name
-    //        public string t; // type
     public string v; // value
   }
 
