@@ -439,7 +439,8 @@ namespace nsRSMPGS
               }
               else
               {
-                sStatusValue = (Reply.s.Length < 10) ? status : status.Substring(0, 9) + "...";
+                string status = Reply.s.ToString();
+                sStatusValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
               }
               sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
