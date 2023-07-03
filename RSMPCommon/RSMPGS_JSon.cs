@@ -1295,7 +1295,7 @@ namespace nsRSMPGS
             return cellName + " required";
           }
 
-          rowIndex++
+          rowIndex++;
         }
       }
 
