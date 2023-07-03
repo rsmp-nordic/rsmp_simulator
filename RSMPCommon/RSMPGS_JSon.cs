@@ -1140,6 +1140,160 @@ namespace nsRSMPGS
       }
     }
 
+    public string ValidateArrayString(Dictionary<string, cYAMLMapping> items, string jsonString)
+    {
+      if (jsonString == "?") { return "?"; }
+
+      string[] objectStrings;
+
+      jsonString = jsonString.Substring(2);                     // remove '['
+      jsonString = jsonString.Remove(jsonString.Length - 2);    // remove ']'
+      jsonString = jsonString.Replace("},{", "¤");
+      objectStrings = jsonString.Split('¤');
+
+      // YAMLMapping
+      KeyValuePair<string, cYAMLMapping> item;
+      string schemaKey;
+      cYAMLMapping schemaValue;
+
+      // YAMLScalar
+      Dictionary<string, string> schemaScalars;
+      KeyValuePair<string, string> schemaScalar;
+      string schemaScalarType;
+      Boolean schemaScalarOptional;
+      string schemaScalarMin;
+      string schemaScalarMax;
+      string cellName;
+
+      // incoming status
+      string[] fieldStrings;
+      string statusKey;
+      string statusValue;
+      Boolean hit;
+
+      // loop alla YAMLMappings
+      for (int i = 0; i < items.Count; i++)
+      {
+
+        // get YAMLMapping
+        item = items.ElementAt(i);
+        schemaKey = item.Key;
+        schemaValue = item.Value;
+        schemaScalars = schemaValue.YAMLScalars;
+        schemaScalarOptional = false;
+        schemaScalarType = "";
+        schemaScalarMin = "";
+        schemaScalarMax = "";
+        cellName = "";
+
+        // loop YAMLScalars
+        for (int j = 0; j < schemaScalars.Count; j++) {
+          schemaScalar = schemaScalars.ElementAt(j);
+          if (schemaScalar.Key == "type")
+          {
+            schemaScalarType = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "description")
+          {
+            if (schemaScalar.Value.StartsWith("(Optional)"))
+            {
+              schemaScalarOptional = true;
+            }
+          }
+          if (schemaScalar.Key == "min")
+          {
+            schemaScalarMin = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "max")
+          {
+            schemaScalarMax = schemaScalar.Value;
+          }
+        }
+
+        // validate incoming values to verify YAMLMapping
+        for (int k = 0; k < objectStrings.Length; k++)
+        {
+          string objectString = objectStrings[k];
+          fieldStrings = objectString.Split(',');
+
+          hit = false;
+          for (int l = 0; l < fieldStrings.Length; l++)
+          {
+            cellName = "row:" + (k + 1).ToString() + " col:" + schemaKey + " ";
+            statusKey = fieldStrings[l].Split(':')[0];
+            statusKey = statusKey.Substring(1);                    // remove '"'
+            statusKey = statusKey.Remove(statusKey.Length - 1);    // remove '"'
+
+            statusValue = fieldStrings[l].Split(':')[1];
+            statusValue = statusValue.Substring(1);                   // remove '"'
+            statusValue = statusValue.Remove(statusValue.Length - 1); // remove '"'
+
+            if (schemaKey == statusKey)
+            {
+              hit = true;
+              if (schemaScalarType == "integer")
+              {
+                try
+                {
+                  Int16 iValue = Int16.Parse(statusValue);
+                  Int16 iMin = Int16.Parse(schemaScalarMin);
+                  Int16 iMax = Int16.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType == "long")
+              {
+                try
+                {
+                  Int32 iValue = Int32.Parse(statusValue);
+                  Int32 iMin = Int32.Parse(schemaScalarMin);
+                  Int32 iMax = Int32.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName +  " wrong type";
+                }
+              }
+              else if (schemaScalarType == "real")
+              {
+                try
+                {
+                  Double dValue = Double.Parse(statusValue);
+                  Double dMin = Double.Parse(schemaScalarMin);
+                  Double dMax = Double.Parse(schemaScalarMax);
+                  if (dValue < dMin) { return cellName + " to small"; }
+                  if (dValue > dMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType != "string")
+              {
+                return cellName + "type:" + schemaScalarType + " not supported";
+              }
+            }
+          }
+
+          // error if key not found and not optional
+          if (!hit && !schemaScalarOptional)
+          {
+            return cellName + " required";
+          }
+
+        }
+      }
+
+      return "success";
+    }
+
     public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)
     {
       return ValidateTypeAndRange(sType, sValue, sEnums, 0, 0);

@@ -566,6 +566,7 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._real:
           case cValueTypeObject.eValueType._boolean:
           case cValueTypeObject.eValueType._ordinal:
+          case cValueTypeObject.eValueType._array:
             sValue = "?";
             break;
 
@@ -654,6 +655,7 @@ namespace nsRSMPGS
     // string values, either range or a list of selectable values
     public Dictionary<string, string> SelectableValues;
     public string sName;
+    public Dictionary<string, cYAMLMapping> Items;
 
     public enum eValueType
     {
@@ -667,7 +669,8 @@ namespace nsRSMPGS
       _raw,
       _scale,
       _unit,
-      _ordinal
+      _ordinal,
+      _array
     }
 
     public string sComment;
@@ -677,7 +680,7 @@ namespace nsRSMPGS
 
     // sRange is used if loaded from CSV
     // SelectableValues, Min and Max used if loaded from YAML
-    public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment)
+    public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment, Dictionary<string, cYAMLMapping> items)
     {
 
       this.sValueTypeKey = sValueTypeKey;
@@ -686,6 +689,7 @@ namespace nsRSMPGS
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
+      this.Items = items;
 
       foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
       {

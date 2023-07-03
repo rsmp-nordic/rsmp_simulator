@@ -184,6 +184,10 @@ namespace nsRSMPGS
                     double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
                     double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
 
+                    if (sType == "array") {
+                        Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
+                        items = dictionary["items"].YAMLMappings;
+                    }
                     string sDescription = YAMLArgument.GetScalar("description");
 
                     string sDebug = "NAME: " + YAMLArgument.GetFullPath();
@@ -210,11 +214,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription, items);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription, items);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1240,7 +1244,7 @@ namespace nsRSMPGS
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
         }
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment, null);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }
