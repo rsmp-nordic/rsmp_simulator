@@ -183,6 +183,7 @@ namespace nsRSMPGS
                     string sType = YAMLArgument.GetScalar("type");
                     double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
                     double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
+                    Dictionary<string, cYAMLMapping> items = null;
 
                     if (sType == "array") {
                         Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
