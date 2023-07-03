@@ -2243,10 +2243,15 @@ namespace nsRSMPGS
           }
           if (schemaScalar.Key == "description")
           {
-            if (schemaScalar.Value.StartsWith("(Optional)"))
-            {
-              schemaScalarOptional = true;
-            }
+            schemaDescription = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "optional")
+          {
+            schemaScalarOptional = true;
+          }
+          else
+          {
+            schemaScalarOptional = false;
           }
           if (schemaScalar.Key == "min")
           {
@@ -2334,7 +2339,7 @@ namespace nsRSMPGS
 
       if (schemaScalarOptional == "False" && value == "")
       {
-        MessageBox.Show(arrayForm.Controls[3].Text + " m¿ste fyllas i", "Fel");
+        MessageBox.Show(arrayForm.Controls[3].Text + " have to be filled in", "Error");
         return;
       }
       ListViewItem newItem = null;
@@ -2371,7 +2376,7 @@ namespace nsRSMPGS
 
         if (schemaScalarOptional == "False" && value == "")
         {
-          MessageBox.Show(arrayForm.Controls[controlIndex - 1].Text + " m¿ste fyllas i", "Fel");
+          MessageBox.Show(arrayForm.Controls[controlIndex - 1].Text + " have to be filled in", "Error");
           return;
         }
 

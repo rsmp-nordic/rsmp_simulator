@@ -1165,6 +1165,10 @@ namespace nsRSMPGS
       string schemaScalarMax;
       string cellName;
 
+      Dictionary<string, cYAMLMapping> schemaMappings;
+      KeyValuePair<string, cYAMLMapping> schemaMapping;
+      List<string> keys;
+
       // incoming status
       string[] fieldStrings;
       string statusKey;
@@ -1193,11 +1197,15 @@ namespace nsRSMPGS
           {
             schemaScalarType = schemaScalar.Value;
           }
-          if (schemaScalar.Key == "description")
+          if (schemaScalar.Key == "optional")
           {
-            if (schemaScalar.Value.StartsWith("(Optional)"))
+            if (schemaScalar.Value == "true")
             {
               schemaScalarOptional = true;
+            }
+            else
+            {
+              schemaScalarOptional = false;
             }
           }
           if (schemaScalar.Key == "min")
