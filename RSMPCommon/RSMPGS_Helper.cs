@@ -2258,7 +2258,7 @@ namespace nsRSMPGS
       CheckBox sendCheckBox;
       TextBox textBox;
       NumericUpDown numericUpDown;
-      ComboBox combobox;
+      ComboBox comboBox;
       bool isCombo;
 
       int y = 10;
