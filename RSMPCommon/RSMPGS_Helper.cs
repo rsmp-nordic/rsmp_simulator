@@ -13,6 +13,7 @@ using System.Threading;
 using System.Linq;
 using System.Collections;
 using System.Diagnostics;
+using static System.Windows.Forms.ListViewItem;
 
 namespace nsRSMPGS
 {
@@ -2101,40 +2102,81 @@ namespace nsRSMPGS
     {
       if (jsonString == "?") { return; }
 
+      Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
       string[] objectStrings;
+      ListViewSubItem listViewSubItem;
+      ListViewItem listViewItem = null;
+      KeyValuePair<string, cYAMLMapping> item;
 
       jsonString = jsonString.Substring(2);                     // remove '['
       jsonString = jsonString.Remove(jsonString.Length - 2);    // remove ']'
       jsonString = jsonString.Replace("},{", "¿");
       objectStrings = jsonString.Split('¿');
 
-      ListViewItem newItem = null;
+      for (int i = 0; i < objectStrings.Length; i++)
+      {
+        for (int j = 0; j < items.Count; j++)
+        {
+          if (j == 0)
+          {
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "";
+            listViewItem.Tag = "False";
+            arrayListView.Items.Add(listViewItem);
+          }
+          else
+          {
+            listViewSubItem = new ListViewSubItem();
+            listViewSubItem.Tag = "False";
+            listViewSubItem.Text = "";
+            listViewItem.SubItems.Add(listViewSubItem);
+          }
+        }
+      }
+
+      string[] fieldStrings;
+      string key;
+      string value;
+      int index = 0;
 
       for (int i = 0; i < objectStrings.Length; i++)
       {
+        listViewItem = arrayListView.Items[i];
+        index = 0;
+
         string objectString = objectStrings[i];
-
-        newItem = new ListViewItem();
-        arrayListView.Items.Add(newItem);
-
-        string[] fieldStrings;
-        string value;
 
         fieldStrings = objectString.Split(',');
 
         for (int j = 0; j < fieldStrings.Length; j++)
         {
+          key = fieldStrings[j].Split(':')[0];
+          key = key.Substring(1);                    // remove '"'
+          key = key.Remove(key.Length - 1);          // remove '"'
+
           value = fieldStrings[j].Split(':')[1];
           value = value.Substring(1);                // remove '"'
           value = value.Remove(value.Length - 1);    // remove '"'
 
-          if (j == 0)
+          for (int k = 0; k < items.Count; k++)
           {
-            newItem.Text = value;
+            item = items.ElementAt(k);
+            if (item.Key == key)
+            {
+              index = k;
+              break;
+            }
+          }
+
+          if (index == 0)
+          {
+            listViewItem.Text = value;
+            listViewItem.Tag = "True";
           }
           else
           {
-            newItem.SubItems.Add(value);
+            listViewItem.SubItems[index].Text = value;
+            listViewItem.SubItems[index].Tag = "True";
           }
         }
       }
@@ -2145,6 +2187,7 @@ namespace nsRSMPGS
       string arrayString = "";
       string objectString = "";
       ListViewItem listItem;
+      string tag;
 
       for (var i = 0; i < arrayListView.Items.Count; i++)
       {
@@ -2152,8 +2195,20 @@ namespace nsRSMPGS
         objectString = "";
         for (var j = 0; j < arrayListView.Columns.Count; j++)
         {
-          if (objectString != "") { objectString = objectString + ","; }
-          objectString = objectString + "\"" + arrayListView.Columns[j].Text + "\":\"" + listItem.SubItems[j].Text + "\"";
+          if (j == 0)
+          {
+            tag = listItem.Tag.ToString();
+          }
+          else
+          {
+            tag = listItem.SubItems[j].Tag.ToString();
+          }
+
+          if (tag == "True")
+          {
+            if (objectString != "") { objectString = objectString + ","; }
+            objectString = objectString + "\"" + arrayListView.Columns[j].Text + "\":\"" + listItem.SubItems[j].Text + "\"";
+          }
         }
         objectString = "{" + objectString + "}";
         if (arrayString != "") { arrayString = arrayString + ","; }
@@ -2200,8 +2255,12 @@ namespace nsRSMPGS
       arrayForm.Controls.AddRange(new Control[] { buttonOk, buttonDelete, buttonCancel });
 
       Label label;
+      CheckBox sendCheckBox;
       TextBox textBox;
       NumericUpDown numericUpDown;
+      ComboBox combobox;
+      bool isCombo;
+
       int y = 10;
       int itemIndex = 0;
 
@@ -2211,6 +2270,7 @@ namespace nsRSMPGS
       KeyValuePair<string, cYAMLMapping> item;
       string schemaKey;
       cYAMLMapping schemaValue;
+      string schemaDescription = "";
 
       // YAMLScalar
       Dictionary<string, string> schemaScalars;
@@ -2220,6 +2280,9 @@ namespace nsRSMPGS
       string schemaScalarMin;
       string schemaScalarMax;
 
+      Dictionary<string, cYAMLMapping> schemaMappings;
+      KeyValuePair<string, cYAMLMapping> schemaMapping;
+
       for (int i = 0; i < items.Count; i++)
       {
 
@@ -2228,6 +2291,7 @@ namespace nsRSMPGS
         schemaKey = item.Key;
         schemaValue = item.Value;
         schemaScalars = schemaValue.YAMLScalars;
+        schemaMappings = schemaValue.YAMLMappings;
         schemaScalarOptional = false;
         schemaScalarType = "";
         schemaScalarMin = "";
@@ -2261,31 +2325,99 @@ namespace nsRSMPGS
           {
             schemaScalarMax = schemaScalar.Value;
           }
+          if (schemaScalar.Key == "values")
+          {
+            schemaScalarMax = schemaScalar.Value;
+          }
         }
+
+        textBox = null;
+        comboBox = null;
+
+        isCombo = false;
+        if (schemaMappings.Count != 0)
+        {
+          for (int j = 0; j < schemaMappings.Count; j++)
+          {
+            schemaMapping = schemaMappings.ElementAt(j);
+            comboBox = new ComboBox();
+            isCombo = true;
+
+            for (int k = 0; k < schemaMapping.Value.YAMLScalars.Count; k++)
+            {
+              schemaScalar = schemaMapping.Value.YAMLScalars.ElementAt(k);
+              comboBox.Items.Add(schemaScalar.Key);
+            }
+          }
+        }
+
         label = new Label();
         label.Text = item.Key;
+        ToolTip toolTip = new ToolTip();
+        toolTip.SetToolTip(label, schemaDescription);
         label.SetBounds(10, y, 75, 23);
+
+        sendCheckBox = new CheckBox();
+        sendCheckBox.SetBounds(270, y, 23, 23);
+
         if (!schemaScalarOptional)
         {
           label.Text = label.Text + " *";
+          sendCheckBox.Visible = false;
+          sendCheckBox.Checked = true;
+        }
+        else
+        {
+          sendCheckBox.Checked = false;
         }
 
         if (schemaScalarType == "string")
         {
-          textBox = new TextBox();
-          textBox.SetBounds(110, y, 150, 23);
-          textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
-          arrayForm.Controls.AddRange(new Control[] { label, textBox });
+          if (isCombo)
+          {
+            comboBox.SetBounds(110, y, 150, 23);
+            comboBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+            arrayForm.Controls.AddRange(new Control[] { label, comboBox, sendCheckBox });
+          }
+          else
+          {
+            textBox = new TextBox();
+            textBox.SetBounds(110, y, 150, 23);
+            textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+            arrayForm.Controls.AddRange(new Control[] { label, textBox, sendCheckBox });
+          }
 
           if (arrayListViewIndex != -1)
           {
             if (itemIndex == 0)
             {
-                textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+              if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
+              {
+                if (isCombo)
+                {
+                  comboBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+                }
+                else
+                {
+                  textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+                }
+                sendCheckBox.Checked = true;
+              }
             }
             else
             {
-                textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
+              {
+                if (isCombo)
+                {
+                  comboBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                }
+                else
+                {
+                  textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                }
+                sendCheckBox.Checked = true;
+              }
             }
             itemIndex = itemIndex + 1;
           }
@@ -2296,7 +2428,7 @@ namespace nsRSMPGS
           numericUpDown = new NumericUpDown();
           numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
           numericUpDown.SetBounds(110, y, 150, 23);
-          arrayForm.Controls.AddRange(new Control[] { label, numericUpDown });
+          arrayForm.Controls.AddRange(new Control[] { label, numericUpDown, sendCheckBox });
 
           if (schemaScalarMin != "")
           {
@@ -2310,19 +2442,37 @@ namespace nsRSMPGS
 
           if (arrayListViewIndex != -1)
           {
-            numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
+            if (itemIndex == 0)
+            {
+              if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
+              {
+                numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].Text);
+                sendCheckBox.Checked = true;
+              }
+            }
+            else
+            {
+              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
+              {
+                numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
+                sendCheckBox.Checked = true;
+              }
+            }
             itemIndex = itemIndex + 1;
           }
         }
          y = y + 23;
-
       }
 
-      buttonCancel.SetBounds(25, y + 10, 75, 23);
-      buttonDelete.SetBounds(105, y + 10, 75, 23);
+      if (arrayListViewIndex == -1)
+      {
+        buttonDelete.Visible = false;
+      }
+      buttonDelete.SetBounds(25, y + 10, 75, 23);
+      buttonCancel.SetBounds(105, y + 10, 75, 23);
       buttonOk.SetBounds(185, y + 10, 75, 23);
 
-      arrayForm.ClientSize = new Size(280, y + 45);
+      arrayForm.ClientSize = new Size(300, y + 45);
 
       DialogResult dialogResult = arrayForm.ShowDialog();
     }
@@ -2330,10 +2480,17 @@ namespace nsRSMPGS
     private static void saveArrayRow(object sender, EventArgs e)
     {
       string value = "";
+      string tag = "";
       string schemaScalarOptional;
       string schemaScalarType;
+      CheckBox sendCheckBox;
 
-      value = arrayForm.Controls[4].Text;
+      int controlIndex = 4;
+      value = arrayForm.Controls[controlIndex].Text;
+
+      sendCheckBox = (CheckBox)arrayForm.Controls[controlIndex + 1];
+      tag = sendCheckBox.Checked.ToString();
+
       schemaScalarType = arrayForm.Controls[4].Tag.ToString().Split('#')[0];
       schemaScalarOptional = arrayForm.Controls[4].Tag.ToString().Split('#')[1];
 
@@ -2359,18 +2516,25 @@ namespace nsRSMPGS
       if (arrayListViewIndex == -1)
       {
         newItem.Text = value;
+        newItem.Tag = tag;
       }
       else
       {
         currentItem.Text = value;
+        currentItem.Tag = tag;
       }
 
-      int controlIndex = 6;
       var controls = arrayForm.Controls;
+      controlIndex = controlIndex + 3;
+
+      ListViewSubItem listViewSubItem;
 
       for (int i = 0; i < items.Count - 1; i++)
       {
         value = controls[controlIndex].Text;
+        sendCheckBox = (CheckBox)controls[controlIndex + 1];
+        tag = sendCheckBox.Checked.ToString();
+
         schemaScalarType = controls[controlIndex].Tag.ToString().Split('#')[0];
         schemaScalarOptional = controls[controlIndex].Tag.ToString().Split('#')[1];
 
@@ -2382,13 +2546,31 @@ namespace nsRSMPGS
 
         if (arrayListViewIndex == -1)
         {
-            newItem.SubItems.Add(value);
-            controlIndex = controlIndex + 2;
+          listViewSubItem = new ListViewSubItem();
+          listViewSubItem.Tag = tag;
+          if (tag == "True")
+          {
+            listViewSubItem.Text = value;
+          }
+          else
+          {
+            listViewSubItem.Text = "";
+          }
+          newItem.SubItems.Add(listViewSubItem);
+          controlIndex = controlIndex + 3;
         }
         else
         {
-          currentItem.SubItems[i + 1].Text = value;
-          controlIndex = controlIndex + 2;
+          currentItem.SubItems[i + 1].Tag = tag;
+          if (tag == "True")
+          {
+            currentItem.SubItems[i + 1].Text = value;
+          }
+          else
+          {
+            currentItem.SubItems[i + 1].Text = "";
+          }
+          controlIndex = controlIndex + 3;
         }
       }
 

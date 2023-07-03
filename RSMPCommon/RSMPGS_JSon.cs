@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 using System.Threading;
 using System.Globalization;
 using System.Reflection;
+using System.Collections;
 
 namespace nsRSMPGS
 {
@@ -1007,6 +1008,10 @@ namespace nsRSMPGS
 
     public bool SendJSonPacket(string PacketType, string MessageId, string SendString, bool ResendPacketIfWeGetNoAck)
     {
+      // convert to array to json
+      SendString = SendString.Replace("\"[{\\\"", "[{\"");
+      SendString = SendString.Replace("\\\"}]\"", "\"}]");
+      SendString = SendString.Replace("\\\"", "\"");
 
       if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, MessageId, SendString))
       {
@@ -1140,16 +1145,9 @@ namespace nsRSMPGS
       }
     }
 
-    public string ValidateArrayString(Dictionary<string, cYAMLMapping> items, string jsonString)
+    public string ValidateArrayObject(Dictionary<string, cYAMLMapping> items, object status)
     {
-      if (jsonString == "?") { return "?"; }
-
-      string[] objectStrings;
-
-      jsonString = jsonString.Substring(2);                     // remove '['
-      jsonString = jsonString.Remove(jsonString.Length - 2);    // remove ']'
-      jsonString = jsonString.Replace("},{", "¤");
-      objectStrings = jsonString.Split('¤');
+      object[] statusObjects = (object[])status;
 
       // YAMLMapping
       KeyValuePair<string, cYAMLMapping> item;
@@ -1170,7 +1168,7 @@ namespace nsRSMPGS
       List<string> keys;
 
       // incoming status
-      string[] fieldStrings;
+      //string[] fieldStrings;
       string statusKey;
       string statusValue;
       Boolean hit;
@@ -1191,7 +1189,8 @@ namespace nsRSMPGS
         cellName = "";
 
         // loop YAMLScalars
-        for (int j = 0; j < schemaScalars.Count; j++) {
+        for (int j = 0; j < schemaScalars.Count; j++)
+        {
           schemaScalar = schemaScalars.ElementAt(j);
           if (schemaScalar.Key == "type")
           {
@@ -1218,23 +1217,22 @@ namespace nsRSMPGS
           }
         }
 
+        int rowIndex = 0;
+
         // validate incoming values to verify YAMLMapping
-        for (int k = 0; k < objectStrings.Length; k++)
+        foreach (object statusObject in statusObjects)
         {
-          string objectString = objectStrings[k];
-          fieldStrings = objectString.Split(',');
+          Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
 
           hit = false;
-          for (int l = 0; l < fieldStrings.Length; l++)
+          foreach (object field in fields)
           {
-            cellName = "row:" + (k + 1).ToString() + " col:" + schemaKey + " ";
-            statusKey = fieldStrings[l].Split(':')[0];
-            statusKey = statusKey.Substring(1);                    // remove '"'
-            statusKey = statusKey.Remove(statusKey.Length - 1);    // remove '"'
+            KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
 
-            statusValue = fieldStrings[l].Split(':')[1];
-            statusValue = statusValue.Substring(1);                   // remove '"'
-            statusValue = statusValue.Remove(statusValue.Length - 1); // remove '"'
+            statusKey = f.Key;
+            statusValue = (string)f.Value;
+
+            cellName = "row:" + (rowIndex + 1).ToString() + " col:" + schemaKey + " ";
 
             if (schemaKey == statusKey)
             {
@@ -1249,7 +1247,8 @@ namespace nsRSMPGS
                   if (iValue < iMin) { return cellName + " to small"; }
                   if (iValue > iMax) { return cellName + " to big"; }
                 }
-                catch {
+                catch
+		{
                   return cellName + " wrong type";
                 }
               }
@@ -1265,7 +1264,7 @@ namespace nsRSMPGS
                 }
                 catch
                 {
-                  return cellName +  " wrong type";
+                  return cellName + " wrong type";
                 }
               }
               else if (schemaScalarType == "real")
@@ -1296,10 +1295,35 @@ namespace nsRSMPGS
             return cellName + " required";
           }
 
+          rowIndex++
         }
       }
 
       return "success";
+    }
+    
+    public string stringifyObject(object status)
+    {
+      object[] statusObjects = (object[])status;
+      string objectsString = "";
+      string objectString;
+      string fieldString;
+
+      foreach (object statusObject in statusObjects)
+      {
+        Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
+        objectString = "";
+        foreach (object field in fields)
+        {
+          KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
+          fieldString = "\"" + f.Key + "\":\"" + (string)f.Value + "\"";
+          if (objectString != "") { objectString = objectString + ","; }
+          objectString = objectString + fieldString;
+        }
+        if (objectsString != "") { objectsString = objectsString + ","; }
+        objectsString = objectsString + "{" + objectString + "}";
+      }
+      return "[" + objectsString + "]";
     }
 
     public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)

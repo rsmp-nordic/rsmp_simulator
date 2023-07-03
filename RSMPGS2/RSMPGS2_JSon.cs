@@ -388,7 +388,7 @@ namespace nsRSMPGS
           {
             if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
             {
-              StatusReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.s));
+              StatusReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.s.ToString()));
             }
             else
             {
@@ -397,13 +397,16 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusReturnValue.Value.SetValue(Reply.s);
+            StatusReturnValue.Value.SetValue(Reply.s.ToString());
           }
           StatusReturnValue.sQuality = Reply.q;
 
           if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
           {
-            string arrayResult = ValidateArrayString(StatusReturnValue.Value.ValueTypeObject.Items, Reply.s);
+            string arrayResult = ValidateArrayObject(StatusReturnValue.Value.ValueTypeObject.Items, Reply.s);
+
+            Reply.s = stringifyObject(Reply.s);
+
             if (arrayResult == "success")
             {
               bSuccess = true;
@@ -415,14 +418,17 @@ namespace nsRSMPGS
           }
           else
           {
-            if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+            if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
             {
+              bSuccess = true;
+
               Dictionary<string, string> selectableValues;
               if (StatusReturnValue.Value.ValueTypeObject.SelectableValues == null)
               {
                 selectableValues = StatusReturnValue.Value.ValueTypeObject.SelectableValues;
+                bool containsKey = selectableValues.ContainsKey(Reply.s.ToString());
+                if (!containsKey) { bSuccess = false; }
               }
-              bSuccess = true;
             }
             else
             {
@@ -433,7 +439,7 @@ namespace nsRSMPGS
               }
               else
               {
-                sStatusValue = (Reply.s.Length < 10) ? Reply.s : Reply.s.Substring(0, 9) + "...";
+                sStatusValue = (Reply.s.Length < 10) ? status : status.Substring(0, 9) + "...";
               }
               sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
@@ -452,7 +458,7 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusEvent.sStatus = Reply.s;
+            StatusEvent.sStatus = Reply.s.ToString();
           }
           StatusEvent.sQuality = Reply.q;
           if (RSMPGS_Main.bWriteEventsContinous)

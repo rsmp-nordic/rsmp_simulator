@@ -485,7 +485,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
               fsBase64.Dispose();
               brBase64.Close();
               s.s = Convert.ToBase64String(Base64Bytes);
-              if (s.s.Length > (cTcpSocketClientThread.BUFLENGTH - 100))
+              if (s.s.ToString().Length > (cTcpSocketClientThread.BUFLENGTH - 100))
               {
                 RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
                 s.s = null;
