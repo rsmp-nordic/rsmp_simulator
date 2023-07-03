@@ -2060,7 +2060,7 @@ namespace nsRSMPGS
 
       if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._array)
       {
-        value = getArrrayJson();
+        value = getArrayJson();
         return dialogResult;
       }
 
@@ -2140,7 +2140,7 @@ namespace nsRSMPGS
       }
     }
 
-    private static string getArrrayJson()
+    private static string getArrayJson()
     {
       string arrayString = "";
       string objectString = "";
@@ -2201,7 +2201,7 @@ namespace nsRSMPGS
 
       Label label;
       TextBox textBox;
-      NumbericUpDown numericUpDown;
+      NumericUpDown numericUpDown;
       int y = 10;
       int itemIndex = 0;
 
