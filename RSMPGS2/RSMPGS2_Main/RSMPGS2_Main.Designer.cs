@@ -2605,11 +2605,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_2;
         private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_3;
         private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_4;
-<<<<<<< HEAD
         private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
-=======
-    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
->>>>>>> master
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2;
     private System.Windows.Forms.Button button_ResetRSMPSettingToDefault;
     private System.Windows.Forms.GroupBox groupBox_Statistics;
