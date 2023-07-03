@@ -33,35 +33,23 @@ namespace nsRSMPGS
         {
           bool bWasSelected = SelectedCRVs.IndexOf(CommandArguments) >= 0 ? true : false;
 
-          string[] aCommands;
+          string[] aCommands = {};
           if (CommandArguments.Value.ValueTypeObject.SelectableValues != null && CommandArguments.Value.ValueTypeObject.SelectableValues.Count > 0)
           {
-            aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Values.ToArray<string>();
+            aCommands = CommandArguments.Value.ValueTypeObject.SelectableValues.Keys.ToArray<string>();
           }
-          else
+
+          if (CommandArguments.Value.GetValueType().Equals("boolean", StringComparison.OrdinalIgnoreCase))
           {
-            aCommands = CommandArguments.Value.ValueTypeObject.sRange.Split('\n');
-
-            for (int j = 0; j < aCommands.Length; j++)
+            // Create a selectable list of boolean elements if YAML format is used.
+            // (If CSV format is used, it uses whatever defined in the "Values" column)
+            if (aCommands.Length < 2)
             {
-              aCommands[j] = aCommands[j].TrimStart('"');
-              aCommands[j] = aCommands[j].TrimStart('-');
-              aCommands[j] = aCommands[j].TrimEnd('"');
+              aCommands = new string[] { "True", "False" };
             }
           }
 
-
-            /*
-                string[] aCommands = CommandArguments.sValue.Split('\n');
-
-            for (int j = 0; j < aCommands.Length; j++)
-            {
-              aCommands[j] = aCommands[j].TrimStart('"');
-              aCommands[j] = aCommands[j].TrimStart('-');
-              aCommands[j] = aCommands[j].TrimEnd('"');
-            }
-            */
-            if ((CommandArguments.Value.ValueTypeObject.sRange == "" || aCommands.Length < 2))
+          if ((CommandArguments.Value.ValueTypeObject.SelectableValues == null || CommandArguments.Value.ValueTypeObject.SelectableValues.Count == 0) && aCommands.Length < 2)
           {
             DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
             this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);

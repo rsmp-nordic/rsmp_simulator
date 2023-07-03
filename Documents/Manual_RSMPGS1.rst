@@ -173,7 +173,7 @@ At the top right, there is a presentation of connection status to the
 supervision system. If the box is green, the connection is ok. The IP address
 is also showing. When connection attempts are performed, the box is grey.
 
-If there is no connection the box is red.
+If there is no connection the box is blue.
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
@@ -493,8 +493,14 @@ The RSMP versions the simulator will allow and use when connecting are selected
 by the first row.
 
 The setting *Use strict and unforgiving protocol parsing* enables a more strict
-mode, where amongst other protocol checking all JSon names and (where
-applicable) values are case-sensitive.
+mode, where amongst other protocol checking all JSon names.
+
+The setting *Use case sensitive lookup for object id's and references* enables
+case sensitive check for componentId, statusCodeId, alarmCodeId, commandCodeId
+and "name" in arguments/return values.
+
+The setting *Use case sensitive value* enables case sensitive checks for the
+values in alarms, statuses and commands.
 
 Each individual setting is not explained in this document, since they mostly
 reflects the version document history of the RSMP protocol and the protocol

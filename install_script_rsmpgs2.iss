@@ -46,6 +46,7 @@ Name: "{app}\Objects"; Permissions: users-modify
 [Icons]
 Name: "{group}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
 Name: "{userdesktop}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
+Name: "{group}\RSMPGS2 Manual"; Filename: "{app}\Documents\Manual_RSMPGS2.pdf"; MinVersion: 0.0,6.0; 
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; MinVersion: 0.0,6.0; 

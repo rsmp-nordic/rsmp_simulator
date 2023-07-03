@@ -35,6 +35,7 @@ namespace nsRSMPGS
 		public const int ConnectionStatus_Disconnected = 0;
 		public const int ConnectionStatus_Connecting = 1;
 		public const int ConnectionStatus_Connected = 2;
+		public const int ConnectionStatus_ServerListenBindError = 3;
 
 		public cTcpSocket(int iConnectionType, string sServerAddress, int iReconnectInterval,
 			bool bConnectAutomatically, int iPortNumber, int iPacketTimeout, int iWrapMethod)

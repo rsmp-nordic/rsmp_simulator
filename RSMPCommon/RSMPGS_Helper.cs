@@ -63,7 +63,6 @@ namespace nsRSMPGS
       this.bDefaultValue_RSMP_3_1_4 = bDefaultValue_RSMP_3_1_4;
       this.bDefaultValue_RSMP_3_1_5 = bDefaultValue_RSMP_3_1_5;
       this.bDefaultValue_RSMP_3_2 = bDefaultValue_RSMP_3_2;
-
     }
 
     public int GetColumnIndex(cJSon.RSMPVersion rsmpVersion)
@@ -442,6 +441,8 @@ namespace nsRSMPGS
           DebugForm.ToolStripMenuItem_PacketTypes_Watchdog.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Watchdog", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_PacketAck.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "PacketAck", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_Unknown.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Unknown", 0) != 0;
+          DebugForm.SetDebugSaveFile(cPrivateProfile.GetIniFileString("Debug", sPrefix + "SaveFile", ""));
+          DebugForm.toolStripMenuItem_SaveContinousToFile.Checked = DebugForm.GetDebugSaveFile() != "";
 
           DebugForm.CalcNewCaption();
           // Forms will be shown at show event
@@ -482,6 +483,7 @@ namespace nsRSMPGS
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Watchdog", DebugForm.ToolStripMenuItem_PacketTypes_Watchdog.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "PacketAck", DebugForm.ToolStripMenuItem_PacketTypes_PacketAck.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Unknown", DebugForm.ToolStripMenuItem_PacketTypes_Unknown.Checked == true ? 1 : 0);
+        cPrivateProfile.WriteIniFileString("Debug", sPrefix + "SaveFile", DebugForm.GetDebugSaveFile());
 
         iDebugFormIndex++;
       }
@@ -1937,9 +1939,9 @@ namespace nsRSMPGS
 
       form.Text = title + " (" + Value.GetValueType() + ")";
 
-      if (Value.ValueTypeObject.sRange.Length > 0)
+      if (Value.ValueTypeObject.GetValueMax() > 0)
       {
-        form.Text += " / " + Value.ValueTypeObject.sRange;
+        form.Text += " / [" + Value.ValueTypeObject.GetValueMin().ToString() + "-" + Value.ValueTypeObject.GetValueMax().ToString() + "]";
       }
 
       //label.Text = promptText;
@@ -2636,8 +2638,14 @@ namespace nsRSMPGS
     {
 
       cInputBoxValue InputBoxValue = (cInputBoxValue)comboBox.Tag;
+      Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-      if (RSMPGS.JSon.ValidateTypeAndRange(InputBoxValue.sType, comboBox.Text, InputBoxValue.sValues))
+      foreach(string sValueItem in InputBoxValue.sValues.Split('\n'))
+      {
+        eNums.Add(sValueItem, "");
+      }
+
+      if (RSMPGS.JSon.ValidateTypeAndRange(InputBoxValue.sType, comboBox.Text, eNums))
       {
         comboBox.ForeColor = default(Color);
         comboBox.BackColor = default(Color);

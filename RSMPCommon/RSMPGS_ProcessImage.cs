@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.Linq;
 using System.Diagnostics;
+using static nsRSMPGS.cValueTypeObject;
 
 namespace nsRSMPGS
 {
@@ -180,22 +181,8 @@ namespace nsRSMPGS
                     string sValueTypeKey = YAMLObjectType.sMappingName + "\t" + ObjectTypeObject.sMappingName + "\t" + ObjectTypeObjectItem.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     string sType = YAMLArgument.GetScalar("type");
-                    string sRange = YAMLArgument.GetScalar("range");
-                    Dictionary<string, cYAMLMapping> items = null;
-
-
-                    if (sType == "integer_list")
-                    {
-                       string min = YAMLArgument.GetScalar("min");
-                       string max = YAMLArgument.GetScalar("max");
-                       sRange = "[" + min + "-" + max + "]";
-                       sType = "integer";
-                    }
-
-                    if (sType == "array") {
-                        Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
-                        items = dictionary["items"].YAMLMappings;
-                    }
+                    double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
+                    double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
 
                     string sDescription = YAMLArgument.GetScalar("description");
 
@@ -223,11 +210,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, Values.YAMLScalars, sDescription, items);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, sRange, null, sDescription, items);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1186,7 +1173,74 @@ namespace nsRSMPGS
       else
       {
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, sRange, null, sComment, null);
+        Double dMin = 0;
+        Double dMax = 0;
+        Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        try
+        {
+          // Transalte "range" to min and max
+          if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
+          {
+            eValueType ValueType = eValueType._unknown;
+            foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+            {
+              if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+              {
+                ValueType = valueType;
+                break;
+              }
+            }
+
+            switch (ValueType)
+            {
+              case eValueType._integer:
+              case eValueType._long:
+              case eValueType._ordinal:
+              case eValueType._real:
+                sRange = sRange.Substring(1, sRange.Length - 2); // Remove []
+                char[] sep = new char[] { '-' };
+                string[] sRangeArray = sRange.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                string sMin = sRangeArray[0];
+                string sMax = sRangeArray[1];
+                if (Double.TryParse(sMin, out dMin) == false)
+                {
+                  dMin = Double.Parse(sMin);
+                }
+                if (Double.TryParse(sMax, out dMax) == false)
+                {
+                  dMax = Double.Parse(sMax);
+                }
+                break;
+            }
+          }
+
+          // Transalte "range" to selectable objects
+          if (sRange.StartsWith("-"))
+          {
+            foreach (string sValueItem in sRange.Split('\n'))
+            {
+              if(sValueItem.StartsWith("-"))
+              {
+                try
+                {
+                  string sKey = sValueItem.Substring(1);
+                  if (eNums.ContainsKey(sKey) == false)
+                  { 
+                    eNums.Add(sValueItem.Substring(1), "");
+                  }
+                }
+                catch { }
+              }
+            }
+          }
+        }
+        catch
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
+        }
+
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }

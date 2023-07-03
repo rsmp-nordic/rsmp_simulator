@@ -1145,217 +1145,12 @@ namespace nsRSMPGS
       }
     }
 
-    public string ValidateArrayObject(Dictionary<string, cYAMLMapping> items, object status)
+    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)
     {
-      object[] statusObjects = (object[])status;
-
-      // YAMLMapping
-      KeyValuePair<string, cYAMLMapping> item;
-      string schemaKey;
-      cYAMLMapping schemaValue;
-
-      // YAMLScalar
-      Dictionary<string, string> schemaScalars;
-      KeyValuePair<string, string> schemaScalar;
-      string schemaScalarType;
-      Boolean schemaScalarOptional;
-      string schemaScalarMin;
-      string schemaScalarMax;
-
-      Dictionary<string, cYAMLMapping> schemaMappings;
-      KeyValuePair<string, cYAMLMapping> schemaMapping;
-      List<string> keys;
-
-      string cellName;
-
-      // incoming status
-      //string[] fieldStrings;
-      string statusKey;
-      string statusValue;
-      Boolean hit;
-
-      // loop alla YAMLMappings
-      for (int i = 0; i < items.Count; i++)
-      {
-
-        // get YAMLMapping
-        item = items.ElementAt(i);
-        schemaKey = item.Key;
-        schemaValue = item.Value;
-        schemaScalars = schemaValue.YAMLScalars;
-        schemaScalarOptional = false;
-        schemaScalarType = "";
-        schemaScalarMin = "";
-        schemaScalarMax = "";
-        cellName = "";
-
-        // loop YAMLScalars
-        for (int j = 0; j < schemaScalars.Count; j++)
-        {
-          schemaScalar = schemaScalars.ElementAt(j);
-          if (schemaScalar.Key == "type")
-          {
-            schemaScalarType = schemaScalar.Value;
-          }
-          if (schemaScalar.Key == "optional")
-          {
-            if (schemaScalar.Value == "true")
-            {
-              schemaScalarOptional = true;
-            }
-            else
-            {
-              schemaScalarOptional = false;
-            }
-          }
-          if (schemaScalar.Key == "min")
-          {
-            schemaScalarMin = schemaScalar.Value;
-          }
-          if (schemaScalar.Key == "max")
-          {
-            schemaScalarMax = schemaScalar.Value;
-          }
-        }
-
-        schemaMappings = schemaValue.YAMLMappings;
-        keys = new List<string>();
-        if (schemaMappings.Count > 0)
-        {
-          for (int j = 0; j < schemaMappings.Count; j++)
-          {
-            schemaMapping = schemaMappings.ElementAt(j);
-            for (int k = 0; k < schemaMapping.Value.YAMLScalars.Count; k++)
-            {
-              schemaScalar = schemaMapping.Value.YAMLScalars.ElementAt(k);
-              keys.Add(schemaScalar.Key);
-            }
-          }
-        }
-
-        int rowIndex = 0;
-
-        // validate incoming values to verify YAMLMapping
-        foreach (object statusObject in statusObjects)
-        {
-          Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
-
-          hit = false;
-
-          foreach (object field in fields)
-          {
-            KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
-
-            statusKey = f.Key;
-            statusValue = (string)f.Value;
-
-            cellName = "row:" + (rowIndex + 1).ToString() + " col:" + schemaKey + " ";
-
-            if (schemaKey == statusKey)
-            {
-              hit = true;
-              if (schemaScalarType == "integer")
-              {
-                try
-                {
-                  Int16 iValue = Int16.Parse(statusValue);
-                  Int16 iMin = Int16.Parse(schemaScalarMin);
-                  Int16 iMax = Int16.Parse(schemaScalarMax);
-                  if (iValue < iMin) { return cellName + " to small"; }
-                  if (iValue > iMax) { return cellName + " to big"; }
-                }
-                catch
-                {
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType == "long")
-              {
-                try
-                {
-                  Int32 iValue = Int32.Parse(statusValue);
-                  Int32 iMin = Int32.Parse(schemaScalarMin);
-                  Int32 iMax = Int32.Parse(schemaScalarMax);
-                  if (iValue < iMin) { return cellName + " to small"; }
-                  if (iValue > iMax) { return cellName + " to big"; }
-                }
-                catch
-                {
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType == "real")
-              {
-                try
-                {
-                  Double dValue = Double.Parse(statusValue);
-                  Double dMin = Double.Parse(schemaScalarMin);
-                  Double dMax = Double.Parse(schemaScalarMax);
-                  if (dValue < dMin) { return cellName + " to small"; }
-                  if (dValue > dMax) { return cellName + " to big"; }
-                }
-                catch
-                {
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType != "string")
-              {
-                return cellName + "type:" + schemaScalarType + " not supported";
-              }
-              if (keys.Count > 0)
-              {
-                if (!keys.Contains(statusValue))
-                {
-                  return cellName + " must be a dropdown value";
-                }
-              }
-            }
-          }
-
-          // error if key not found and not optional
-          if (!hit && !schemaScalarOptional)
-          {
-            return cellName + " required";
-          }
-
-          rowIndex++;
-        }
-      }
-
-      return "success";
+      return ValidateTypeAndRange(sType, sValue, sEnums, 0, 0);
     }
 
-    public string stringifyObject(object status)
-    {
-      object[] statusObjects = (object[])status;
-      string objectsString = "";
-      string objectString;
-      string fieldString;
-
-      foreach (object statusObject in statusObjects)
-      {
-        Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
-        objectString = "";
-        foreach (object field in fields)
-        {
-          KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
-          fieldString = "\"" + f.Key + "\":\"" + (string)f.Value + "\"";
-          if (objectString != "") { objectString = objectString + ","; }
-          objectString = objectString + fieldString;
-        }
-        if (objectsString != "") { objectsString = objectsString + ","; }
-        objectsString = objectsString + "{" + objectString + "}";
-      }
-      return "[" + objectsString + "]";
-    }
-
-    public bool ValidateTypeAndRange(string sType, string sValue)
-    {
-      return ValidateTypeAndRange(sType, sValue, "");
-    }
-
-    public bool ValidateTypeAndRange(string sType, string sValue, string sValues)
+    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums, double dMin, double dMax)
     {
       bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
       var comparisonType = StringComparison.Ordinal;
@@ -1403,10 +1198,13 @@ namespace nsRSMPGS
           break;
 
         case "boolean":
-          bValueIsValid = sValue.Equals("true", comparisonType) ||
-            sValue.Equals("false", comparisonType) ||
-            sValue.Equals("0", comparisonType) ||
-            sValue.Equals("1", comparisonType);
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compability we need to treat this as case
+          // insensitive for now
+          bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+            sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
           break;
 
         case "base64":
@@ -1447,7 +1245,7 @@ namespace nsRSMPGS
       }
 
       // Validate range
-      if (bValueIsValid == true && sValues != "")
+      if (bValueIsValid == true)
       {
         switch (sType.ToLower())
         {
@@ -1458,68 +1256,39 @@ namespace nsRSMPGS
             try
             {
               Double dValue = Double.Parse(sValue);
-              if (sValues.StartsWith("[") && sValues.EndsWith("]"))
+              bValueIsValid = dValue <= dMax && dValue >= dMin;
+
+              if (sEnums.Count > 0)
               {
-                string sRange = sValues.Substring(1, sValues.Length - 2);
-                if (sRange.Contains("-"))
+                bValueIsValid = false;
+                foreach (string sEnum in sEnums.Keys)
                 {
-                  Double dMin = Double.Parse(sRange.Split('-')[0]);
-                  Double dMax = Double.Parse(sRange.Split('-')[1]);
-                  bValueIsValid = dValue <= dMax && dValue >= dMin;
-                }
-                else
-                {
-                  bValueIsValid = (dValue == Double.Parse(sRange)) ? true : false;
-                }
-              }
-              else
-              {
-                if (sValues.StartsWith("-"))
-                {
-                  bValueIsValid = false;
-                  foreach (string sValueItem in sValues.Split('\n'))
+                  if (sValue.Equals(sEnum, comparisonType))
                   {
-                    if (sValueItem.StartsWith("-"))
-                    {
-                      try
-                      {
-                        if (dValue == Double.Parse(sValueItem.Substring(1)))
-                        {
-                          bValueIsValid = true;
-                          break;
-                        }
-                      }
-                      catch { }
-                    }
+                    bValueIsValid = true;
                   }
                 }
               }
             }
             catch { }
-
             break;
-
           case "string":
 
-            if (sValues.StartsWith("-"))
+            try
             {
-              bValueIsValid = false;
-              foreach (string sValueItem in sValues.Split('\n'))
+              if (sEnums.Count > 0)
               {
-                if (sValueItem.StartsWith("-"))
+                bValueIsValid = false;
+                foreach (string sEnum in sEnums.Keys)
                 {
-                  try
+                  if (sValue.Equals(sEnum, comparisonType))
                   {
-                    if (sValue == sValueItem.Substring(1))
-                    {
-                      bValueIsValid = true;
-                      break;
-                    }
+                    bValueIsValid = true;
                   }
-                  catch { }
                 }
               }
             }
+            catch { }
             break;
         }
       }

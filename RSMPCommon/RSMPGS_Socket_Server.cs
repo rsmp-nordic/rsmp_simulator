@@ -50,6 +50,9 @@ namespace nsRSMPGS
         catch (SocketException se)
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not create socket server thread: " + se.Message);
+          if (listener != null)
+            listener.Stop();
+          listener = null; // set to null value to indicate bind error
         }
       }
     }
@@ -159,7 +162,11 @@ namespace nsRSMPGS
 
       lock (this)
       {
-        if (ServerSockets.Count > 0)
+        if (listener == null)
+        {
+          iConnectionStatus = cTcpSocket.ConnectionStatus_ServerListenBindError;
+        }
+        else if (ServerSockets.Count > 0)
         {
           cTcpSocketServerThread SocketServerThread = (cTcpSocketServerThread)ServerSockets[0];
           if (SocketServerThread.tcpClient == null)
