@@ -187,7 +187,11 @@ namespace nsRSMPGS
 
                     if (sType == "array") {
                         Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
-                        items = dictionary["items"].YAMLMappings;
+                        cYAMLMapping Items;
+                        if (YAMLArgument.YAMLMappings.TryGetValue("items", out Items))
+                        {
+                          items = dictionary["items"].YAMLMappings;
+                        }
                     }
                     string sDescription = YAMLArgument.GetScalar("description");
 
