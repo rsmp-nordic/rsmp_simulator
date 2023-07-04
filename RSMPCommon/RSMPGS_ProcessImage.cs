@@ -197,6 +197,14 @@ namespace nsRSMPGS
 
                     string sDebug = "NAME: " + YAMLArgument.GetFullPath();
 
+                    if (items != null)
+                    {
+                      foreach (KeyValuePair<string, cYAMLMapping> kvp in items)
+                      {
+                        sDebug += "\r\nITEM: " + kvp.Key + " = " + kvp.Value.sMappingName;
+                      }
+                    }
+
                     foreach (KeyValuePair<string, string> kvp in YAMLArgument.YAMLScalars)
                     {
                       sDebug += "\r\nSCALAR: " + kvp.Key + " = " + kvp.Value.Replace("\n", "\n\t");
