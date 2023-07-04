@@ -196,10 +196,6 @@ namespace nsRSMPGS
                     string sDescription = YAMLArgument.GetScalar("description");
 
                     string sDebug = "NAME: " + YAMLArgument.GetFullPath();
-                    if (YAMLArgument.GetFullPath().Contains("S0020"))
-                    {
-
-                    }
 
                     foreach (KeyValuePair<string, string> kvp in YAMLArgument.YAMLScalars)
                     {
