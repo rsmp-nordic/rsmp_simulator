@@ -371,7 +371,7 @@ namespace nsRSMPGS
                 }
 
                 AlarmObject.sAlarmCodeId = YAMLAlarm.sMappingName;
-                AlarmObject.sDescription = YAMLAlarm.GetScalar("description");
+                AlarmObject.sDescription = YAMLAlarm.GetScalar("description").Split('\n')[0];
                 AlarmObject.sExternalAlarmCodeId = YAMLAlarm.GetScalar("externalAlarmCodeId");
                 AlarmObject.sExternalNTSAlarmCodeId = YAMLAlarm.GetScalar("externalNTSAlarmCodeId");
                 AlarmObject.sPriority = YAMLAlarm.GetScalar("priority");
@@ -447,7 +447,7 @@ namespace nsRSMPGS
                 }
 
                 StatusObject.sStatusCodeId = YAMLStatus.sMappingName;
-                StatusObject.sDescription = YAMLStatus.GetScalar("description");
+                StatusObject.sDescription = YAMLStatus.GetScalar("description").Split('\n')[0];
 
                 cYAMLMapping YAMLArguments;
 
@@ -502,7 +502,7 @@ namespace nsRSMPGS
 
                 CommandObject.sCommandCodeId = YAMLCommand.sMappingName;
 
-                CommandObject.sDescription = YAMLCommand.GetScalar("description");
+                CommandObject.sDescription = YAMLCommand.GetScalar("description").Split('\n')[0];
 
                 cYAMLMapping YAMLArguments;
 
