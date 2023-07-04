@@ -2100,7 +2100,7 @@ namespace nsRSMPGS
 
     private static void loadArray(string jsonString)
     {
-      if (jsonString == "?" || jsonString == "[]") { return; }
+      if (jsonString == "?" || jsonString == "") { return; }
 
       Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
       string[] objectStrings;
