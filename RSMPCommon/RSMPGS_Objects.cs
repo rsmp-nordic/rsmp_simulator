@@ -652,7 +652,6 @@ namespace nsRSMPGS
     public double dMinValue = double.MinValue;
     public double dMaxValue = double.MaxValue;
 
-    // string values, either range or a list of selectable values
     public Dictionary<string, string> SelectableValues;
     public string sName;
     public Dictionary<string, cYAMLMapping> Items;
@@ -674,12 +673,9 @@ namespace nsRSMPGS
     }
 
     public string sComment;
-    //public string sValueRange;
-
     public eValueType ValueType;
 
-    // sRange is used if loaded from CSV
-    // SelectableValues, Min and Max used if loaded from YAML
+
     public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment, Dictionary<string, cYAMLMapping> items)
     {
 
@@ -784,7 +780,7 @@ namespace nsRSMPGS
         case eValueType._boolean:
 
           // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
-          // preserve backwards compability we need to treat this as case
+          // preserve backwards compatibility we need to treat this as case
           // insensitive for now
           if (sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
             sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
