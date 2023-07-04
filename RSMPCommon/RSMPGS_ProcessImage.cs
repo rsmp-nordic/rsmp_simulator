@@ -188,7 +188,7 @@ namespace nsRSMPGS
                     if (sType == "array") {
                         Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
                         cYAMLMapping Items;
-                        if (YAMLArgument.YAMLMappings.TryGetValue("items", out Items))
+                        if (dictionary.TryGetValue("items", out Items))
                         {
                           items = dictionary["items"].YAMLMappings;
                         }
@@ -1189,22 +1189,24 @@ namespace nsRSMPGS
         Double dMin = 0;
         Double dMax = 0;
         Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, cYAMLMapping> items = new Dictionary<string, cYAMLMapping>(StringComparer.OrdinalIgnoreCase);
 
         try
         {
+          // Get type
+          eValueType ValueType = eValueType._unknown;
+          foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+          {
+            if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+            {
+              ValueType = valueType;
+              break;
+            }
+          }
+
           // Transalte "range" to min and max
           if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
           {
-            eValueType ValueType = eValueType._unknown;
-            foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
-            {
-              if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
-              {
-                ValueType = valueType;
-                break;
-              }
-            }
-
             switch (ValueType)
             {
               case eValueType._integer:
@@ -1247,13 +1249,20 @@ namespace nsRSMPGS
               }
             }
           }
+
+          // Get items in array
+          if (ValueType == eValueType._array)
+          {
+            cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sRange.Split('\n').ToList<string>());
+            items = YAML.YAMLMappings;
+          }
         }
         catch
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
         }
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment, null);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment, items);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }
