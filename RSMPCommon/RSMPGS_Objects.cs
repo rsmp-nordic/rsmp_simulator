@@ -564,15 +564,31 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._integer:
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
-          case cValueTypeObject.eValueType._boolean:
           case cValueTypeObject.eValueType._ordinal:
-            sValue = "?";
+            sValue = GetValueMin().ToString();
             break;
-
+          case cValueTypeObject.eValueType._boolean:
+            sValue = "false";
+            break;
+          case cValueTypeObject.eValueType._array:
+            sValue = "";
+            break;
           default:
             sValue = "(invalid type)";
             break;
 
+        }
+
+        // Check selectable values
+        Dictionary<string, string> sEnums = ValueTypeObject.GetSelectableValues();
+        if (sEnums != null && sEnums.Count > 0)
+        {
+          foreach (string sEnum in sEnums.Keys)
+          {
+            // Select the first one in the list
+            sValue = sEnum;
+            break;
+          }
         }
       }
       else
