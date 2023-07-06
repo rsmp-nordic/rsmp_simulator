@@ -1457,7 +1457,7 @@ namespace nsRSMPGS
 
             try
             {
-              if (sEnums.Count > 0)
+              if (sEnums != null && sEnums.Count > 0)
               {
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
