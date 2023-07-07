@@ -64,13 +64,13 @@ jobs:
         run: ruby sxl-tools/merge_yaml.rb --objects $env:SXL --site $env:SITE | Set-Content -Path SXL-example.yaml
 
       - name: Create XLSX template
-        run: sxl-tools/create_template.py
+        run: python sxl-tools/create_template.py
 
       - name: Create XLSX file
-        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout | Set-Content -Path SXL-example.xlsx
+        run: ruby sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout | Set-Content -Path SXL-example.xlsx
 
       - name: Create CSV files
-        run: sxl-tools/xlsx2csv.rb SXL-example.xlsx
+        run: ruby sxl-tools/xlsx2csv.rb SXL-example.xlsx
 
       - name: Upload artifacts (YAML)
         uses: actions/upload-artifact@v3
