@@ -26,7 +26,6 @@ jobs:
 
       - name: Install python dependencies 
         run: |
-          cd $GITHUB_WORKSPACE
           python -m pip install --upgrade pip
           python -m pip install xlsxwriter
 
