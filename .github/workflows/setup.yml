@@ -22,9 +22,6 @@ jobs:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         gemfile: [ rubyXL ]
-    env:
-      # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
-      BUNDLE_GEMFILE: ${{ github.workspace }}/${{ matrix.gemfile }}.gemfile
 
     steps:
       - name: Set up Python ${{ matrix.python-version }}
