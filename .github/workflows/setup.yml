@@ -28,7 +28,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install python dependencies
-        run: pip install xlsxwriter
+        run: pip install xlsxwriter --user
             
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
