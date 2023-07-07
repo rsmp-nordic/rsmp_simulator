@@ -40,9 +40,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - run: bundle exec rake
 
       - name: Checkout rsmp_schema
         uses: actions/checkout@v3
