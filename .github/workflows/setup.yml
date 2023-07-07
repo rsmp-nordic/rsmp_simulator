@@ -17,9 +17,6 @@ jobs:
   create_sxl:
     name: Create SXL
     runs-on: windows-2019
-    strategy:
-      matrix:
-        gemfile: [ rubyXL ]
 
     steps:
       - name: Set up Python
@@ -28,7 +25,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install python dependencies 
-        run: python -m pip install --no-build-isolation --upgrade pip xlsxwriter
+        run: pip install --no-build-isolation xlsxwriter
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
@@ -64,11 +61,7 @@ jobs:
         run: ruby sxl-tools/merge_yaml.rb --objects $env:SXL --site $env:SITE | Set-Content -Path SXL-example.yaml
 
       - name: Create XLSX template
-        run: |
-          pip list
-          python -m pip list
-          python3 -m pip list
-          python sxl-tools/create_template.py
+        run: python sxl-tools/create_template.py
 
       - name: Create XLSX file
         run: ruby sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout | Set-Content -Path SXL-example.xlsx
