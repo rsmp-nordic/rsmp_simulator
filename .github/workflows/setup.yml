@@ -150,19 +150,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: SXL YAML
-          path: YAML/SXL-example.yaml
+          path: YAML
 
       - name: Download Manual RSMPGS1
         uses: actions/download-artifact@v3
         with:
           name: Manual RSMPGS1
-          path: Documents/Manual_RSMPGS1.pdf
+          path: Documents
 
       - name: Download Manual RSMPGS2
         uses: actions/download-artifact@v3
         with:
           name: Manual RSMPGS2
-          path: Documents/Manual_RSMPGS2.pdf
+          path: Documents
 
       - name: Show contents of dirs
         run: |
