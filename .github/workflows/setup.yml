@@ -157,6 +157,9 @@ jobs:
           name: SXL YAML
           path: YAML/SXL-example.yaml
 
+      - name: Show contents of YAML
+        run: dir YAML
+
       - name: Download Manual RSMPGS1
         uses: actions/download-artifact@v3
         with:
