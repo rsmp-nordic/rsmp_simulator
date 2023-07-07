@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  SXL_SOURCE: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  SXLSOURCE: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   OBJECTS: sxl_temp.yaml
   SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
 
@@ -56,7 +56,7 @@ jobs:
         run: |-
           # Convert "timestamp" to "string", because it doesn't officially
           # exist in 3.2
-          (Get-Content $SXL_SOURCE) -match 'type: timestamp' -replace 'type: string' | Set-Content $OBJECTS -WhatIf
+          (Get-Content $SXLSOURCE) -match 'type: timestamp' -replace 'type: string' | Set-Content $OBJECTS -WhatIf
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           (Get-Content $OBJECTS) -match '_list' -replace '' | Set-Content $OBJECTS -WhatIf
