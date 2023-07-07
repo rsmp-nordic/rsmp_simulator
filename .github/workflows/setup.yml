@@ -94,14 +94,38 @@ jobs:
           name: SXL CSV
           path: Objects/
 
-  setup:
-    name: Create Installer
-    runs-on: windows-2019
-    needs: create_sxl
+  create_manual:
+    name: Create manual
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Install rst2pdf
         run: pip install rst2pdf
 
+      - name: Convert manual with rst2pdf
+        run: |-
+          rst2pdf Documents/Manual_RSMPGS1.rst
+          rst2pdf Documents/Manual_RSMPGS2.rst
+
+      - name: Upload Manual RSMPGS1
+        uses: actions/upload-artifact@v3
+        with:
+          name: Manual RSMPGS1
+          path: Documents/Manual_RSMPGS1.pdf
+
+      - name: Upload Manual RSMPGS2
+        uses: actions/upload-artifact@v3
+        with:
+          name: Manual RSMPGS2
+          path: Documents/Manual_RSMPGS2.pdf
+
+  setup:
+    name: Create Installer
+    runs-on: windows-2019
+    needs: [create_sxl, create_manual ]
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -115,11 +139,6 @@ jobs:
       - name: Build RSMPGS2 (Release)
         run: msbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
-
-      - name: Convert manual with rst2pdf
-        run: |-
-          rst2pdf Documents/Manual_RSMPGS1.rst
-          rst2pdf Documents/Manual_RSMPGS2.rst
 
       - name: Download SXL CSV
         uses: actions/download-artifact@v3
@@ -138,6 +157,18 @@ jobs:
           name: SXL YAML
           path: YAML/SXL-example.yaml
 
+      - name: Download Manual RSMPGS1
+        uses: actions/download-artifact@v3
+        with:
+          name: Manual RSMPGS1
+          path: Documents/Manual_RSMPGS1.pdf
+
+      - name: Download Manual RSMPGS2
+        uses: actions/download-artifact@v3
+        with:
+          name: Manual RSMPGS2
+          path: Documents/Manual_RSMPGS2.pdf
+
       - name: Building the installer (RSMPGS1)
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
@@ -154,10 +185,3 @@ jobs:
           name: Setup
           path: Output/*.exe
 
-      - name: Upload manuals
-        uses: actions/upload-artifact@v3
-        with:
-          name: Manual
-          path: |-
-            Documents/Manual_RSMPGS1.pdf
-            Documents/Manual_RSMPGS2.pdf
