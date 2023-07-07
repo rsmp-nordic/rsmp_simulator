@@ -61,13 +61,13 @@ jobs:
           (Get-Content $env:SXL) -match '_list' -replace '' | Set-Content $env:SXL -WhatIf
 
       - name: Create YAML file
-        run: sxl-tools/merge_yaml.rb --objects $env:SXL --site $env:SITE > SXL-example.yaml
+        run: sxl-tools/merge_yaml.rb --objects $env:SXL --site $env:SITE | Set-Content -Path SXL-example.yaml
 
       - name: Create XLSX template
         run: sxl-tools/create_template.py
 
       - name: Create XLSX file
-        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout > SXL-example.xlsx
+        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout | Set-Content -Path SXL-example.xlsx
 
       - name: Create CSV files
         run: sxl-tools/xlsx2csv.rb SXL-example.xlsx
