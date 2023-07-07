@@ -25,7 +25,9 @@ jobs:
           python-version: '3.10'
 
       - name: Install python dependencies 
-        run: pip install xlsxwriter
+        run: |
+          python -m pip i --upgrade pip
+          python -m pip install xlsxwriter
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
