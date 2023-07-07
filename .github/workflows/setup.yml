@@ -121,11 +121,22 @@ jobs:
           rst2pdf Documents/Manual_RSMPGS1.rst
           rst2pdf Documents/Manual_RSMPGS2.rst
 
-      - name: Download SXL
+      - name: Download SXL CSV
         uses: actions/download-artifact@v3
         with:
           name: SXL CSV
           path: Objects
+
+      - name: Show contents of Objects
+        run: |
+          dir
+          dir Objects
+
+      - name: Download SXL YAML
+        uses: actions/download-artifact@v3
+        with:
+          name: SXL YAML
+          path: YAML/SXL-example.yaml
 
       - name: Building the installer (RSMPGS1)
         run: |
