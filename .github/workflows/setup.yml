@@ -56,10 +56,10 @@ jobs:
         run: |-
           # Convert "timestamp" to "string", because it doesn't officially
           # exist in 3.2
-          (Get-Content $SXLSOURCE) -match 'type: timestamp' -replace 'type: string' | Set-Content $OBJECTS -WhatIf
+          (Get-Content $env:SXLSOURCE -match 'type: timestamp' -replace 'type: string' | Set-Content $env:OBJECTS -WhatIf
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
-          (Get-Content $OBJECTS) -match '_list' -replace '' | Set-Content $OBJECTS -WhatIf
+          (Get-Content $env:OBJECTS) -match '_list' -replace '' | Set-Content $env:OBJECTS -WhatIf
 
       - name: Create YAML file
         run: sxl-tools/merge_yaml.rb --objects $OBJECTS --site $SITE > SXL-example.yaml
@@ -68,7 +68,7 @@ jobs:
         run: sxl-tools/create_template.py
 
       - name: Create XLSX file
-        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $OBJECTS --site $SITE --stdout > SXL-example.xlsx
+        run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:OBJECTS --site $SITE --stdout > SXL-example.xlsx
 
       - name: Create CSV files
         run: |-
