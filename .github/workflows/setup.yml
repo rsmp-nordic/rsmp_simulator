@@ -152,6 +152,12 @@ jobs:
           name: SXL YAML
           path: YAML
 
+      - name: Download SXL Excel
+        uses: actions/download-artifact@v3
+        with:
+          name: SXL XLSX
+          path: YAML
+
       - name: Download Manual RSMPGS1
         uses: actions/download-artifact@v3
         with:
