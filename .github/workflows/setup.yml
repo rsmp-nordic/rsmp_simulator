@@ -164,13 +164,6 @@ jobs:
           name: Manual RSMPGS2
           path: Documents
 
-      - name: Show contents of dirs
-        run: |
-          dir
-          dir Objects
-          dir YAML
-          dir Documents
-
       - name: Building the installer (RSMPGS1)
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
