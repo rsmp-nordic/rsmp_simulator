@@ -56,7 +56,7 @@ jobs:
         run: |-
           # Convert "timestamp" to "string", because it doesn't officially
           # exist in 3.2
-          (Get-Content $env:SXLSOURCE -match 'type: timestamp' -replace 'type: string' | Set-Content $env:OBJECTS -WhatIf
+          (Get-Content $env:SXLSOURCE) -match 'type: timestamp' -replace 'type: string' | Set-Content $env:OBJECTS -WhatIf
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           (Get-Content $env:OBJECTS) -match '_list' -replace '' | Set-Content $env:OBJECTS -WhatIf
