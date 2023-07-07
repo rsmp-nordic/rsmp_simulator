@@ -146,19 +146,11 @@ jobs:
           name: SXL CSV
           path: Objects
 
-      - name: Show contents of Objects
-        run: |
-          dir
-          dir Objects
-
       - name: Download SXL YAML
         uses: actions/download-artifact@v3
         with:
           name: SXL YAML
           path: YAML/SXL-example.yaml
-
-      - name: Show contents of YAML
-        run: dir YAML
 
       - name: Download Manual RSMPGS1
         uses: actions/download-artifact@v3
@@ -171,6 +163,13 @@ jobs:
         with:
           name: Manual RSMPGS2
           path: Documents/Manual_RSMPGS2.pdf
+
+      - name: Show contents of dirs
+        run: |
+          dir
+          dir Objects
+          dir YAML
+          dir Documents
 
       - name: Building the installer (RSMPGS1)
         run: |
