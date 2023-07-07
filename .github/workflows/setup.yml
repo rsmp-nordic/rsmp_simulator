@@ -73,8 +73,8 @@ jobs:
       - name: Create YAML file
         run: |
           ruby sxl-tools/merge_yaml.rb \
-          --objects $env:SXL \
-          --site $env:SITE > SXL-example.yaml
+          --objects $SXL \
+          --site $SITE > SXL-example.yaml
 
       - name: Upload artifacts (XLSX)
         uses: actions/upload-artifact@v3
