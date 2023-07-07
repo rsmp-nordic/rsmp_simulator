@@ -62,7 +62,7 @@ jobs:
 
       - name: Create XLSX template
         run: |
-          pip install xlsxwriter
+          python -m pip install xlsxwriter
           python sxl-tools/create_template.py
 
       - name: Create XLSX file
