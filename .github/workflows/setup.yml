@@ -10,6 +10,8 @@ on:
   workflow_dispatch:
 
 env:
+  # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
+  BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
   SXL_SOURCE: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   OBJECTS: sxl_temp.yaml
   SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
