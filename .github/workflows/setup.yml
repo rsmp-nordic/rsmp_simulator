@@ -27,9 +27,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install python dependencies
-        run: pip install xlsxwriter --user
-            
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -64,7 +61,9 @@ jobs:
         run: ruby sxl-tools/merge_yaml.rb --objects $env:SXL --site $env:SITE | Set-Content -Path SXL-example.yaml
 
       - name: Create XLSX template
-        run: python sxl-tools/create_template.py
+        run: |
+          pip install xlsxwriter
+          python sxl-tools/create_template.py
 
       - name: Create XLSX file
         run: ruby sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $env:SITE --stdout | Set-Content -Path SXL-example.xlsx
