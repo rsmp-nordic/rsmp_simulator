@@ -70,9 +70,10 @@ jobs:
         run: sxl-tools/yaml2xlsx.rb --template RSMP_Template_SignalExchangeList.xlsx --objects $env:SXL --site $SITE --stdout > SXL-example.xlsx
 
       - name: Create CSV files
-        run: |-
-          sxl-tools/xlsx2csv.rb SXL-example.xlsx
-          unzip -o SXL-example.zip -d Objects
+        run: sxl-tools/xlsx2csv.rb SXL-example.xlsx
+
+      - name: Unzip CSV files
+        run: unzip -o SXL-example.zip -d Objects
 
       - name: Upload artifacts (YAML)
         uses: actions/upload-artifact@v3
