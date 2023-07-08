@@ -1253,7 +1253,7 @@ namespace nsRSMPGS
               Double dValue = Double.Parse(sValue);
               bValueIsValid = dValue <= dMax && dValue >= dMin;
 
-              if (sEnums.Count > 0)
+              if (sEnums != null && sEnums.Count > 0)
               {
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
