@@ -72,6 +72,12 @@ jobs:
 
       - name: Create YAML file
         run: |
+          # - Merges the alarms/statuses/commands from the rsmp_schema repo
+          #   with the example objects into an YAML SXL.
+          # - Converts JSON arrays from this format: [ value1, value2 ] to:
+          #   - value1
+          #   - value2
+          #   The first format is not supported by the simulator.
           ruby sxl-tools/merge_yaml.rb \
           --objects $SXL \
           --site $SITE > SXL-example.yaml
