@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 
 namespace nsRSMPGS
 {
@@ -163,6 +164,21 @@ namespace nsRSMPGS
           {
             Debug.WriteLine("Key already exists in section: " + YAMLMapping.GetFullPath() + ": " + sLines[iLineIndex].Trim());
           }
+        }
+        else if(sLines[iLineIndex].IndexOf("- ") >= 0)
+        {
+          // In some cases list is used instead of a key and value pair
+          sValue = UseFul.StringMid(sLines[iLineIndex], sLines[iLineIndex].IndexOf("- ") + 2).Trim(new char[] { ' ', '\'', '\"' });
+          sValue = sValue.Trim(new char[] { '\"', ' ', '\n', '\'' });
+          if (YAMLMapping.YAMLScalars.ContainsKey(sValue) == false)
+          {
+            YAMLMapping.YAMLScalars.Add(sValue, "");
+          }
+          else
+          {
+            Debug.WriteLine("Key already exists in section: " + YAMLMapping.GetFullPath() + ": " + sLines[iLineIndex].Trim());
+          }
+          iLineIndex++;
         }
         else if (iLineIndention == 0 && sLines[iLineIndex] == "---")
         {
