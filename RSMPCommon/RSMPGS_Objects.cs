@@ -570,9 +570,6 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._boolean:
             sValue = "false";
             break;
-          case cValueTypeObject.eValueType._array:
-            sValue = "";
-            break;
           default:
             sValue = "(invalid type)";
             break;

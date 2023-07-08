@@ -9,14 +9,129 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+env:
+  SXL: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
+
 jobs:
-  setup:
-    name: Create Installer
-    runs-on: windows-2019
+  create_sxl:
+    name: Create SXL
+    runs-on: ubuntu-latest
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install python dependencies 
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install xlsxwriter
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Install ruby dependencies
+        run: gem install rubyXL
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v3
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Create XLSX template
+        run: python sxl-tools/create_template.py
+
+      - name: Adapt data types for Core 3.2
+        run: |-
+          # Convert "timestamp" to "string", because it doesn't officially exist in 3.2
+          sed -i 's/type: timestamp/type: string/g' $SXL
+          # Remove any trailing _list because it is only used for comma
+          # separated values during schema validation
+          sed -i 's/_list$//g' $SXL
+
+      - name: Create XLSX file
+        run: |
+          ruby sxl-tools/yaml2xlsx.rb \
+            --template RSMP_Template_SignalExchangeList.xlsx \
+            --objects $SXL \
+            --site $SITE --stdout > SXL-example.xlsx
+
+      - name: Create CSV files
+        run: ruby sxl-tools/xlsx2csv.rb SXL-example.xlsx
+
+      - name: Create YAML file
+        run: |
+          # - Merges the alarms/statuses/commands from the rsmp_schema repo
+          #   with the example objects into an YAML SXL.
+          # - Converts JSON arrays from this format: [ value1, value2 ] to:
+          #   - value1
+          #   - value2
+          #   The first format is not supported by the simulator.
+          ruby sxl-tools/merge_yaml.rb \
+          --objects $SXL \
+          --site $SITE > SXL-example.yaml
+
+      - name: Upload artifacts (XLSX)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL XLSX
+          path: SXL-example.xlsx
+
+      - name: Upload artifacts (YAML)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL YAML
+          path: SXL-example.yaml
+
+      - name: Upload artifacts (CSV)
+        uses: actions/upload-artifact@v3
+        with:
+          name: SXL CSV
+          path: Objects/
+
+  create_manual:
+    name: Create manual
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Install rst2pdf
         run: pip install rst2pdf
 
+      - name: Convert manual with rst2pdf
+        run: |-
+          rst2pdf Documents/Manual_RSMPGS1.rst
+          rst2pdf Documents/Manual_RSMPGS2.rst
+
+      - name: Upload Manual RSMPGS1
+        uses: actions/upload-artifact@v3
+        with:
+          name: Manual RSMPGS1
+          path: Documents/Manual_RSMPGS1.pdf
+
+      - name: Upload Manual RSMPGS2
+        uses: actions/upload-artifact@v3
+        with:
+          name: Manual RSMPGS2
+          path: Documents/Manual_RSMPGS2.pdf
+
+  setup:
+    name: Create Installer
+    runs-on: windows-2019
+    needs: [create_sxl, create_manual ]
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -31,10 +146,35 @@ jobs:
         run: msbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
 
-      - name: Convert manual with rst2pdf
-        run: |-
-          rst2pdf Documents/Manual_RSMPGS1.rst
-          rst2pdf Documents/Manual_RSMPGS2.rst
+      - name: Download SXL CSV
+        uses: actions/download-artifact@v3
+        with:
+          name: SXL CSV
+          path: Objects
+
+      - name: Download SXL YAML
+        uses: actions/download-artifact@v3
+        with:
+          name: SXL YAML
+          path: YAML
+
+      - name: Download SXL Excel
+        uses: actions/download-artifact@v3
+        with:
+          name: SXL XLSX
+          path: YAML
+
+      - name: Download Manual RSMPGS1
+        uses: actions/download-artifact@v3
+        with:
+          name: Manual RSMPGS1
+          path: Documents
+
+      - name: Download Manual RSMPGS2
+        uses: actions/download-artifact@v3
+        with:
+          name: Manual RSMPGS2
+          path: Documents
 
       - name: Building the installer (RSMPGS1)
         run: |
@@ -52,10 +192,3 @@ jobs:
           name: Setup
           path: Output/*.exe
 
-      - name: Upload manuals
-        uses: actions/upload-artifact@v3
-        with:
-          name: Manual
-          path: |-
-            Documents/Manual_RSMPGS1.pdf
-            Documents/Manual_RSMPGS2.pdf
