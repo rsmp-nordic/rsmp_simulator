@@ -76,7 +76,7 @@ namespace nsRSMPGS
 
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-      bool bPacketWasProperlyHandled = false;
+      bool bPacketWasProperlyHandled = true;
 
       try
       {
@@ -123,6 +123,7 @@ namespace nsRSMPGS
                     }
                     else
                     {
+                      bPacketWasProperlyHandled = false;
                       string sReturnValue;
                       if (Reply.v == null)
                       {
@@ -137,6 +138,7 @@ namespace nsRSMPGS
                     }
                   }
                 }
+
                 switch (AlarmHeader.aSp.ToLower())
                 {
                   case "issue":
@@ -145,25 +147,22 @@ namespace nsRSMPGS
                     {
                       AlarmObject.AlarmCount++;
                     }
-                    bPacketWasProperlyHandled = true;
                     break;
                   case "acknowledge":
                     AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
-                    bPacketWasProperlyHandled = true;
                     break;
                   case "suspend":
                     AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
-                    bPacketWasProperlyHandled = true;
                     break;
                   default:
                     AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
                     RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not parse correct alarm state {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
+                    bPacketWasProperlyHandled = false;
                     break;
                 }
 
                 if (bPacketWasProperlyHandled)
                 {
-
                   AlarmObject.bActive = AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase)
                       ? true : false;
                   AlarmObject.bAcknowledged = AlarmHeader.ack.Equals("acknowledged", StringComparison.OrdinalIgnoreCase)
