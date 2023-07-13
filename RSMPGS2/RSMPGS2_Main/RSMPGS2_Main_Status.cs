@@ -317,7 +317,7 @@ namespace nsRSMPGS
       ListViewItem lvItem = new ListViewItem(StatusEvent.sTimeStamp.ToString());
       lvItem.SubItems.Add(StatusEvent.sMessageId);
       lvItem.SubItems.Add(StatusEvent.sEvent);
-      lvItem.SubItems.Add(StatusEvent.sStatusCommandId);
+      lvItem.SubItems.Add(StatusEvent.sStatusCodeId);
       lvItem.SubItems.Add(StatusEvent.sName);
       lvItem.SubItems.Add(StatusEvent.sStatus);
       lvItem.SubItems.Add(StatusEvent.sQuality);
@@ -329,7 +329,7 @@ namespace nsRSMPGS
     public void HandleStatusListUpdate(cRoadSideObject RoadSideObject, cStatusEvent StatusEvent, bool bSend)
     {
 
-      string sKey = StatusEvent.sStatusCommandId.ToUpper() + "/" + StatusEvent.sName.ToUpper();
+      string sKey = StatusEvent.sStatusCodeId.ToUpper() + "/" + StatusEvent.sName.ToUpper();
 
       if (RoadSideObject.StatusGroup.Items.ContainsKey(sKey))
       {

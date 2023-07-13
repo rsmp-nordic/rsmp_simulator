@@ -423,7 +423,7 @@ namespace nsRSMPGS
           StatusEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(StatusResponse.sTs);
           StatusEvent.sMessageId = StatusResponse.mId;
           StatusEvent.sEvent = "Received status";
-          StatusEvent.sStatusCommandId = Reply.sCI;
+          StatusEvent.sStatusCodeId = Reply.sCI;
           StatusEvent.sName = Reply.n;
           if (StatusReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
           {
@@ -437,7 +437,7 @@ namespace nsRSMPGS
           if (RSMPGS_Main.bWriteEventsContinous)
           {
             RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tUpdateOnChange: {8}\tEvent: {9}",
-                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusResponse.cId, StatusEvent.sStatusCommandId,
+                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusResponse.cId, StatusEvent.sStatusCodeId,
                 StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.bUpdateOnChange, StatusEvent.sEvent);
           }
           RoadSideObject.StatusEvents.Add(StatusEvent);
@@ -672,7 +672,7 @@ namespace nsRSMPGS
           StatusEvent = new cStatusEvent();
           StatusEvent.sTimeStamp = CreateLocalTimeStamp();
           StatusEvent.sMessageId = StatusRequest.mId;
-          StatusEvent.sStatusCommandId = StatusRequest_Status.sCI;
+          StatusEvent.sStatusCodeId = StatusRequest_Status.sCI;
           StatusEvent.sName = StatusRequest_Status.n;
           if (statusType.ToLower() == "statusunsubscribe")
           {
@@ -687,7 +687,7 @@ namespace nsRSMPGS
           if (RSMPGS_Main.bWriteEventsContinous)
           {
             RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tEvent: {8}",
-                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusRequest.cId, StatusEvent.sStatusCommandId,
+                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusRequest.cId, StatusEvent.sStatusCodeId,
                 StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.sEvent);
           }
 
@@ -831,7 +831,7 @@ namespace nsRSMPGS
       StatusEvent.sTimeStamp = CreateLocalTimeStamp();
       StatusEvent.sMessageId = sMessageId;
       StatusEvent.sEvent = "Sent subscription";
-      StatusEvent.sStatusCommandId = StatusSubscribe_Status.sCI;
+      StatusEvent.sStatusCodeId = StatusSubscribe_Status.sCI;
       StatusEvent.sName = StatusSubscribe_Status.n;
       StatusEvent.sUpdateRate = StatusSubscribe_Status.uRt;
       StatusEvent.bUpdateOnChange = StatusSubscribe_Status.sOc;
@@ -839,7 +839,7 @@ namespace nsRSMPGS
       if (RSMPGS_Main.bWriteEventsContinous)
       {
         RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tEvent: {8}",
-            StatusEvent.sTimeStamp, StatusEvent.sMessageId, sComponentId, StatusEvent.sStatusCommandId,
+            StatusEvent.sTimeStamp, StatusEvent.sMessageId, sComponentId, StatusEvent.sStatusCodeId,
             StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.sEvent);
       }
 
