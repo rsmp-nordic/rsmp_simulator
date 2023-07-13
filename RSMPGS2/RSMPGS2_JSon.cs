@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Diagnostics.Eventing.Reader;
+using static System.Net.WebRequestMethods;
+using System.Security.Claims;
 
 namespace nsRSMPGS
 {
@@ -73,132 +75,185 @@ namespace nsRSMPGS
 
     private bool DecodeAndParseAlarmMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bPacketWasProperlyHandled = true;
 
       try
       {
         RSMP_Messages.AlarmHeaderAndBody AlarmHeader = JSonSerializer.Deserialize<RSMP_Messages.AlarmHeaderAndBody>(sJSon);
 
-        if (AlarmHeader.cat != null && AlarmHeader.cat != "")
+        if (AlarmHeader.cat == null || AlarmHeader.cat == "")
         {
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
-          if (RoadSideObject != null)
+          sError = "Failed to handle Alarm message. Category (cat) missing or empty in alarm message";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        if (AlarmHeader.pri == null || AlarmHeader.pri == "")
+        {
+          sError = "Failed to handle Alarm message. Priority (pri) missing or empty in alarm message";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Alarm message, could not find object, ntsOId: " + AlarmHeader.ntsOId + ", cId: " + AlarmHeader.cId + ", aCId: " + AlarmHeader.aCId;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cAlarmObject AlarmObject = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmHeader.aCId, sc));
+        if (AlarmObject == null)
+        {
+          sError = "Failed to handle Alarm message, could not find alarm code id, ntsOId: " + AlarmHeader.ntsOId + ", cId: " + AlarmHeader.cId + ", aCId: " + AlarmHeader.aCId;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        if (AlarmObject.sPriority != AlarmHeader.pri)
+        {
+          sError = "Failed to handle Alarm message. Priority (pri) mismatch, pri: " + AlarmHeader.pri;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        if (AlarmObject.sCategory != AlarmHeader.cat)
+        {
+          sError = "Failed to handle Alarm message. Category (cat) mismatch, cat: " + AlarmHeader.cat;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cAlarmEvent AlarmEvent = new cAlarmEvent();
+        AlarmEvent.AlarmObject = AlarmObject;
+        AlarmEvent.sDirection = "Received";
+        AlarmEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(AlarmHeader.aTs);
+        AlarmEvent.sMessageId = AlarmHeader.mId;
+        AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
+
+        if (AlarmHeader.rvs != null)
+        {
+          foreach (RSMP_Messages.AlarmReturnValue Reply in AlarmHeader.rvs)
           {
-            foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
+            cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
+            if (AlarmReturnValue == null)
             {
-              if (AlarmObject.sAlarmCodeId.Equals(AlarmHeader.aCId, sc))
+              sError = "Failed to handle Alarm message. Failed to find name, n: " + Reply.n;
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
+            }
+            AlarmReturnValue.Value.SetValue(Reply.v);
+
+            if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(),
+                Reply.v, AlarmReturnValue.Value.GetSelectableValues(),
+                AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
+            {
+              AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
+            }
+            else
+            {
+              string sReturnValue;
+              if (Reply.v == null)
               {
-                cAlarmEvent AlarmEvent = new cAlarmEvent();
-                AlarmEvent.AlarmObject = AlarmObject;
-                AlarmEvent.sDirection = "Received";
-                AlarmEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(AlarmHeader.aTs);
-                AlarmEvent.sMessageId = AlarmHeader.mId;
-                AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
-
-                if (AlarmHeader.rvs != null)
-                {
-                  foreach (RSMP_Messages.AlarmReturnValue Reply in AlarmHeader.rvs)
-                  {
-                    cAlarmObject ao = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmEvent.sAlarmCodeId, sc));
-
-                    if (ao == null)
-                    {
-                      continue;
-                    }
-
-                    cAlarmReturnValue AlarmReturnValue = ao.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
-
-                    if (AlarmReturnValue == null)
-                    {
-                      continue;
-                    }
-                    AlarmReturnValue.Value.SetValue(Reply.v);
-
-                    if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(), Reply.v, AlarmReturnValue.Value.GetSelectableValues(), AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
-                    {
-                      AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
-                    }
-                    else
-                    {
-                      bPacketWasProperlyHandled = false;
-                      string sReturnValue;
-                      if (Reply.v == null)
-                      {
-                        sReturnValue = "(null)";
-                      }
-                      else
-                      {
-                        sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
-                      }
-                      sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + AlarmReturnValue.Value.GetValueType() + ", returnvalue: " + sReturnValue;
-                      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
-                    }
-                  }
-                }
-
-                switch (AlarmHeader.aSp.ToLower())
-                {
-                  case "issue":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.aS;
-                    if (AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase))
-                    {
-                      AlarmObject.AlarmCount++;
-                    }
-                    break;
-                  case "acknowledge":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
-                    break;
-                  case "suspend":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
-                    break;
-                  default:
-                    AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not parse correct alarm state {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
-                    bPacketWasProperlyHandled = false;
-                    break;
-                }
-
-                if (bPacketWasProperlyHandled)
-                {
-                  AlarmObject.bActive = AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  AlarmObject.bAcknowledged = AlarmHeader.ack.Equals("acknowledged", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  AlarmObject.bSuspended = AlarmHeader.sS.Equals("suspended", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  if (AlarmObject.bActive == false && AlarmObject.bAcknowledged)
-                  {
-                    AlarmObject.AlarmCount = 0;
-                  }
-                }
-                RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
-                RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
-                break;
+                sReturnValue = "(null)";
               }
+              else
+              {
+                sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+              }
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + AlarmReturnValue.Value.GetValueType() + ", returnvalue: " + sReturnValue;
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
             }
           }
-          if (bPacketWasProperlyHandled == false)
-          {
-            sError = "Failed to handle Alarm message, could not find object, ntsOId: '" + AlarmHeader.ntsOId + "', cId: '" + AlarmHeader.cId + "', aCId: '" + AlarmHeader.aCId + "'";
-          }
-        }
-        else
-        {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
         }
 
+        switch (AlarmHeader.aSp.ToLower())
+        {
+          case "issue":
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.aS;
+            if (AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase))
+            {
+              AlarmObject.AlarmCount++;
+            }
+            break;
+          case "acknowledge":
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
+            break;
+          case "suspend":
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
+            sError = "Could not parse correct alarm state " + AlarmHeader.aSp + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        switch (AlarmHeader.aS.ToLower())
+        {
+          case "active":
+            AlarmObject.bActive = true;
+            break;
+          case "inactive":
+            AlarmObject.bActive = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aS + ")";
+            sError = "Could not parse correct alarm state " + AlarmHeader.sS + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        switch (AlarmHeader.ack.ToLower())
+        {
+          case "acknowledged":
+            AlarmObject.bAcknowledged = true;
+            break;
+          case "notacknowledged":
+            AlarmObject.bAcknowledged = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.ack + ")";
+            sError = "Could not parse correct alarm state " + AlarmHeader.ack + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        switch (AlarmHeader.sS.ToLower())
+        {
+          case "suspended":
+            AlarmObject.bSuspended = true;
+            break;
+          case "notsuspended":
+            AlarmObject.bSuspended = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.sS + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not parse correct alarm state {0} (corresponding MsgId {1}) ",
+              AlarmHeader.sS, AlarmHeader.mId);
+            return false;
+        }
+
+        if (AlarmObject.bActive == false && AlarmObject.bAcknowledged)
+        {
+          AlarmObject.AlarmCount = 0;
+        }
+        RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
+        RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
+
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ",
+          AlarmHeader.aSp, AlarmHeader.mId);
       }
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bPacketWasProperlyHandled = false;
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+        return false;
       }
 
-      return bPacketWasProperlyHandled;
-
+      return true;
     }
 
     private bool DecodeAndParseAggregatedStatusMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
