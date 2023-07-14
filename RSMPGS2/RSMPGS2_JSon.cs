@@ -98,7 +98,7 @@ namespace nsRSMPGS
         cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
         if (RoadSideObject == null)
         {
-          sError = "Failed to handle Alarm message, could not find object, ntsOId: " + AlarmHeader.ntsOId + ", cId: " + AlarmHeader.cId + ", aCId: " + AlarmHeader.aCId;
+          sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´, aCId: `" + AlarmHeader.aCId + "´";
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
           return false;
         }
@@ -106,21 +106,21 @@ namespace nsRSMPGS
         cAlarmObject AlarmObject = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmHeader.aCId, sc));
         if (AlarmObject == null)
         {
-          sError = "Failed to handle Alarm message, could not find alarm code id, ntsOId: " + AlarmHeader.ntsOId + ", cId: " + AlarmHeader.cId + ", aCId: " + AlarmHeader.aCId;
+          sError = "Failed to handle Alarm message, could not find alarm code id, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´, aCId: `" + AlarmHeader.aCId + "´";
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
           return false;
         }
 
         if (AlarmObject.sPriority != AlarmHeader.pri)
         {
-          sError = "Failed to handle Alarm message. Priority (pri) mismatch, pri: " + AlarmHeader.pri;
+          sError = "Failed to handle Alarm message. Priority (pri) mismatch, pri: `" + AlarmHeader.pri + "´";
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
           return false;
         }
 
         if (AlarmObject.sCategory != AlarmHeader.cat)
         {
-          sError = "Failed to handle Alarm message. Category (cat) mismatch, cat: " + AlarmHeader.cat;
+          sError = "Failed to handle Alarm message. Category (cat) mismatch, cat: `" + AlarmHeader.cat + "´";
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
           return false;
         }
@@ -139,7 +139,7 @@ namespace nsRSMPGS
             cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
             if (AlarmReturnValue == null)
             {
-              sError = "Failed to handle Alarm message. Failed to find name, n: " + Reply.n;
+              sError = "Failed to handle Alarm message. Failed to find name, n: `" + Reply.n + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
               return false;
             }
@@ -162,77 +162,77 @@ namespace nsRSMPGS
               {
                 sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
               }
-              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + AlarmReturnValue.Value.GetValueType() + ", returnvalue: " + sReturnValue;
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `" + sReturnValue + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
               return false;
             }
           }
         }
 
-        switch (AlarmHeader.aSp.ToLower())
+        switch (AlarmHeader.aSp)
         {
-          case "issue":
+          case var name when string.Equals(name, "Issue", sc):
             AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.aS;
             if (AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase))
             {
               AlarmObject.AlarmCount++;
             }
             break;
-          case "acknowledge":
+          case var name when string.Equals(name, "Acknowledge", sc):
             AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
             break;
-          case "suspend":
+          case var name when string.Equals(name, "Suspend", sc):
             AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
             break;
           default:
             AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
-            sError = "Could not parse correct alarm state " + AlarmHeader.aSp + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.aSp + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
             return false;
         }
 
-        switch (AlarmHeader.aS.ToLower())
+        switch (AlarmHeader.aS)
         {
-          case "active":
+          case var name when string.Equals(name, "Active", sc):
             AlarmObject.bActive = true;
             break;
-          case "inactive":
+          case var name when string.Equals(name, "inActive", sc):
             AlarmObject.bActive = false;
             break;
           default:
             AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aS + ")";
-            sError = "Could not parse correct alarm state " + AlarmHeader.sS + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.aS + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
             return false;
         }
 
-        switch (AlarmHeader.ack.ToLower())
+        switch (AlarmHeader.ack)
         {
-          case "acknowledged":
+          case var name when string.Equals(name, "Acknowledged", sc):
             AlarmObject.bAcknowledged = true;
             break;
-          case "notacknowledged":
+          case var name when string.Equals(name, "notAcknowledged", sc):
             AlarmObject.bAcknowledged = false;
             break;
           default:
             AlarmEvent.sEvent = "(unknown: " + AlarmHeader.ack + ")";
-            sError = "Could not parse correct alarm state " + AlarmHeader.ack + " (corresponding MsgId " + AlarmHeader.mId + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.ack + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
             return false;
         }
 
-        switch (AlarmHeader.sS.ToLower())
+        switch (AlarmHeader.sS)
         {
-          case "suspended":
+          case var name when string.Equals(name, "Suspended", sc):
             AlarmObject.bSuspended = true;
             break;
-          case "notsuspended":
+          case var name when string.Equals(name, "notSuspended", sc):
             AlarmObject.bSuspended = false;
             break;
           default:
             AlarmEvent.sEvent = "(unknown: " + AlarmHeader.sS + ")";
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not parse correct alarm state {0} (corresponding MsgId {1}) ",
-              AlarmHeader.sS, AlarmHeader.mId);
+            sError = "Could not parse correct alarm state `" + AlarmHeader.sS + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
             return false;
         }
 
