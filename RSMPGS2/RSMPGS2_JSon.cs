@@ -12,6 +12,8 @@ using System.Reflection;
 using System.Diagnostics.Eventing.Reader;
 using static System.Net.WebRequestMethods;
 using System.Security.Claims;
+using RSMP_Messages;
+using static nsRSMPGS.cValue;
 
 namespace nsRSMPGS
 {
@@ -98,7 +100,7 @@ namespace nsRSMPGS
         cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
         if (RoadSideObject == null)
         {
-          sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´, aCId: `" + AlarmHeader.aCId + "´";
+          sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´";
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
           return false;
         }
@@ -411,31 +413,36 @@ namespace nsRSMPGS
 
     private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bSuccess = false;
 
       try
       {
         RSMP_Messages.StatusResponse StatusResponse = JSonSerializer.Deserialize<RSMP_Messages.StatusResponse>(sJSon);
 
         cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.ntsOId, StatusResponse.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Status message, could not find object, ntsOId: `" + StatusResponse.ntsOId + "´, cId: `" + StatusResponse.cId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
 
         foreach (RSMP_Messages.Status_VTQ Reply in StatusResponse.sS)
         {
           cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(Reply.sCI, sc));
-
           if (StatusObject == null)
           {
-            continue;
+            sError = "Failed to handle Status message, could not find status code id, ntsOId: `" + StatusResponse.ntsOId + "´, cId: `" + StatusResponse.cId + "´, sCI: `" + Reply.sCI + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
-
           if (StatusReturnValue == null)
           {
-            continue;
+            sError = "Failed to handle Status message. Failed to find name, n: `" + Reply.n + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           if (StatusReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
@@ -453,13 +460,16 @@ namespace nsRSMPGS
           {
             StatusReturnValue.Value.SetValue(Reply.s);
           }
-          StatusReturnValue.sQuality = Reply.q;
 
-          if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          StatusReturnValue.sQuality = Reply.q;
+          if(!Enum.IsDefined(typeof(cValue.eQuality), StatusReturnValue.sQuality))
           {
-            bSuccess = true;
+            sError = "Failed to handle Status message. Failed to find quality, q: `" + Reply.q + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
-          else
+
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             string sStatusValue;
             if (Reply.s == null)
@@ -472,6 +482,7 @@ namespace nsRSMPGS
             }
             sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           cStatusEvent StatusEvent = new cStatusEvent();
@@ -502,9 +513,9 @@ namespace nsRSMPGS
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bSuccess = false;
+        return false;
       }
-      return bSuccess;
+      return true;
     }
 
     public void CreateAndSendAggregatedStatusRequestMessage(cRoadSideObject RoadSideObject)
