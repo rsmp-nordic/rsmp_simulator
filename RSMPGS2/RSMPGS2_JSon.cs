@@ -462,7 +462,7 @@ namespace nsRSMPGS
           }
 
           StatusReturnValue.sQuality = Reply.q;
-          if(!Enum.IsDefined(typeof(cValue.eQuality), StatusReturnValue.sQuality))
+          if (!Enum.GetNames(typeof(cValue.eQuality)).Any(x => x.Equals(StatusReturnValue.sQuality, sc)))
           {
             sError = "Failed to handle Status message. Failed to find quality, q: `" + Reply.q + "´";
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
