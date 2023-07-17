@@ -113,6 +113,10 @@ namespace nsRSMPGS
           return false;
         }
 
+        // Previosly, RSMPGS2 considered alarm messages which didn't contain 'cat' to orignate from
+        // SCADA. This resulted in not performing any validation, writing to syslog and returning true.
+        // RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
+
         if (AlarmObject.sPriority != AlarmHeader.pri)
         {
           sError = "Failed to handle Alarm message. Priority (pri) mismatch, pri: `" + AlarmHeader.pri + "´";
@@ -245,8 +249,6 @@ namespace nsRSMPGS
         RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
         RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
 
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ",
-          AlarmHeader.aSp, AlarmHeader.mId);
       }
       catch (Exception e)
       {
