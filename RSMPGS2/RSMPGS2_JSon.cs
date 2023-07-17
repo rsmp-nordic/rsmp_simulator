@@ -321,96 +321,105 @@ namespace nsRSMPGS
 
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-      bool bSuccess = false;
-
       try
       {
         RSMP_Messages.CommandResponse CommandResponse = JSonSerializer.Deserialize<RSMP_Messages.CommandResponse>(sJSon);
 
-        if (CommandResponse.type.Equals("commandresponse", StringComparison.OrdinalIgnoreCase))
-        {
-
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
-
-          if (RoadSideObject != null)
-          {
-            foreach (RSMP_Messages.CommandResponse_Value Reply in CommandResponse.rvs)
-            {
-              foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
-              {
-                bool bDone = false;
-                foreach (cCommandReturnValue CommandReturnValue in CommandObject.CommandReturnValues)
-                {
-                  if (CommandReturnValue.sName.Equals(Reply.n, sc) &&
-                      CommandObject.sCommandCodeId.Equals(Reply.cCI, sc))
-                  {
-
-                    cCommandEvent CommandEvent = new cCommandEvent();
-                    CommandEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(CommandResponse.cTS);
-                    CommandEvent.sMessageId = CommandResponse.mId;
-                    CommandEvent.sEvent = "Received command";
-                    CommandEvent.sCommandCodeId = Reply.cCI;
-                    CommandEvent.sName = Reply.n;
-
-                    if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
-                    {
-                      if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
-                      {
-                        RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
-                      }
-                      CommandEvent.sValue = "base64";
-                    }
-                    else
-                    {
-                      CommandEvent.sValue = Reply.v;
-                    }
-
-                    CommandEvent.sAge = Reply.age;
-
-                    CommandReturnValue.sLastRecValue = Reply.v;
-                    CommandReturnValue.sLastRecAge = Reply.age;
-
-                    if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v, CommandReturnValue.Value.GetSelectableValues(), CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
-                    {
-                      bSuccess = true;
-                    }
-                    else
-                    {
-                      sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...");
-                      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
-                    }
-
-                    if (RSMPGS_Main.bWriteEventsContinous)
-                    {
-                      RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
-                              CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandResponse.cId, CommandEvent.sCommandCodeId,
-                              CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
-                    }
-
-                    RoadSideObject.CommandEvents.Add(CommandEvent);
-                    RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandResponse.ntsOId, CommandResponse.cId, CommandEvent, false, bUseCaseSensitiveIds);
-                    bDone = true;
-                    break;
-                  }
-                }
-                if (bDone) break;
-              }
-            }
-          }
-        }
-        else
+        if (!CommandResponse.type.Equals("commandresponse", StringComparison.OrdinalIgnoreCase))
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got commandrequest message from SCADA, (corresponding MsgId {0}) ", CommandResponse.mId);
+          return true;
+        }
+
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Command message, could not find object, ntsOId: `" + CommandResponse.ntsOId + "´, cId: `" + CommandResponse.cId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        foreach (RSMP_Messages.CommandResponse_Value Reply in CommandResponse.rvs)
+        {
+          cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(x => x.sCommandCodeId.Equals(Reply.cCI, sc));
+          if (CommandObject == null)
+          {
+            sError = "Failed to handle Command message, could not find command code id, ntsOId: `" + CommandResponse.ntsOId + "´, cId: `" + CommandResponse.cId + "´, sCI: `" + Reply.cCI + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
+          if (CommandReturnValue == null)
+          {
+            sError = "Failed to handle Command message. Failed to find name, n: `" + Reply.n + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+          CommandReturnValue.sAge = Reply.age;
+
+          // Here we're treating 'age' (commands) as a 'quality' (status), but they are 100% equal in the spec.
+          if (!Enum.GetNames(typeof(cValue.eQuality)).Any(x => x.Equals(CommandReturnValue.sAge, sc)))
+          {
+            sError = "Failed to handle Command message. Failed to find age, age: `" + Reply.age + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          if (!ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v, CommandReturnValue.Value.GetSelectableValues(), CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
+          {
+            string sStatusValue;
+            if (Reply.v == null)
+            {
+              sStatusValue = "(null)";
+            }
+            else
+            {
+              sStatusValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+            }
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + sStatusValue;
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          cCommandEvent CommandEvent = new cCommandEvent();
+          CommandEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(CommandResponse.cTS);
+          CommandEvent.sMessageId = CommandResponse.mId;
+          CommandEvent.sEvent = "Received command";
+          CommandEvent.sCommandCodeId = Reply.cCI;
+          CommandEvent.sName = Reply.n;
+          if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
+          {
+            if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
+            {
+              RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
+            }
+            CommandEvent.sValue = "base64";
+          }
+          else
+          {
+            CommandEvent.sValue = Reply.v;
+          }
+          CommandEvent.sAge = Reply.age;
+          CommandReturnValue.sLastRecValue = Reply.v;
+          CommandReturnValue.sLastRecAge = Reply.age;
+
+          if (RSMPGS_Main.bWriteEventsContinous)
+          {
+            RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
+                    CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandResponse.cId, CommandEvent.sCommandCodeId,
+                    CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
+          }
+          RoadSideObject.CommandEvents.Add(CommandEvent);
+          RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandResponse.ntsOId, CommandResponse.cId, CommandEvent, false, bUseCaseSensitiveIds);
         }
       }
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bSuccess = false;
+        return false;
       }
-
-      return bSuccess;
-
+      return true;
     }
 
     private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
