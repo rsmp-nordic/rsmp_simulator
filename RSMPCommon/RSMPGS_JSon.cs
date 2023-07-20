@@ -187,6 +187,12 @@ namespace nsRSMPGS
 #if _RSMPGS2
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeaderAndBody), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "Alarm", ref sError);
+
+              // Validate the return value, but only if defined
+              if (bSuccess && !(sJSon.Replace(" ", "").IndexOf("\"rvs\":[]", StringComparison.Ordinal) > 0))
+              {
+                bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmReturnValue), sJSon, ref sError);
+              }
 #endif
 #if _RSMPGS1
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.AlarmHeader), sJSon, ref sError) &&
@@ -211,6 +217,7 @@ namespace nsRSMPGS
             case "commandrequest":
 
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandRequest), sJSon, ref sError) &&
+                ValidateJSONProperties(typeof(RSMP_Messages.CommandRequest_Value), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "CommandRequest", ref sError);
 
               break;
@@ -218,6 +225,7 @@ namespace nsRSMPGS
             case "commandresponse":
 
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.CommandResponse), sJSon, ref sError) &&
+                ValidateJSONProperties(typeof(RSMP_Messages.CommandResponse_Value), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "CommandResponse", ref sError);
 
               break;
@@ -225,6 +233,7 @@ namespace nsRSMPGS
             case "statusrequest":
 
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusRequest), sJSon, ref sError) &&
+                ValidateJSONProperties(typeof(RSMP_Messages.StatusRequest_Status), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "StatusRequest", ref sError);
 
               break;
@@ -253,6 +262,7 @@ namespace nsRSMPGS
             case "statusresponse":
 
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.StatusResponse), sJSon, ref sError) &&
+                ValidateJSONProperties(typeof(RSMP_Messages.Status_VTQ), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "StatusResponse", ref sError);
 
               break;
@@ -946,6 +956,8 @@ namespace nsRSMPGS
       // Pack to ensure there is no space between "Tag" and ':'
       sJSon = sJSon.Replace(" ", "");
 
+
+      // When this is used to test return values, only the first occurence is tested
       foreach (FieldInfo field in fields)
       {
         // Ugly stuff to find out if the field exists and has bad casing
