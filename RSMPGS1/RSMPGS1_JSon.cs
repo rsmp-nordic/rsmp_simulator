@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using RSMP_Messages;
 
 namespace nsRSMPGS
 {
@@ -443,131 +444,148 @@ namespace nsRSMPGS
 
     private bool DecodeAndParseCommandMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bSuccess = false;
 
       // Values to return
       List<RSMP_Messages.CommandResponse_Value> rvs = new List<RSMP_Messages.CommandResponse_Value>();
-
-      //Dictionary<cRoadSideObject, cRoadSideObject> UpdatedRoadSideObjects = new Dictionary<cRoadSideObject, cRoadSideObject>();
 
       try
       {
         RSMP_Messages.CommandRequest CommandRequest = JSonSerializer.Deserialize<RSMP_Messages.CommandRequest>(sJSon);
 
-        // Response message
-        RSMP_Messages.CommandResponse CommandResponse = new RSMP_Messages.CommandResponse();
-
-        bool bSomeValueWasBad = false;
-
         // Scan through each value to set
         foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
         {
+
           // Create return value for each value to be set
           RSMP_Messages.CommandResponse_Value rv = new RSMP_Messages.CommandResponse_Value();
-          rv.v = null;
+          
+          // Set initial values
           rv.n = CommandRequest_Value.n;
-          rv.age = "undefined";
-
-          bool bFoundCommand = false;
+          rv.cCI = CommandRequest_Value.cCI;
 
           cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
-
-          if (RoadSideObject != null)
+          if (RoadSideObject == null)
           {
+            // Cannot find component id
+            sError = "Got Command, failed to find cId (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
 
-            // Find command in object
-            foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects.FindAll(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc)))
+            // MessageAck and CommandResponse with 'undefined' with recent versions of RSMP.
+            // MessageNotAck on older RSMP Versions
+            if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_1_3)
             {
-              bool bDone = false;
-              // Find command name in command
-              foreach (cCommandReturnValue CommandReturnValue in CommandObject.CommandReturnValues)
-              {
-                if (CommandReturnValue.sName.Equals(CommandRequest_Value.n, sc) &&
-                  CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
-                {
-                  // Do some validation
-                  if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v, CommandReturnValue.Value.GetSelectableValues(),
-                    CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
-                  {
-                    if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
-                    {
-                      if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
-                      {
-                        CommandReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v));
-                      }
-                    }
-                    else
-                    {
-                      CommandReturnValue.Value.SetValue(CommandRequest_Value.v);
-                    }
-                    rv.v = CommandRequest_Value.v;
-                    rv.cCI = CommandRequest_Value.cCI;
-                    rv.age = "recent";
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got Command, updated NTSObjectId: {0}, ComponentId: {1}, CommandCodeId: {2}, Name: {3}, Command: {4}, Value: {5}", CommandRequest.ntsOId, CommandRequest.cId, CommandRequest_Value.cCI, CommandRequest_Value.n, CommandRequest_Value.cO, CommandRequest_Value.v);
-                    RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandObject, CommandReturnValue);
-                  }
-                  else
-                  {
-                    rv.v = null;
-                    rv.cCI = CommandRequest_Value.cCI;
-                    rv.age = "unknown";
-                    sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-                    bSomeValueWasBad = true;
-                  }
-                  /*
-                  // Found at least one value
-                  if (UpdatedRoadSideObjects.ContainsKey(RoadSideObject) == false)
-                  {
-                    UpdatedRoadSideObjects.Add(RoadSideObject, RoadSideObject);
-                  }
-                  */
-                  bDone = true;
-                  bFoundCommand = true;
-                  break;
-                }
-              }
-              if (bDone) break;
-
+              rv.age = "undefined";
+              rv.v = null;
             }
+            else
+            {
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+          }
+          else
+          {
+            rv.age = "recent";
+            rv.v = CommandRequest_Value.v;
+            
+            cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
+            if (CommandObject == null)
+            {
+              // Cannot find command code id
+              sError = "Got Command, failed to find cCI (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+              // MessageNotAck
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+
+            cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(n => n.sName.Equals(CommandRequest_Value.n, sc));
+            if (CommandReturnValue == null)
+            {
+              // Cannot find name
+              sError = "Got Command, failed to find name (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+              // MessageNotAck
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+
+            if (!CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
+            {
+              // Cannot find command (cO)
+              sError = "Got Command, failed to find command (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+              // MessageNotAck
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+
+            if (!ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v, CommandReturnValue.Value.GetSelectableValues(),
+              CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
+            {
+              // Value fails validation
+              rv.v = null;
+              rv.age = "unknown";
+
+              // MessageNotAck
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+
+            if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
+            {
+              if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
+              {
+                CommandReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v));
+              }
+            }
+            else
+            {
+              CommandReturnValue.Value.SetValue(CommandRequest_Value.v);
+            }
+
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got Command, updated NTSObjectId: {0}, ComponentId: {1}, CommandCodeId: {2}, Name: {3}, Command: {4}, Value: {5}", CommandRequest.ntsOId, CommandRequest.cId, CommandRequest_Value.cCI, CommandRequest_Value.n, CommandRequest_Value.cO, CommandRequest_Value.v);
+            RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandObject, CommandReturnValue);
 
           }
           rvs.Add(rv);
-          if (bFoundCommand == false)
-          {
-            sError = "Got Command, failed to find object/command/name (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-            bSomeValueWasBad = true;
-          }
         }
-
-        //cRoadSideObject UpdatedRoadSideObject = null;
-        /*
-        foreach (cRoadSideObject UpdatedRoadSideObject in UpdatedRoadSideObjects.Values)
-        {
-          RSMPGS.MainForm.HandleCommandListUpdate(UpdatedRoadSideObject);
-        }
-        */
-
-        bSuccess = bSomeValueWasBad == false ? true : false;
 
         // Send response to client
+        RSMP_Messages.CommandResponse CommandResponse = new RSMP_Messages.CommandResponse();
         CommandResponse.mType = "rSMsg";
         CommandResponse.type = "CommandResponse";
         CommandResponse.mId = System.Guid.NewGuid().ToString();
         CommandResponse.ntsOId = CommandRequest.ntsOId;
         CommandResponse.xNId = CommandRequest.xNId;
         CommandResponse.cId = CommandRequest.cId;
-        //CommandResponse.cCI = CommandRequest.cCI;
         CommandResponse.cTS = CreateISO8601UTCTimeStamp();
         CommandResponse.rvs = rvs;
 
-        if (bHasSentAckOrNack == false)
+        if (!bHasSentAckOrNack)
         {
-          bHasSentAckOrNack = SendPacketAck(bSuccess, packetHeader.mId, "");
+          bHasSentAckOrNack = SendPacketAck(true, packetHeader.mId, "");
         }
 
         string sSendBuffer = JSonSerializer.SerializeObject(CommandResponse);
@@ -581,97 +599,129 @@ namespace nsRSMPGS
       catch (Exception e)
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to deserialize packet: {0}", e.Message);
+        return false;
       }
 
-      return bSuccess;
-
+      return true;
     }
 
     private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, StatusMsgType statusMsgType, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bSuccess = true;
 
       // Values to return
       List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
 
       try
       {
-
-        // StatusSubscribe, StatusUnsubscribe and StatusRequest are very much alike, differns by the uRt property only
+        // StatusSubscribe, StatusUnsubscribe and StatusRequest are very much alike, differs by the uRt property only
         RSMP_Messages.StatusSubscribe_Over_3_1_4 StatusSubscribe = JSonSerializer.Deserialize<RSMP_Messages.StatusSubscribe_Over_3_1_4>(sJSon);
 
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
-          if (StatusSubscribe_Status.sCI == null)
-          {
-            sError = "StatusCode Id (sCI) in " + packetHeader.type + " is missing";
-            return false;
-          }
-        }
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
+          RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
 
-        if (RoadSideObject != null)
-        {
-          foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
+          // Set initial values
+          s.sCI = StatusSubscribe_Status.sCI;
+          s.n = StatusSubscribe_Status.n;
+
+          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
+          if (RoadSideObject == null)
           {
-            RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
-            s.sCI = StatusSubscribe_Status.sCI;
-            s.n = StatusSubscribe_Status.n;
-            s.s = null;
-            // 3.1.1 = unknown
-            //s.q = "unknown";
-            // 3.1.2 = undefined ??
-            s.q = "undefined";
-            // Find status in object
-            cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
-            cStatusReturnValue StatusReturnValue = null;
-            if (StatusObject != null)
-            {
-              StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
+            // Cannot find component id
+            sError = "Got Status, failed to find object (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageAck and StatusResponse with 'undefined' with recent versions of RSMP.
+            // MessageNotAck on older RSMP Versions
+            if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_1_3)
+            { 
+              s.q = "undefined";
+              s.s = null;
+              sS.Add(s);
             }
-            if (StatusReturnValue != null)
+            else
             {
-              RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
-              switch (statusMsgType)
+              if (!bHasSentAckOrNack)
               {
-                case StatusMsgType.Request:
-                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status request (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
-                  break;
-                case StatusMsgType.UnSubscribe:
-                case StatusMsgType.Subscribe:
-                  // Delete subscription if it already exists
-                  foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
-                  {
-                    if (Subscription.StatusReturnValue == StatusReturnValue)
-                    {
-                      RoadSideObject.Subscriptions.Remove(Subscription);
-                      break;
-                    }
-                  }
-                  if (statusMsgType == StatusMsgType.Subscribe)
-                  {
-                    string sUpdateRate = StatusSubscribe_Status.uRt;
-                    float fUpdateRate = 0;
-                    float.TryParse(StatusSubscribe_Status.uRt, out fUpdateRate);
-                    if (fUpdateRate == 0)
-                    {
-                      float.TryParse(StatusSubscribe_Status.uRt.Replace('.', ','), out fUpdateRate);
-                    }
-                    bool bAlwaysSendOnChange = StatusSubscribe_Status.sOc;
-                    RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate, bAlwaysSendOnChange));
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
-                  }
-                  else
-                  {
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status unsubscribe, removed subscription (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
-                  }
-                  break;
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
               }
+              return false;
             }
+          }
+          else
+          {
+            s.q = "recent";
+
+            cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
+            if (StatusObject == null)
+            {
+              // Cannot find status code id
+              sError = "Got Status, failed to find sCI (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+              // MessageNotAck
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+            }
+
+            cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
+            if (StatusReturnValue == null)
+            {
+              // Cannot find name
+              sError = "Got Status, failed to find name (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+              // MessageNotAck
+              if (!bHasSentAckOrNack)
+              {
+                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+              }
+              return false;
+
+            }
+
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
+            switch (statusMsgType)
+            {
+              case StatusMsgType.Request:
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status request (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+                break;
+              case StatusMsgType.UnSubscribe:
+              case StatusMsgType.Subscribe:
+                // Delete subscription if it already exists
+                foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
+                {
+                  if (Subscription.StatusReturnValue == StatusReturnValue)
+                  {
+                    RoadSideObject.Subscriptions.Remove(Subscription);
+                    break;
+                  }
+                }
+                if (statusMsgType == StatusMsgType.Subscribe)
+                {
+                  string sUpdateRate = StatusSubscribe_Status.uRt;
+                  float fUpdateRate = 0;
+                  float.TryParse(StatusSubscribe_Status.uRt, out fUpdateRate);
+                  if (fUpdateRate == 0)
+                  {
+                    float.TryParse(StatusSubscribe_Status.uRt.Replace('.', ','), out fUpdateRate);
+                  }
+                  bool bAlwaysSendOnChange = StatusSubscribe_Status.sOc;
+                  RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate, bAlwaysSendOnChange));
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+                }
+                else
+                {
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status unsubscribe, removed subscription (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+                }
+                break;
+            }
+            
             if (s.s == null)
             {
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Got status request/subscribe, failed to update StatusCodeId or Object (could be unknown value) (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}))", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusSubscribe_Status.sCI);
@@ -679,23 +729,6 @@ namespace nsRSMPGS
 
             sS.Add(s);
           }
-        }
-        else
-        {
-          // Failed, fill return list with 'unknown'
-          foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
-          {
-            RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
-            s.sCI = StatusSubscribe_Status.sCI;
-            s.n = StatusSubscribe_Status.n;
-            s.s = null;
-            // 3.1.1 = unknown
-            //s.q = "unknown";
-            // 3.1.2 = undefined ??
-            s.q = "undefined";
-            sS.Add(s);
-          }
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Got status message, failed to find object (NTSObjectId: {0}, ComponentId: {1})", StatusSubscribe.ntsOId, StatusSubscribe.cId);
         }
 
         if (statusMsgType != StatusMsgType.UnSubscribe)
@@ -726,10 +759,10 @@ namespace nsRSMPGS
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bSuccess = false;
+        return false;
       }
 
-      return bSuccess;
+      return true;
     }
 
 
