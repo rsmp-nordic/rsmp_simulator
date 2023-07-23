@@ -39,7 +39,7 @@ namespace nsRSMPGS
     public string sTimeStamp;
     public string sMessageId;
     public string sEvent;
-    public string sStatusCommandId;
+    public string sStatusCodeId;
     public string sName;
     public string sStatus;
     public string sUpdateRate;
@@ -49,7 +49,7 @@ namespace nsRSMPGS
 
   public class cStatusSubscription
   {
-    public string sStatusCommandId;
+    public string sStatusCodeId;
     public string sName;
     public string sUpdateRate;
   }

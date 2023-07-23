@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Diagnostics.Eventing.Reader;
+using static System.Net.WebRequestMethods;
+using System.Security.Claims;
+using RSMP_Messages;
+using static nsRSMPGS.cValue;
 
 namespace nsRSMPGS
 {
@@ -73,133 +77,187 @@ namespace nsRSMPGS
 
     private bool DecodeAndParseAlarmMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bPacketWasProperlyHandled = false;
 
       try
       {
         RSMP_Messages.AlarmHeaderAndBody AlarmHeader = JSonSerializer.Deserialize<RSMP_Messages.AlarmHeaderAndBody>(sJSon);
 
-        if (AlarmHeader.cat != null && AlarmHeader.cat != "")
+        if (AlarmHeader.cat == null || AlarmHeader.cat == "")
         {
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
-          if (RoadSideObject != null)
+          sError = "Failed to handle Alarm message. Category (cat) missing or empty in alarm message";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        if (AlarmHeader.pri == null || AlarmHeader.pri == "")
+        {
+          sError = "Failed to handle Alarm message. Priority (pri) missing or empty in alarm message";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cAlarmObject AlarmObject = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmHeader.aCId, sc));
+        if (AlarmObject == null)
+        {
+          sError = "Failed to handle Alarm message, could not find alarm code id, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´, aCId: `" + AlarmHeader.aCId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        // Previosly, RSMPGS2 considered alarm messages which didn't contain 'cat' to orignate from
+        // SCADA. This resulted in not performing any validation, writing to syslog and returning true.
+        // RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
+
+        if (AlarmObject.sPriority != AlarmHeader.pri)
+        {
+          sError = "Failed to handle Alarm message. Priority (pri) mismatch, pri: `" + AlarmHeader.pri + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        if (AlarmObject.sCategory != AlarmHeader.cat)
+        {
+          sError = "Failed to handle Alarm message. Category (cat) mismatch, cat: `" + AlarmHeader.cat + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        cAlarmEvent AlarmEvent = new cAlarmEvent();
+        AlarmEvent.AlarmObject = AlarmObject;
+        AlarmEvent.sDirection = "Received";
+        AlarmEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(AlarmHeader.aTs);
+        AlarmEvent.sMessageId = AlarmHeader.mId;
+        AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
+
+        if (AlarmHeader.rvs != null)
+        {
+          foreach (RSMP_Messages.AlarmReturnValue Reply in AlarmHeader.rvs)
           {
-            foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
+            cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
+            if (AlarmReturnValue == null)
             {
-              if (AlarmObject.sAlarmCodeId.Equals(AlarmHeader.aCId, sc))
+              sError = "Failed to handle Alarm message. Failed to find name, n: `" + Reply.n + "´";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
+            }
+            AlarmReturnValue.Value.SetValue(Reply.v);
+
+            if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(),
+                Reply.v, AlarmReturnValue.Value.GetSelectableValues(),
+                AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
+            {
+              AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
+            }
+            else
+            {
+              string sReturnValue;
+              if (Reply.v == null)
               {
-                cAlarmEvent AlarmEvent = new cAlarmEvent();
-                AlarmEvent.AlarmObject = AlarmObject;
-                AlarmEvent.sDirection = "Received";
-                AlarmEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(AlarmHeader.aTs);
-                AlarmEvent.sMessageId = AlarmHeader.mId;
-                AlarmEvent.sAlarmCodeId = AlarmHeader.aCId;
-
-                if (AlarmHeader.rvs != null)
-                {
-                  foreach (RSMP_Messages.AlarmReturnValue Reply in AlarmHeader.rvs)
-                  {
-                    cAlarmObject ao = RoadSideObject.AlarmObjects.Find(x => x.sAlarmCodeId.Equals(AlarmEvent.sAlarmCodeId, sc));
-
-                    if (ao == null)
-                    {
-                      continue;
-                    }
-
-                    cAlarmReturnValue AlarmReturnValue = ao.AlarmReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
-
-                    if (AlarmReturnValue == null)
-                    {
-                      continue;
-                    }
-                    AlarmReturnValue.Value.SetValue(Reply.v);
-
-                    if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(), Reply.v, AlarmReturnValue.Value.GetSelectableValues(), AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
-                    {
-                      AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
-                    }
-                    else
-                    {
-                      string sReturnValue;
-                      if (Reply.v == null)
-                      {
-                        sReturnValue = "(null)";
-                      }
-                      else
-                      {
-                        sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
-                      }
-                      sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + AlarmReturnValue.Value.GetValueType() + ", returnvalue: " + sReturnValue;
-                      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
-                    }
-                  }
-                }
-                switch (AlarmHeader.aSp.ToLower())
-                {
-                  case "issue":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.aS;
-                    if (AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase))
-                    {
-                      AlarmObject.AlarmCount++;
-                    }
-                    bPacketWasProperlyHandled = true;
-                    break;
-                  case "acknowledge":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
-                    bPacketWasProperlyHandled = true;
-                    break;
-                  case "suspend":
-                    AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
-                    bPacketWasProperlyHandled = true;
-                    break;
-                  default:
-                    AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
-                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not parse correct alarm state {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
-                    break;
-                }
-
-                if (bPacketWasProperlyHandled)
-                {
-
-                  AlarmObject.bActive = AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  AlarmObject.bAcknowledged = AlarmHeader.ack.Equals("acknowledged", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  AlarmObject.bSuspended = AlarmHeader.sS.Equals("suspended", StringComparison.OrdinalIgnoreCase)
-                      ? true : false;
-                  if (AlarmObject.bActive == false && AlarmObject.bAcknowledged)
-                  {
-                    AlarmObject.AlarmCount = 0;
-                  }
-                }
-                RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
-                RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
-                break;
+                sReturnValue = "(null)";
               }
+              else
+              {
+                sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+              }
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `" + sReturnValue + "´";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
             }
           }
-          if (bPacketWasProperlyHandled == false)
-          {
-            sError = "Failed to handle Alarm message, could not find object, ntsOId: '" + AlarmHeader.ntsOId + "', cId: '" + AlarmHeader.cId + "', aCId: '" + AlarmHeader.aCId + "'";
-          }
         }
-        else
+
+        switch (AlarmHeader.aSp)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got alarm message from SCADA, aSp: {0} (corresponding MsgId {1}) ", AlarmHeader.aSp, AlarmHeader.mId);
+          case var name when string.Equals(name, "Issue", sc):
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.aS;
+            if (AlarmHeader.aS.Equals("active", StringComparison.OrdinalIgnoreCase))
+            {
+              AlarmObject.AlarmCount++;
+            }
+            break;
+          case var name when string.Equals(name, "Acknowledge", sc):
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.ack;
+            break;
+          case var name when string.Equals(name, "Suspend", sc):
+            AlarmEvent.sEvent = AlarmHeader.aSp + " / " + AlarmHeader.sS;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aSp + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.aSp + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
         }
+
+        switch (AlarmHeader.aS)
+        {
+          case var name when string.Equals(name, "Active", sc):
+            AlarmObject.bActive = true;
+            break;
+          case var name when string.Equals(name, "inActive", sc):
+            AlarmObject.bActive = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.aS + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.aS + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        switch (AlarmHeader.ack)
+        {
+          case var name when string.Equals(name, "Acknowledged", sc):
+            AlarmObject.bAcknowledged = true;
+            break;
+          case var name when string.Equals(name, "notAcknowledged", sc):
+            AlarmObject.bAcknowledged = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.ack + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.ack + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        switch (AlarmHeader.sS)
+        {
+          case var name when string.Equals(name, "Suspended", sc):
+            AlarmObject.bSuspended = true;
+            break;
+          case var name when string.Equals(name, "notSuspended", sc):
+            AlarmObject.bSuspended = false;
+            break;
+          default:
+            AlarmEvent.sEvent = "(unknown: " + AlarmHeader.sS + ")";
+            sError = "Could not parse correct alarm state `" + AlarmHeader.sS + "´ (corresponding MsgId " + AlarmHeader.mId + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+        }
+
+        if (AlarmObject.bActive == false && AlarmObject.bAcknowledged)
+        {
+          AlarmObject.AlarmCount = 0;
+        }
+        RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
+        RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
 
       }
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bPacketWasProperlyHandled = false;
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+        return false;
       }
 
-      return bPacketWasProperlyHandled;
-
+      return true;
     }
 
     private bool DecodeAndParseAggregatedStatusMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
@@ -263,125 +321,139 @@ namespace nsRSMPGS
 
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-      bool bSuccess = false;
-
       try
       {
         RSMP_Messages.CommandResponse CommandResponse = JSonSerializer.Deserialize<RSMP_Messages.CommandResponse>(sJSon);
 
-        if (CommandResponse.type.Equals("commandresponse", StringComparison.OrdinalIgnoreCase))
-        {
-
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
-
-          if (RoadSideObject != null)
-          {
-            foreach (RSMP_Messages.CommandResponse_Value Reply in CommandResponse.rvs)
-            {
-              foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
-              {
-                bool bDone = false;
-                foreach (cCommandReturnValue CommandReturnValue in CommandObject.CommandReturnValues)
-                {
-                  if (CommandReturnValue.sName.Equals(Reply.n, sc) &&
-                      CommandObject.sCommandCodeId.Equals(Reply.cCI, sc))
-                  {
-
-                    cCommandEvent CommandEvent = new cCommandEvent();
-                    CommandEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(CommandResponse.cTS);
-                    CommandEvent.sMessageId = CommandResponse.mId;
-                    CommandEvent.sEvent = "Received command";
-                    CommandEvent.sCommandCodeId = Reply.cCI;
-                    CommandEvent.sName = Reply.n;
-
-                    if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
-                    {
-                      if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
-                      {
-                        RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
-                      }
-                      CommandEvent.sValue = "base64";
-                    }
-                    else
-                    {
-                      CommandEvent.sValue = Reply.v;
-                    }
-
-                    CommandEvent.sAge = Reply.age;
-
-                    CommandReturnValue.sLastRecValue = Reply.v;
-                    CommandReturnValue.sLastRecAge = Reply.age;
-
-                    if (ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v, CommandReturnValue.Value.GetSelectableValues(), CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
-                    {
-                      bSuccess = true;
-                    }
-                    else
-                    {
-                      sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...");
-                      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
-                    }
-
-                    if (RSMPGS_Main.bWriteEventsContinous)
-                    {
-                      RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
-                              CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandResponse.cId, CommandEvent.sCommandCodeId,
-                              CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
-                    }
-
-                    RoadSideObject.CommandEvents.Add(CommandEvent);
-                    RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandResponse.ntsOId, CommandResponse.cId, CommandEvent, false, bUseCaseSensitiveIds);
-                    bDone = true;
-                    break;
-                  }
-                }
-                if (bDone) break;
-              }
-            }
-          }
-        }
-        else
+        if (!CommandResponse.type.Equals("commandresponse", StringComparison.OrdinalIgnoreCase))
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got commandrequest message from SCADA, (corresponding MsgId {0}) ", CommandResponse.mId);
+          return true;
+        }
+
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Command message, could not find object, ntsOId: `" + CommandResponse.ntsOId + "´, cId: `" + CommandResponse.cId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
+
+        foreach (RSMP_Messages.CommandResponse_Value Reply in CommandResponse.rvs)
+        {
+          cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(x => x.sCommandCodeId.Equals(Reply.cCI, sc));
+          if (CommandObject == null)
+          {
+            sError = "Failed to handle Command message, could not find command code id, ntsOId: `" + CommandResponse.ntsOId + "´, cId: `" + CommandResponse.cId + "´, sCI: `" + Reply.cCI + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
+          if (CommandReturnValue == null)
+          {
+            sError = "Failed to handle Command message. Failed to find name, n: `" + Reply.n + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+          CommandReturnValue.sAge = Reply.age;
+
+          // Here we're treating 'age' (commands) as a 'quality' (status), but they are 100% equal in the spec.
+          if (!Enum.GetNames(typeof(cValue.eQuality)).Any(x => x.Equals(CommandReturnValue.sAge, sc)))
+          {
+            sError = "Failed to handle Command message. Failed to find age, age: `" + Reply.age + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          if (!ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), Reply.v, CommandReturnValue.Value.GetSelectableValues(), CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
+          {
+            string sStatusValue;
+            if (Reply.v == null)
+            {
+              sStatusValue = "(null)";
+            }
+            else
+            {
+              sStatusValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+            }
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + sStatusValue;
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          cCommandEvent CommandEvent = new cCommandEvent();
+          CommandEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(CommandResponse.cTS);
+          CommandEvent.sMessageId = CommandResponse.mId;
+          CommandEvent.sEvent = "Received command";
+          CommandEvent.sCommandCodeId = Reply.cCI;
+          CommandEvent.sName = Reply.n;
+          if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
+          {
+            if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
+            {
+              RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
+            }
+            CommandEvent.sValue = "base64";
+          }
+          else
+          {
+            CommandEvent.sValue = Reply.v;
+          }
+          CommandEvent.sAge = Reply.age;
+          CommandReturnValue.sLastRecValue = Reply.v;
+          CommandReturnValue.sLastRecAge = Reply.age;
+
+          if (RSMPGS_Main.bWriteEventsContinous)
+          {
+            RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
+                    CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandResponse.cId, CommandEvent.sCommandCodeId,
+                    CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
+          }
+          RoadSideObject.CommandEvents.Add(CommandEvent);
+          RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandResponse.ntsOId, CommandResponse.cId, CommandEvent, false, bUseCaseSensitiveIds);
         }
       }
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bSuccess = false;
+        return false;
       }
-
-      return bSuccess;
-
+      return true;
     }
 
     private bool DecodeAndParseStatusMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
-
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-      bool bSuccess = false;
 
       try
       {
         RSMP_Messages.StatusResponse StatusResponse = JSonSerializer.Deserialize<RSMP_Messages.StatusResponse>(sJSon);
 
         cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.ntsOId, StatusResponse.cId, bUseCaseSensitiveIds);
+        if (RoadSideObject == null)
+        {
+          sError = "Failed to handle Status message, could not find object, ntsOId: `" + StatusResponse.ntsOId + "´, cId: `" + StatusResponse.cId + "´";
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+          return false;
+        }
 
         foreach (RSMP_Messages.Status_VTQ Reply in StatusResponse.sS)
         {
           cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(Reply.sCI, sc));
-
           if (StatusObject == null)
           {
-            continue;
+            sError = "Failed to handle Status message, could not find status code id, ntsOId: `" + StatusResponse.ntsOId + "´, cId: `" + StatusResponse.cId + "´, sCI: `" + Reply.sCI + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(Reply.n, sc));
-
           if (StatusReturnValue == null)
           {
-            continue;
+            sError = "Failed to handle Status message. Failed to find name, n: `" + Reply.n + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           if (StatusReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
@@ -399,7 +471,6 @@ namespace nsRSMPGS
           {
             StatusReturnValue.Value.SetValue(Reply.s.ToString());
           }
-          StatusReturnValue.sQuality = Reply.q;
 
           if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
           {
@@ -407,51 +478,44 @@ namespace nsRSMPGS
 
             Reply.s = stringifyObject(Reply.s);
 
-            if (arrayResult == "success")
+            if (arrayResult =! "success")
             {
-              bSuccess = true;
-            }
-            else
-            {
+              sError = "Failed to handle Status message. Failed to handle array , array: `" + Reply.s + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
+	      return false;
             }
           }
-          else
-          {
-            if (ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
-            {
-              bSuccess = true;
 
-              Dictionary<string, string> selectableValues;
-              if (StatusReturnValue.Value.ValueTypeObject.SelectableValues == null)
-              {
-                selectableValues = StatusReturnValue.Value.ValueTypeObject.SelectableValues;
-                bool containsKey = selectableValues.ContainsKey(Reply.s.ToString());
-                if (!containsKey) { bSuccess = false; }
-              }
+          StatusReturnValue.sQuality = Reply.q;
+          if (!Enum.GetNames(typeof(cValue.eQuality)).Any(x => x.Equals(StatusReturnValue.sQuality, sc)))
+          {
+            sError = "Failed to handle Status message. Failed to find quality, q: `" + Reply.q + "´";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
+          }
+
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          {
+            string sStatusValue;
+            if (Reply.s == null)
+            {
+              sStatusValue = "(null)";
             }
             else
             {
-              string sStatusValue;
-              if (Reply.s == null)
-              {
-                sStatusValue = "(null)";
-              }
-              else
-              {
-                string status = Reply.s.ToString();
-                sStatusValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
-              }
-              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              string status = Reply.s.ToString();
+              sStatusValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
             }
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+            return false;
           }
 
           cStatusEvent StatusEvent = new cStatusEvent();
           StatusEvent.sTimeStamp = UnpackISO8601UTCTimeStamp(StatusResponse.sTs);
           StatusEvent.sMessageId = StatusResponse.mId;
           StatusEvent.sEvent = "Received status";
-          StatusEvent.sStatusCommandId = Reply.sCI;
+          StatusEvent.sStatusCodeId = Reply.sCI;
           StatusEvent.sName = Reply.n;
           if (StatusReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
           {
@@ -465,7 +529,7 @@ namespace nsRSMPGS
           if (RSMPGS_Main.bWriteEventsContinous)
           {
             RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tUpdateOnChange: {8}\tEvent: {9}",
-                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusResponse.cId, StatusEvent.sStatusCommandId,
+                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusResponse.cId, StatusEvent.sStatusCodeId,
                 StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.bUpdateOnChange, StatusEvent.sEvent);
           }
           RoadSideObject.StatusEvents.Add(StatusEvent);
@@ -475,9 +539,9 @@ namespace nsRSMPGS
       catch (Exception e)
       {
         sError = "Failed to deserialize packet: " + e.Message;
-        bSuccess = false;
+        return false;
       }
-      return bSuccess;
+      return true;
     }
 
     public void CreateAndSendAggregatedStatusRequestMessage(cRoadSideObject RoadSideObject)
@@ -700,7 +764,7 @@ namespace nsRSMPGS
           StatusEvent = new cStatusEvent();
           StatusEvent.sTimeStamp = CreateLocalTimeStamp();
           StatusEvent.sMessageId = StatusRequest.mId;
-          StatusEvent.sStatusCommandId = StatusRequest_Status.sCI;
+          StatusEvent.sStatusCodeId = StatusRequest_Status.sCI;
           StatusEvent.sName = StatusRequest_Status.n;
           if (statusType.ToLower() == "statusunsubscribe")
           {
@@ -715,7 +779,7 @@ namespace nsRSMPGS
           if (RSMPGS_Main.bWriteEventsContinous)
           {
             RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tEvent: {8}",
-                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusRequest.cId, StatusEvent.sStatusCommandId,
+                StatusEvent.sTimeStamp, StatusEvent.sMessageId, StatusRequest.cId, StatusEvent.sStatusCodeId,
                 StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.sEvent);
           }
 
@@ -859,7 +923,7 @@ namespace nsRSMPGS
       StatusEvent.sTimeStamp = CreateLocalTimeStamp();
       StatusEvent.sMessageId = sMessageId;
       StatusEvent.sEvent = "Sent subscription";
-      StatusEvent.sStatusCommandId = StatusSubscribe_Status.sCI;
+      StatusEvent.sStatusCodeId = StatusSubscribe_Status.sCI;
       StatusEvent.sName = StatusSubscribe_Status.n;
       StatusEvent.sUpdateRate = StatusSubscribe_Status.uRt;
       StatusEvent.bUpdateOnChange = StatusSubscribe_Status.sOc;
@@ -867,7 +931,7 @@ namespace nsRSMPGS
       if (RSMPGS_Main.bWriteEventsContinous)
       {
         RSMPGS.SysLog.EventLog("Status;{0}\tMId: {1}\tComponentId: {2}\tStatusCommandId: {3}\tName: {4}\tStatus: {5}\tQuality: {6}\tUpdateRate: {7}\tEvent: {8}",
-            StatusEvent.sTimeStamp, StatusEvent.sMessageId, sComponentId, StatusEvent.sStatusCommandId,
+            StatusEvent.sTimeStamp, StatusEvent.sMessageId, sComponentId, StatusEvent.sStatusCodeId,
             StatusEvent.sName, StatusEvent.sStatus, StatusEvent.sQuality, StatusEvent.sUpdateRate, StatusEvent.sEvent);
       }
 
