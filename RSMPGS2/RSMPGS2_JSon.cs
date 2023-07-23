@@ -478,7 +478,7 @@ namespace nsRSMPGS
 
             Reply.s = stringifyObject(Reply.s);
 
-            if (arrayResult =! "success")
+            if (arrayResult != "success")
             {
               sError = "Failed to handle Status message. Failed to handle array , array: `" + Reply.s + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
@@ -494,7 +494,7 @@ namespace nsRSMPGS
             return false;
           }
 
-          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             string sStatusValue;
             if (Reply.s == null)
