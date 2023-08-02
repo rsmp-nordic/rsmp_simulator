@@ -1970,7 +1970,7 @@ namespace nsRSMPGS
         array = Value;
         Button buttonNewRow = new Button();
         buttonNewRow.Click += new EventHandler(newArrayRow);
-        buttonNewRow.Text = "Ny rad";
+        buttonNewRow.Text = "New row";
         arrayListView.View = View.Details;
         buttonNewRow.SetBounds(80, 5, 75, 23);
         buttonCancel.SetBounds(160, 5, 75, 23);
@@ -2243,12 +2243,12 @@ namespace nsRSMPGS
       Button buttonDelete = new Button();
 
       buttonCancel.Text = "Cancel";
-      buttonDelete.Text = "Radera";
+      buttonDelete.Text = "Delete";
       buttonDelete.Click += new EventHandler(deleteArrayRow);
       buttonOk.Text = "OK";
       buttonOk.Click += new EventHandler(saveArrayRow);
 
-      arrayForm.Text = "Rad";
+      arrayForm.Text = "Row";
       arrayForm.FormBorderStyle = FormBorderStyle.FixedDialog;
       arrayForm.StartPosition = FormStartPosition.CenterScreen;
       arrayForm.MinimizeBox = false;
