@@ -1231,7 +1231,9 @@ namespace nsRSMPGS
           }
 
           // Transalte "range" to selectable objects
-          if (sRange.StartsWith("-"))
+          // Selectable objects starts with "-". Ignore any embedded JSON (starts with "---")
+          // Embedded JSON only used with type "array".
+          if (sRange.StartsWith("-") && !sRange.StartsWith("---"))
           {
             foreach (string sValueItem in sRange.Split('\n'))
             {
