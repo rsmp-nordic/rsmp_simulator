@@ -1363,6 +1363,10 @@ namespace nsRSMPGS
           bValueIsValid = true;
           break;
 
+        case "array":
+          bValueIsValid = true;
+          break;
+
         case "integer":
           try
           {
