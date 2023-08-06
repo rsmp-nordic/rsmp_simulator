@@ -1526,6 +1526,11 @@ namespace nsRSMPGS
         HighestRSMPVersion = RSMPVersion.RSMP_3_1_5;
       }
 
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_2))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_2;
+      }
+
       return HighestRSMPVersion;
 
     }
