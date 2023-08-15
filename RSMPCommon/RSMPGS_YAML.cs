@@ -29,12 +29,6 @@ namespace nsRSMPGS
 
       while (iLineIndex < sLines.Count)
       {
-
-        if (sLines[iLineIndex].Contains("Detector forced on/off"))
-        {
-
-        }
-        
         // Comments?
         if (UseFul.StringLeft(sLines[iLineIndex], 2) == " #")
         {
