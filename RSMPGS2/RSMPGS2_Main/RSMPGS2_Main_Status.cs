@@ -273,7 +273,7 @@ namespace nsRSMPGS
           sValues[2] = StatusReturnValue.Value.GetValueType();
           sValues[3] = StatusReturnValue.Value.GetValue();
           sValues[4] = StatusReturnValue.sQuality;
-          sValues[5] = StatusReturnValue.sLastUpdateRate;
+          sValues[5] = StatusReturnValue.sLastUpdateRate == null ?  "" : StatusReturnValue.sLastUpdateRate;
           sValues[6] = StatusReturnValue.bLastUpdateOnChange.ToString();
           sValues[7] = StatusReturnValue.sComment.Replace("\n", " / ");
           /*
