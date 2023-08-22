@@ -14,6 +14,8 @@ using System.Linq;
 using System.Collections;
 using System.Diagnostics;
 using static System.Windows.Forms.ListViewItem;
+using System.Runtime.CompilerServices;
+using RSMP_Messages;
 
 namespace nsRSMPGS
 {
@@ -1949,6 +1951,7 @@ namespace nsRSMPGS
       textBox.Text = sComment.Replace("\r", "").Replace("\n", "\r\n");
 
       comboBox.Text = value;
+      comboBox.Name = "comboBox";
       comboBox.DropDownStyle = ComboBoxStyle.DropDown;
 
       textBox.Multiline = true;
@@ -2750,6 +2753,11 @@ namespace nsRSMPGS
 
     private static void buttonBrowse_Click(object sender, EventArgs e)
     {
+      Button btn = (Button)sender;
+
+      Form frm = (Form)btn.FindForm();
+      ComboBox combobox = (ComboBox)frm.Controls.Find("comboBox", false).FirstOrDefault();
+
       OpenFileDialog openFileDialog = new OpenFileDialog();
       openFileDialog.InitialDirectory = sFileName;
       openFileDialog.Filter = "All files|*.*";
@@ -2757,6 +2765,32 @@ namespace nsRSMPGS
       if (openFileDialog.ShowDialog() == DialogResult.OK)
       {
         sFileName = openFileDialog.FileName;
+        string sBase64;
+
+        try
+        {
+          byte[] Base64Bytes = null;
+          // Open file for reading 
+          System.IO.FileStream fsBase64 = new System.IO.FileStream(sFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+          System.IO.BinaryReader brBase64 = new System.IO.BinaryReader(fsBase64);
+          long lBytes = new System.IO.FileInfo(sFileName).Length;
+          Base64Bytes = brBase64.ReadBytes((Int32)lBytes);
+          fsBase64.Close();
+          fsBase64.Dispose();
+          brBase64.Close();
+          sBase64 = Convert.ToBase64String(Base64Bytes);
+          if (sBase64.Length > (cTcpSocketClientThread.BUFLENGTH - 100))
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
+            sBase64 = null;
+          }
+        }
+        catch (Exception ex)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode '{0}', error {1}", sFileName, ex.Message);
+          sBase64 = null;
+        }
+        combobox.Text = sBase64;
       }
     }
   }
