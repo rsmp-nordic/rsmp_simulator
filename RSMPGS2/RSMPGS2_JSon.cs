@@ -149,13 +149,35 @@ namespace nsRSMPGS
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
               return false;
             }
-            AlarmReturnValue.Value.SetValue(Reply.v);
+
+            if (AlarmReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
+            {
+              if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
+              {
+                AlarmReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.v));
+              }
+              else
+              {
+                AlarmReturnValue.Value.SetValue("base64");
+              }
+            }
+            else
+            {
+              AlarmReturnValue.Value.SetValue(Reply.v);
+            }
 
             if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(),
                 Reply.v, AlarmReturnValue.Value.GetSelectableValues(),
                 AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
             {
-              AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
+              if (AlarmReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
+              {
+                AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, "base64"));
+              }
+              else
+              {
+                AlarmEvent.AlarmEventReturnValues.Add(new cAlarmEventReturnValue(Reply.n, Reply.v));
+              }
             }
             else
             {
