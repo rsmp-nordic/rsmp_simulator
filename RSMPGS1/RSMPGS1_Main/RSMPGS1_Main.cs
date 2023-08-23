@@ -231,8 +231,9 @@ namespace nsRSMPGS
               Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
               break;
             case "real":
-              
               Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+              break;
+            case "array":
               break;
             default:
               Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
@@ -382,6 +383,8 @@ namespace nsRSMPGS
                 break;
               case "real":
                 StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+                break;
+              case "array":
                 break;
               default:
                 StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
