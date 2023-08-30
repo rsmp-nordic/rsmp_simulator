@@ -1,7 +1,7 @@
 [Setup]
-AppName=RSMPGS2 (Roadside Simulator)
-AppVerName=RSMPGS2 (Roadside Simulator) 1.0.1.7
-AppId=RSMPGS2 (Roadside Simulator)
+AppName=RSMPGS2 (SCADA Interface Simulator)
+AppVerName=RSMPGS2 (SCADA Interface Simulator) 1.0.1.7
+AppId=RSMPGS2 (SCADA Interface Simulator)
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
 AppSupportURL=http://www.automatisera.nu
@@ -42,8 +42,8 @@ Name: "{app}\YAML"; Permissions: users-modify
 Name: "{app}\Objects"; Permissions: users-modify
 
 [Icons]
-Name: "{group}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
-Name: "{userdesktop}\RSMPGS2 (Roadside Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
+Name: "{group}\RSMPGS2 (SCADA Interface Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
+Name: "{userdesktop}\RSMPGS2 (SCADA Interface Simulator)"; Filename: "{app}\RSMPGS2.exe"; MinVersion: 0.0,6.0; 
 Name: "{group}\RSMPGS2 Manual"; Filename: "{app}\Documents\Manual_RSMPGS2.pdf"; MinVersion: 0.0,6.0; 
 
 [Tasks]
