@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Windows.Forms.VisualStyles;
 
 namespace nsRSMPGS
 {
@@ -219,6 +220,8 @@ namespace nsRSMPGS
         // Delete subscription if it already exists
         foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
         {
+          int min = (int)Subscription.StatusReturnValue.Value.GetValueMin();
+          int max = (int)Subscription.StatusReturnValue.Value.GetValueMax();
           switch (Subscription.StatusReturnValue.Value.GetValueType().ToLower())
           {
             case "boolean":
@@ -228,10 +231,11 @@ namespace nsRSMPGS
               Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
               break;
             case "real":
-              Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(-10000, 10000) / 10).ToString());
+              
+              Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
               break;
             default:
-              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(-1000, 1000).ToString());
+              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
               break;
           }
           if (Subscription.SubscribeStatus == cSubscription.SubscribeMethod.OnChange || Subscription.SubscribeStatus == cSubscription.SubscribeMethod.IntervalAndOnChange)
@@ -366,6 +370,8 @@ namespace nsRSMPGS
         {
           foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
           {
+            int min = (int)StatusReturnValue.Value.GetValueMin();
+            int max = (int)StatusReturnValue.Value.GetValueMax();
             switch (StatusReturnValue.Value.GetValueType().ToLower())
             {
               case "boolean":
@@ -375,10 +381,10 @@ namespace nsRSMPGS
                 StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
                 break;
               case "real":
-                StatusReturnValue.Value.SetValue((Rnd.Next(-10000, 10000) / 10).ToString());
+                StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
                 break;
               default:
-                StatusReturnValue.Value.SetValue(Rnd.Next(-1000, 1000).ToString());
+                StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
                 break;
             }
             //StatusReturnValue.sStatus = "?";
