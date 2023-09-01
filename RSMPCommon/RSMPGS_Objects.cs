@@ -561,10 +561,11 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
           case cValueTypeObject.eValueType._unit:
-          case cValueTypeObject.eValueType._array:
             sValue = "?";
             break;
-
+          case cValueTypeObject.eValueType._array:
+            sValue = "(array)";
+            break;
           case cValueTypeObject.eValueType._integer:
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
