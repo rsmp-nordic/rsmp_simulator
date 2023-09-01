@@ -213,7 +213,7 @@
       this.columnHeader_Status_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Status_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Status_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Status_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Status_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Status_UpdateOnChange = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -224,7 +224,7 @@
       this.columnHeader_StatusEvents_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_StatusEvents_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_StatusEvents_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_StatusEvents_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_StatusEvents_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.splitContainer_Commands = new System.Windows.Forms.SplitContainer();
@@ -2074,7 +2074,7 @@
             this.columnHeader_Status_Description,
             this.columnHeader_Status_Name,
             this.columnHeader_Status_Type,
-            this.columnHeader_Status_Status,
+            this.columnHeader_Status_Value,
             this.columnHeader_Status_Quality,
             this.columnHeader_Status_UpdateRate,
             this.columnHeader_Status_UpdateOnChange,
@@ -2110,9 +2110,9 @@
       // 
       this.columnHeader_Status_Type.Text = "Type";
       // 
-      // columnHeader_Status_Status
+      // columnHeader_Status_Value
       // 
-      this.columnHeader_Status_Status.Text = "Status";
+      this.columnHeader_Status_Value.Text = "Value";
       // 
       // columnHeader_Status_Quality
       // 
@@ -2140,7 +2140,7 @@
             this.columnHeader_StatusEvents_Event,
             this.columnHeader_StatusEvents_StatusCodeId,
             this.columnHeader_StatusEvents_Name,
-            this.columnHeader_StatusEvents_Status,
+            this.columnHeader_StatusEvents_Value,
             this.columnHeader_StatusEvents_Quality,
             this.columnHeader_StatusEvents_UpdateRate});
       this.listView_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2183,9 +2183,9 @@
       // 
       this.columnHeader_StatusEvents_Name.Text = "Name";
       // 
-      // columnHeader_StatusEvents_Status
+      // columnHeader_StatusEvents_Value
       // 
-      this.columnHeader_StatusEvents_Status.Text = "Status";
+      this.columnHeader_StatusEvents_Value.Text = "Value";
       // 
       // columnHeader_StatusEvents_Quality
       // 
@@ -2532,7 +2532,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader_Status_StatusCodeId;
         private System.Windows.Forms.ColumnHeader columnHeader_Status_Name;
         private System.Windows.Forms.ColumnHeader columnHeader_Status_Type;
-        private System.Windows.Forms.ColumnHeader columnHeader_Status_Status;
+        private System.Windows.Forms.ColumnHeader columnHeader_Status_Value;
         private System.Windows.Forms.ColumnHeader columnHeader_Status_Quality;
         private System.Windows.Forms.ColumnHeader columnHeader_Status_UpdateRate;
         private System.Windows.Forms.ColumnHeader columnHeader_Status_Comment;
@@ -2542,7 +2542,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_Event;
         private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_StatusCodeId;
         private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_Name;
-        private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_Status;
+        private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_Value;
         private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_Quality;
         private System.Windows.Forms.ColumnHeader columnHeader_StatusEvents_UpdateRate;
         private System.Windows.Forms.TabPage tabPage_Commands;
