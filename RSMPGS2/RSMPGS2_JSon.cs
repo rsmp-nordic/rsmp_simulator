@@ -500,11 +500,14 @@ namespace nsRSMPGS
 
             Reply.s = stringifyObject(Reply.s);
 
+            List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.s);
+            StatusReturnValue.Value.SetArray(dictionaries);
+
             if (arrayResult != "success")
             {
               sError = "Failed to handle Status message. Failed to handle array , array: `" + Reply.s + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
-	      return false;
+              return false;
             }
           }
 
