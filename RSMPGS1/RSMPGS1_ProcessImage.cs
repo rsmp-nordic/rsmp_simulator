@@ -461,17 +461,18 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
 
     public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sValue, List<Dictionary<string, string>> items)
     {
-
-
       // Could be array
       if (sType.Equals("array", StringComparison.OrdinalIgnoreCase))
       {
-        s.s = items;
+        
         if (items == null)
         {
+          s.s = new List<Dictionary<string, string>>();
           s.q = "unknown";
-        } else
+        }
+        else
         {
+          s.s = items;
           s.q = "recent";
         }
         return;
