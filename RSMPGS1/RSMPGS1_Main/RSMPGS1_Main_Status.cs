@@ -121,11 +121,15 @@ namespace nsRSMPGS
       try
       {
 
-        string sText = StatusReturnValue.Value.GetValue();
-        if (cFormsHelper.InputStatusBoxValueType("Enter new status", ref sText, StatusReturnValue.Value, StatusReturnValue.sComment, true) == DialogResult.OK)
+        string sValue = StatusReturnValue.Value.GetValue();
+        List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
+        if (cFormsHelper.InputStatusBoxValueType("Enter new status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true) == DialogResult.OK)
         {
-          StatusReturnValue.Value.SetValue(sText);
-          lvItem.SubItems[4].Text = sText;
+          
+          StatusReturnValue.Value.SetValue(sValue);
+          StatusReturnValue.Value.SetArray(array);
+          lvItem.SubItems[4].Text = sValue;
+
           // Find out if this status is subscribed
           foreach (cSubscription Subscription in StatusObject.RoadSideObject.Subscriptions)
           {
@@ -137,7 +141,7 @@ namespace nsRSMPGS
                 RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
                 s.sCI = StatusObject.sStatusCodeId;
                 s.n = StatusReturnValue.sName;
-                RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
+                RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
                 sS.Add(s);
                 RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusObject.RoadSideObject, sS);
               }

@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using static nsRSMPGS.cJSon;
 using System.Diagnostics;
 using static nsRSMPGS.cValueTypeObject;
+using System.CodeDom;
 
 namespace nsRSMPGS
 {
@@ -511,6 +512,8 @@ namespace nsRSMPGS
 
     private string sValue = "";
 
+    private List<Dictionary<string, string>> items; // array
+
     private eQuality quality = eQuality.unknown;
 
     public cValueTypeObject ValueTypeObject = null;
@@ -636,7 +639,6 @@ namespace nsRSMPGS
       quality = eQuality.recent;
       return true;
     }
-
     public string GetValue()
     {
       if (sValue == null)
@@ -649,6 +651,16 @@ namespace nsRSMPGS
       }
     }
 
+    public bool SetArray(List<Dictionary<string, string>> items)
+    {
+      this.items = items;
+      quality = eQuality.recent;
+      return true;
+    }
+    public List<Dictionary<string, string>> GetArray()
+    {
+      return this.items;
+    }
   }
 
   public class cValueTypeObject

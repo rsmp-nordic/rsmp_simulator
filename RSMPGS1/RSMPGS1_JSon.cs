@@ -685,7 +685,7 @@ namespace nsRSMPGS
 
             }
 
-            RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue());
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue(), StatusReturnValue.Value.GetArray());
             switch (statusMsgType)
             {
               case StatusMsgType.Request:

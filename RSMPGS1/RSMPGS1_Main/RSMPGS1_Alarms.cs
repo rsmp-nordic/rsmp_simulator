@@ -293,12 +293,13 @@ namespace nsRSMPGS
           int iIndex = Int32.Parse(listview.Columns[iSelectedColumn].Tag.ToString().Substring(6));
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
-          string sText = lvHitTest.SubItem.Text;
+          string sValue = lvHitTest.SubItem.Text;
+          List<Dictionary<string, string>> array = null;
           // if (cFormsHelper.InputBox("Enter new value", "Value", ref sText, sType.Equals("base64", StringComparison.OrdinalIgnoreCase), true) == DialogResult.OK)
-          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sText, AlarmReturnValue.Value, AlarmReturnValue.sComment, true) == DialogResult.OK)
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true) == DialogResult.OK)
           {
-            AlarmReturnValue.Value.SetValue(sText);
-            lvHitTest.SubItem.Text = sText;            
+            AlarmReturnValue.Value.SetValue(sValue);
+            lvHitTest.SubItem.Text = sValue;            
           }
         }
       }

@@ -1020,10 +1020,6 @@ namespace nsRSMPGS
 
     public bool SendJSonPacket(string PacketType, string MessageId, string SendString, bool ResendPacketIfWeGetNoAck)
     {
-      // convert to array to json
-      SendString = SendString.Replace("\"[{\\\"", "[{\"");
-      SendString = SendString.Replace("\\\"}]\"", "\"}]");
-      SendString = SendString.Replace("\\\"", "\"");
 
       if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, MessageId, SendString))
       {

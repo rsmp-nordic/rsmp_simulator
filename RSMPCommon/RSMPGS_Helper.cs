@@ -1929,7 +1929,7 @@ namespace nsRSMPGS
 
     }
 
-    public static DialogResult InputStatusBoxValueType(string title, ref string value, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged)
+    public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, string>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged)
     {
 
       Form form = new Form();
@@ -1950,7 +1950,10 @@ namespace nsRSMPGS
       //label.Text = promptText;
       textBox.Text = sComment.Replace("\r", "").Replace("\n", "\r\n");
 
-      comboBox.Text = value;
+      if(value.GetType() == typeof(string))
+      {
+        comboBox.Text = (string)value;
+      }
       comboBox.Name = "comboBox";
       comboBox.DropDownStyle = ComboBoxStyle.DropDown;
 
@@ -1987,7 +1990,7 @@ namespace nsRSMPGS
             arrayListView.Columns.Add(item.Key);
         }
 
-        loadArray(Value.GetValue());
+        loadArray(Value.GetArray());
         form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonCancel, arrayListView });
       }
       else
@@ -2064,7 +2067,8 @@ namespace nsRSMPGS
 
       if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._array)
       {
-        value = getArrayJson();
+        list = getItems();
+        value = "(array)";
         return dialogResult;
       }
 
@@ -2101,128 +2105,54 @@ namespace nsRSMPGS
       return dialogResult;
     }
 
-    private static void loadArray(string jsonString)
+    private static void loadArray(List<Dictionary<string, string>> array)
     {
-      if (jsonString == "?" || jsonString == "") { return; }
-
-      Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
-      string[] objectStrings;
-      ListViewSubItem listViewSubItem;
-      ListViewItem listViewItem = null;
-      KeyValuePair<string, cYAMLMapping> item;
-
-      jsonString = jsonString.Substring(2);                     // remove '['
-      jsonString = jsonString.Remove(jsonString.Length - 2);    // remove ']'
-      jsonString = jsonString.Replace("},{", "¿");
-      objectStrings = jsonString.Split('¿');
-
-      for (int i = 0; i < objectStrings.Length; i++)
+      ListViewItem listViewItem;
+      ListViewSubItem listViewSubItem = null;
+      if(array == null)
       {
-        for (int j = 0; j < items.Count; j++)
+        return;
+      }
+
+      foreach (Dictionary<string, string> item in array)
+      {
+        listViewItem = new ListViewItem();
+        foreach (KeyValuePair<string, string> entry in item)
         {
-          if (j == 0)
+          if (listViewItem.Text == "")
           {
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "";
-            listViewItem.Tag = "False";
-            arrayListView.Items.Add(listViewItem);
+            listViewItem.Text = entry.Value;
           }
           else
           {
             listViewSubItem = new ListViewSubItem();
-            listViewSubItem.Tag = "False";
-            listViewSubItem.Text = "";
+            listViewSubItem.Text = entry.Value;
             listViewItem.SubItems.Add(listViewSubItem);
           }
         }
-      }
-
-      string[] fieldStrings;
-      string key;
-      string value;
-      int index = 0;
-
-      for (int i = 0; i < objectStrings.Length; i++)
-      {
-        listViewItem = arrayListView.Items[i];
-        index = 0;
-
-        string objectString = objectStrings[i];
-
-        fieldStrings = objectString.Split(',');
-
-        for (int j = 0; j < fieldStrings.Length; j++)
-        {
-          key = fieldStrings[j].Split(':')[0];
-          key = key.Substring(1);                    // remove '"'
-          key = key.Remove(key.Length - 1);          // remove '"'
-
-          value = fieldStrings[j].Split(':')[1];
-          value = value.Substring(1);                // remove '"'
-          value = value.Remove(value.Length - 1);    // remove '"'
-
-          for (int k = 0; k < items.Count; k++)
-          {
-            item = items.ElementAt(k);
-            if (item.Key == key)
-            {
-              index = k;
-              break;
-            }
-          }
-
-          if (index == 0)
-          {
-            listViewItem.Text = value;
-            listViewItem.Tag = "True";
-          }
-          else
-          {
-            listViewItem.SubItems[index].Text = value;
-            listViewItem.SubItems[index].Tag = "True";
-          }
-        }
+        arrayListView.Items.Add(listViewItem);
       }
     }
 
-    private static string getArrayJson()
+    private static List<Dictionary<string, string>> getItems()
     {
-      string arrayString = "";
-      string objectString = "";
-      ListViewItem listItem;
-      string tag;
+      List<Dictionary<string, string>> array = new List<Dictionary<string, string>>();
 
-      for (var i = 0; i < arrayListView.Items.Count; i++)
+      int col;
+      Dictionary<string, string> item;
+      foreach (ListViewItem listItem in arrayListView.Items)
       {
-        listItem = arrayListView.Items[i];
-        objectString = "";
-        for (var j = 0; j < arrayListView.Columns.Count; j++)
+        col = 0;
+        item = new Dictionary<string, string>();
+        foreach (ListViewSubItem subitem in listItem.SubItems)
         {
-          if (j == 0)
-          {
-            tag = listItem.Tag.ToString();
-          }
-          else
-          {
-            tag = listItem.SubItems[j].Tag.ToString();
-          }
-
-          if (tag == "True")
-          {
-            if (objectString != "") { objectString = objectString + ","; }
-            objectString = objectString + "\"" + arrayListView.Columns[j].Text + "\":\"" + listItem.SubItems[j].Text + "\"";
-          }
+          item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+          col++;
         }
-        objectString = "{" + objectString + "}";
-        if (arrayString != "") { arrayString = arrayString + ","; }
-        arrayString = arrayString + objectString;
+        array.Add(item);
       }
-      if (arrayListView.Items.Count > 0)
-      { 
-        arrayString = "[" + arrayString + "]";
-      }
-
-      return arrayString;
+      
+      return array;
     }
 
     private static void newArrayRow(object sender, EventArgs e)

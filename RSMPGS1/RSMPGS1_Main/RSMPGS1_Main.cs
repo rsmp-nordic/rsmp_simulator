@@ -244,7 +244,7 @@ namespace nsRSMPGS
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
             s.sCI = Subscription.StatusObject.sStatusCodeId;
             s.n = Subscription.StatusReturnValue.sName;
-            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue());
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
             sS.Add(s);
           }
         }
