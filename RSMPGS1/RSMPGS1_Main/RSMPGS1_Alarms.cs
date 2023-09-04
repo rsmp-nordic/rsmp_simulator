@@ -296,7 +296,7 @@ namespace nsRSMPGS
           string sValue = lvHitTest.SubItem.Text;
           List<Dictionary<string, string>> array = null;
           // if (cFormsHelper.InputBox("Enter new value", "Value", ref sText, sType.Equals("base64", StringComparison.OrdinalIgnoreCase), true) == DialogResult.OK)
-          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true) == DialogResult.OK)
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, false) == DialogResult.OK)
           {
             AlarmReturnValue.Value.SetValue(sValue);
             lvHitTest.SubItem.Text = sValue;            

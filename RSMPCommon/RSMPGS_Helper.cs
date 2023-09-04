@@ -1929,7 +1929,7 @@ namespace nsRSMPGS
 
     }
 
-    public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, string>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged)
+    public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, string>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged, bool bReadOnly)
     {
 
       Form form = new Form();
@@ -1956,6 +1956,7 @@ namespace nsRSMPGS
       }
       comboBox.Name = "comboBox";
       comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+      
 
       textBox.Multiline = true;
       textBox.ReadOnly = true;
@@ -1977,6 +1978,10 @@ namespace nsRSMPGS
         Button buttonNewRow = new Button();
         buttonNewRow.Click += new EventHandler(newArrayRow);
         buttonNewRow.Text = "New row";
+        if (bReadOnly)
+        {
+          buttonNewRow.Visible = false;
+        }
         arrayListView.View = View.Details;
         buttonNewRow.SetBounds(80, 5, 75, 23);
         buttonCancel.SetBounds(160, 5, 75, 23);
@@ -2015,6 +2020,11 @@ namespace nsRSMPGS
 
       buttonOk.DialogResult = DialogResult.OK;
       buttonCancel.DialogResult = DialogResult.Cancel;
+
+      if (bReadOnly)
+      {
+        buttonCancel.Visible = false;
+      }
 
       comboBox.SetBounds(12, 112, 183, 21);
       if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._array)

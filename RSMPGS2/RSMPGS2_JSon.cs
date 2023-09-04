@@ -503,6 +503,8 @@ namespace nsRSMPGS
             List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.s);
             StatusReturnValue.Value.SetArray(dictionaries);
 
+            Reply.s = "(array)";
+
             if (arrayResult != "success")
             {
               sError = "Failed to handle Status message. Failed to handle array , array: `" + Reply.s + "´";

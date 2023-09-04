@@ -2091,6 +2091,7 @@
       this.listView_Status.UseCompatibleStateImageBehavior = false;
       this.listView_Status.View = System.Windows.Forms.View.Details;
       this.listView_Status.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Status.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Status_MouseDoubleClick);
       // 
       // columnHeader_Status_StatusCodeId
       // 

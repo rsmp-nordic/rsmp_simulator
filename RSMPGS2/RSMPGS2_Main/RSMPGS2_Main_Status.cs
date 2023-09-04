@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using nsRSMPGS;
 
 namespace nsRSMPGS
 {
@@ -383,6 +384,30 @@ namespace nsRSMPGS
 
     }
     */
+    private void listView_Status_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      ListView listview = (ListView)sender;
+      ListViewItem lvItem;
 
+      if (listview.SelectedItems.Count == 0)
+      {
+        return;
+      }
+
+      lvItem = listview.SelectedItems[0];
+      cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
+      cStatusObject StatusObject = StatusReturnValue.StatusObject;
+
+      try
+      {
+        string sValue = StatusReturnValue.Value.GetValue();
+        List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
+        cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, true);
+      }
+      catch
+      { }
+    }
   }
 }
+
+
