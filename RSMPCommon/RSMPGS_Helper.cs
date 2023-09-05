@@ -2259,10 +2259,6 @@ namespace nsRSMPGS
           {
             schemaScalarOptional = true;
           }
-          else
-          {
-            schemaScalarOptional = false;
-          }
           if (schemaScalar.Key == "min")
           {
             schemaScalarMin = schemaScalar.Value;
@@ -2314,6 +2310,7 @@ namespace nsRSMPGS
         }
         else
         {
+          sendCheckBox.Visible = true;
           sendCheckBox.Checked = false;
         }
 
