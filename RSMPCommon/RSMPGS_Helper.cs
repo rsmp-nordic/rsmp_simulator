@@ -2387,7 +2387,11 @@ namespace nsRSMPGS
           {
             if (itemIndex == 0)
             {
-              if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
+              if(arrayListView.Items[arrayListViewIndex].Text == "")
+              {
+                sendCheckBox.Checked = false;
+              }
+              else
               {
                 numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].Text);
                 sendCheckBox.Checked = true;
@@ -2395,7 +2399,11 @@ namespace nsRSMPGS
             }
             else
             {
-              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
+              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text == "")
+              {
+                sendCheckBox.Checked = false;
+              }
+              else
               {
                 numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
                 sendCheckBox.Checked = true;
