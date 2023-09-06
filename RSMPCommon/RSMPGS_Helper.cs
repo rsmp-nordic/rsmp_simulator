@@ -1961,8 +1961,6 @@ namespace nsRSMPGS
       textBox.Multiline = true;
       textBox.ReadOnly = true;
 
-      Dictionary<string, cYAMLMapping> items;
-
       if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._boolean)
       {
         comboBox.Items.Add("true");
@@ -2124,19 +2122,37 @@ namespace nsRSMPGS
         return;
       }
 
+      ListViewItem listViewItem;
+      ListViewSubItem listViewSubItem;
+
+      // Add each item to list
       foreach (Dictionary<string, string> item in array)
       {
         listViewItem = new ListViewItem();
-        foreach (KeyValuePair<string, string> entry in item)
+
+        // Find matching column
+        foreach (ColumnHeader col in arrayListView.Columns)
         {
-          if (listViewItem.Text == "")
+          listViewSubItem = new ListViewSubItem();
+
+          string value = null;
+          item.TryGetValue(col.Text, out value);
+          if (value != null)
           {
-            listViewItem.Text = entry.Value;
+            if (col.Index > 0)
+            { 
+              listViewSubItem.Text = value;
+              listViewSubItem.Tag = "True";
+            }
+            else
+            {
+              listViewItem.Text = value;
+              listViewItem.Tag = "True";
+            }
           }
-          else
+
+          if (col.Index > 0)
           {
-            listViewSubItem = new ListViewSubItem();
-            listViewSubItem.Text = entry.Value;
             listViewItem.SubItems.Add(listViewSubItem);
           }
         }
@@ -2156,7 +2172,15 @@ namespace nsRSMPGS
         item = new Dictionary<string, string>();
         foreach (ListViewSubItem subitem in listItem.SubItems)
         {
-          item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+          if((col == 0) && (listItem.Tag != null) && (listItem.Tag.ToString() == "True"))
+          {
+            item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+          }
+
+          if((col > 0) && (listItem.SubItems[col].Tag != null) && (listItem.SubItems[col].Tag.ToString() == "True"))
+          { 
+            item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+          }
           col++;
         }
         array.Add(item);
@@ -2528,6 +2552,7 @@ namespace nsRSMPGS
       if (arrayListViewIndex == -1)
       {
         arrayListView.Items.Add(newItem);
+        newItem.SubItems[0].Tag = newItem.Tag;
       }
 
       arrayForm.Close();
