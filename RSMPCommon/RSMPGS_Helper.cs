@@ -1988,14 +1988,7 @@ namespace nsRSMPGS
         buttonOk.SetBounds(240, 5, 75, 23);
         arrayListView.Bounds = new Rectangle(new Point(5, 33), new Size(310, 160));
 
-        items = Value.ValueTypeObject.Items;
-
-        foreach (var item in items)
-        {
-            arrayListView.Columns.Add(item.Key);
-        }
-
-        loadArray(Value.GetArray());
+        loadArray(Value.ValueTypeObject.Items, Value.GetArray());
         form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonCancel, arrayListView });
       }
       else
@@ -2115,11 +2108,18 @@ namespace nsRSMPGS
       return dialogResult;
     }
 
-    private static void loadArray(List<Dictionary<string, string>> array)
+    private static void loadArray(Dictionary<string, cYAMLMapping> items, List<Dictionary<string, string>> array)
     {
-      ListViewItem listViewItem;
-      ListViewSubItem listViewSubItem = null;
-      if(array == null)
+      // Add column headers
+      foreach (var item in items)
+      {
+        ColumnHeader col = new ColumnHeader();
+        col.Text = item.Key;
+        arrayListView.Columns.Add(col);
+      }
+
+      // Exit if no values entered
+      if (array == null)
       {
         return;
       }
