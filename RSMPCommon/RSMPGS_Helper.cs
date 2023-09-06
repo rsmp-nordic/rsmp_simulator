@@ -1975,7 +1975,7 @@ namespace nsRSMPGS
         array = Value;
         Button buttonNewRow = new Button();
         buttonNewRow.Click += new EventHandler(newArrayRow);
-        buttonNewRow.Text = "New row";
+        buttonNewRow.Text = "New item";
         if (bReadOnly)
         {
           buttonNewRow.Visible = false;
@@ -2215,7 +2215,7 @@ namespace nsRSMPGS
       buttonOk.Text = "OK";
       buttonOk.Click += new EventHandler(saveArrayRow);
 
-      arrayForm.Text = "Row";
+      arrayForm.Text = "Item";
       arrayForm.FormBorderStyle = FormBorderStyle.FixedDialog;
       arrayForm.StartPosition = FormStartPosition.CenterScreen;
       arrayForm.MinimizeBox = false;
