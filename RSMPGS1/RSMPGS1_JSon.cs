@@ -173,6 +173,7 @@ namespace nsRSMPGS
           RSMP_Messages.AlarmReturnValue rv = new RSMP_Messages.AlarmReturnValue();
           rv.n = AlarmReturnValue.sName;
           rv.v = AlarmReturnValue.Value.GetValue();
+          rv.v = AlarmReturnValue.Value.GetArray();
           AlarmHeaderAndBody.rvs.Add(rv);
           AlarmEvent.AlarmEventReturnValues.Add(new nsRSMPGS.cAlarmEventReturnValue(rv.n, rv.v));
         }

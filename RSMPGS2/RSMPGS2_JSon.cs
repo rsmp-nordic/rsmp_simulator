@@ -154,7 +154,7 @@ namespace nsRSMPGS
             {
               if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
               {
-                AlarmReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.v));
+                AlarmReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData((string)Reply.v));
               }
               else
               {
@@ -163,11 +163,30 @@ namespace nsRSMPGS
             }
             else
             {
-              AlarmReturnValue.Value.SetValue(Reply.v);
+              AlarmReturnValue.Value.SetValue(Reply.v.ToString());
+            }
+
+            if (AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase))
+            {
+              string arrayResult = ValidateArrayObject(AlarmReturnValue.Value.ValueTypeObject.Items, Reply.v);
+              Reply.v = stringifyObject(Reply.v);
+
+              List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.v);
+
+              AlarmReturnValue.Value.SetArray(dictionaries);
+
+              Reply.v = "(array)";
+
+              if (arrayResult != "success")
+              {
+                sError = "Failed to handle Alarm message. Failed to handle array , array: `" + Reply.v + "´";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
+                return false;
+              }
             }
 
             if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(),
-                Reply.v, AlarmReturnValue.Value.GetSelectableValues(),
+                Reply.v.ToString(), AlarmReturnValue.Value.GetSelectableValues(),
                 AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
             {
               if (AlarmReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
@@ -188,7 +207,8 @@ namespace nsRSMPGS
               }
               else
               {
-                sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+                string status = Reply.v.ToString();
+                sReturnValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
               }
               sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `" + sReturnValue + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
