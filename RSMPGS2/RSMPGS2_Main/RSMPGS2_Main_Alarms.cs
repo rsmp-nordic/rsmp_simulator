@@ -211,7 +211,7 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        lvItem.SubItems.Add((string)AlarmReturnValues.sValue);
+        lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
       }
 
       listView_AlarmEvents.Items.Add(lvItem);

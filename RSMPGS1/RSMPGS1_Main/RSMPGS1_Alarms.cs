@@ -250,7 +250,15 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        lvItem.SubItems.Add((string)AlarmReturnValues.sValue);
+
+        if (AlarmReturnValues.sValue.GetType() == typeof(string))
+        {
+          lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
+        }
+        else
+        {
+          lvItem.SubItems.Add("(array)");
+        }
       }
     }
 
