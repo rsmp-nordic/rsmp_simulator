@@ -634,9 +634,9 @@ namespace nsRSMPGS
       }
     }
 
-    public bool SetValue(string sValue)
+    public bool SetValue(object sValue)
     {
-      this.sValue = sValue;
+      this.sValue = sValue == null ? null : sValue.ToString();
       quality = eQuality.recent;
       return true;
     }

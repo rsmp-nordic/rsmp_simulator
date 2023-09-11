@@ -163,7 +163,14 @@ namespace nsRSMPGS
             }
             else
             {
-              AlarmReturnValue.Value.SetValue(Reply.v.ToString());
+              AlarmReturnValue.Value.SetValue(Reply.v);
+            }
+
+            if (Reply.v == null)
+            {
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `(null)´";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
             }
 
             if (AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase))
@@ -200,16 +207,8 @@ namespace nsRSMPGS
             }
             else
             {
-              string sReturnValue;
-              if (Reply.v == null)
-              {
-                sReturnValue = "(null)";
-              }
-              else
-              {
-                string status = Reply.v.ToString();
-                sReturnValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
-              }
+              string status = Reply.v.ToString();
+              string sReturnValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
               sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `" + sReturnValue + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
               return false;
