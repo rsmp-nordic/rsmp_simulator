@@ -267,9 +267,9 @@ namespace nsRSMPGS
   public class cAlarmEventReturnValue
   {
     public string sName;
-    public string sValue;
+    public object sValue;
 
-    public cAlarmEventReturnValue(string sName, string sValue)
+    public cAlarmEventReturnValue(string sName, object sValue)
     {
       this.sName = sName;
       this.sValue = sValue;

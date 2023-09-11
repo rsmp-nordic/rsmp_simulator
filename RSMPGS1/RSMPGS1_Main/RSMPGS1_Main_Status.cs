@@ -123,7 +123,7 @@ namespace nsRSMPGS
 
         string sValue = StatusReturnValue.Value.GetValue();
         List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
-        if (cFormsHelper.InputStatusBoxValueType("Enter new status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, false) == DialogResult.OK)
+        if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, false) == DialogResult.OK)
         {
           
           StatusReturnValue.Value.SetValue(sValue);

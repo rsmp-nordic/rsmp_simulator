@@ -66,7 +66,7 @@ namespace RSMP_Messages
   public class AlarmReturnValue
   {
     public string n; // name
-    public string v; // value
+    public object v; // value
   }
 
   public class AggregatedStatus
