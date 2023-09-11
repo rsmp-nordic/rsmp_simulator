@@ -512,7 +512,7 @@ namespace nsRSMPGS
 
     private string sValue = "";
 
-    private List<Dictionary<string, string>> items; // array
+    private List<Dictionary<string, string>> items = new List<Dictionary<string, string>>(); // array
 
     private eQuality quality = eQuality.unknown;
 
