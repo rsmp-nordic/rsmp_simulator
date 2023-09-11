@@ -83,7 +83,7 @@ namespace nsRSMPGS
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase)  ? "(array)" : AlarmReturnValue.Value.GetValue();
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
@@ -211,14 +211,7 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        if (AlarmReturnValues.sValue.GetType() == typeof(string))
-        {
-          lvItem.SubItems.Add((string)AlarmReturnValues.sValue);
-        }
-        else
-        {
-          lvItem.SubItems.Add("(array)");
-        }
+        lvItem.SubItems.Add((string)AlarmReturnValues.sValue);
       }
 
       listView_AlarmEvents.Items.Add(lvItem);
