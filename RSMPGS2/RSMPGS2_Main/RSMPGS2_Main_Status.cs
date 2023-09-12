@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using nsRSMPGS;
+using RSMP_Messages;
 
 namespace nsRSMPGS
 {
@@ -272,7 +273,7 @@ namespace nsRSMPGS
           sValues[0] = StatusObject.sDescription;
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
-          sValues[3] = StatusReturnValue.Value.GetValue();
+          sValues[3] = StatusReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase) ? "(array)" : StatusReturnValue.Value.GetValue();
           sValues[4] = StatusReturnValue.sQuality;
           sValues[5] = StatusReturnValue.sLastUpdateRate == null ?  "" : StatusReturnValue.sLastUpdateRate;
           sValues[6] = StatusReturnValue.bLastUpdateOnChange.ToString();
