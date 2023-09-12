@@ -1877,6 +1877,8 @@
       this.listView_Alarms.UseCompatibleStateImageBehavior = false;
       this.listView_Alarms.View = System.Windows.Forms.View.Details;
       this.listView_Alarms.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Alarms.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Alarms_MouseDoubleClick);
+
       // 
       // columnHeader_Alarms_Status
       // 
