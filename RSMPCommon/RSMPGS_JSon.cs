@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 using System.Threading;
 using System.Globalization;
 using System.Reflection;
+using System.Collections;
 
 namespace nsRSMPGS
 {
@@ -1152,6 +1153,187 @@ namespace nsRSMPGS
       }
     }
 
+    public string ValidateArrayObject(Dictionary<string, cYAMLMapping> items, object status)
+    {
+      object[] statusObjects = (object[])status;
+
+      // YAMLMapping
+      KeyValuePair<string, cYAMLMapping> item;
+      string schemaKey;
+      cYAMLMapping schemaValue;
+
+      // YAMLScalar
+      Dictionary<string, string> schemaScalars;
+      KeyValuePair<string, string> schemaScalar;
+      string schemaScalarType;
+      Boolean schemaScalarOptional;
+      string schemaScalarMin;
+      string schemaScalarMax;
+      string cellName;
+
+      Dictionary<string, cYAMLMapping> schemaMappings;
+      KeyValuePair<string, cYAMLMapping> schemaMapping;
+      List<string> keys;
+
+      // incoming status
+      //string[] fieldStrings;
+      string statusKey;
+      string statusValue;
+      Boolean hit;
+
+      // loop alla YAMLMappings
+      for (int i = 0; i < items.Count; i++)
+      {
+
+        // get YAMLMapping
+        item = items.ElementAt(i);
+        schemaKey = item.Key;
+        schemaValue = item.Value;
+        schemaScalars = schemaValue.YAMLScalars;
+        schemaScalarOptional = false;
+        schemaScalarType = "";
+        schemaScalarMin = "";
+        schemaScalarMax = "";
+        cellName = "";
+
+        // loop YAMLScalars
+        for (int j = 0; j < schemaScalars.Count; j++)
+        {
+          schemaScalar = schemaScalars.ElementAt(j);
+          if (schemaScalar.Key == "type")
+          {
+            schemaScalarType = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "optional")
+          {
+            if (schemaScalar.Value == "true")
+            {
+              schemaScalarOptional = true;
+            }
+            else
+            {
+              schemaScalarOptional = false;
+            }
+          }
+          if (schemaScalar.Key == "min")
+          {
+            schemaScalarMin = schemaScalar.Value;
+          }
+          if (schemaScalar.Key == "max")
+          {
+            schemaScalarMax = schemaScalar.Value;
+          }
+        }
+
+        int rowIndex = 0;
+
+        // validate incoming values to verify YAMLMapping
+        foreach (object statusObject in statusObjects)
+        {
+          Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
+
+          hit = false;
+          foreach (object field in fields)
+          {
+            KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
+
+            statusKey = f.Key;
+            statusValue = (string)f.Value;
+
+            cellName = "row:" + (rowIndex + 1).ToString() + " col:" + schemaKey + " ";
+
+            if (schemaKey == statusKey)
+            {
+              hit = true;
+              if (schemaScalarType == "integer")
+              {
+                try
+                {
+                  Int16 iValue = Int16.Parse(statusValue);
+                  Int16 iMin = Int16.Parse(schemaScalarMin);
+                  Int16 iMax = Int16.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch
+		{
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType == "long")
+              {
+                try
+                {
+                  Int32 iValue = Int32.Parse(statusValue);
+                  Int32 iMin = Int32.Parse(schemaScalarMin);
+                  Int32 iMax = Int32.Parse(schemaScalarMax);
+                  if (iValue < iMin) { return cellName + " to small"; }
+                  if (iValue > iMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType == "real")
+              {
+                try
+                {
+                  Double dValue = Double.Parse(statusValue);
+                  Double dMin = Double.Parse(schemaScalarMin);
+                  Double dMax = Double.Parse(schemaScalarMax);
+                  if (dValue < dMin) { return cellName + " to small"; }
+                  if (dValue > dMax) { return cellName + " to big"; }
+                }
+                catch
+                {
+                  return cellName + " wrong type";
+                }
+              }
+              else if (schemaScalarType != "string")
+              {
+                return cellName + "type:" + schemaScalarType + " not supported";
+              }
+            }
+          }
+
+          // error if key not found and not optional
+          if (!hit && !schemaScalarOptional)
+          {
+            return cellName + " required";
+          }
+
+          rowIndex++;
+        }
+      }
+
+      return "success";
+    }
+    
+    public string stringifyObject(object status)
+    {
+      object[] statusObjects = (object[])status;
+      string objectsString = "";
+      string objectString;
+      string fieldString;
+
+      foreach (object statusObject in statusObjects)
+      {
+        Dictionary<string, object> fields = (Dictionary<string, object>)statusObject;
+        objectString = "";
+        foreach (object field in fields)
+        {
+          KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
+          fieldString = "\"" + f.Key + "\":\"" + (string)f.Value + "\"";
+          if (objectString != "") { objectString = objectString + ","; }
+          objectString = objectString + fieldString;
+        }
+        if (objectsString != "") { objectsString = objectsString + ","; }
+        objectsString = objectsString + "{" + objectString + "}";
+      }
+      return "[" + objectsString + "]";
+    }
+
     public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)
     {
       return ValidateTypeAndRange(sType, sValue, sEnums, 0, 0);
@@ -1174,6 +1356,10 @@ namespace nsRSMPGS
       {
 
         case "string":
+          bValueIsValid = true;
+          break;
+
+        case "array":
           bValueIsValid = true;
           break;
 

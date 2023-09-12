@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics.Eventing.Reader;
 
 namespace nsRSMPGS
 {
@@ -249,9 +250,16 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        lvItem.SubItems.Add(AlarmReturnValues.sValue);
-      }
 
+        if (AlarmReturnValues.sValue.GetType() == typeof(string))
+        {
+          lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
+        }
+        else
+        {
+          lvItem.SubItems.Add("(array)");
+        }
+      }
     }
 
     private void listView_Alarms_MouseClick(object sender, MouseEventArgs e)
@@ -288,17 +296,18 @@ namespace nsRSMPGS
       try
       {
         // Tag is ex Value_2
-        if (listview.Columns[iSelectedColumn].Tag.ToString().StartsWith("Value", StringComparison.OrdinalIgnoreCase))
+        if ((listview.Columns[iSelectedColumn].Tag != null) && (listview.Columns[iSelectedColumn].Tag.ToString().StartsWith("Value", StringComparison.OrdinalIgnoreCase)))
         {
           int iIndex = Int32.Parse(listview.Columns[iSelectedColumn].Tag.ToString().Substring(6));
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
-          string sText = lvHitTest.SubItem.Text;
-          // if (cFormsHelper.InputBox("Enter new value", "Value", ref sText, sType.Equals("base64", StringComparison.OrdinalIgnoreCase), true) == DialogResult.OK)
-          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sText, AlarmReturnValue.Value, AlarmReturnValue.sComment, true) == DialogResult.OK)
+          string sValue = lvHitTest.SubItem.Text;
+          List<Dictionary<string, string>> array = AlarmReturnValue.Value.GetArray();
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, false) == DialogResult.OK)
           {
-            AlarmReturnValue.Value.SetValue(sText);
-            lvHitTest.SubItem.Text = sText;            
+            AlarmReturnValue.Value.SetValue(sValue);
+            AlarmReturnValue.Value.SetArray(array);
+            lvHitTest.SubItem.Text = sValue;            
           }
         }
       }

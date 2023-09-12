@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Web.Script.Serialization;
+using System.Diagnostics.Eventing.Reader;
 
 namespace nsRSMPGS
 {
@@ -261,7 +262,7 @@ namespace nsRSMPGS
                   RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
                   s.sCI = Subscription.StatusObject.sStatusCodeId;
                   s.n = Subscription.StatusReturnValue.sName; // Subscription.StatusObject.StatusReturnValues .StatusReturnValues[iIndex].sName;
-                  UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue());
+                  UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
                   sS.Add(s);
                   Subscription.LastUpdate = DateTime.Now;
                   Subscription.StatusReturnValue.bRecentlyChanged = false;
@@ -418,7 +419,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           {
             if (AlarmReturnValue.Value.Quality == cValue.eQuality.recent)
             {
-              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + "." + AlarmReturnValue.sName +  ".Value", AlarmReturnValue.Value.GetValue());
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + "." + AlarmReturnValue.sName + ".Value", AlarmReturnValue.Value.GetValue());
             }
           }
         }
@@ -458,58 +459,75 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
       RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored Process data to '{0}'", FileName);
     }
 
-    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sStatus)
+    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sValue, List<Dictionary<string, string>> items)
     {
-      if (sStatus == null || sStatus == "?")
+      // Could be array
+      if (sType.Equals("array", StringComparison.OrdinalIgnoreCase))
+      {
+        
+        if (items == null)
+        {
+          s.s = new List<Dictionary<string, string>>();
+          s.q = "unknown";
+        }
+        else
+        {
+          s.s = items;
+          s.q = "recent";
+        }
+        return;
+      }
+
+      if (sValue == null || sValue == "?")
       {
         s.s = null;
         s.q = "unknown";
+        return;
       }
-      else
+
+      // Could be base64
+      if (sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
       {
-        // Could be base64
-        if (sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
+        // Path?
+        if (sValue.Contains("\\"))
         {
-          // Path?
-          if (sStatus.Contains("\\"))
+          try
           {
-            try
+            byte[] Base64Bytes = null;
+            // Open file for reading 
+            System.IO.FileStream fsBase64 = new System.IO.FileStream(sValue, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            System.IO.BinaryReader brBase64 = new System.IO.BinaryReader(fsBase64);
+            long lBytes = new System.IO.FileInfo(sValue).Length;
+            Base64Bytes = brBase64.ReadBytes((Int32)lBytes);
+            fsBase64.Close();
+            fsBase64.Dispose();
+            brBase64.Close();
+            s.s = Convert.ToBase64String(Base64Bytes);
+            if (s.s.ToString().Length > (cTcpSocketClientThread.BUFLENGTH - 100))
             {
-              byte[] Base64Bytes = null;
-              // Open file for reading 
-              System.IO.FileStream fsBase64 = new System.IO.FileStream(sStatus, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-              System.IO.BinaryReader brBase64 = new System.IO.BinaryReader(fsBase64);
-              long lBytes = new System.IO.FileInfo(sStatus).Length;
-              Base64Bytes = brBase64.ReadBytes((Int32)lBytes);
-              fsBase64.Close();
-              fsBase64.Dispose();
-              brBase64.Close();
-              s.s = Convert.ToBase64String(Base64Bytes);
-              if (s.s.Length > (cTcpSocketClientThread.BUFLENGTH - 100))
-              {
-                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
-                s.s = null;
-              }
-              s.q = "recent";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
+              s.s = null;
             }
-            catch (Exception e)
-            {
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", sStatus, e.Message);
-              s.q = "unknown";
-            }
-          }
-          else
-          {
-            s.s = sStatus;
             s.q = "recent";
+          }
+          catch (Exception e)
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", sValue, e.Message);
+            s.q = "unknown";
           }
         }
         else
         {
-          s.s = sStatus;
+          s.s = sValue;
           s.q = "recent";
         }
+        return;
       }
+
+
+      s.s = sValue;
+      s.q = "recent";
+
     }
 
     public void CyclicCleanup(int iElapsedMillisecs)
@@ -528,7 +546,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
               RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
               s.sCI = Subscription.StatusObject.sStatusCodeId;
               s.n = Subscription.StatusReturnValue.sName; // Subscription.StatusObject.StatusReturnValues .StatusReturnValues[iIndex].sName;
-              UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue());
+              UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
               sS.Add(s);
               Subscription.LastUpdate = DateTime.Now;
             }

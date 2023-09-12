@@ -231,8 +231,9 @@ namespace nsRSMPGS
               Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
               break;
             case "real":
-              
               Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+              break;
+            case "array":
               break;
             default:
               Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
@@ -243,7 +244,7 @@ namespace nsRSMPGS
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
             s.sCI = Subscription.StatusObject.sStatusCodeId;
             s.n = Subscription.StatusReturnValue.sName;
-            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue());
+            RSMPGS.ProcessImage.UpdateStatusValue(ref s, Subscription.StatusReturnValue.Value.GetValueType(), Subscription.StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
             sS.Add(s);
           }
         }
@@ -382,6 +383,8 @@ namespace nsRSMPGS
                 break;
               case "real":
                 StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+                break;
+              case "array":
                 break;
               default:
                 StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());

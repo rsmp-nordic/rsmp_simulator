@@ -154,7 +154,7 @@ namespace nsRSMPGS
             {
               if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
               {
-                AlarmReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.v));
+                AlarmReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData((string)Reply.v));
               }
               else
               {
@@ -166,8 +166,34 @@ namespace nsRSMPGS
               AlarmReturnValue.Value.SetValue(Reply.v);
             }
 
+            if (Reply.v == null)
+            {
+              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `(null)´";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
+            }
+
+            if (AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase))
+            {
+              string arrayResult = ValidateArrayObject(AlarmReturnValue.Value.ValueTypeObject.Items, Reply.v);
+              Reply.v = stringifyObject(Reply.v);
+
+              List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.v);
+
+              AlarmReturnValue.Value.SetArray(dictionaries);
+
+              Reply.v = "(array)";
+
+              if (arrayResult != "success")
+              {
+                sError = "Failed to handle Alarm message. Failed to handle array , array: `" + Reply.v + "´";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
+                return false;
+              }
+            }
+
             if (ValidateTypeAndRange(AlarmReturnValue.Value.GetValueType(),
-                Reply.v, AlarmReturnValue.Value.GetSelectableValues(),
+                Reply.v.ToString(), AlarmReturnValue.Value.GetSelectableValues(),
                 AlarmReturnValue.Value.GetValueMin(), AlarmReturnValue.Value.GetValueMax()))
             {
               if (AlarmReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
@@ -181,15 +207,8 @@ namespace nsRSMPGS
             }
             else
             {
-              string sReturnValue;
-              if (Reply.v == null)
-              {
-                sReturnValue = "(null)";
-              }
-              else
-              {
-                sReturnValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
-              }
+              string status = Reply.v.ToString();
+              string sReturnValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
               sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: `" + AlarmReturnValue.Value.GetValueType() + "´, returnvalue: `" + sReturnValue + "´";
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
               return false;
@@ -482,7 +501,7 @@ namespace nsRSMPGS
           {
             if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
             {
-              StatusReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.s));
+              StatusReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(Reply.s.ToString()));
             }
             else
             {
@@ -491,7 +510,26 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusReturnValue.Value.SetValue(Reply.s);
+            StatusReturnValue.Value.SetValue(Reply.s.ToString());
+          }
+
+          if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
+          {
+            string arrayResult = ValidateArrayObject(StatusReturnValue.Value.ValueTypeObject.Items, Reply.s);
+
+            Reply.s = stringifyObject(Reply.s);
+
+            List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.s);
+            StatusReturnValue.Value.SetArray(dictionaries);
+
+            Reply.s = "(array)";
+
+            if (arrayResult != "success")
+            {
+              sError = "Failed to handle Status message. Failed to handle array , array: `" + Reply.s + "´";
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, arrayResult);
+              return false;
+            }
           }
 
           StatusReturnValue.sQuality = Reply.q;
@@ -502,7 +540,7 @@ namespace nsRSMPGS
             return false;
           }
 
-          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             string sStatusValue;
             if (Reply.s == null)
@@ -511,7 +549,8 @@ namespace nsRSMPGS
             }
             else
             {
-              sStatusValue = (Reply.s.Length < 10) ? Reply.s : Reply.s.Substring(0, 9) + "...";
+              string status = Reply.s.ToString();
+              sStatusValue = (status.Length < 10) ? status : status.Substring(0, 9) + "...";
             }
             sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + StatusReturnValue.Value.GetValueType() + ", quality: " + StatusReturnValue.sQuality + ", statusvalue: " + sStatusValue;
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
@@ -530,7 +569,7 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusEvent.sStatus = Reply.s;
+            StatusEvent.sStatus = Reply.s.ToString();
           }
           StatusEvent.sQuality = Reply.q;
           if (RSMPGS_Main.bWriteEventsContinous)

@@ -183,10 +183,27 @@ namespace nsRSMPGS
                     string sType = YAMLArgument.GetScalar("type");
                     double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
                     double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
+                    Dictionary<string, cYAMLMapping> items = null;
 
+                    if (sType == "array") {
+                        Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
+                        cYAMLMapping Items;
+                        if (dictionary.TryGetValue("items", out Items))
+                        {
+                          items = dictionary["items"].YAMLMappings;
+                        }
+                    }
                     string sDescription = YAMLArgument.GetScalar("description");
 
                     string sDebug = "NAME: " + YAMLArgument.GetFullPath();
+
+                    if (items != null)
+                    {
+                      foreach (KeyValuePair<string, cYAMLMapping> kvp in items)
+                      {
+                        sDebug += "\r\nITEM: " + kvp.Key + " = " + kvp.Value.sMappingName;
+                      }
+                    }
 
                     foreach (KeyValuePair<string, string> kvp in YAMLArgument.YAMLScalars)
                     {
@@ -206,11 +223,11 @@ namespace nsRSMPGS
                       cYAMLMapping Values;
                       if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, Values.YAMLScalars, dMin, dMax, sDescription, items);
                       }
                       else
                       {
-                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription);
+                        ValueTypeObject = new cValueTypeObject(sValueTypeKey, YAMLArgument.sMappingName, sType, null, dMin, dMax, sDescription, items);
                       }
                       if (ValueTypeObjects.ContainsKey(sValueTypeKey))
                       {
@@ -1172,22 +1189,24 @@ namespace nsRSMPGS
         Double dMin = 0;
         Double dMax = 0;
         Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, cYAMLMapping> items = new Dictionary<string, cYAMLMapping>(StringComparer.OrdinalIgnoreCase);
 
         try
         {
+          // Get type
+          eValueType ValueType = eValueType._unknown;
+          foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+          {
+            if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+            {
+              ValueType = valueType;
+              break;
+            }
+          }
+
           // Transalte "range" to min and max
           if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
           {
-            eValueType ValueType = eValueType._unknown;
-            foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
-            {
-              if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
-              {
-                ValueType = valueType;
-                break;
-              }
-            }
-
             switch (ValueType)
             {
               case eValueType._integer:
@@ -1212,7 +1231,9 @@ namespace nsRSMPGS
           }
 
           // Transalte "range" to selectable objects
-          if (sRange.StartsWith("-"))
+          // Selectable objects starts with "-". Ignore any embedded JSON (starts with "---")
+          // Embedded JSON only used with type "array".
+          if (sRange.StartsWith("-") && !sRange.StartsWith("---"))
           {
             foreach (string sValueItem in sRange.Split('\n'))
             {
@@ -1230,13 +1251,20 @@ namespace nsRSMPGS
               }
             }
           }
+
+          // Get items in array
+          if (ValueType == eValueType._array)
+          {
+            cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sRange.Split('\n').ToList<string>());
+            items = YAML.YAMLMappings;
+          }
         }
         catch
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Failed to parse value and range: {0}", sValueTypeKey.Replace("\t", "/"));
         }
 
-        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment);
+        ValueTypeObject = new cValueTypeObject(sValueTypeKey, sName, sType, eNums, dMin, dMax, sComment, items);
 
         ValueTypeObjects.Add(sValueTypeKey, ValueTypeObject);
       }

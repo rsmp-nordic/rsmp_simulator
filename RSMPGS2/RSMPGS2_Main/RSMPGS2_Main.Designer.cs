@@ -1877,6 +1877,8 @@
       this.listView_Alarms.UseCompatibleStateImageBehavior = false;
       this.listView_Alarms.View = System.Windows.Forms.View.Details;
       this.listView_Alarms.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Alarms.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Alarms_MouseDoubleClick);
+
       // 
       // columnHeader_Alarms_Status
       // 
@@ -2091,6 +2093,7 @@
       this.listView_Status.UseCompatibleStateImageBehavior = false;
       this.listView_Status.View = System.Windows.Forms.View.Details;
       this.listView_Status.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Status.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Status_MouseDoubleClick);
       // 
       // columnHeader_Status_StatusCodeId
       // 

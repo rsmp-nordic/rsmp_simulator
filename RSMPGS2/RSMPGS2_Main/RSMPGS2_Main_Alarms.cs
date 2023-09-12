@@ -83,7 +83,7 @@ namespace nsRSMPGS
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase)  ? "(array)" : AlarmReturnValue.Value.GetValue();
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
@@ -211,12 +211,52 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        lvItem.SubItems.Add(AlarmReturnValues.sValue);
+        lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
       }
 
       listView_AlarmEvents.Items.Add(lvItem);
 
     }
+    private void listView_Alarms_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      ListView listview = (ListView)sender;
+      ListViewItem lvItem;
 
+      int iSelectedColumn = 0;
+
+      if (listview.SelectedItems.Count == 0)
+      {
+        return;
+      }
+
+      lvItem = listview.SelectedItems[0];
+
+      ListViewHitTestInfo lvHitTest = listview.HitTest(e.X, e.Y);
+
+      foreach (ListViewItem.ListViewSubItem ScanSubItem in lvItem.SubItems)
+      {
+        if (lvHitTest.SubItem == ScanSubItem)
+        {
+          break;
+        }
+        iSelectedColumn++;
+      }
+
+      try
+      {
+        // Tag is ex Value_2
+        if ((listview.Columns[iSelectedColumn].Tag != null) && (listview.Columns[iSelectedColumn].Tag.ToString().StartsWith("Value", StringComparison.OrdinalIgnoreCase)))
+        {
+          int iIndex = Int32.Parse(listview.Columns[iSelectedColumn].Tag.ToString().Substring(6));
+          cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
+          cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
+          string sValue = lvHitTest.SubItem.Text;
+          List<Dictionary<string, string>> array = AlarmReturnValue.Value.GetArray();
+          cFormsHelper.InputStatusBoxValueType("View alarm", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, true);
+        }
+      }
+      catch
+      { }
+    }
   }
 }

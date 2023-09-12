@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using static nsRSMPGS.cJSon;
 using System.Diagnostics;
 using static nsRSMPGS.cValueTypeObject;
+using System.CodeDom;
 
 namespace nsRSMPGS
 {
@@ -266,9 +267,9 @@ namespace nsRSMPGS
   public class cAlarmEventReturnValue
   {
     public string sName;
-    public string sValue;
+    public object sValue;
 
-    public cAlarmEventReturnValue(string sName, string sValue)
+    public cAlarmEventReturnValue(string sName, object sValue)
     {
       this.sName = sName;
       this.sValue = sValue;
@@ -511,6 +512,8 @@ namespace nsRSMPGS
 
     private string sValue = "";
 
+    private List<Dictionary<string, string>> items = new List<Dictionary<string, string>>(); // array
+
     private eQuality quality = eQuality.unknown;
 
     public cValueTypeObject ValueTypeObject = null;
@@ -560,7 +563,9 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
             break;
-
+          case cValueTypeObject.eValueType._array:
+            sValue = "(array)";
+            break;
           case cValueTypeObject.eValueType._integer:
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
@@ -629,13 +634,12 @@ namespace nsRSMPGS
       }
     }
 
-    public bool SetValue(string sValue)
+    public bool SetValue(object sValue)
     {
-      this.sValue = sValue;
+      this.sValue = sValue == null ? null : sValue.ToString();
       quality = eQuality.recent;
       return true;
     }
-
     public string GetValue()
     {
       if (sValue == null)
@@ -648,6 +652,16 @@ namespace nsRSMPGS
       }
     }
 
+    public bool SetArray(List<Dictionary<string, string>> items)
+    {
+      this.items = items;
+      quality = eQuality.recent;
+      return true;
+    }
+    public List<Dictionary<string, string>> GetArray()
+    {
+      return this.items;
+    }
   }
 
   public class cValueTypeObject
@@ -666,6 +680,7 @@ namespace nsRSMPGS
 
     public Dictionary<string, string> SelectableValues;
     public string sName;
+    public Dictionary<string, cYAMLMapping> Items;
 
     public enum eValueType
     {
@@ -679,13 +694,15 @@ namespace nsRSMPGS
       _raw,
       _scale,
       _unit,
-      _ordinal
+      _ordinal,
+      _array
     }
 
     public string sComment;
     public eValueType ValueType;
 
-    public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment)
+
+    public cValueTypeObject(string sValueTypeKey, string sName, string sType, Dictionary<string, string> SelectableValues, double dMin, double dMax, string sComment, Dictionary<string, cYAMLMapping> items)
     {
 
       this.sValueTypeKey = sValueTypeKey;
@@ -694,6 +711,7 @@ namespace nsRSMPGS
       this.sComment = sComment;
       this.SelectableValues = SelectableValues;
       this.sName = sName;
+      this.Items = items;
 
       foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
       {

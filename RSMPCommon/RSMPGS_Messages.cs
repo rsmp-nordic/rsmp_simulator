@@ -66,7 +66,7 @@ namespace RSMP_Messages
   public class AlarmReturnValue
   {
     public string n; // name
-    public string v; // value
+    public object v; // value
   }
 
   public class AggregatedStatus
@@ -184,7 +184,7 @@ namespace RSMP_Messages
   {
     public string sCI; // StatusCodeId
     public string n;   // Name
-    public string s;   // Status
+    public object s;   // Status
     public string q;   // Quality
 
   }
