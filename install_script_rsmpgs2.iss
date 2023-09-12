@@ -1,6 +1,6 @@
 [Setup]
 AppName=RSMPGS2 (SCADA Interface Simulator)
-AppVerName=RSMPGS2 (SCADA Interface Simulator) 1.0.1.7
+AppVerName=RSMPGS2 (SCADA Interface Simulator) 1.0.2
 AppId=RSMPGS2 (SCADA Interface Simulator)
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
@@ -8,7 +8,7 @@ AppSupportURL=http://www.automatisera.nu
 AppUpdatesURL=http://www.automatisera.nu
 DefaultDirName={pf}\RSMPGS2
 DefaultGroupName=RSMP
-OutputBaseFilename=RSMPGS2_1_0_1_7_Setup
+OutputBaseFilename=RSMPGS2_1_0_2_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
