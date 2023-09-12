@@ -46,6 +46,8 @@ using System.Security.Authentication;
 // 20.10.16 / TR / 1.0.1.6   / Significally improvement in Debugging. Minor updates.
 // 21.09.27 / TR / 1.0.1.7   / Lockup bug in debug fixed, command lookup bug fixed, invariantculture in ISO8601 (pull request #22 / jakobht),
 //                           / and full path of ini file when error occur at startup (pull request #23 / jakobht)
+// 23.09.12 / DO / 1.0.2     / Add support for RSMP 3.2. Set quality "old" when status is buffered. Add option for checking case sensitive in values,
+//                           / Add support array data type (mikaelbroms). Use semantic versioning.
 //
 //
 // Aggregated status save
