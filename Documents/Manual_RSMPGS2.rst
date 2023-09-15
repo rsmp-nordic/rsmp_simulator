@@ -47,7 +47,7 @@ Filename                    Description
 ``.\Settings\RSMPGS2.INI``  Configuration of RSMPGS2
 ``.\Objects``               Reference files (example). SXL in CSV format
 ``.\YAML``                  Reference files (example). SXL in YAML format
-``.\Documents``             Manual, RSMP spec etc
+``.\Documents``             Manuals, etc
 ==========================  ==============================================
 
 Configuration
