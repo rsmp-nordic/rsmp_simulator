@@ -2361,104 +2361,104 @@ namespace nsRSMPGS
         switch (schemaScalarType.ToLower())
         {
           case "string":
-          if (isCombo)
-          {
-            comboBox.SetBounds(110, y, 150, 23);
-            comboBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
-            arrayForm.Controls.AddRange(new Control[] { label, comboBox, sendCheckBox });
-          }
-          else
-          {
-            textBox = new TextBox();
-            textBox.SetBounds(110, y, 150, 23);
-            textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
-            arrayForm.Controls.AddRange(new Control[] { label, textBox, sendCheckBox });
-          }
-
-          if (arrayListViewIndex != -1)
-          {
-            if (itemIndex == 0)
+            if (isCombo)
             {
-              if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
-              {
-                if (isCombo)
-                {
-                  comboBox.Text = arrayListView.Items[arrayListViewIndex].Text;
-                }
-                else
-                {
-                  textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
-                }
-                sendCheckBox.Checked = true;
-              }
+              comboBox.SetBounds(110, y, 150, 23);
+              comboBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+              arrayForm.Controls.AddRange(new Control[] { label, comboBox, sendCheckBox });
             }
             else
             {
-              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
-              {
-                if (isCombo)
-                {
-                  comboBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
-                }
-                else
-                {
-                  textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
-                }
-                sendCheckBox.Checked = true;
-              }
+              textBox = new TextBox();
+              textBox.SetBounds(110, y, 150, 23);
+              textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+              arrayForm.Controls.AddRange(new Control[] { label, textBox, sendCheckBox });
             }
-            itemIndex = itemIndex + 1;
-          }
-          break;
+
+            if (arrayListViewIndex != -1)
+            {
+              if (itemIndex == 0)
+              {
+                if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
+                {
+                  if (isCombo)
+                  {
+                    comboBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+                  }
+                  else
+                  {
+                    textBox.Text = arrayListView.Items[arrayListViewIndex].Text;
+                  }
+                  sendCheckBox.Checked = true;
+                }
+              }
+              else
+              {
+                if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
+                {
+                  if (isCombo)
+                  {
+                    comboBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                  }
+                  else
+                  {
+                    textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                  }
+                  sendCheckBox.Checked = true;
+                }
+              }
+              itemIndex = itemIndex + 1;
+            }
+            break;
           case "integer":
-          numericUpDown = new NumericUpDown();
-          numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
-          numericUpDown.SetBounds(110, y, 150, 23);
-          arrayForm.Controls.AddRange(new Control[] { label, numericUpDown, sendCheckBox });
+            numericUpDown = new NumericUpDown();
+            numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
+            numericUpDown.SetBounds(110, y, 150, 23);
+            arrayForm.Controls.AddRange(new Control[] { label, numericUpDown, sendCheckBox });
 
-          if (schemaScalarMin != "")
-          {
-            numericUpDown.Minimum = Int32.Parse(schemaScalarMin);
-          }
-          if (schemaScalarMax != "")
-          {
-            numericUpDown.Maximum = Int32.Parse(schemaScalarMax);
-          }
-
-
-          if (arrayListViewIndex != -1)
-          {
-            if (itemIndex == 0)
+            if (schemaScalarMin != "")
             {
-              if(arrayListView.Items[arrayListViewIndex].Text == "")
+              numericUpDown.Minimum = Int32.Parse(schemaScalarMin);
+            }
+            if (schemaScalarMax != "")
+            {
+              numericUpDown.Maximum = Int32.Parse(schemaScalarMax);
+            }
+
+
+            if (arrayListViewIndex != -1)
+            {
+              if (itemIndex == 0)
               {
-                sendCheckBox.Checked = false;
+                if(arrayListView.Items[arrayListViewIndex].Text == "")
+                {
+                  sendCheckBox.Checked = false;
+                }
+                else
+                {
+                  numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].Text);
+                  sendCheckBox.Checked = true;
+                }
               }
               else
               {
-                numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].Text);
-                sendCheckBox.Checked = true;
+                if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text == "")
+                {
+                  sendCheckBox.Checked = false;
+                }
+                else
+                {
+                  numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
+                  sendCheckBox.Checked = true;
+                }
               }
+              itemIndex = itemIndex + 1;
             }
-            else
-            {
-              if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text == "")
-              {
-                sendCheckBox.Checked = false;
-              }
-              else
-              {
-                numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
-                sendCheckBox.Checked = true;
-              }
-            }
-            itemIndex = itemIndex + 1;
-          }
-          break;
+            break;
           default:
-          break;
+            break;
         }
-         y = y + 23;
+        y = y + 23;
       }
 
       if (arrayListViewIndex == -1)
