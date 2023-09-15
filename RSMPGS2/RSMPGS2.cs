@@ -41,6 +41,7 @@ using System.Security.Authentication;
 //                           / and full path of ini file when error occur at startup (pull request #23 / jakobht)
 // 23.09.12 / DO / 1.0.2     / Add support for RSMP 3.2. Set quality "old" when status is buffered. Add option for checking case sensitive in values,
 //                           / Add support array data type (mikaelbroms). Use semantic versioning.
+// 23.10.01 / DO / 1.0.3     / Add support for RSMP 3.2.1. Add "number" and "timestamp" as data types
 //
 //
 // ---------------------------------------------------------------------------------------------------
