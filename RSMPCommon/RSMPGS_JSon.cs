@@ -1276,6 +1276,7 @@ namespace nsRSMPGS
                     return cellName + " wrong type";
                   }
                   break;
+                case "number":
                 case "real":
                   try
                   {
@@ -1380,6 +1381,7 @@ namespace nsRSMPGS
           catch { }
           break;
 
+        case "number":
         case "real":
           try
           {
@@ -1443,6 +1445,7 @@ namespace nsRSMPGS
         {
           case "integer":
           case "long":
+          case "number":
           case "real":
 
             try

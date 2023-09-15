@@ -561,6 +561,7 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
+          case cValueTypeObject.eValueType._number:
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
             break;
@@ -691,6 +692,7 @@ namespace nsRSMPGS
       _integer,
       _long,
       _real,
+      _number,
       _boolean,
       _base64,
       _raw,
@@ -860,6 +862,7 @@ namespace nsRSMPGS
             return false;
           }
 
+        case eValueType._number:
         case eValueType._real:
 
           double dValue;
