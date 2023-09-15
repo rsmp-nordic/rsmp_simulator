@@ -1290,6 +1290,7 @@ namespace nsRSMPGS
                     return cellName + " wrong type";
                   }
                   break;
+                case "timestamp":
                 case "string":
                     break;
                 default:
@@ -1355,11 +1356,8 @@ namespace nsRSMPGS
 
       switch (sType.ToLower())
       {
-
+        case "timestamp":
         case "string":
-          bValueIsValid = true;
-          break;
-
         case "array":
           bValueIsValid = true;
           break;
@@ -1466,6 +1464,7 @@ namespace nsRSMPGS
             }
             catch { }
             break;
+          case "timestamp":
           case "string":
 
             try
