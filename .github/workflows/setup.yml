@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  SXL: rsmp_schema/schemas/tlc/1.1.1/sxl.yaml
   SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
 
 jobs:
