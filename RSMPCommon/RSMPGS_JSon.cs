@@ -1246,54 +1246,54 @@ namespace nsRSMPGS
             if (schemaKey == statusKey)
             {
               hit = true;
-              if (schemaScalarType == "integer")
+              switch (schemaScalarType.ToLower())
               {
-                try
-                {
-                  Int16 iValue = Int16.Parse(statusValue);
-                  Int16 iMin = Int16.Parse(schemaScalarMin);
-                  Int16 iMax = Int16.Parse(schemaScalarMax);
-                  if (iValue < iMin) { return cellName + " to small"; }
-                  if (iValue > iMax) { return cellName + " to big"; }
-                }
-                catch
-		{
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType == "long")
-              {
-                try
-                {
-                  Int32 iValue = Int32.Parse(statusValue);
-                  Int32 iMin = Int32.Parse(schemaScalarMin);
-                  Int32 iMax = Int32.Parse(schemaScalarMax);
-                  if (iValue < iMin) { return cellName + " to small"; }
-                  if (iValue > iMax) { return cellName + " to big"; }
-                }
-                catch
-                {
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType == "real")
-              {
-                try
-                {
-                  Double dValue = Double.Parse(statusValue);
-                  Double dMin = Double.Parse(schemaScalarMin);
-                  Double dMax = Double.Parse(schemaScalarMax);
-                  if (dValue < dMin) { return cellName + " to small"; }
-                  if (dValue > dMax) { return cellName + " to big"; }
-                }
-                catch
-                {
-                  return cellName + " wrong type";
-                }
-              }
-              else if (schemaScalarType != "string")
-              {
-                return cellName + "type:" + schemaScalarType + " not supported";
+                case "integer":
+                  try
+                  {
+                    Int16 iValue = Int16.Parse(statusValue);
+                    Int16 iMin = Int16.Parse(schemaScalarMin);
+                    Int16 iMax = Int16.Parse(schemaScalarMax);
+                    if (iValue < iMin) { return cellName + " to small"; }
+                    if (iValue > iMax) { return cellName + " to big"; }
+                  }
+                  catch
+		              {
+                    return cellName + " wrong type";
+                  }
+                  break;
+                case "long":
+                  try
+                  {
+                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iMin = Int32.Parse(schemaScalarMin);
+                    Int32 iMax = Int32.Parse(schemaScalarMax);
+                    if (iValue < iMin) { return cellName + " to small"; }
+                    if (iValue > iMax) { return cellName + " to big"; }
+                  }
+                  catch
+                  {
+                    return cellName + " wrong type";
+                  }
+                  break;
+                case "real":
+                  try
+                  {
+                    Double dValue = Double.Parse(statusValue);
+                    Double dMin = Double.Parse(schemaScalarMin);
+                    Double dMax = Double.Parse(schemaScalarMax);
+                    if (dValue < dMin) { return cellName + " to small"; }
+                    if (dValue > dMax) { return cellName + " to big"; }
+                  }
+                  catch
+                  {
+                    return cellName + " wrong type";
+                  }
+                  break;
+                case "string":
+                    break;
+                default:
+                  return cellName + "type:" + schemaScalarType + " not supported";
               }
             }
           }
