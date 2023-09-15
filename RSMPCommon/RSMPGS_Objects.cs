@@ -557,6 +557,7 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
+          case cValueTypeObject.eValueType._timestamp:
           case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
@@ -685,6 +686,7 @@ namespace nsRSMPGS
     public enum eValueType
     {
       _unknown,
+      _timestamp,
       _string,
       _integer,
       _long,
@@ -902,6 +904,10 @@ namespace nsRSMPGS
               return false;
             }
           }
+
+        case eValueType._timestamp:
+          //TODO: Doesn't validate timestamp
+          return true;
 
         default:
 
