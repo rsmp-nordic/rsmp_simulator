@@ -906,8 +906,15 @@ namespace nsRSMPGS
           }
 
         case eValueType._timestamp:
-          //TODO: Doesn't validate timestamp
-          return true;
+          DateTime timestamp;
+          if (DateTime.TryParse(sValue, out timestamp))
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }          
 
         default:
 
