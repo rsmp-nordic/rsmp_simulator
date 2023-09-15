@@ -2358,8 +2358,9 @@ namespace nsRSMPGS
           sendCheckBox.Checked = false;
         }
 
-        if (schemaScalarType == "string")
+        switch (schemaScalarType.ToLower())
         {
+          case "string":
           if (isCombo)
           {
             comboBox.SetBounds(110, y, 150, 23);
@@ -2408,10 +2409,8 @@ namespace nsRSMPGS
             }
             itemIndex = itemIndex + 1;
           }
-        }
-
-        if (schemaScalarType == "integer")
-        {
+          break;
+          case "integer":
           numericUpDown = new NumericUpDown();
           numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
           numericUpDown.SetBounds(110, y, 150, 23);
@@ -2455,6 +2454,9 @@ namespace nsRSMPGS
             }
             itemIndex = itemIndex + 1;
           }
+          break;
+          default:
+          break;
         }
          y = y + 23;
       }
