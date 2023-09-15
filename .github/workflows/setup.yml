@@ -54,8 +54,6 @@ jobs:
 
       - name: Adapt data types for Core 3.2
         run: |-
-          # Convert "timestamp" to "string", because it doesn't officially exist in 3.2
-          sed -i 's/type: timestamp/type: string/g' $SXL
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           sed -i 's/_list$//g' $SXL
