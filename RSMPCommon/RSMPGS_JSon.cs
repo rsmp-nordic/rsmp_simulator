@@ -98,9 +98,10 @@ namespace nsRSMPGS
       RSMP_3_1_4 = 4,
       RSMP_3_1_5 = 5,
       RSMP_3_2 = 6,
+      RSMP_3_2_1 = 7,
     }
 
-    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2" };
+    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2", "3.2.1" };
 
     public bool DecodeAndParseJSonPacket(string sJSon)
     {
@@ -1525,6 +1526,11 @@ namespace nsRSMPGS
       if (setting.GetActualValue(RSMPVersion.RSMP_3_2))
       {
         HighestRSMPVersion = RSMPVersion.RSMP_3_2;
+      }
+
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_2_1))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_2_1;
       }
 
       return HighestRSMPVersion;

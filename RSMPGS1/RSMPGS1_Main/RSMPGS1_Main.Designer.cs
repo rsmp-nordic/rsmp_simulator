@@ -129,6 +129,7 @@
       this.RSMP_3_1_4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.RSMP_3_2_1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
       this.button_ClearStatistics = new System.Windows.Forms.Button();
       this.tabPage_Alarms = new System.Windows.Forms.TabPage();
@@ -1226,7 +1227,8 @@
             this.RSMP_3_1_3,
             this.RSMP_3_1_4,
             this.RSMP_3_1_5,
-            this.RSMP_3_2});
+            this.RSMP_3_2,
+            this.RSMP_3_2_1});
       this.dataGridView_Behaviour.Location = new System.Drawing.Point(2, 15);
       this.dataGridView_Behaviour.Margin = new System.Windows.Forms.Padding(2);
       this.dataGridView_Behaviour.MultiSelect = false;
@@ -1288,6 +1290,12 @@
       this.RSMP_3_2.HeaderText = "3.2";
       this.RSMP_3_2.Name = "RSMP_3_2";
       this.RSMP_3_2.Width = 50;
+      // 
+      // RSMP_3_2_1
+      // 
+      this.RSMP_3_2_1.HeaderText = "3.2.1";
+      this.RSMP_3_2_1.Name = "RSMP_3_2_1";
+      this.RSMP_3_2_1.Width = 50;
       // 
       // groupBox_Statistics
       // 
@@ -2424,6 +2432,7 @@
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_4;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_1;
     private System.Windows.Forms.GroupBox groupBox_Statistics;
     public ListViewDoubleBuffered listView_Statistics;
     private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Desription;
