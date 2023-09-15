@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  SXL: rsmp_schema/schemas/tlc/1.1.1/sxl.yaml
   SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
 
 jobs:
@@ -47,6 +47,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: rsmp-nordic/rsmp_schema
+          ref: 1.1.1
           path: rsmp_schema
 
       - name: Create XLSX template
@@ -54,8 +55,6 @@ jobs:
 
       - name: Adapt data types for Core 3.2
         run: |-
-          # Convert "timestamp" to "string", because it doesn't officially exist in 3.2
-          sed -i 's/type: timestamp/type: string/g' $SXL
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           sed -i 's/_list$//g' $SXL
