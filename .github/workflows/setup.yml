@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.1.1/sxl.yaml
+  SXL: rsmp_schema/schemas/tlc/1.2/sxl.yaml
   SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: rsmp-nordic/rsmp_schema
-          ref: 1.1.1
+          ref: 1.2
           path: rsmp_schema
 
       - name: Create XLSX template
