@@ -15,7 +15,7 @@ namespace nsRSMPGS
     private cRoadSideObject RoadSideObject;
     private List<int> iRows = new List<int>();
 
-    public RSMPGS2_CommandForm(cRoadSideObject RoadSideObject, List<cCommandReturnValue>SelectedCRVs)
+    public RSMPGS2_CommandForm(cRoadSideObject RoadSideObject, cCommandObject SelectedCommand)
     {
 
       InitializeComponent();
@@ -26,12 +26,11 @@ namespace nsRSMPGS
 
       int i = 0;
 
-
       foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
       {
         foreach (cCommandReturnValue CommandArguments in CommandObject.CommandReturnValues)
         {
-          bool bWasSelected = SelectedCRVs.IndexOf(CommandArguments) >= 0 ? true : false;
+          bool bWasSelected = CommandObject == SelectedCommand ? true : false;
 
           string[] aCommands = {};
           if (CommandArguments.Value.ValueTypeObject.SelectableValues != null && CommandArguments.Value.ValueTypeObject.SelectableValues.Count > 0)

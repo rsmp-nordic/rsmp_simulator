@@ -24,21 +24,10 @@ namespace nsRSMPGS
     {
       ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
 
-      List<cCommandReturnValue> CRVs = new List<nsRSMPGS.cCommandReturnValue>();
-
       cRoadSideObject RoadSideObject = ((cCommandReturnValue)listView_Commands.SelectedItems[0].Tag).CommandObject.RoadSideObject;
+      cCommandObject CommandObject = ((cCommandReturnValue)listView_Commands.SelectedItems[0].Tag).CommandObject;
 
-      foreach (ListViewItem lvItem in listView_Commands.SelectedItems)
-      {
-        cCommandReturnValue CommandReturnValue = (cCommandReturnValue)lvItem.Tag;
-        if (RoadSideObject != CommandReturnValue.CommandObject.RoadSideObject)
-        {
-          break;
-        }
-        CRVs.Add(CommandReturnValue);
-      }
-
-      RSMPGS2_CommandForm CommandForm = new RSMPGS2_CommandForm(RoadSideObject, CRVs);
+      RSMPGS2_CommandForm CommandForm = new RSMPGS2_CommandForm(RoadSideObject, CommandObject);
 
       CommandForm.ShowDialog(this);
       /*
