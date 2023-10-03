@@ -557,9 +557,11 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
+          case cValueTypeObject.eValueType._timestamp:
           case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
+          case cValueTypeObject.eValueType._number:
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
             break;
@@ -685,10 +687,12 @@ namespace nsRSMPGS
     public enum eValueType
     {
       _unknown,
+      _timestamp,
       _string,
       _integer,
       _long,
       _real,
+      _number,
       _boolean,
       _base64,
       _raw,
@@ -858,6 +862,7 @@ namespace nsRSMPGS
             return false;
           }
 
+        case eValueType._number:
         case eValueType._real:
 
           double dValue;
@@ -902,6 +907,17 @@ namespace nsRSMPGS
               return false;
             }
           }
+
+        case eValueType._timestamp:
+          DateTime timestamp;
+          if (DateTime.TryParse(sValue, out timestamp))
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }          
 
         default:
 

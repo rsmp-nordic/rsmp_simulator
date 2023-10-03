@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS2_1_0_1_7_Setup.exe``.
+Start installation by running ``RSMPGS2_1_0_3_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
@@ -47,7 +47,7 @@ Filename                    Description
 ``.\Settings\RSMPGS2.INI``  Configuration of RSMPGS2
 ``.\Objects``               Reference files (example). SXL in CSV format
 ``.\YAML``                  Reference files (example). SXL in YAML format
-``.\Documents``             Manual, RSMP spec etc
+``.\Documents``             Manuals, etc
 ==========================  ==============================================
 
 Configuration

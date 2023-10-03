@@ -1,6 +1,6 @@
 [Setup]
 AppName=RSMPGS2 (SCADA Interface Simulator)
-AppVerName=RSMPGS2 (SCADA Interface Simulator) 1.0.2
+AppVerName=RSMPGS2 (SCADA Interface Simulator) 1.0.3
 AppId=RSMPGS2 (SCADA Interface Simulator)
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
@@ -8,7 +8,7 @@ AppSupportURL=http://www.automatisera.nu
 AppUpdatesURL=http://www.automatisera.nu
 DefaultDirName={pf}\RSMPGS2
 DefaultGroupName=RSMP
-OutputBaseFilename=RSMPGS2_1_0_2_Setup
+OutputBaseFilename=RSMPGS2_1_0_3_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
@@ -27,9 +27,7 @@ Source: "Objects\Status.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Fla
 Source: "Objects\Version.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\SXL-example.xlsx"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\SXL-example.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "Documents\rsmp-spec-3.2.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "Documents\sxl-tlc-1.1.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\Manual_RSMPGS2.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 
 [Dirs]
