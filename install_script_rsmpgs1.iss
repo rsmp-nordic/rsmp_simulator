@@ -1,6 +1,6 @@
 [Setup]
 AppName=RSMPGS1 (Roadside Simulator)
-AppVerName=RSMPGS1 (Roadside Simulator) 1.0.3
+AppVerName=RSMPGS1 (Roadside Simulator) 1.0.4
 AppId=RSMPGS1 (Roadside Simulator)
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
@@ -8,7 +8,7 @@ AppSupportURL=http://www.automatisera.nu
 AppUpdatesURL=http://www.automatisera.nu
 DefaultDirName={pf}\RSMPGS1
 DefaultGroupName=RSMP
-OutputBaseFilename=RSMPGS1_1_0_3_Setup
+OutputBaseFilename=RSMPGS1_1_0_4_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
