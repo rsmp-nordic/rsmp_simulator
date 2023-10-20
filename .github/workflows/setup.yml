@@ -195,3 +195,15 @@ jobs:
           name: Setup
           path: Output/*.exe
 
+      - name: Upload setup zip file
+        uses: actions/upload-artifact@v3
+        with:
+          name: Setup zip
+          path: |
+            RSMPGS1.exe
+            RSMPGS2.exe
+            Settings\
+            Objects\
+            YAML\
+            Documents\
+            !Output
