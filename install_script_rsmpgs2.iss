@@ -17,7 +17,7 @@ WizardSmallImageFile=Setup\WizardSmallImage0.bmp
 
 [Files]
 Source: "RSMPGS2\bin\Release\RSMPGS2.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
-Source: "RSMPGS2\Settings\RSMPGS2.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Settings\RSMPGS2.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Aggregated_status.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Alarms.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Commands.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
