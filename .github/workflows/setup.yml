@@ -206,4 +206,6 @@ jobs:
             Objects\
             YAML\
             Documents\
+            !Documents\*.rst
+            !Documents\img\
             !Output
