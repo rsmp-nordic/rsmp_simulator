@@ -243,7 +243,7 @@ namespace nsRSMPGS
       if (RSMPGS.SpecifiedPath.Length == 0)
       {
 #if DEBUG
-        return "..\\..";
+        return "..\\..\\..";
 #else
                 string AssemblyName = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 System.IO.FileInfo file = new System.IO.FileInfo(AssemblyName);
