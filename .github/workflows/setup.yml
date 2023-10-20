@@ -176,8 +176,8 @@ jobs:
 
       - name: Copy executables
         run: |
-          copy RSMPGS1\bin\Relase\RSMPGS1.exe .
-          copy RSMPGS2\bin\Relase\RSMPGS2.exe .
+          copy RSMPGS1\bin\Release\RSMPGS1.exe .
+          copy RSMPGS2\bin\Release\RSMPGS2.exe .
 
       - name: Building the installer (RSMPGS1)
         run: |
