@@ -2365,6 +2365,7 @@ namespace nsRSMPGS
 
         switch (schemaScalarType.ToLower())
         {
+          case "boolean":
           case "timestamp":
           case "string":
             if (isCombo)
