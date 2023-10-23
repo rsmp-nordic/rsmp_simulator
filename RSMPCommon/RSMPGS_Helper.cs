@@ -2271,7 +2271,6 @@ namespace nsRSMPGS
       string schemaScalarMax;
 
       Dictionary<string, cYAMLMapping> schemaMappings;
-      KeyValuePair<string, cYAMLMapping> schemaMapping;
 
       for (int i = 0; i < items.Count; i++)
       {
@@ -2321,21 +2320,27 @@ namespace nsRSMPGS
         comboBox = null;
 
         isCombo = false;
-        if (schemaMappings.Count != 0)
+        if (schemaMappings.Count > 0)
         {
-          for (int j = 0; j < schemaMappings.Count; j++)
-          {
-            schemaMapping = schemaMappings.ElementAt(j);
-            comboBox = new ComboBox();
-            isCombo = true;
+          comboBox = new ComboBox();
+          isCombo = true;
 
-            for (int k = 0; k < schemaMapping.Value.YAMLScalars.Count; k++)
-            {
-              schemaScalar = schemaMapping.Value.YAMLScalars.ElementAt(k);
-              comboBox.Items.Add(schemaScalar.Key);
-            }
+          foreach (KeyValuePair<string, string> scalar in schemaMappings.FirstOrDefault().Value.YAMLScalars)
+          {
+            schemaScalar = scalar;
+            comboBox.Items.Add(schemaScalar.Key);
           }
         }
+
+        if(schemaScalarType.ToLower() == "boolean")
+        { 
+          comboBox = new ComboBox();
+          isCombo = true;
+
+          comboBox.Items.Add("true");
+          comboBox.Items.Add("false");
+        }
+
 
         label = new Label();
         label.Text = item.Key;
