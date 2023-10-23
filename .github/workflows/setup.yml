@@ -174,6 +174,11 @@ jobs:
           name: Manual RSMPGS2
           path: Documents
 
+      - name: Copy executables
+        run: |
+          copy RSMPGS1\bin\Release\RSMPGS1.exe .
+          copy RSMPGS2\bin\Release\RSMPGS2.exe .
+
       - name: Building the installer (RSMPGS1)
         run: |
           "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
@@ -190,3 +195,17 @@ jobs:
           name: Setup
           path: Output/*.exe
 
+      - name: Upload setup zip file
+        uses: actions/upload-artifact@v3
+        with:
+          name: Setup zip
+          path: |
+            RSMPGS1.exe
+            RSMPGS2.exe
+            Settings\
+            Objects\
+            YAML\
+            Documents\
+            !Documents\*.rst
+            !Documents\img\
+            !Output
