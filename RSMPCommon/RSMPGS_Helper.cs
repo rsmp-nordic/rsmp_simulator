@@ -1992,22 +1992,35 @@ namespace nsRSMPGS
         arrayListView.MultiSelect = false;
         arrayListView.FullRowSelect = true;
         arrayListView.ItemActivate += new EventHandler(updateArrayRow);
+        arrayListView.SelectedIndexChanged += new EventHandler(selectArrayRow);
         array = Value;
+
+        // Add "new item"
         Button buttonNewRow = new Button();
         buttonNewRow.Click += new EventHandler(newArrayRow);
         buttonNewRow.Text = "New item";
+
+        // Add "delete item"
+        Button buttonDeleteRow = new Button();
+        buttonDeleteRow.Click += new EventHandler(deleteArrayRow);
+        buttonDeleteRow.Name = "buttonDeleteRow";
+        buttonDeleteRow.Text = "Delete item";
+        buttonDeleteRow.Enabled = false;
+
         if (bReadOnly)
         {
           buttonNewRow.Visible = false;
+          buttonDeleteRow.Visible = false;
         }
         arrayListView.View = View.Details;
-        buttonNewRow.SetBounds(80, 5, 75, 23);
-        buttonCancel.SetBounds(160, 5, 75, 23);
-        buttonOk.SetBounds(240, 5, 75, 23);
+        buttonNewRow.SetBounds(5, 5, 75, 23);
+        buttonDeleteRow.SetBounds(85, 5, 75, 23);
+        buttonCancel.SetBounds(165, 5, 75, 23);
+        buttonOk.SetBounds(245, 5, 70, 23);
         arrayListView.Bounds = new Rectangle(new Point(5, 33), new Size(310, 160));
 
         loadArray(Value.ValueTypeObject.Items, Value.GetArray());
-        form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonCancel, arrayListView });
+        form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonDeleteRow, buttonCancel, arrayListView });
       }
       else
       {
@@ -2220,6 +2233,20 @@ namespace nsRSMPGS
       inputArrayRow(i);
     }
 
+    private static void selectArrayRow(object sender, EventArgs e)
+    {
+      ListView send = (ListView)sender;
+      Control btn = (Control)send.Parent.Controls.Find("buttonDeleteRow", false).First();
+      if (arrayListView.SelectedItems.Count > 0)
+      { 
+        btn.Enabled = true;
+      }
+      else
+      {
+        btn.Enabled = false;
+      }
+    }
+
     private static void inputArrayRow(int index)
     {
       arrayListViewIndex = index;
@@ -2227,11 +2254,8 @@ namespace nsRSMPGS
 
       Button buttonOk = new Button();
       Button buttonCancel = new Button();
-      Button buttonDelete = new Button();
 
       buttonCancel.Text = "Cancel";
-      buttonDelete.Text = "Delete";
-      buttonDelete.Click += new EventHandler(deleteArrayRow);
       buttonOk.Text = "OK";
       buttonOk.Click += new EventHandler(saveArrayRow);
 
@@ -2242,7 +2266,7 @@ namespace nsRSMPGS
       arrayForm.MaximizeBox = false;
       arrayForm.AcceptButton = buttonOk;
       arrayForm.CancelButton = buttonCancel;
-      arrayForm.Controls.AddRange(new Control[] { buttonOk, buttonDelete, buttonCancel });
+      arrayForm.Controls.AddRange(new Control[] { buttonOk, buttonCancel });
 
       Label label;
       CheckBox sendCheckBox;
@@ -2470,11 +2494,6 @@ namespace nsRSMPGS
         y = y + 23;
       }
 
-      if (arrayListViewIndex == -1)
-      {
-        buttonDelete.Visible = false;
-      }
-      buttonDelete.SetBounds(25, y + 10, 75, 23);
       buttonCancel.SetBounds(105, y + 10, 75, 23);
       buttonOk.SetBounds(185, y + 10, 75, 23);
 
@@ -2491,14 +2510,14 @@ namespace nsRSMPGS
       string schemaScalarType;
       CheckBox sendCheckBox;
 
-      int controlIndex = 4;
+      int controlIndex = 3;
       value = arrayForm.Controls[controlIndex].Text;
 
       sendCheckBox = (CheckBox)arrayForm.Controls[controlIndex + 1];
       tag = sendCheckBox.Checked.ToString();
 
-      schemaScalarType = arrayForm.Controls[4].Tag.ToString().Split('#')[0];
-      schemaScalarOptional = arrayForm.Controls[4].Tag.ToString().Split('#')[1];
+      schemaScalarType = arrayForm.Controls[3].Tag.ToString().Split('#')[0];
+      schemaScalarOptional = arrayForm.Controls[3].Tag.ToString().Split('#')[1];
 
       if (schemaScalarOptional == "False" && value == "")
       {
@@ -2593,7 +2612,6 @@ namespace nsRSMPGS
     {
       int i = arrayListView.SelectedIndices[0];
       arrayListView.Items.RemoveAt(i);
-      arrayForm.Close();
     }
 
     private static void InputStatusBoxComboBoxValueType_SelectionChanged(object sender, EventArgs e)
