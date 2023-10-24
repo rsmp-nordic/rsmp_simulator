@@ -103,7 +103,7 @@ namespace nsRSMPGS
         {
 
           ListViewItem lvItem = new ListViewItem(CommandObject.sCommandCodeId);
-          lvItem.SubItems.Add(CommandObject.sDescription);
+          lvItem.SubItems.Add(CommandObject.sDescription.Split('\n').First().TrimEnd('.'));
           lvItem.SubItems.Add(CommandReturnValue.sName);
           lvItem.SubItems.Add(CommandReturnValue.sCommand.Replace("\"-", "").Replace("\n-", "/").Replace("\n", "/").Replace("\"", ""));
           lvItem.SubItems.Add(CommandReturnValue.Value.GetValueType());

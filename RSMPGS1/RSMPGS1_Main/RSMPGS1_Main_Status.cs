@@ -66,7 +66,7 @@ namespace nsRSMPGS
 
           string[] sValues = new string[5];
 
-          sValues[0] = StatusObject.sDescription;
+          sValues[0] = StatusObject.sDescription.Split('\n').First().TrimEnd('.');
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
           sValues[3] = StatusReturnValue.Value.GetValue();
