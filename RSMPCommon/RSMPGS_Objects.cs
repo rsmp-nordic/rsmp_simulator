@@ -140,6 +140,7 @@ namespace nsRSMPGS
     public string sObjectType;
     public string sSpecificObject; // Optional, if set must match object in SUL
     public string sAlarmCodeId;
+    public DateTime sTimestamp;
     public string sDescription;
     public string sExternalAlarmCodeId;
     public string sExternalNTSAlarmCodeId;
