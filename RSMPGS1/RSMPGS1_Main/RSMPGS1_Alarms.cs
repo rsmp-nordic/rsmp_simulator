@@ -163,18 +163,20 @@ namespace nsRSMPGS
 					{
             AlarmObject.AlarmCount++;
             AlarmObject.bAcknowledged = false;
-						RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
 					}
-					else
-					{
+          if (!AlarmObject.bSuspended)
+          {
             RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
-					}
+          }
           break;
 
         case "AcknowledgeAndSend":
 
           AlarmObject.bAcknowledged = true;
-          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
+          if (!AlarmObject.bSuspended)
+          {
+            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
+          }
           //JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
           //foreach (cAlarmEvent ScanAlarmEvent in AlarmObject.AlarmEvents)
           //{
