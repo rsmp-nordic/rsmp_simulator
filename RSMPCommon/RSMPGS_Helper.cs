@@ -2365,6 +2365,7 @@ namespace nsRSMPGS
 
         switch (schemaScalarType.ToLower())
         {
+          case "base64":
           case "boolean":
           case "timestamp":
           case "string":
@@ -2417,6 +2418,7 @@ namespace nsRSMPGS
               itemIndex = itemIndex + 1;
             }
             break;
+          case "number":
           case "integer":
             numericUpDown = new NumericUpDown();
             numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
