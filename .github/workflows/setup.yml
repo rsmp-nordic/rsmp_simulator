@@ -93,7 +93,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SXL YAML
-          path: *.yaml
+          path: |
+            TLC_SXL_1_2.yaml
+            TLC_SXL_1_1.yaml
+            TLC_SXL_1_0_15.yaml
 
       - name: Upload artifacts (CSV)
         uses: actions/upload-artifact@v3
