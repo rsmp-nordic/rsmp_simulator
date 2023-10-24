@@ -287,8 +287,14 @@ namespace nsRSMPGS
         {
           AlarmObject.AlarmCount = 0;
         }
-        RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
-        RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
+
+        // Don't update the alarm unless the timestamp is equal or newer
+        if(DateTime.Compare(AlarmObject.sTimestamp, DateTime.Parse(AlarmHeader.aTs)) <= 0)
+        {
+          AlarmObject.sTimestamp = DateTime.Parse(AlarmHeader.aTs);
+          RSMPGS.MainForm.AddAlarmEventToAlarmObjectAndToList(AlarmObject, AlarmEvent);
+          RSMPGS.MainForm.UpdateAlarmListView(AlarmObject);
+        }
 
       }
       catch (Exception e)
