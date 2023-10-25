@@ -1291,6 +1291,18 @@ namespace nsRSMPGS
                     return cellName + " wrong type";
                   }
                   break;
+                case "boolean":
+                  // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+                  // preserve backwards compability we need to treat this as case
+                  // insensitive for now
+                  if(!(statusValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+                  {
+                    return cellName + "boolean can't be parsed";
+                  }
+                  break;
                 case "timestamp":
                 case "string":
                     break;

@@ -270,7 +270,7 @@ namespace nsRSMPGS
 
           //ListViewItem lvItem = listView_Status.Items.Add(sKey, StatusObject.sDescription, -1);
 
-          sValues[0] = StatusObject.sDescription;
+          sValues[0] = StatusObject.sDescription.Split('\n').First().TrimEnd('.');
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
           sValues[3] = StatusReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase) ? "(array)" : StatusReturnValue.Value.GetValue();

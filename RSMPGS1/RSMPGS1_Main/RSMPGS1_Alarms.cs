@@ -74,7 +74,7 @@ namespace nsRSMPGS
       //lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.AlarmEvents.Count() > 0 ? AlarmObject.AlarmEvents.Count().ToString() : "";
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.AlarmCount > 0 ? AlarmObject.AlarmCount.ToString() : "";
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sAlarmCodeId;
-      lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sDescription;
+      lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sDescription.Split('\n').First().TrimEnd('.');
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sExternalAlarmCodeId;
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sExternalNTSAlarmCodeId;
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sPriority;
@@ -163,18 +163,20 @@ namespace nsRSMPGS
 					{
             AlarmObject.AlarmCount++;
             AlarmObject.bAcknowledged = false;
-						RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
 					}
-					else
-					{
+          if (!AlarmObject.bSuspended)
+          {
             RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
-					}
+          }
           break;
 
         case "AcknowledgeAndSend":
 
           AlarmObject.bAcknowledged = true;
-          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
+          if (!AlarmObject.bSuspended)
+          {
+            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
+          }
           //JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
           //foreach (cAlarmEvent ScanAlarmEvent in AlarmObject.AlarmEvents)
           //{

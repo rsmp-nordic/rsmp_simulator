@@ -73,7 +73,7 @@ namespace nsRSMPGS
       int iSubItemIndex = 1;
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.AlarmCount > 0 ? AlarmObject.AlarmCount.ToString() : "";
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sAlarmCodeId;
-      lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sDescription;
+      lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sDescription.Split('\n').First().TrimEnd('.');
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sExternalAlarmCodeId;
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sExternalNTSAlarmCodeId;
       lvItem.SubItems[iSubItemIndex++].Text = AlarmObject.sPriority;

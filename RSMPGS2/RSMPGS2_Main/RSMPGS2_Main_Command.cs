@@ -24,21 +24,10 @@ namespace nsRSMPGS
     {
       ToolStripMenuItem menuitem = (ToolStripMenuItem)sender;
 
-      List<cCommandReturnValue> CRVs = new List<nsRSMPGS.cCommandReturnValue>();
-
       cRoadSideObject RoadSideObject = ((cCommandReturnValue)listView_Commands.SelectedItems[0].Tag).CommandObject.RoadSideObject;
+      cCommandObject CommandObject = ((cCommandReturnValue)listView_Commands.SelectedItems[0].Tag).CommandObject;
 
-      foreach (ListViewItem lvItem in listView_Commands.SelectedItems)
-      {
-        cCommandReturnValue CommandReturnValue = (cCommandReturnValue)lvItem.Tag;
-        if (RoadSideObject != CommandReturnValue.CommandObject.RoadSideObject)
-        {
-          break;
-        }
-        CRVs.Add(CommandReturnValue);
-      }
-
-      RSMPGS2_CommandForm CommandForm = new RSMPGS2_CommandForm(RoadSideObject, CRVs);
+      RSMPGS2_CommandForm CommandForm = new RSMPGS2_CommandForm(RoadSideObject, CommandObject);
 
       CommandForm.ShowDialog(this);
       /*
@@ -114,7 +103,7 @@ namespace nsRSMPGS
         {
 
           ListViewItem lvItem = new ListViewItem(CommandObject.sCommandCodeId);
-          lvItem.SubItems.Add(CommandObject.sDescription);
+          lvItem.SubItems.Add(CommandObject.sDescription.Split('\n').First().TrimEnd('.'));
           lvItem.SubItems.Add(CommandReturnValue.sName);
           lvItem.SubItems.Add(CommandReturnValue.sCommand.Replace("\"-", "").Replace("\n-", "/").Replace("\n", "/").Replace("\"", ""));
           lvItem.SubItems.Add(CommandReturnValue.Value.GetValueType());

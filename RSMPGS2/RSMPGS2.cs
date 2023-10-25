@@ -42,6 +42,11 @@ using System.Security.Authentication;
 // 23.09.12 / DO / 1.0.2     / Add support for RSMP 3.2. Set quality "old" when status is buffered. Add option for checking case sensitive in values,
 //                           / Add support array data type (mikaelbroms). Use semantic versioning.
 // 23.10.01 / DO / 1.0.3     / Add support for RSMP 3.2.1. Add "number" and "timestamp" as data types
+// xx.xx.xx / DO / 1.0.4     / Fix data types in array window #69
+//                           / Move "delete item" to array window #68
+//                           / Select all command arguments by default when sending command #64
+//                           / Don't send alarm if it is blocked #31
+//                           / Don't update the alarm list when recieving alarm with old timestamp #19
 //
 //
 // ---------------------------------------------------------------------------------------------------
