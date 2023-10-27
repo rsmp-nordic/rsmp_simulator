@@ -676,11 +676,9 @@ namespace nsRSMPGS
 
     public string sValueTypeKey; // Not really used here only for debugging
 
-    public Int32 lMinValue = Int32.MinValue;
-    public Int32 lMaxValue = Int32.MaxValue;
 
-    public Int16 iMinValue = Int16.MinValue;
-    public Int16 iMaxValue = Int16.MaxValue;
+    public Int32 iMinValue = Int32.MinValue;
+    public Int32 iMaxValue = Int32.MaxValue;
 
     public double dMinValue = double.MinValue;
     public double dMaxValue = double.MaxValue;
@@ -831,8 +829,8 @@ namespace nsRSMPGS
 
         case eValueType._integer:
 
-          Int16 iValue;
-          if (Int16.TryParse(sValue, out iValue))
+          Int32 iValue;
+          if (Int32.TryParse(sValue, out iValue))
           {
             if (iValue <= iMaxValue && iValue >= iMinValue)
             {
@@ -853,7 +851,7 @@ namespace nsRSMPGS
           Int32 lValue;
           if (Int32.TryParse(sValue, out lValue))
           {
-            if (lValue <= lMaxValue && lValue >= lMinValue)
+            if (lValue <= iMaxValue && lValue >= iMinValue)
             {
               return true;
             }

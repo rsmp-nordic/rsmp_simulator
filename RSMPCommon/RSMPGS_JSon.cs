@@ -1251,9 +1251,9 @@ namespace nsRSMPGS
                 case "integer":
                   try
                   {
-                    Int16 iValue = Int16.Parse(statusValue);
-                    Int16 iMin = Int16.Parse(schemaScalarMin);
-                    Int16 iMax = Int16.Parse(schemaScalarMax);
+                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iMin = Int32.Parse(schemaScalarMin);
+                    Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
                     if (iValue > iMax) { return cellName + " to big"; }
                   }
@@ -1378,7 +1378,7 @@ namespace nsRSMPGS
         case "integer":
           try
           {
-            Int16 iValue = Int16.Parse(sValue);
+            Int32 iValue = Int32.Parse(sValue);
             bValueIsValid = true;
           }
           catch { }
