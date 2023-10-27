@@ -13,7 +13,9 @@ env:
   SXL: rsmp_schema/schemas/tlc/1.2/sxl.yaml
   SXL_1_1: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
-  SITE: sxl-tools/tlc/SXL_Traffic_Controller_ver_1_1-site.yaml
+  SITE: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
+  SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
+  SITE_1_0_15: YAML/SXL_Traffic_Controller_ver_1_0_15-site.yaml
 
 jobs:
   create_sxl:
@@ -38,6 +40,9 @@ jobs:
 
       - name: Install ruby dependencies
         run: gem install rubyXL
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v3
@@ -80,8 +85,8 @@ jobs:
           #   The first format is not supported by the simulator.
           ruby sxl-tools/merge_yaml.rb --objects $SXL --site $SITE > TLC_SXL_1_2.yaml
           # Also include older SXL files
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_1 --site $SITE > TLC_SXL_1_1.yaml
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_15 --site $SITE > TLC_SXL_1_0_15.yaml
+          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
+          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
 
       - name: Upload artifacts (XLSX)
         uses: actions/upload-artifact@v3
