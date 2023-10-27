@@ -1213,9 +1213,9 @@ namespace nsRSMPGS
               case eValueType._long:
               case eValueType._ordinal:
               case eValueType._real:
-                sRange = sRange.Substring(1, sRange.Length - 2); // Remove []
+                string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
                 char[] sep = new char[] { '-' };
-                string[] sRangeArray = sRange.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                 string sMin = sRangeArray[0];
                 string sMax = sRangeArray[1];
                 if (Double.TryParse(sMin, out dMin) == false)
@@ -1225,6 +1225,11 @@ namespace nsRSMPGS
                 if (Double.TryParse(sMax, out dMax) == false)
                 {
                   dMax = Double.Parse(sMax);
+                }
+                // If range started with "-", the min value is negative
+                if (sRangeMinMax.StartsWith("-"))
+                {
+                  dMin = -dMin;
                 }
                 break;
             }

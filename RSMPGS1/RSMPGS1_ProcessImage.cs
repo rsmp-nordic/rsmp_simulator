@@ -478,7 +478,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
         return;
       }
 
-      if (sValue == null || sValue == "?")
+      if (sValue == null)
       {
         s.s = null;
         s.q = "unknown";
