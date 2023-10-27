@@ -238,6 +238,7 @@ namespace nsRSMPGS
               sValue = DateTime.Now.AddHours(-Rnd.Next(0,24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
               break;
             case "array":
+            case "base64":
               break;
             default:
               sValue = Rnd.Next(min, max).ToString();
@@ -405,6 +406,7 @@ namespace nsRSMPGS
                 sValue = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
                 break;
               case "array":
+              case "base64":
                 break;
               default:
                 sValue = Rnd.Next(min, max).ToString();
