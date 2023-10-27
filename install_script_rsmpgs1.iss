@@ -31,6 +31,9 @@ Source: "YAML\TLC_SXL_1_1.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Fla
 Source: "YAML\TLC_SXL_1_0_15.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\Manual_RSMPGS1.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Tools\Certificates\RSMP testcert Password.txt"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Tools\Certificates\RSMP testcert.cer"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Tools\Certificates\RSMP testcert.pfx"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 
 [Dirs]
 Name: "{app}"; 
@@ -40,6 +43,8 @@ Name: "{app}\LogFiles\EventFiles"; Permissions: users-modify
 Name: "{app}\Settings"; Permissions: users-modify
 Name: "{app}\YAML"; Permissions: users-modify
 Name: "{app}\Objects"; Permissions: users-modify
+Name: "{app}\Tools"; Permissions: users-modify
+Name: "{app}\Tools\Certificates"; Permissions: users-modify
 
 [Icons]
 Name: "{group}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
