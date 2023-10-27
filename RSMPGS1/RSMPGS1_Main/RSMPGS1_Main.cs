@@ -222,27 +222,39 @@ namespace nsRSMPGS
         {
           int min = (int)Subscription.StatusReturnValue.Value.GetValueMin();
           int max = (int)Subscription.StatusReturnValue.Value.GetValueMax();
+          string sValue = "";
           switch (Subscription.StatusReturnValue.Value.GetValueType().ToLower())
           {
             case "boolean":
-              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 2) >= 1 ? "true" : "false");
+              sValue = Rnd.Next(0, 2) >= 1 ? "true" : "false";
               break;
             case "string":
-              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
+              sValue = Rnd.Next(0, 1).ToString();
               break;
             case "real":
-              Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+              sValue = (Rnd.Next(min * 10, max * 10) / 10).ToString();
               break;
             case "timestamp":
-              string sRandomTime = DateTime.Now.AddHours(-Rnd.Next(0,24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
-              Subscription.StatusReturnValue.Value.SetValue(sRandomTime);
+              sValue = DateTime.Now.AddHours(-Rnd.Next(0,24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
               break;
             case "array":
               break;
             default:
-              Subscription.StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
+              sValue = Rnd.Next(min, max).ToString();
               break;
           }
+
+          // Check selectable values
+          Dictionary<string, string> sEnums = Subscription.StatusReturnValue.Value.GetSelectableValues();
+          if (sEnums != null && sEnums.Count > 0)
+          {
+            // Select a random one in the list
+            List<string> sKeys = sEnums.Keys.ToList();
+            sValue = sKeys.ElementAt(Rnd.Next(0, sKeys.Count));
+          }
+
+          Subscription.StatusReturnValue.Value.SetValue(sValue);
+
           if (Subscription.SubscribeStatus == cSubscription.SubscribeMethod.OnChange || Subscription.SubscribeStatus == cSubscription.SubscribeMethod.IntervalAndOnChange)
           {
             RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
@@ -377,28 +389,40 @@ namespace nsRSMPGS
           {
             int min = (int)StatusReturnValue.Value.GetValueMin();
             int max = (int)StatusReturnValue.Value.GetValueMax();
+            string sValue = "";
             switch (StatusReturnValue.Value.GetValueType().ToLower())
             {
               case "boolean":
-                StatusReturnValue.Value.SetValue(Rnd.Next(0, 2) >= 1 ? "true" : "false");
+               sValue = Rnd.Next(0, 2) >= 1 ? "true" : "false";
                 break;
               case "string":
-                StatusReturnValue.Value.SetValue(Rnd.Next(0, 1).ToString());
+                sValue = Rnd.Next(0, 1).ToString();
                 break;
               case "real":
-                StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+                sValue = (Rnd.Next(min * 10, max * 10) / 10).ToString();
                 break;
               case "timestamp":
-                string sRandomTime = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
-                StatusReturnValue.Value.SetValue(sRandomTime);
+                sValue = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
                 break;
               case "array":
                 break;
               default:
-                StatusReturnValue.Value.SetValue(Rnd.Next(min, max).ToString());
+                sValue = Rnd.Next(min, max).ToString();
                 break;
             }
             //StatusReturnValue.sStatus = "?";
+
+            // Check selectable values
+            Dictionary<string, string> sEnums = StatusReturnValue.Value.GetSelectableValues();
+            if (sEnums != null && sEnums.Count > 0)
+            {
+              // Select a random one in the list
+              List<string> sKeys = sEnums.Keys.ToList();
+              sValue = sKeys.ElementAt(Rnd.Next(0, sKeys.Count));
+            }
+
+
+            StatusReturnValue.Value.SetValue(sValue);
           }
         }
         // Update ListView if this RoadSide object is selected
