@@ -233,6 +233,10 @@ namespace nsRSMPGS
             case "real":
               Subscription.StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
               break;
+            case "timestamp":
+              string sRandomTime = DateTime.Now.AddHours(-Rnd.Next(0,24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+              Subscription.StatusReturnValue.Value.SetValue(sRandomTime);
+              break;
             case "array":
               break;
             default:
@@ -383,6 +387,10 @@ namespace nsRSMPGS
                 break;
               case "real":
                 StatusReturnValue.Value.SetValue((Rnd.Next(min * 10, max * 10) / 10).ToString());
+                break;
+              case "timestamp":
+                string sRandomTime = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+                StatusReturnValue.Value.SetValue(sRandomTime);
                 break;
               case "array":
                 break;
