@@ -201,7 +201,7 @@ namespace nsRSMPGS
       checkBox_Encryption_Protocol_TLS10.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS10", 0) != 0;
       checkBox_Encryption_Protocol_TLS11.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS11", 0) != 0;
       checkBox_Encryption_Protocol_TLS12.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS12", 0) != 0;
-      //checkBox_Encryption_Protocol_TLS13.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS13", 0) != 0;
+      checkBox_Encryption_Protocol_TLS13.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS13", 0) != 0;
 
       // Do some calc
       checkBox_Encryption_Protocol_CheckedChanged();
@@ -952,8 +952,7 @@ namespace nsRSMPGS
         if (checkBox_Encryption_Protocol_TLS10.Checked) RSMPGS.EncryptionSettings.sslProtocols |= SslProtocols.Tls;
         if (checkBox_Encryption_Protocol_TLS11.Checked) RSMPGS.EncryptionSettings.sslProtocols |= SslProtocols.Tls11;
         if (checkBox_Encryption_Protocol_TLS12.Checked) RSMPGS.EncryptionSettings.sslProtocols |= SslProtocols.Tls12;
-        // Not in .NET 4.6...
-        //if (checkBox_Encryption_Protocol_TLS13.Checked) RSMPGS.EncryptionSettings.sslProtocols |= SslProtocols.Tls13;
+        if (checkBox_Encryption_Protocol_TLS13.Checked) RSMPGS.EncryptionSettings.sslProtocols |= SslProtocols.Tls13;
       }
 
     }

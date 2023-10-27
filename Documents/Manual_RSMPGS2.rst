@@ -428,9 +428,9 @@ startup.
 **Encryption protocols**
 
 The RSMP protocol specification defines it is possible to use encryption (from
-version 3.1.3) based upon SSL 3.0 or TLS 1.0. As SSL 3.0 have been deprecated
-by the Internet Engineering Task Force (IETF) the simulator only supports the
-never TLS protocols.
+version 3.1.3) based upon SSL 3.0/TLS 1.0 or later. As SSL 3.0 have been
+deprecated by the Internet Engineering Task Force (IETF) the simulator only
+supports the never TLS protocols.
 
 *Default* will let the OS select the .NET version most suitable protocol.
 
