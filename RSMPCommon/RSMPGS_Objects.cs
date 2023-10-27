@@ -558,7 +558,6 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
-          case cValueTypeObject.eValueType._timestamp:
           case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
@@ -566,6 +565,9 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
             break;
+          case cValueTypeObject.eValueType._timestamp:
+            sValue = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+            break; 
           case cValueTypeObject.eValueType._array:
             sValue = "(array)";
             break;
