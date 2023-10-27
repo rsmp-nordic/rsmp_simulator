@@ -558,12 +558,14 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
-          case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
           case cValueTypeObject.eValueType._number:
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
+            break;
+          case cValueTypeObject.eValueType._base64:
+            sValue = "";
             break;
           case cValueTypeObject.eValueType._timestamp:
             sValue = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
