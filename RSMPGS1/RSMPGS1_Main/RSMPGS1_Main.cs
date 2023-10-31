@@ -208,6 +208,45 @@ namespace nsRSMPGS
       RSMPGS.JSon.SocketWasConnected();
     }
 
+    private void RandomUpdate(Random Rnd, cStatusReturnValue StatusReturnValue)
+    {
+
+      int min = (int)StatusReturnValue.Value.GetValueMin();
+      int max = (int)StatusReturnValue.Value.GetValueMax();
+      string sValue = "";
+      switch (StatusReturnValue.Value.GetValueType().ToLower())
+      {
+        case "boolean":
+          sValue = Rnd.Next(0, 2) >= 1 ? "true" : "false";
+          break;
+        case "string":
+          sValue = "?";
+          break;
+        case "real":
+          sValue = (Rnd.Next(min * 10, max * 10) / 10).ToString();
+          break;
+        case "timestamp":
+          sValue = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+          break;
+        case "array":
+        case "base64":
+          break;
+        default:
+          sValue = Rnd.Next(min, max).ToString();
+          break;
+      }
+
+      // Check selectable values
+      Dictionary<string, string> sEnums = StatusReturnValue.Value.GetSelectableValues();
+      if (sEnums != null && sEnums.Count > 0)
+      {
+        // Select a random one in the list
+        List<string> sKeys = sEnums.Keys.ToList();
+        sValue = sKeys.ElementAt(Rnd.Next(0, sKeys.Count));
+      }
+
+      StatusReturnValue.Value.SetValue(sValue);
+    }
 
     private void ToolStripMenuItem_ProcessImage_RandomUpdates_Click(object sender, EventArgs e)
     {
@@ -220,41 +259,7 @@ namespace nsRSMPGS
         // Delete subscription if it already exists
         foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
         {
-          int min = (int)Subscription.StatusReturnValue.Value.GetValueMin();
-          int max = (int)Subscription.StatusReturnValue.Value.GetValueMax();
-          string sValue = "";
-          switch (Subscription.StatusReturnValue.Value.GetValueType().ToLower())
-          {
-            case "boolean":
-              sValue = Rnd.Next(0, 2) >= 1 ? "true" : "false";
-              break;
-            case "string":
-              sValue = Rnd.Next(0, 1).ToString();
-              break;
-            case "real":
-              sValue = (Rnd.Next(min * 10, max * 10) / 10).ToString();
-              break;
-            case "timestamp":
-              sValue = DateTime.Now.AddHours(-Rnd.Next(0,24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
-              break;
-            case "array":
-            case "base64":
-              break;
-            default:
-              sValue = Rnd.Next(min, max).ToString();
-              break;
-          }
-
-          // Check selectable values
-          Dictionary<string, string> sEnums = Subscription.StatusReturnValue.Value.GetSelectableValues();
-          if (sEnums != null && sEnums.Count > 0)
-          {
-            // Select a random one in the list
-            List<string> sKeys = sEnums.Keys.ToList();
-            sValue = sKeys.ElementAt(Rnd.Next(0, sKeys.Count));
-          }
-
-          Subscription.StatusReturnValue.Value.SetValue(sValue);
+          RandomUpdate(Rnd, Subscription.StatusReturnValue);
 
           if (Subscription.SubscribeStatus == cSubscription.SubscribeMethod.OnChange || Subscription.SubscribeStatus == cSubscription.SubscribeMethod.IntervalAndOnChange)
           {
@@ -288,7 +293,6 @@ namespace nsRSMPGS
             }
           }
         }
-
       }
     }
 
@@ -377,54 +381,16 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_ProcessImage_RandomUpdateAllStatusValues_Click(object sender, EventArgs e)
     {
-
       Random Rnd = new Random();
 
       List<RSMP_Messages.Status_VTQ> sS = new List<RSMP_Messages.Status_VTQ>();
-
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
         foreach (cStatusObject StatusObject in RoadSideObject.StatusObjects)
         {
           foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
           {
-            int min = (int)StatusReturnValue.Value.GetValueMin();
-            int max = (int)StatusReturnValue.Value.GetValueMax();
-            string sValue = "";
-            switch (StatusReturnValue.Value.GetValueType().ToLower())
-            {
-              case "boolean":
-               sValue = Rnd.Next(0, 2) >= 1 ? "true" : "false";
-                break;
-              case "string":
-                sValue = Rnd.Next(0, 1).ToString();
-                break;
-              case "real":
-                sValue = (Rnd.Next(min * 10, max * 10) / 10).ToString();
-                break;
-              case "timestamp":
-                sValue = DateTime.Now.AddHours(-Rnd.Next(0, 24)).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
-                break;
-              case "array":
-              case "base64":
-                break;
-              default:
-                sValue = Rnd.Next(min, max).ToString();
-                break;
-            }
-            //StatusReturnValue.sStatus = "?";
-
-            // Check selectable values
-            Dictionary<string, string> sEnums = StatusReturnValue.Value.GetSelectableValues();
-            if (sEnums != null && sEnums.Count > 0)
-            {
-              // Select a random one in the list
-              List<string> sKeys = sEnums.Keys.ToList();
-              sValue = sKeys.ElementAt(Rnd.Next(0, sKeys.Count));
-            }
-
-
-            StatusReturnValue.Value.SetValue(sValue);
+            RandomUpdate(Rnd, StatusReturnValue);
           }
         }
         // Update ListView if this RoadSide object is selected
