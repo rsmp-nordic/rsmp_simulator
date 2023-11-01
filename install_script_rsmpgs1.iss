@@ -1,5 +1,10 @@
+#ifdef RSMPGS1
 #define Name "RSMPGS1"
 #define Description "Roadside Simulator"
+#else
+#define Name "RSMPGS2"
+#define Description "SCADA Interface simulator"
+#endif
 #define Version "1.0.5"
 #define Version_ "1_0_5"
 
