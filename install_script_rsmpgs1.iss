@@ -5,8 +5,8 @@
 
 [Setup]
 AppName={#Name} ({#Description})
-AppVerName={#Name} (#Description}) {#Version}
-AppId={#Name} (#Description})
+AppVerName={#Name} ({#Description}) {#Version}
+AppId={#Name} ({#Description})
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
 AppSupportURL=http://www.automatisera.nu
@@ -53,7 +53,7 @@ Name: "{app}\Tools\Certificates"; Permissions: users-modify
 
 [Icons]
 Name: "{group}\{#Name} ({#Description})"; Filename: "{app}\{#Name}.exe"; MinVersion: 0.0,6.0; 
-Name: "{userdesktop}\{#Name} (#Description})"; Filename: "{app}\{#Name}.exe"; MinVersion: 0.0,6.0; 
+Name: "{userdesktop}\{#Name} ({#Description})"; Filename: "{app}\{#Name}.exe"; MinVersion: 0.0,6.0; 
 Name: "{group}\{#Name} Manual"; Filename: "{app}\Documents\Manual_{#Name}.pdf"; MinVersion: 0.0,6.0; 
 
 [Tasks]
