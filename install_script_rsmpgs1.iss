@@ -1,4 +1,3 @@
-B
 #define Name "RSMPGS1"
 #define Description "Roadside Simulator"
 #define Version "1.0.5"
