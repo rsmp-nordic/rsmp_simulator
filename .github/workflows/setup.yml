@@ -192,12 +192,12 @@ jobs:
 
       - name: Building the installer (RSMPGS1)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs1.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" /D="RSMPGS1" "install_script_rsmpgs1.iss"
         shell: cmd
 
       - name: Building the installer (RSMPGS2)
         run: |
-          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "install_script_rsmpgs2.iss"
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" /D="RSMPGS2" "install_script_rsmpgs1.iss"
         shell: cmd
 
       - name: Upload setup files
