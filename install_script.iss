@@ -1,14 +1,24 @@
+#ifdef RSMPGS1
+#define Name "RSMPGS1"
+#define Description "Roadside Simulator"
+#else
+#define Name "RSMPGS2"
+#define Description "SCADA Interface simulator"
+#endif
+#define Version "1.0.5"
+#define Version_ "1_0_5"
+
 [Setup]
-AppName=RSMPGS1 (Roadside Simulator)
-AppVerName=RSMPGS1 (Roadside Simulator) 1.0.5
-AppId=RSMPGS1 (Roadside Simulator)
+AppName={#Name} ({#Description})
+AppVerName={#Name} ({#Description}) {#Version}
+AppId={#Name} ({#Description})
 AppPublisher=Acobia AB / TroSoft AB
 AppPublisherURL=http://www.automatisera.nu
 AppSupportURL=http://www.automatisera.nu
 AppUpdatesURL=http://www.automatisera.nu
-DefaultDirName={pf}\RSMPGS1
+DefaultDirName={pf}\{#Name}
 DefaultGroupName=RSMP
-OutputBaseFilename=RSMPGS1_1_0_5_Setup
+OutputBaseFilename={#Name}_{#Version_}_Setup
 Compression=lzma
 DisableDirPage=auto
 DisableProgramGroupPage=auto
@@ -16,8 +26,8 @@ WizardImageFile=Setup\WizardImage0.bmp
 WizardSmallImageFile=Setup\WizardSmallImage0.bmp
 
 [Files]
-Source: "RSMPGS1.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
-Source: "Settings\RSMPGS1.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "{#Name}.exe"; DestDir: "{app}"; MinVersion: 0.0,6.0; Flags: ignoreversion
+Source: "Settings\{#Name}.INI"; DestDir: "{app}\Settings"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Aggregated_status.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Alarms.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Objects\Commands.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
@@ -30,7 +40,7 @@ Source: "YAML\TLC_SXL_1_2.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Fla
 Source: "YAML\TLC_SXL_1_1.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\TLC_SXL_1_0_15.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "Documents\Manual_RSMPGS1.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "Documents\Manual_{#Name}.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Tools\Certificates\RSMP testcert Password.txt"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Tools\Certificates\RSMP testcert.cer"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Tools\Certificates\RSMP testcert.pfx"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
@@ -47,9 +57,9 @@ Name: "{app}\Tools"; Permissions: users-modify
 Name: "{app}\Tools\Certificates"; Permissions: users-modify
 
 [Icons]
-Name: "{group}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
-Name: "{userdesktop}\RSMPGS1 (Roadside Simulator)"; Filename: "{app}\RSMPGS1.exe"; MinVersion: 0.0,6.0; 
-Name: "{group}\RSMPGS1 Manual"; Filename: "{app}\Documents\Manual_RSMPGS1.pdf"; MinVersion: 0.0,6.0; 
+Name: "{group}\{#Name} ({#Description})"; Filename: "{app}\{#Name}.exe"; MinVersion: 0.0,6.0; 
+Name: "{userdesktop}\{#Name} ({#Description})"; Filename: "{app}\{#Name}.exe"; MinVersion: 0.0,6.0; 
+Name: "{group}\{#Name} Manual"; Filename: "{app}\Documents\Manual_{#Name}.pdf"; MinVersion: 0.0,6.0; 
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; MinVersion: 0.0,6.0; 
