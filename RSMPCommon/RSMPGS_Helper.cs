@@ -546,7 +546,7 @@ namespace nsRSMPGS
       AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
-      AddSetting("ResendUnackedPackets", "Resend unacked packets", true);
+      AddSetting("ResendUnackedPackets", "Resend unacked packets", false);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
       AddSetting("JSonPropertyCaseChange10", "Change JSon property name characters randomly to ucase/lcase (10% change rate)", false);
       AddSetting("DropBytesInNegotiationPackets10", "Drop random bytes in negotiation packets (10% dropped)", false);
