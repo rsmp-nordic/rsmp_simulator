@@ -91,7 +91,7 @@ namespace nsRSMPGS
       }
     }
 
-    public bool SendJSonPacket(string PacketType, string MessageId, string SendString)
+    public bool SendJSonPacket(string PacketType, string SendString)
     {
 
       bool bSuccess = false;
