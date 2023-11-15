@@ -365,7 +365,7 @@ namespace nsRSMPGS
         string sType = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sValueRange = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
 
-        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Replace("\n", " / ").Trim();
+        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Trim();
 
         string sValueTypeKey = CommandObject.sObjectType + "\t" + "alarms" + "\t" + CommandObject.sCommandCodeId + "\t" + CommandObject.sSpecificObject + "\t" + sName;
 
