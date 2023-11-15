@@ -70,7 +70,7 @@ namespace nsRSMPGS
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
           sValues[3] = StatusReturnValue.Value.GetValue();
-          sValues[4] = StatusReturnValue.sComment.Replace("\n", " / ");
+          sValues[4] = StatusReturnValue.sComment;
 
           lvItem.SubItems.AddRange(sValues);
 
