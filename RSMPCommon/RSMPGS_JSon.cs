@@ -12,6 +12,7 @@ using System.Threading;
 using System.Globalization;
 using System.Reflection;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace nsRSMPGS
 {
@@ -1062,6 +1063,12 @@ namespace nsRSMPGS
             {
               if (JSonMessageIdAndTimeStamp.ResendPacketIfWeGetNoAck && bResendUnackedPackets)
               {
+                // Set new GUID
+                JSonMessageIdAndTimeStamp.MessageId = System.Guid.NewGuid().ToString();
+                string pattern = @"""mId"":""[a-z0-9-]*""";
+                string replace = @"""mId"":""" + JSonMessageIdAndTimeStamp.MessageId + @"""";
+                JSonMessageIdAndTimeStamp.SendString = Regex.Replace(JSonMessageIdAndTimeStamp.SendString, pattern, replace);
+                
                 // Don't pass queuing algorithm
                 RSMPGS.RSMPConnection.SendJSonPacket(JSonMessageIdAndTimeStamp.PacketType, JSonMessageIdAndTimeStamp.SendString);
                 JSonMessageIdAndTimeStamp.TimeStamp = DateTime.Now;
