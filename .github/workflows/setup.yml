@@ -13,9 +13,11 @@ env:
   SXL: rsmp_schema/schemas/tlc/1.2/sxl.yaml
   SXL_1_1: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
+  SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
   SITE: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
   SITE_1_0_15: YAML/SXL_Traffic_Controller_ver_1_0_15-site.yaml
+  SITE_1_0_7: YAML/SXL_Traffic_Controller_ver_1_0_7-site.yaml
 
 jobs:
   create_sxl:
@@ -87,6 +89,7 @@ jobs:
           # Also include older SXL files
           ruby sxl-tools/merge_yaml.rb --objects $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
           ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
+          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (XLSX)
         uses: actions/upload-artifact@v3
@@ -102,6 +105,7 @@ jobs:
             TLC_SXL_1_2.yaml
             TLC_SXL_1_1.yaml
             TLC_SXL_1_0_15.yaml
+            TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (CSV)
         uses: actions/upload-artifact@v3

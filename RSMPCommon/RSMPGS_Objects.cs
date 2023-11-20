@@ -365,7 +365,7 @@ namespace nsRSMPGS
         string sType = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sValueRange = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
 
-        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Replace("\n", " / ").Trim();
+        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Trim();
 
         string sValueTypeKey = CommandObject.sObjectType + "\t" + "alarms" + "\t" + CommandObject.sCommandCodeId + "\t" + CommandObject.sSpecificObject + "\t" + sName;
 
@@ -487,7 +487,7 @@ namespace nsRSMPGS
         string sType = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sValueRange = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sCommentFromFile = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
-        sComment = sCommentFromFile.Replace("\"", "").Replace("\n", " / ").Trim();
+        sComment = sCommentFromFile.Replace("\"", "").Trim();
 
         string sValueTypeKey = StatusObject.sObjectType + "\t" + "alarms" + "\t" + StatusObject.sStatusCodeId + "\t" + StatusObject.sSpecificObject + "\t" + sName;
 
