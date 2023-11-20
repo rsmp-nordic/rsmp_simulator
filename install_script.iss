@@ -39,6 +39,7 @@ Source: "YAML\SXL-example.xlsx"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Fla
 Source: "YAML\TLC_SXL_1_2.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\TLC_SXL_1_1.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\TLC_SXL_1_0_15.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_0_7.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\Manual_{#Name}.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Tools\Certificates\RSMP testcert Password.txt"; DestDir: "{app}\Tools\Certificates"; MinVersion: 0.0,6.0; Flags: ignoreversion 
