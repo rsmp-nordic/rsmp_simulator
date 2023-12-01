@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Diagnostics;
 using static nsRSMPGS.cValueTypeObject;
+using RSMP_Messages;
 
 namespace nsRSMPGS
 {
@@ -260,12 +261,6 @@ namespace nsRSMPGS
               }
             }
           }
-
-
-
-
-
-
         }
       }
 
@@ -384,7 +379,7 @@ namespace nsRSMPGS
                 }
 
                 AlarmObject.sAlarmCodeId = YAMLAlarm.sMappingName;
-                AlarmObject.sDescription = YAMLAlarm.GetScalar("description").Split('\n')[0];
+                AlarmObject.sDescription = YAMLAlarm.GetScalar("description").Split('\n').First();
                 AlarmObject.sExternalAlarmCodeId = YAMLAlarm.GetScalar("externalAlarmCodeId");
                 AlarmObject.sExternalNTSAlarmCodeId = YAMLAlarm.GetScalar("externalNTSAlarmCodeId");
                 AlarmObject.sPriority = YAMLAlarm.GetScalar("priority");
@@ -402,10 +397,16 @@ namespace nsRSMPGS
                     //AlarmReturnValue.sType = YAMLArgument.GetScalar("type");
                     AlarmReturnValue.sComment = YAMLArgument.GetScalar("description");
 
-                    if (AlarmReturnValue.sComment.Contains("Type of detector"))
+                    // Additional description can be found in "values"
+                    cYAMLMapping Values;
+                    if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
                     {
-
+                      foreach (KeyValuePair<string, string> key in Values.YAMLScalars)
+                      {
+                        AlarmReturnValue.sComment += "\n" + key.Key + ": " +  key.Value;
+                      }
                     }
+
                     string sValueTypeKey = YAMLSiteObjectType.sMappingName + "\t" + YAMLAlarms.sMappingName + "\t" + YAMLAlarm.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     AlarmReturnValue.Value = new cValue(sValueTypeKey, true);
@@ -460,7 +461,7 @@ namespace nsRSMPGS
                 }
 
                 StatusObject.sStatusCodeId = YAMLStatus.sMappingName;
-                StatusObject.sDescription = YAMLStatus.GetScalar("description").Split('\n')[0];
+                StatusObject.sDescription = YAMLStatus.GetScalar("description").Split('\n').First();
 
                 cYAMLMapping YAMLArguments;
 
@@ -473,7 +474,17 @@ namespace nsRSMPGS
                     StatusReturnValue.sName = YAMLArgument.sMappingName;
                     //StatusReturnValue.sType = YAMLArgument.GetScalar("type");
                     StatusReturnValue.sComment = YAMLArgument.GetScalar("description");
-                    
+
+                    // Additional description can be found in "values"
+                    cYAMLMapping Values;
+                    if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
+                    {
+                      foreach (KeyValuePair<string, string> key in Values.YAMLScalars)
+                      {
+                        StatusReturnValue.sComment += "\n" + key.Key + ": " + key.Value;
+                      }
+                    }
+
                     string sValueTypeKey = YAMLSiteObjectType.sMappingName + "\t" + YAMLStatuses.sMappingName + "\t" + YAMLStatus.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     StatusReturnValue.Value = new cValue(sValueTypeKey, true);
@@ -531,6 +542,16 @@ namespace nsRSMPGS
                     //CommandReturnValue.sType = YAMLArgument.GetScalar("type");
                     //CommandReturnValue.sValue = YAMLArgument.GetScalar("values");
                     CommandReturnValue.sComment = YAMLArgument.GetScalar("description");
+
+                    // Additional description can be found in "values"
+                    cYAMLMapping Values;
+                    if (YAMLArgument.YAMLMappings.TryGetValue("values", out Values))
+                    {
+                      foreach (KeyValuePair<string, string> key in Values.YAMLScalars)
+                      {
+                        CommandReturnValue.sComment += "\n" + key.Key + ": " + key.Value;
+                      }
+                    }
 
                     string sValueTypeKey = YAMLSiteObjectType.sMappingName + "\t" + YAMLCommands.sMappingName + "\t" + YAMLCommand.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
@@ -1213,9 +1234,9 @@ namespace nsRSMPGS
               case eValueType._long:
               case eValueType._ordinal:
               case eValueType._real:
-                sRange = sRange.Substring(1, sRange.Length - 2); // Remove []
+                string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
                 char[] sep = new char[] { '-' };
-                string[] sRangeArray = sRange.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                 string sMin = sRangeArray[0];
                 string sMax = sRangeArray[1];
                 if (Double.TryParse(sMin, out dMin) == false)
@@ -1225,6 +1246,11 @@ namespace nsRSMPGS
                 if (Double.TryParse(sMax, out dMax) == false)
                 {
                   dMax = Double.Parse(sMax);
+                }
+                // If range started with "-", the min value is negative
+                if (sRangeMinMax.StartsWith("-"))
+                {
+                  dMin = -dMin;
                 }
                 break;
             }

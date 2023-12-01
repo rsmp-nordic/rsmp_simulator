@@ -942,7 +942,6 @@
       this.checkBox_Encryption_Protocol_TLS13.TabIndex = 12;
       this.checkBox_Encryption_Protocol_TLS13.Text = "TLS 1.3";
       this.checkBox_Encryption_Protocol_TLS13.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS13.Visible = false;
       this.checkBox_Encryption_Protocol_TLS13.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
       // 
       // checkBox_Encryption_Protocol_TLS12

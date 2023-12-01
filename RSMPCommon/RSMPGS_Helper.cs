@@ -534,7 +534,7 @@ namespace nsRSMPGS
 
       AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false, false);
       AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true, true);
-      AddSetting("Buffer10000Messages", "Buffer upto 10000 messages (instead of 1000)", false, false, false, true, true, true, true);
+      AddSetting("Buffer10000Messages", "Buffer up to 10000 messages (instead of 1000)", false, false, false, true, true, true, true);
       AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true, true, true, true);
       AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true, true, true);
       AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true, true, true);
@@ -546,7 +546,7 @@ namespace nsRSMPGS
       AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
-      AddSetting("ResendUnackedPackets", "Resend unacked packets", true);
+      AddSetting("ResendUnackedPackets", "Resend unacked packets", false);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
       AddSetting("JSonPropertyCaseChange10", "Change JSon property name characters randomly to ucase/lcase (10% change rate)", false);
       AddSetting("DropBytesInNegotiationPackets10", "Drop random bytes in negotiation packets (10% dropped)", false);

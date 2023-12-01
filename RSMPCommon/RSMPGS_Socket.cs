@@ -163,7 +163,7 @@ namespace nsRSMPGS
 			return sRemoteServerOrClientIP;
 		}
 
-		public bool SendJSonPacket(string PacketType, string MessageId, string SendString)
+		public bool SendJSonPacket(string PacketType, string SendString)
 		{
 
 			bool bSendJSonPacket = false;
@@ -188,10 +188,10 @@ namespace nsRSMPGS
 				switch (ConnectionMethod)
 				{
 					case ConnectionMethod_SocketServer:
-						bSendJSonPacket = TcpSocketServer.SendJSonPacket(PacketType, MessageId, SendString);
+						bSendJSonPacket = TcpSocketServer.SendJSonPacket(PacketType, SendString);
 						break;
 					case ConnectionMethod_SocketClient:
-						bSendJSonPacket = TcpSocketClient.SendJSonPacket(PacketType, MessageId, SendString);
+						bSendJSonPacket = TcpSocketClient.SendJSonPacket(PacketType, SendString);
 						break;
 				}
 			}

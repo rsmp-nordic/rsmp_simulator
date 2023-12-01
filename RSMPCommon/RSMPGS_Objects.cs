@@ -365,7 +365,7 @@ namespace nsRSMPGS
         string sType = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sValueRange = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
 
-        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Replace("\n", " / ").Trim();
+        sComment = cHelper.Item(sCompleteRow, iIndex++, ';').Replace("\"", "").Trim();
 
         string sValueTypeKey = CommandObject.sObjectType + "\t" + "alarms" + "\t" + CommandObject.sCommandCodeId + "\t" + CommandObject.sSpecificObject + "\t" + sName;
 
@@ -487,7 +487,7 @@ namespace nsRSMPGS
         string sType = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sValueRange = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
         string sCommentFromFile = cHelper.Item(sCompleteRow, iIndex++, ';').Trim();
-        sComment = sCommentFromFile.Replace("\"", "").Replace("\n", " / ").Trim();
+        sComment = sCommentFromFile.Replace("\"", "").Trim();
 
         string sValueTypeKey = StatusObject.sObjectType + "\t" + "alarms" + "\t" + StatusObject.sStatusCodeId + "\t" + StatusObject.sSpecificObject + "\t" + sName;
 
@@ -558,14 +558,18 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
-          case cValueTypeObject.eValueType._timestamp:
-          case cValueTypeObject.eValueType._base64:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
           case cValueTypeObject.eValueType._number:
           case cValueTypeObject.eValueType._unit:
             sValue = "?";
             break;
+          case cValueTypeObject.eValueType._base64:
+            sValue = "";
+            break;
+          case cValueTypeObject.eValueType._timestamp:
+            sValue = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+            break; 
           case cValueTypeObject.eValueType._array:
             sValue = "(array)";
             break;
@@ -672,11 +676,9 @@ namespace nsRSMPGS
 
     public string sValueTypeKey; // Not really used here only for debugging
 
-    public Int32 lMinValue = Int32.MinValue;
-    public Int32 lMaxValue = Int32.MaxValue;
 
-    public Int16 iMinValue = Int16.MinValue;
-    public Int16 iMaxValue = Int16.MaxValue;
+    public Int32 iMinValue = Int32.MinValue;
+    public Int32 iMaxValue = Int32.MaxValue;
 
     public double dMinValue = double.MinValue;
     public double dMaxValue = double.MaxValue;
@@ -827,8 +829,8 @@ namespace nsRSMPGS
 
         case eValueType._integer:
 
-          Int16 iValue;
-          if (Int16.TryParse(sValue, out iValue))
+          Int32 iValue;
+          if (Int32.TryParse(sValue, out iValue))
           {
             if (iValue <= iMaxValue && iValue >= iMinValue)
             {
@@ -849,7 +851,7 @@ namespace nsRSMPGS
           Int32 lValue;
           if (Int32.TryParse(sValue, out lValue))
           {
-            if (lValue <= lMaxValue && lValue >= lMinValue)
+            if (lValue <= iMaxValue && lValue >= iMinValue)
             {
               return true;
             }

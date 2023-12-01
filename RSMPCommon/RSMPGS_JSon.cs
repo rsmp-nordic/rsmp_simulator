@@ -12,6 +12,7 @@ using System.Threading;
 using System.Globalization;
 using System.Reflection;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace nsRSMPGS
 {
@@ -708,7 +709,7 @@ namespace nsRSMPGS
       cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(rsVersion.type, rsVersion.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
 
       // Don't pass through message queueing
-      if (RSMPGS.RSMPConnection.SendJSonPacket(rsVersion.type, rsVersion.mId, sSendBuffer))
+      if (RSMPGS.RSMPConnection.SendJSonPacket(rsVersion.type, sSendBuffer))
       {
         if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
         {
@@ -891,7 +892,7 @@ namespace nsRSMPGS
 
       if (bExpectAckOrNack == false)
       {
-        if (RSMPGS.RSMPConnection.SendJSonPacket(Watchdog.type, Watchdog.mId, sSendBuffer))
+        if (RSMPGS.RSMPConnection.SendJSonPacket(Watchdog.type, sSendBuffer))
         {
           JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(Watchdog.type, Watchdog.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
           if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
@@ -1022,7 +1023,7 @@ namespace nsRSMPGS
     public bool SendJSonPacket(string PacketType, string MessageId, string SendString, bool ResendPacketIfWeGetNoAck)
     {
 
-      if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, MessageId, SendString))
+      if (RSMPGS.RSMPConnection.SendJSonPacket(PacketType, SendString))
       {
         // Crap packets and Ack/NAck does not have any mId
         if (MessageId != null)
@@ -1062,8 +1063,14 @@ namespace nsRSMPGS
             {
               if (JSonMessageIdAndTimeStamp.ResendPacketIfWeGetNoAck && bResendUnackedPackets)
               {
+                // Set new GUID
+                JSonMessageIdAndTimeStamp.MessageId = System.Guid.NewGuid().ToString();
+                string pattern = @"""mId"":""[a-z0-9-]*""";
+                string replace = @"""mId"":""" + JSonMessageIdAndTimeStamp.MessageId + @"""";
+                JSonMessageIdAndTimeStamp.SendString = Regex.Replace(JSonMessageIdAndTimeStamp.SendString, pattern, replace);
+                
                 // Don't pass queuing algorithm
-                RSMPGS.RSMPConnection.SendJSonPacket(JSonMessageIdAndTimeStamp.PacketType, JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.SendString);
+                RSMPGS.RSMPConnection.SendJSonPacket(JSonMessageIdAndTimeStamp.PacketType, JSonMessageIdAndTimeStamp.SendString);
                 JSonMessageIdAndTimeStamp.TimeStamp = DateTime.Now;
                 RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "No message ack received for mId: {0} within {1} msecs, it has been retransmitted", JSonMessageIdAndTimeStamp.MessageId, JSonMessageIdAndTimeStamp.TimeToWaitForAck);
                 iIndex++;
@@ -1251,9 +1258,9 @@ namespace nsRSMPGS
                 case "integer":
                   try
                   {
-                    Int16 iValue = Int16.Parse(statusValue);
-                    Int16 iMin = Int16.Parse(schemaScalarMin);
-                    Int16 iMax = Int16.Parse(schemaScalarMax);
+                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iMin = Int32.Parse(schemaScalarMin);
+                    Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
                     if (iValue > iMax) { return cellName + " to big"; }
                   }
@@ -1378,7 +1385,7 @@ namespace nsRSMPGS
         case "integer":
           try
           {
-            Int16 iValue = Int16.Parse(sValue);
+            Int32 iValue = Int32.Parse(sValue);
             bValueIsValid = true;
           }
           catch { }
