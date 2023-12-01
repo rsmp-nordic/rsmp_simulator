@@ -47,12 +47,15 @@ using System.Security.Authentication;
 //                           / Select all command arguments by default when sending command #64
 //                           / Don't send alarm if it is blocked #31
 //                           / Don't update the alarm list when recieving alarm with old timestamp #19
-// xx.xx.xx / DO / 1.0.5     / 
+// 23.12.01 / DO / 1.0.5     / Enable option for TLS 1.3 #71
+//                           / Use correct SXL metadata for the YAML examples #73
+//                           / Set valid initial values and valid random values #74
+//                           / Don't resend unacked packets by default #76
+//                           / Create a new GUID when resending a packet #77
+//                           / Include SXL 1.0.7 #78
 //
 //
 // ---------------------------------------------------------------------------------------------------
-//
-//
 
 namespace nsRSMPGS
 {
