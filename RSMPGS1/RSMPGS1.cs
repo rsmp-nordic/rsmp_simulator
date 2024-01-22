@@ -60,6 +60,7 @@ using System.Security.Authentication;
 //                           / Don't resend unacked packets by default #76
 //                           / Create a new GUID when resending a packet #77
 //                           / Include SXL 1.0.7 #78
+// 24.xx.xx / DO / 1.0.6 
 //
 //
 // ---------------------------------------------------------------------------------------------------
