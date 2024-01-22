@@ -548,7 +548,7 @@ namespace nsRSMPGS
       AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false, false, false);
       AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true, true, true);
       AddSetting("Buffer10000Messages", "Buffer up to 10000 messages (instead of 1000)", false, false, false, true, true, true, true, true);
-      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, false, true, true, true, true, true, true);
+      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, true, true, true, true, true, true, true);
       AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true, true, true, true);
       AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true, true, true, true);
       AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true, true, true, true);
