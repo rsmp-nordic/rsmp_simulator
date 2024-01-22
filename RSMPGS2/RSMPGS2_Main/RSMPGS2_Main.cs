@@ -23,7 +23,7 @@ namespace nsRSMPGS
     private void Main_Load()
     {
 
-      RSMPGS.bConnectAsSocketClient = cPrivateProfile.GetIniFileInt("Main", "ConnectAsSocketClient", 0) != 0;
+      RSMPGS.bConnectAsSocketClient = cPrivateProfile.GetIniFileInt("RSMP", "ConnectAsSocketClient", 0) != 0;
 
       ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked = cPrivateProfile.GetIniFileInt("Main", "LoadProcessImageAtStartUp", 0) != 0;
       ToolStripMenuItem_EventFiles_SaveCont.Checked = cPrivateProfile.GetIniFileInt("Main", "SaveEventsContinousToFile", 0) != 0;

@@ -60,6 +60,16 @@ The RSMPGS1 configuration is saved in ``.\Settings\RSMPGS1.INI``.
 
 The INI-file has the following parameters in the ``[RSMP]`` section:
 
+**ConnectionType**
+
+- Set to 1 to act as socket client and connect to the supervision system (or RSMPGS2) (default).
+- Set to 0 to act as a socket server and let the supervision system (or RSMPGS2)
+connect to us instead. This option is provided just for testing purposes
+
+**PortNumber**
+
+Port number when acting as a socket server (using ConnectionType=0).
+
 **IPAddress**
 
 IP-address and port number at the location of the supervision system,
