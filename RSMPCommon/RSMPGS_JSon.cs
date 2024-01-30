@@ -780,7 +780,7 @@ namespace nsRSMPGS
       if (bSXLVersionIsOk == false)
       {
         RSMPGS.SysLog.SysLog(cHelper.IsSettingChecked("SXL_VersionIgnore") ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Error,
-          "Client SXL (SUL) version is not compatible");
+          "Client SXL version is not compatible");
       }
 
       if (HighestRSMPVersion == RSMPVersion.NotSupported || bSXLVersionIsOk == false)

@@ -546,9 +546,9 @@ namespace nsRSMPGS
         listView_AlarmEvents.Columns.Add("Value", 100, HorizontalAlignment.Center);
       }
 
-      if (RSMPGS.ProcessImage.sSULRevision.Length > 0)
+      if (RSMPGS.ProcessImage.sSXLRevision.Length > 0)
       {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Signal Exchange List revision number from file is '{0}'", RSMPGS.ProcessImage.sSULRevision);
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Signal Exchange List revision number from file is '{0}'", RSMPGS.ProcessImage.sSXLRevision);
       }
       else
       {
@@ -557,7 +557,7 @@ namespace nsRSMPGS
 
       textBox_SignalExchangeListVersion.Text = cPrivateProfile.GetIniFileString("Main", "SignalExchangeListVersion", "").Trim();
 
-      textBox_SignalExchangeListVersionFromFile.Text = RSMPGS.ProcessImage.sSULRevision;
+      textBox_SignalExchangeListVersionFromFile.Text = RSMPGS.ProcessImage.sSXLRevision;
 
       if (checkBox_AlwaysUseSXLFromFile.Checked == true && textBox_SignalExchangeListVersionFromFile.Text.Length > 0)
       {
@@ -570,15 +570,15 @@ namespace nsRSMPGS
         if (RSMPGS.ProcessImage.ObjectFilesTimeStamp != cPrivateProfile.GetIniFileInt("Main", "ObjectFilesTimeStamp", 0) && RSMPGS.ProcessImage.ObjectFilesTimeStamp != 0)
         {
           string sLastSXLRevisionFromFile = cPrivateProfile.GetIniFileString("Main", "LastSXLRevisionFromFile", "");
-          if (RSMPGS.ProcessImage.sSULRevision.Length > 0 && sLastSXLRevisionFromFile.Length > 0)
+          if (RSMPGS.ProcessImage.sSXLRevision.Length > 0 && sLastSXLRevisionFromFile.Length > 0)
           {
-            if (RSMPGS.ProcessImage.sSULRevision.Equals(sLastSXLRevisionFromFile, StringComparison.OrdinalIgnoreCase))
+            if (RSMPGS.ProcessImage.sSXLRevision.Equals(sLastSXLRevisionFromFile, StringComparison.OrdinalIgnoreCase))
             {
-              System.Windows.Forms.MessageBox.Show("Signal Exchange List files have been updated, however the version number found in file (" + RSMPGS.ProcessImage.sSULRevision + ") is still the same.", "RSMPGS2", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              System.Windows.Forms.MessageBox.Show("Signal Exchange List files have been updated, however the version number found in file (" + RSMPGS.ProcessImage.sSXLRevision + ") is still the same.", "RSMPGS2", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
           }
           cPrivateProfile.WriteIniFileInt("Main", "ObjectFilesTimeStamp", RSMPGS.ProcessImage.ObjectFilesTimeStamp);
-          cPrivateProfile.WriteIniFileString("Main", "LastSXLRevisionFromFile", RSMPGS.ProcessImage.sSULRevision);
+          cPrivateProfile.WriteIniFileString("Main", "LastSXLRevisionFromFile", RSMPGS.ProcessImage.sSXLRevision);
         }
       }
 
