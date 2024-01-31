@@ -403,15 +403,15 @@ When RSMPGS1 is connected to the supervision system, information about SXL and
 the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
 
-**Active SXL (SUL) version to be used when connecting**
+**Active SXL version to be used when connecting**
 
 SXL version which is sent over via the protocol when connection is made.
 
-**SXL (SUL) version found in file**
+**SXL version found in file**
 
 SXL version which is found in reference files in ``.\Objects`` folder.
 
-**Always use SXL (SUL) version from file (if found)**
+**Always use SXL version from file (if found)**
 
 Select to always use version number from the SXL files in protocol negotiation.
 

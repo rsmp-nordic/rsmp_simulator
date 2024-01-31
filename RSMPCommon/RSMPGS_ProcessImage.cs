@@ -48,7 +48,7 @@ namespace nsRSMPGS
 
     public int MaxAlarmReturnValues = 0;
 
-    public string sSULRevision = "";
+    public string sSXLRevision = "";
     public int ObjectFilesTimeStamp = 0;
 
 #if _RSMPGS1
@@ -78,7 +78,7 @@ namespace nsRSMPGS
       StatusObjects.Clear();
       AggregatedStatusObjects.Clear();
       MaxAlarmReturnValues = 0;
-      sSULRevision = "";
+      sSXLRevision = "";
       ObjectFilesTimeStamp = 0;
       ValueTypeObjects.Clear();
 
@@ -130,7 +130,7 @@ namespace nsRSMPGS
 
       // ProcessImage.sId = YAML.GetScalar("id");
 
-      sSULRevision = YAML.GetScalar("version");
+      sSXLRevision = YAML.GetScalar("version");
 
       //ProcessImage.sDescription = YAML.GetScalar("description");
       //ProcessImage.sConstructor = YAML.GetScalar("constructor");
@@ -1005,7 +1005,7 @@ namespace nsRSMPGS
             case SectionType_Revision:
               // ;;;;1.3;;;
               // Just take the last line...
-              sSULRevision = cHelper.Item(sLine, 1, ';').Trim();
+              sSXLRevision = cHelper.Item(sLine, 1, ';').Trim();
               break;
           }
 

@@ -531,7 +531,7 @@ namespace nsRSMPGS
       AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true, true, true, true);
 
       AddSetting("SendVersionInfoAtConnect", "Send and expect version info when connecting", true);
-      AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL (SUL) version incompability", false);
+      AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL version incompability", false);
       AddSetting("SendWatchdogPacketAtStartup", "Send and expect Watchdog packet when connecting", true);
 
       /*
