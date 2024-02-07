@@ -85,11 +85,11 @@ jobs:
           #   - value1
           #   - value2
           #   The first format is not supported by the simulator.
-          ruby sxl-tools/merge_yaml.rb --objects $SXL --site $SITE > TLC_SXL_1_2.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
           # Also include older SXL files
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (XLSX)
         uses: actions/upload-artifact@v3
