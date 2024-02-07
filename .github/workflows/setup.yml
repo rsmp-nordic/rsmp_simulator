@@ -92,13 +92,13 @@ jobs:
           ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (XLSX)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL XLSX
           path: SXL-example.xlsx
 
       - name: Upload artifacts (YAML)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL YAML
           path: |
@@ -108,7 +108,7 @@ jobs:
             TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (CSV)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL CSV
           path: Objects/
@@ -129,13 +129,13 @@ jobs:
           rst2pdf Documents/Manual_RSMPGS2.rst
 
       - name: Upload Manual RSMPGS1
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Manual RSMPGS1
           path: Documents/Manual_RSMPGS1.pdf
 
       - name: Upload Manual RSMPGS2
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Manual RSMPGS2
           path: Documents/Manual_RSMPGS2.pdf
@@ -205,13 +205,13 @@ jobs:
         shell: cmd
 
       - name: Upload setup files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Setup
           path: Output/*.exe
 
       - name: Upload setup zip file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Setup zip
           path: |
