@@ -71,7 +71,7 @@ jobs:
         run: |
           ruby sxl-tools/yaml2xlsx.rb \
             --template RSMP_Template_SignalExchangeList.xlsx \
-            --objects $SXL \
+            --sxl $SXL \
             --site $SITE --stdout > SXL-example.xlsx
 
       - name: Create CSV files
