@@ -160,31 +160,31 @@ jobs:
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
 
       - name: Download SXL CSV
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL CSV
           path: Objects
 
       - name: Download SXL YAML
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL YAML
           path: YAML
 
       - name: Download SXL Excel
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL XLSX
           path: YAML
 
       - name: Download Manual RSMPGS1
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Manual RSMPGS1
           path: Documents
 
       - name: Download Manual RSMPGS2
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Manual RSMPGS2
           path: Documents
