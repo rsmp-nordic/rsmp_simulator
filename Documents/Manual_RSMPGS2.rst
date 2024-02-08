@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS2_1_0_5_Setup.exe``.
+Start installation by running ``RSMPGS2_1_0_6_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
@@ -187,11 +187,12 @@ The program has two forms, one main window and one (or several) debug windows.
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
-supervision system. If the box is green, the connection is ok. The IP address
-is also showing. When connection attempts are performed, the box is grey.
+supervision system.
 
-If there is no connection the box is blue. If there is an error listening to
-to the port the connection box will be red.
+* If the box is green, the connection is ok. The IP address is also showing
+* When connection attempts are performed, the box is grey
+* If there is no connection, the box is blue
+* If there is an connection error, the box is red
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
@@ -408,15 +409,15 @@ When a connection is established, information about SXL and
 the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
 
-**Active SXL (SUL) version to be used when connecting**
+**Active SXL version to be used when connecting**
 
 SXL version which is sent over via the protocol when connection is made.
 
-**SXL (SUL) version found in file**
+**SXL version found in file**
 
 SXL version which is found in reference files in ``.\Objects`` folder.
 
-**Always use SXL (SUL) version from file (if found)**
+**Always use SXL version from file (if found)**
 
 Select to always use version number from the SXL files in protocol negotiation.
 

@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS1_1_0_5_Setup.exe``.
+Start installation by running ``RSMPGS1_1_0_6_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
@@ -59,6 +59,16 @@ RSMPGS1.ini
 The RSMPGS1 configuration is saved in ``.\Settings\RSMPGS1.INI``.
 
 The INI-file has the following parameters in the ``[RSMP]`` section:
+
+**ConnectionType**
+
+- Set to 1 to act as socket client and connect to the supervision system (or RSMPGS2) (default).
+- Set to 0 to act as a socket server and let the supervision system (or RSMPGS2)
+connect to us instead. This option is provided just for testing purposes
+
+**PortNumber**
+
+Port number when acting as a socket server (using ConnectionType=0).
 
 **IPAddress**
 
@@ -170,10 +180,12 @@ The program has two forms, one main window and one (or several) debug windows.
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
-supervision system. If the box is green, the connection is ok. The IP address
-is also showing. When connection attempts are performed, the box is grey.
+supervision system.
 
-If there is no connection the box is blue.
+* If the box is green, the connection is ok. The IP address is also showing
+* When connection attempts are performed, the box is grey
+* If there is no connection, the box is blue
+* If there is a connection error, the box is red
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
@@ -346,7 +358,7 @@ larger packages.
 
 RSMPGS1 is buffering all JSon packages with the C# function
 NetworkStream.Write() in two calls, where the first is the serialized data and
-the last is the packet termination character 0x0c (fromfeed).
+the last is the packet termination character 0x0c (formfeed).
 
 If the algorithm is shut off, there will always be two packets out on the
 network. The purpose is, just like the next function, to test the buffer
@@ -393,15 +405,15 @@ When RSMPGS1 is connected to the supervision system, information about SXL and
 the RSMP-interface version is sent over for the software to determine whether
 communication is possible or not.
 
-**Active SXL (SUL) version to be used when connecting**
+**Active SXL version to be used when connecting**
 
 SXL version which is sent over via the protocol when connection is made.
 
-**SXL (SUL) version found in file**
+**SXL version found in file**
 
 SXL version which is found in reference files in ``.\Objects`` folder.
 
-**Always use SXL (SUL) version from file (if found)**
+**Always use SXL version from file (if found)**
 
 Select to always use version number from the SXL files in protocol negotiation.
 

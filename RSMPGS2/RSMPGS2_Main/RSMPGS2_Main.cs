@@ -23,7 +23,7 @@ namespace nsRSMPGS
     private void Main_Load()
     {
 
-      RSMPGS.bConnectAsSocketClient = cPrivateProfile.GetIniFileInt("Main", "ConnectAsSocketClient", 0) != 0;
+      RSMPGS.bConnectAsSocketClient = cPrivateProfile.GetIniFileInt("RSMP", "ConnectAsSocketClient", 0) != 0;
 
       ToolStripMenuItem_ProcessImage_LoadAtStartUp.Checked = cPrivateProfile.GetIniFileInt("Main", "LoadProcessImageAtStartUp", 0) != 0;
       ToolStripMenuItem_EventFiles_SaveCont.Checked = cPrivateProfile.GetIniFileInt("Main", "SaveEventsContinousToFile", 0) != 0;
@@ -281,12 +281,12 @@ namespace nsRSMPGS
 
     private void checkBox_AlwaysUseSXLFromFile_CheckedChanged(object sender, EventArgs e)
     {
-      if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSULRevision.Length > 0)
+      if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSXLRevision.Length > 0)
       {
-        if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSULRevision, StringComparison.OrdinalIgnoreCase) == false)
+        if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSXLRevision, StringComparison.OrdinalIgnoreCase) == false)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSULRevision, textBox_SignalExchangeListVersion.Text);
-          textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSULRevision;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSXLRevision, textBox_SignalExchangeListVersion.Text);
+          textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSXLRevision;
         }
         textBox_SignalExchangeListVersion.Enabled = false;
       }

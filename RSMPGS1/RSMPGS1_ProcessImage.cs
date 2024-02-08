@@ -42,7 +42,7 @@ namespace nsRSMPGS
       {
         try
         {
-          UpdateRate = (int)fUpdateRate * 1000;
+          UpdateRate = (int)(fUpdateRate * 1000);
         }
         catch
         {

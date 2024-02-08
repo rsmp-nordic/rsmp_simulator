@@ -130,6 +130,7 @@
       this.RSMP_3_1_5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_2_1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.RSMP_3_2_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
       this.button_ClearStatistics = new System.Windows.Forms.Button();
       this.tabPage_Alarms = new System.Windows.Forms.TabPage();
@@ -1068,7 +1069,7 @@
       this.groupBox_SXL_Version.Size = new System.Drawing.Size(700, 152);
       this.groupBox_SXL_Version.TabIndex = 0;
       this.groupBox_SXL_Version.TabStop = false;
-      this.groupBox_SXL_Version.Text = "Signal Exchange List (SXL/SUL) info";
+      this.groupBox_SXL_Version.Text = "Signal Exchange List (SXL) info";
       // 
       // checkBox_AutomaticallyLoadObjects
       // 
@@ -1089,7 +1090,7 @@
       this.label_SXL_FilePath.Name = "label_SXL_FilePath";
       this.label_SXL_FilePath.Size = new System.Drawing.Size(81, 13);
       this.label_SXL_FilePath.TabIndex = 9;
-      this.label_SXL_FilePath.Text = "SXL (SUL) path";
+      this.label_SXL_FilePath.Text = "SXL path";
       this.label_SXL_FilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
       // 
       // textBox_SignalExchangeListPath
@@ -1109,7 +1110,7 @@
       this.checkBox_AlwaysUseSXLFromFile.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
       this.checkBox_AlwaysUseSXLFromFile.Size = new System.Drawing.Size(289, 17);
       this.checkBox_AlwaysUseSXLFromFile.TabIndex = 7;
-      this.checkBox_AlwaysUseSXLFromFile.Text = "(Always use the SXL (SUL) version from file (if found";
+      this.checkBox_AlwaysUseSXLFromFile.Text = "(Always use the SXL version from file (if found";
       this.checkBox_AlwaysUseSXLFromFile.UseVisualStyleBackColor = true;
       this.checkBox_AlwaysUseSXLFromFile.CheckedChanged += new System.EventHandler(this.checkBox_AlwaysUseSXLFromFile_CheckedChanged);
       // 
@@ -1120,7 +1121,7 @@
       this.label_SXL_VersionFromFile.Name = "label_SXL_VersionFromFile";
       this.label_SXL_VersionFromFile.Size = new System.Drawing.Size(151, 13);
       this.label_SXL_VersionFromFile.TabIndex = 6;
-      this.label_SXL_VersionFromFile.Text = "SXL (SUL) version found in file";
+      this.label_SXL_VersionFromFile.Text = "SXL version found in file";
       this.label_SXL_VersionFromFile.TextAlign = System.Drawing.ContentAlignment.TopRight;
       // 
       // textBox_SignalExchangeListVersionFromFile
@@ -1147,7 +1148,7 @@
       this.label_SXL_VersionManually.Name = "label_SXL_VersionManually";
       this.label_SXL_VersionManually.Size = new System.Drawing.Size(265, 13);
       this.label_SXL_VersionManually.TabIndex = 0;
-      this.label_SXL_VersionManually.Text = "Active SXL (SUL) version to be used when connecting";
+      this.label_SXL_VersionManually.Text = "Active SXL version to be used when connecting";
       this.label_SXL_VersionManually.TextAlign = System.Drawing.ContentAlignment.TopRight;
       // 
       // tabPage_RSMP
@@ -1227,7 +1228,8 @@
             this.RSMP_3_1_4,
             this.RSMP_3_1_5,
             this.RSMP_3_2,
-            this.RSMP_3_2_1});
+            this.RSMP_3_2_1,
+            this.RSMP_3_2_2});
       this.dataGridView_Behaviour.Location = new System.Drawing.Point(2, 15);
       this.dataGridView_Behaviour.Margin = new System.Windows.Forms.Padding(2);
       this.dataGridView_Behaviour.MultiSelect = false;
@@ -1295,6 +1297,12 @@
       this.RSMP_3_2_1.HeaderText = "3.2.1";
       this.RSMP_3_2_1.Name = "RSMP_3_2_1";
       this.RSMP_3_2_1.Width = 50;
+      // 
+      // RSMP_3_2_2
+      // 
+      this.RSMP_3_2_2.HeaderText = "3.2.2";
+      this.RSMP_3_2_2.Name = "RSMP_3_2_2";
+      this.RSMP_3_2_2.Width = 50;
       // 
       // groupBox_Statistics
       // 
@@ -2432,6 +2440,7 @@
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_1;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_2;
     private System.Windows.Forms.GroupBox groupBox_Statistics;
     public ListViewDoubleBuffered listView_Statistics;
     private System.Windows.Forms.ColumnHeader columnHeader_Statistics_Desription;

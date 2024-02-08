@@ -291,7 +291,7 @@ namespace RSMP_Messages
     public List<Version_RSMP> RSMP; // Versions
     public List<SiteId> siteId; // SiteId's
 
-    public string SXL;  // SUL (Signal Exchange List)
+    public string SXL;  // Signal Exchange List
   }
 
   public class Version_RSMP

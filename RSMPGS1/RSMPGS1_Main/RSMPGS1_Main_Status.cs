@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using static nsRSMPGS.cJSon;
 
 namespace nsRSMPGS
 {
@@ -143,6 +144,13 @@ namespace nsRSMPGS
                 s.n = StatusReturnValue.sName;
                 RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue(), Subscription.StatusReturnValue.Value.GetArray());
                 sS.Add(s);
+
+                // On RSMP 3.2.2 and later, the interval time is reset if the value changes
+                if (RSMPGS.JSon.NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_2_2)
+                {
+                  Subscription.LastUpdate = DateTime.Now;
+                }
+
                 RSMPGS.JSon.CreateAndSendStatusUpdateMessage(StatusObject.RoadSideObject, sS);
               }
             }
