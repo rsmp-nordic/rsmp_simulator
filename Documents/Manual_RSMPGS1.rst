@@ -359,7 +359,7 @@ larger packages.
 
 RSMPGS1 is buffering all JSon packages with the C# function
 NetworkStream.Write() in two calls, where the first is the serialized data and
-the last is the packet termination character 0x0c (fromfeed).
+the last is the packet termination character 0x0c (formfeed).
 
 If the algorithm is shut off, there will always be two packets out on the
 network. The purpose is, just like the next function, to test the buffer
