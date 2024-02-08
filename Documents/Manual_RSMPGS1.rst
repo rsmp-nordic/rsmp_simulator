@@ -180,10 +180,13 @@ The program has two forms, one main window and one (or several) debug windows.
    :alt: Main window
 
 At the top right, there is a presentation of connection status to the
-supervision system. If the box is green, the connection is ok. The IP address
-is also showing. When connection attempts are performed, the box is grey.
+supervision system.
 
-If there is no connection the box is blue.
+* If the box is green, the connection is ok. The IP address
+is also showing
+* When connection attempts are performed, the box is grey
+* If there is no connection, the box is blue
+* If there is a connection error, the box is red
 
 Sites and objects
 ^^^^^^^^^^^^^^^^^
