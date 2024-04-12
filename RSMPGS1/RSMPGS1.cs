@@ -60,7 +60,11 @@ using System.Security.Authentication;
 //                           / Don't resend unacked packets by default #76
 //                           / Create a new GUID when resending a packet #77
 //                           / Include SXL 1.0.7 #78
-// 24.xx.xx / DO / 1.0.6     / Use "Send aggregated status when connecting" by default in 3.1.2
+// 24.05.01 / DO / 1.0.6     / Use "Send aggregated status when connecting" by default in 3.1.2
+//                           / Fix issues with client/server configuration options #81
+//                           / Replace "SUL" with "SXL" #85
+//                           / Reset uRt interval when the value changes on RSMPGS 3.2.2 #86
+//                           / Fix support for floating point UpdateRates #88
 //
 //
 // ---------------------------------------------------------------------------------------------------
