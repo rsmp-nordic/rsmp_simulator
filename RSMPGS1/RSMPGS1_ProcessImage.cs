@@ -50,7 +50,7 @@ namespace nsRSMPGS
         }
 
         // Interval 0 -> Always on change
-        // > 0 could be borh interval and on change
+        // > 0 could be both interval and on change
         if (UpdateRate == 0)
         {
           SubscribeStatus = SubscribeMethod.OnChange;
