@@ -304,6 +304,7 @@ namespace nsRSMPGS
         NewCommandReturnValue.sName = CommandReturnValue.sName;
         NewCommandReturnValue.sCommand = CommandReturnValue.sCommand;
         NewCommandReturnValue.sComment = CommandReturnValue.sComment;
+        NewCommandReturnValue.bOptional = CommandReturnValue.bOptional;
         NewCommandReturnValue.Value = new cValue(CommandReturnValue.Value.ValueTypeObject, true);
 
 #if _RSMPGS2
@@ -343,6 +344,7 @@ namespace nsRSMPGS
     public string sComment;
 
     public cValue Value;
+    public Boolean bOptional;
 
 #if _RSMPGS2
 

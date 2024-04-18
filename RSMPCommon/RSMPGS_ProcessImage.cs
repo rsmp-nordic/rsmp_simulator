@@ -542,6 +542,7 @@ namespace nsRSMPGS
                     //CommandReturnValue.sType = YAMLArgument.GetScalar("type");
                     //CommandReturnValue.sValue = YAMLArgument.GetScalar("values");
                     CommandReturnValue.sComment = YAMLArgument.GetScalar("description");
+                    CommandReturnValue.bOptional = YAMLArgument.GetScalar("optional").ToLower().Equals("true");
 
                     // Additional description can be found in "values"
                     cYAMLMapping Values;
