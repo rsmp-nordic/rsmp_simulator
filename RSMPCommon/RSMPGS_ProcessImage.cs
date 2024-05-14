@@ -266,6 +266,7 @@ namespace nsRSMPGS
 
       if (YAML.YAMLMappings.TryGetValue("sites", out YAMLSites) == false)
       {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not find 'sites' section !");
         return 0;
       }
 
@@ -582,7 +583,7 @@ namespace nsRSMPGS
 
       }
 
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
+      RSMPGS.SysLog.SysLog( (iLoadedObjects==0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
       iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sFileName);
 
       return iReadFiles;
