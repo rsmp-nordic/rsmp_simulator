@@ -2,3 +2,4 @@ LogFiles
 bin
 obj
 .vs
+/Settings/ProcessImage.dat
