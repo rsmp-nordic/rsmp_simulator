@@ -182,8 +182,17 @@ namespace nsRSMPGS
                     string sValueTypeKey = YAMLObjectType.sMappingName + "\t" + ObjectTypeObject.sMappingName + "\t" + ObjectTypeObjectItem.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     string sType = YAMLArgument.GetScalar("type");
-                    double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
-                    double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
+
+                    double dMin;
+                    double dMax;
+
+                    // Translate "range" to min and max, if it exists
+                    GetMinMaxFromRange(GetValueType(sType), YAMLArgument.GetScalar("range"), out dMin, out dMax);
+                    if (YAMLArgument.GetScalar("min") != "")
+                      dMin = double.Parse(YAMLArgument.GetScalar("min"));
+                    if (YAMLArgument.GetScalar("man") != "")
+                      dMax = double.Parse(YAMLArgument.GetScalar("max"));
+
                     Dictionary<string, cYAMLMapping> items = null;
 
                     if (sType == "array") {
@@ -1216,49 +1225,10 @@ namespace nsRSMPGS
 
         try
         {
-          // Get type
-          eValueType ValueType = eValueType._unknown;
-          foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
-          {
-            if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
-            {
-              ValueType = valueType;
-              break;
-            }
-          }
 
-          // Transalte "range" to min and max
-          if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
-          {
-            switch (ValueType)
-            {
-              case eValueType._integer:
-              case eValueType._long:
-              case eValueType._ordinal:
-              case eValueType._real:
-                string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
-                char[] sep = new char[] { '-' };
-                string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                string sMin = sRangeArray[0];
-                string sMax = sRangeArray[1];
-                if (Double.TryParse(sMin, out dMin) == false)
-                {
-                  dMin = Double.Parse(sMin);
-                }
-                if (Double.TryParse(sMax, out dMax) == false)
-                {
-                  dMax = Double.Parse(sMax);
-                }
-                // If range started with "-", the min value is negative
-                if (sRangeMinMax.StartsWith("-"))
-                {
-                  dMin = -dMin;
-                }
-                break;
-            }
-          }
-
-          // Transalte "range" to selectable objects
+          GetMinMaxFromRange(GetValueType(sType), sRange, out dMin, out dMax);
+          
+          // Translate "range" to selectable objects
           // Selectable objects starts with "-". Ignore any embedded JSON (starts with "---")
           // Embedded JSON only used with type "array".
           if (sRange.StartsWith("-") && !sRange.StartsWith("---"))
@@ -1281,7 +1251,7 @@ namespace nsRSMPGS
           }
 
           // Get items in array
-          if (ValueType == eValueType._array)
+          if (GetValueType(sType) == eValueType._array)
           {
             cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sRange.Split('\n').ToList<string>());
             items = YAML.YAMLMappings;
@@ -1325,6 +1295,57 @@ namespace nsRSMPGS
 
       return sReturnValues;
 
+    }
+
+    public eValueType GetValueType(string sType)
+    { 
+      // Get type
+      eValueType ValueType = eValueType._unknown;
+      foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+      {
+        if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+        {
+          ValueType = valueType;
+          break;
+        }
+      }
+      return ValueType;
+    }
+
+    public void GetMinMaxFromRange(eValueType ValueType, string sRange, out Double dMin, out Double dMax)
+    {
+      dMin = 0;
+      dMax = 0;
+      if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
+      {
+        switch (ValueType)
+        {
+          case eValueType._integer:
+          case eValueType._long:
+          case eValueType._ordinal:
+          case eValueType._real:
+            string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
+            char[] sep = new char[] { '-' };
+            string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            string sMin = sRangeArray[0];
+            string sMax = sRangeArray[1];
+            if (Double.TryParse(sMin, out dMin) == false)
+            {
+              dMin = Double.Parse(sMin);
+            }
+            if (Double.TryParse(sMax, out dMax) == false)
+            {
+              dMax = Double.Parse(sMax);
+            }
+            // If range started with "-", the min value is negative
+            if (sRangeMinMax.StartsWith("-"))
+            {
+              dMin = -dMin;
+            }
+            break;
+        }
+      }
+      return;
     }
 
   }
