@@ -66,6 +66,9 @@ jobs:
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           sed -i 's/_list$//g' $SXL
+          sed -i 's/_list$//g' $SXL_1_1
+          sed -i 's/_list$//g' $SXL_1_0_15
+          sed -i 's/_list$//g' $SXL_1_0_7
 
       - name: Create XLSX file
         run: |
