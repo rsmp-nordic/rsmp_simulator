@@ -190,7 +190,7 @@ namespace nsRSMPGS
                     GetMinMaxFromRange(GetValueType(sType), YAMLArgument.GetScalar("range"), out dMin, out dMax);
                     if (YAMLArgument.GetScalar("min") != "")
                       dMin = double.Parse(YAMLArgument.GetScalar("min"));
-                    if (YAMLArgument.GetScalar("man") != "")
+                    if (YAMLArgument.GetScalar("max") != "")
                       dMax = double.Parse(YAMLArgument.GetScalar("max"));
 
                     Dictionary<string, cYAMLMapping> items = null;
