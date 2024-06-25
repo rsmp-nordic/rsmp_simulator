@@ -10,11 +10,13 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.2/sxl.yaml
+  SXL: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
+  SXL_1_2: rsmp_schema/schemas/tlc/1.2/sxl.yaml
   SXL_1_1: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
-  SITE: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
+  SITE: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
+  SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
   SITE_1_0_15: YAML/SXL_Traffic_Controller_ver_1_0_15-site.yaml
   SITE_1_0_7: YAML/SXL_Traffic_Controller_ver_1_0_7-site.yaml
@@ -66,6 +68,7 @@ jobs:
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           sed -i 's/_list$//g' $SXL
+          sed -i 's/_list$//g' $SXL_1_2
           sed -i 's/_list$//g' $SXL_1_1
           sed -i 's/_list$//g' $SXL_1_0_15
           sed -i 's/_list$//g' $SXL_1_0_7
@@ -88,8 +91,9 @@ jobs:
           #   - value1
           #   - value2
           #   The first format is not supported by the simulator.
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2_1.yaml
           # Also include older SXL files
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
           ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
           ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
           ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
@@ -105,6 +109,7 @@ jobs:
         with:
           name: SXL YAML
           path: |
+            TLC_SXL_1_2_1.yaml
             TLC_SXL_1_2.yaml
             TLC_SXL_1_1.yaml
             TLC_SXL_1_0_15.yaml
