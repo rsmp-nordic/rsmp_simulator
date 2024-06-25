@@ -48,7 +48,7 @@ namespace nsRSMPGS
 
     public int MaxAlarmReturnValues = 0;
 
-    public string sSULRevision = "";
+    public string sSXLRevision = "";
     public int ObjectFilesTimeStamp = 0;
 
 #if _RSMPGS1
@@ -78,7 +78,7 @@ namespace nsRSMPGS
       StatusObjects.Clear();
       AggregatedStatusObjects.Clear();
       MaxAlarmReturnValues = 0;
-      sSULRevision = "";
+      sSXLRevision = "";
       ObjectFilesTimeStamp = 0;
       ValueTypeObjects.Clear();
 
@@ -130,7 +130,7 @@ namespace nsRSMPGS
 
       // ProcessImage.sId = YAML.GetScalar("id");
 
-      sSULRevision = YAML.GetScalar("version");
+      sSXLRevision = YAML.GetScalar("version");
 
       //ProcessImage.sDescription = YAML.GetScalar("description");
       //ProcessImage.sConstructor = YAML.GetScalar("constructor");
@@ -182,8 +182,17 @@ namespace nsRSMPGS
                     string sValueTypeKey = YAMLObjectType.sMappingName + "\t" + ObjectTypeObject.sMappingName + "\t" + ObjectTypeObjectItem.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
 
                     string sType = YAMLArgument.GetScalar("type");
-                    double dMin = YAMLArgument.GetScalar("min") != "" ? double.Parse(YAMLArgument.GetScalar("min")) : 0;
-                    double dMax = YAMLArgument.GetScalar("max") != "" ? double.Parse(YAMLArgument.GetScalar("max")) : 0;
+
+                    double dMin;
+                    double dMax;
+
+                    // Translate "range" to min and max, if it exists
+                    GetMinMaxFromRange(GetValueType(sType), YAMLArgument.GetScalar("range"), out dMin, out dMax);
+                    if (YAMLArgument.GetScalar("min") != "")
+                      dMin = double.Parse(YAMLArgument.GetScalar("min"));
+                    if (YAMLArgument.GetScalar("max") != "")
+                      dMax = double.Parse(YAMLArgument.GetScalar("max"));
+
                     Dictionary<string, cYAMLMapping> items = null;
 
                     if (sType == "array") {
@@ -266,6 +275,7 @@ namespace nsRSMPGS
 
       if (YAML.YAMLMappings.TryGetValue("sites", out YAMLSites) == false)
       {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not find 'sites' section !");
         return 0;
       }
 
@@ -542,6 +552,7 @@ namespace nsRSMPGS
                     //CommandReturnValue.sType = YAMLArgument.GetScalar("type");
                     //CommandReturnValue.sValue = YAMLArgument.GetScalar("values");
                     CommandReturnValue.sComment = YAMLArgument.GetScalar("description");
+                    CommandReturnValue.bOptional = YAMLArgument.GetScalar("optional").ToLower().Equals("true");
 
                     // Additional description can be found in "values"
                     cYAMLMapping Values;
@@ -582,7 +593,7 @@ namespace nsRSMPGS
 
       }
 
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
+      RSMPGS.SysLog.SysLog( (iLoadedObjects==0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
       iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sFileName);
 
       return iReadFiles;
@@ -1005,7 +1016,7 @@ namespace nsRSMPGS
             case SectionType_Revision:
               // ;;;;1.3;;;
               // Just take the last line...
-              sSULRevision = cHelper.Item(sLine, 1, ';').Trim();
+              sSXLRevision = cHelper.Item(sLine, 1, ';').Trim();
               break;
           }
 
@@ -1214,49 +1225,10 @@ namespace nsRSMPGS
 
         try
         {
-          // Get type
-          eValueType ValueType = eValueType._unknown;
-          foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
-          {
-            if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
-            {
-              ValueType = valueType;
-              break;
-            }
-          }
 
-          // Transalte "range" to min and max
-          if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
-          {
-            switch (ValueType)
-            {
-              case eValueType._integer:
-              case eValueType._long:
-              case eValueType._ordinal:
-              case eValueType._real:
-                string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
-                char[] sep = new char[] { '-' };
-                string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                string sMin = sRangeArray[0];
-                string sMax = sRangeArray[1];
-                if (Double.TryParse(sMin, out dMin) == false)
-                {
-                  dMin = Double.Parse(sMin);
-                }
-                if (Double.TryParse(sMax, out dMax) == false)
-                {
-                  dMax = Double.Parse(sMax);
-                }
-                // If range started with "-", the min value is negative
-                if (sRangeMinMax.StartsWith("-"))
-                {
-                  dMin = -dMin;
-                }
-                break;
-            }
-          }
-
-          // Transalte "range" to selectable objects
+          GetMinMaxFromRange(GetValueType(sType), sRange, out dMin, out dMax);
+          
+          // Translate "range" to selectable objects
           // Selectable objects starts with "-". Ignore any embedded JSON (starts with "---")
           // Embedded JSON only used with type "array".
           if (sRange.StartsWith("-") && !sRange.StartsWith("---"))
@@ -1279,7 +1251,7 @@ namespace nsRSMPGS
           }
 
           // Get items in array
-          if (ValueType == eValueType._array)
+          if (GetValueType(sType) == eValueType._array)
           {
             cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sRange.Split('\n').ToList<string>());
             items = YAML.YAMLMappings;
@@ -1323,6 +1295,57 @@ namespace nsRSMPGS
 
       return sReturnValues;
 
+    }
+
+    public eValueType GetValueType(string sType)
+    { 
+      // Get type
+      eValueType ValueType = eValueType._unknown;
+      foreach (eValueType valueType in Enum.GetValues(typeof(eValueType)))
+      {
+        if (sType.Equals(valueType.ToString().Substring(1), StringComparison.OrdinalIgnoreCase))
+        {
+          ValueType = valueType;
+          break;
+        }
+      }
+      return ValueType;
+    }
+
+    public void GetMinMaxFromRange(eValueType ValueType, string sRange, out Double dMin, out Double dMax)
+    {
+      dMin = 0;
+      dMax = 0;
+      if (sRange.StartsWith("[") && sRange.EndsWith("]") && sRange.Contains("-"))
+      {
+        switch (ValueType)
+        {
+          case eValueType._integer:
+          case eValueType._long:
+          case eValueType._ordinal:
+          case eValueType._real:
+            string sRangeMinMax = sRange.Substring(1, sRange.Length - 2); // Remove []
+            char[] sep = new char[] { '-' };
+            string[] sRangeArray = sRangeMinMax.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            string sMin = sRangeArray[0];
+            string sMax = sRangeArray[1];
+            if (Double.TryParse(sMin, out dMin) == false)
+            {
+              dMin = Double.Parse(sMin);
+            }
+            if (Double.TryParse(sMax, out dMax) == false)
+            {
+              dMax = Double.Parse(sMax);
+            }
+            // If range started with "-", the min value is negative
+            if (sRangeMinMax.StartsWith("-"))
+            {
+              dMin = -dMin;
+            }
+            break;
+        }
+      }
+      return;
     }
 
   }

@@ -10,11 +10,13 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.2/sxl.yaml
+  SXL: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
+  SXL_1_2: rsmp_schema/schemas/tlc/1.2/sxl.yaml
   SXL_1_1: rsmp_schema/schemas/tlc/1.1/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
-  SITE: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
+  SITE: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
+  SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
   SITE_1_0_15: YAML/SXL_Traffic_Controller_ver_1_0_15-site.yaml
   SITE_1_0_7: YAML/SXL_Traffic_Controller_ver_1_0_7-site.yaml
@@ -25,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -44,16 +46,16 @@ jobs:
         run: gem install rubyXL
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout sxl-tools
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: rsmp-nordic/sxl-tools
           path: sxl-tools
 
       - name: Checkout rsmp_schema
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: rsmp-nordic/rsmp_schema
           path: rsmp_schema
@@ -66,12 +68,16 @@ jobs:
           # Remove any trailing _list because it is only used for comma
           # separated values during schema validation
           sed -i 's/_list$//g' $SXL
+          sed -i 's/_list$//g' $SXL_1_2
+          sed -i 's/_list$//g' $SXL_1_1
+          sed -i 's/_list$//g' $SXL_1_0_15
+          sed -i 's/_list$//g' $SXL_1_0_7
 
       - name: Create XLSX file
         run: |
           ruby sxl-tools/yaml2xlsx.rb \
             --template RSMP_Template_SignalExchangeList.xlsx \
-            --objects $SXL \
+            --sxl $SXL \
             --site $SITE --stdout > SXL-example.xlsx
 
       - name: Create CSV files
@@ -85,30 +91,32 @@ jobs:
           #   - value1
           #   - value2
           #   The first format is not supported by the simulator.
-          ruby sxl-tools/merge_yaml.rb --objects $SXL --site $SITE > TLC_SXL_1_2.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2_1.yaml
           # Also include older SXL files
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
-          ruby sxl-tools/merge_yaml.rb --objects $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (XLSX)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL XLSX
           path: SXL-example.xlsx
 
       - name: Upload artifacts (YAML)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL YAML
           path: |
+            TLC_SXL_1_2_1.yaml
             TLC_SXL_1_2.yaml
             TLC_SXL_1_1.yaml
             TLC_SXL_1_0_15.yaml
             TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (CSV)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SXL CSV
           path: Objects/
@@ -118,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install rst2pdf
         run: pip install rst2pdf
@@ -129,13 +137,13 @@ jobs:
           rst2pdf Documents/Manual_RSMPGS2.rst
 
       - name: Upload Manual RSMPGS1
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Manual RSMPGS1
           path: Documents/Manual_RSMPGS1.pdf
 
       - name: Upload Manual RSMPGS2
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Manual RSMPGS2
           path: Documents/Manual_RSMPGS2.pdf
@@ -146,7 +154,7 @@ jobs:
     needs: [create_sxl, create_manual ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -160,31 +168,31 @@ jobs:
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
 
       - name: Download SXL CSV
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL CSV
           path: Objects
 
       - name: Download SXL YAML
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL YAML
           path: YAML
 
       - name: Download SXL Excel
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: SXL XLSX
           path: YAML
 
       - name: Download Manual RSMPGS1
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Manual RSMPGS1
           path: Documents
 
       - name: Download Manual RSMPGS2
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Manual RSMPGS2
           path: Documents
@@ -205,13 +213,13 @@ jobs:
         shell: cmd
 
       - name: Upload setup files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Setup
           path: Output/*.exe
 
       - name: Upload setup zip file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Setup zip
           path: |

@@ -138,7 +138,7 @@ namespace nsRSMPGS
     public bool bSuspended = false;
     public bool bAcknowledged = false;
     public string sObjectType;
-    public string sSpecificObject; // Optional, if set must match object in SUL
+    public string sSpecificObject; // Optional, if set must match object in SXL
     public string sAlarmCodeId;
     public DateTime sTimestamp;
     public string sDescription;
@@ -283,7 +283,7 @@ namespace nsRSMPGS
     // Object type;Object (optional);Description;commandCodeId;name;command;type;value;Comment;name;command;type;value;Comment;
 
     public string sObjectType;
-    public string sSpecificObject; // Optional, if set must match object in SUL
+    public string sSpecificObject; // Optional, if set must match object in SXL
     public string sCommandCodeId;
     public string sDescription;
     public cRoadSideObject RoadSideObject;
@@ -304,6 +304,7 @@ namespace nsRSMPGS
         NewCommandReturnValue.sName = CommandReturnValue.sName;
         NewCommandReturnValue.sCommand = CommandReturnValue.sCommand;
         NewCommandReturnValue.sComment = CommandReturnValue.sComment;
+        NewCommandReturnValue.bOptional = CommandReturnValue.bOptional;
         NewCommandReturnValue.Value = new cValue(CommandReturnValue.Value.ValueTypeObject, true);
 
 #if _RSMPGS2
@@ -343,6 +344,7 @@ namespace nsRSMPGS
     public string sComment;
 
     public cValue Value;
+    public Boolean bOptional;
 
 #if _RSMPGS2
 
@@ -394,7 +396,7 @@ namespace nsRSMPGS
     // Object type;Object (optional);statusCodeId;description;name;type;value;Comment;name;type;value;Comment;name;type;value;Comment;name;type;value;Comment;name;type;value;Comment;name;type;value;Comment
 
     public string sObjectType;
-    public string sSpecificObject; // Optional, if set must match object in SUL
+    public string sSpecificObject; // Optional, if set must match object in SXL
     public string sStatusCodeId;
     public string sDescription;
 

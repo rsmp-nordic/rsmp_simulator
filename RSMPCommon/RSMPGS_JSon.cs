@@ -100,9 +100,10 @@ namespace nsRSMPGS
       RSMP_3_1_5 = 5,
       RSMP_3_2 = 6,
       RSMP_3_2_1 = 7,
+      RSMP_3_2_2 = 8,
     }
 
-    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2", "3.2.1" };
+    public string[] sRSMPVersions = { "", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.2", "3.2.1", "3.2.2" };
 
     public bool DecodeAndParseJSonPacket(string sJSon)
     {
@@ -779,7 +780,7 @@ namespace nsRSMPGS
       if (bSXLVersionIsOk == false)
       {
         RSMPGS.SysLog.SysLog(cHelper.IsSettingChecked("SXL_VersionIgnore") ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Error,
-          "Client SXL (SUL) version is not compatible");
+          "Client SXL version is not compatible");
       }
 
       if (HighestRSMPVersion == RSMPVersion.NotSupported || bSXLVersionIsOk == false)
@@ -1552,6 +1553,11 @@ namespace nsRSMPGS
       if (setting.GetActualValue(RSMPVersion.RSMP_3_2_1))
       {
         HighestRSMPVersion = RSMPVersion.RSMP_3_2_1;
+      }
+
+      if (setting.GetActualValue(RSMPVersion.RSMP_3_2_2))
+      {
+        HighestRSMPVersion = RSMPVersion.RSMP_3_2_2;
       }
 
       return HighestRSMPVersion;

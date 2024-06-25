@@ -515,6 +515,34 @@ namespace nsRSMPGS
               return false;
             }
 
+            // RSMPGS 3.2.2: All arguments (return values) needs to be present
+            if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_2_2)
+            {
+              // Check all return values of the command object
+              foreach (cCommandReturnValue cReturnValue in CommandObject.CommandReturnValues)
+              {
+                // Skip check if it's optional
+                if(cReturnValue.bOptional == false)
+                { 
+                  // Find the Returnvalue ('name') in the CommandRequest   
+                  CommandRequest_Value CommandRequestValue = CommandRequest.arg.Find(name => name.n.Equals(cReturnValue.sName, sc));
+                  if (CommandRequestValue == null)
+                  {
+                    // Not all arguments are present
+                    sError = "Got Command, not all arguments included in cCI (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+                    // MessageNotAck
+                    if (!bHasSentAckOrNack)
+                    {
+                      bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+                    }
+                    return false;
+                  }
+                }
+              }
+            }
+
             cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(n => n.sName.Equals(CommandRequest_Value.n, sc));
             if (CommandReturnValue == null)
             {
