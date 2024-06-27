@@ -59,6 +59,7 @@ using System.Security.Authentication;
 //                           / Reset uRt interval when the value changes on RSMPGS 3.2.2 #86
 //                           / Fix support for floating point UpdateRates #88
 //                           / All arguments needs to be present #89
+// xx.xx.xx / DO / 1.0.7     / 
 //
 //
 // ---------------------------------------------------------------------------------------------------

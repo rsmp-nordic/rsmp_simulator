@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS1_1_0_6_Setup.exe``.
+Start installation by running ``RSMPGS1_1_0_7_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
@@ -244,7 +244,7 @@ Loading new objects is only available if the simulator is disconnected
 Creates a new debug window. Any number of debug forms can be created, but it
 will affect performance.
 
-**Debug -Tile all debug windows**
+**Debug - Tile all debug windows**
 
 Moves all debug forms to the right of RSMPGS1 (if there is space) and puts them
 in a line.
