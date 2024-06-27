@@ -1980,6 +1980,8 @@ namespace nsRSMPGS
       Button buttonCancel = new Button();
       Button buttonBrowse = new Button();
       TextBox textBox = new TextBox();
+      CheckBox checkBoxUpdatedEvenIfValueNotChanged = new CheckBox( );
+      checkBoxUpdatedEvenIfValueNotChanged.Checked = !bReturnCancelIfValueHasNotChanged;
 
       form.Text = title + " (" + Value.GetValueType() + ")";
 
@@ -2069,18 +2071,22 @@ namespace nsRSMPGS
       if (bReadOnly)
       {
         buttonCancel.Visible = false;
+        checkBoxUpdatedEvenIfValueNotChanged.Enabled = false;
       }
 
-      comboBox.SetBounds(12, 112, 183, 21);
+      //      comboBox.SetBounds(12, 112, 183, 21);
+      comboBox.SetBounds(12, 142, 183, 21);
       if (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._array)
       {
         form.ClientSize = new Size(320, 200);
       }
       else
       {
-        form.ClientSize = new Size(400, 140);
-        buttonCancel.SetBounds(202, 110, 75, 23);
-        buttonOk.SetBounds(283, 110, 75, 23);
+        form.ClientSize = new Size(400, 170);
+        checkBoxUpdatedEvenIfValueNotChanged.Text = "Considered updated even if value not changed";
+        checkBoxUpdatedEvenIfValueNotChanged.SetBounds(12, 110, 345, 20);
+        buttonCancel.SetBounds(202, 140, 75, 23);
+        buttonOk.SetBounds(283, 140, 75, 23);
       }
       buttonBrowse.SetBounds(283, 73, 93, 31);
 
@@ -2101,7 +2107,7 @@ namespace nsRSMPGS
 
       if (Value.ValueTypeObject.ValueType != cValueTypeObject.eValueType._array)
       {
-        form.Controls.AddRange(new Control[] { comboBox, buttonOk, buttonCancel, buttonBrowse, textBox });
+        form.Controls.AddRange(new Control[] { comboBox, buttonOk, buttonCancel, buttonBrowse, textBox, checkBoxUpdatedEvenIfValueNotChanged });
       }
 
       form.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -2127,7 +2133,7 @@ namespace nsRSMPGS
         return dialogResult;
       }
 
-      if (bReturnCancelIfValueHasNotChanged)
+      if( !checkBoxUpdatedEvenIfValueNotChanged.Checked )
       {
         // Changed value ?
         if (comboBox.Text.Equals(value))
