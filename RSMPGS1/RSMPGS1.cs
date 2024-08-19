@@ -66,7 +66,9 @@ using System.Security.Authentication;
 //                           / Reset uRt interval when the value changes on RSMPGS 3.2.2 #86
 //                           / Fix support for floating point UpdateRates #88
 //                           / All arguments needs to be present #89
-// xx.xx.xx / DO / 1.0.7     / 
+// 24.08.19 / DO / 1.0.7     / For simple value modif, option to considerate updated even if same value. #91 (pull request #91 / marcgarba)
+//                           / Modifications on array window and item edit #96 (pull request #96 / marcgarba)
+//                           / When sending status, only using selected items for current object #95 (pull request #95 / marcgarba)
 //
 //
 // ---------------------------------------------------------------------------------------------------
