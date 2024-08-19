@@ -16,6 +16,7 @@ using System.Diagnostics;
 using static System.Windows.Forms.ListViewItem;
 using System.Runtime.CompilerServices;
 using RSMP_Messages;
+using System.Drawing.Printing;
 
 namespace nsRSMPGS
 {
@@ -1825,7 +1826,7 @@ namespace nsRSMPGS
 
     public static string sFileName = "";
 
-    static cValue array;
+    static cValue currentArrayValue;
     static ListView arrayListView = new ListView();
     static int arrayListViewIndex;
     static Form arrayForm = new Form();
@@ -2016,7 +2017,7 @@ namespace nsRSMPGS
         arrayListView.FullRowSelect = true;
         arrayListView.ItemActivate += new EventHandler(updateArrayRow);
         arrayListView.SelectedIndexChanged += new EventHandler(selectArrayRow);
-        array = Value;
+        currentArrayValue = Value;
 
         // Add "new item"
         Button buttonNewRow = new Button();
@@ -2030,20 +2031,34 @@ namespace nsRSMPGS
         buttonDeleteRow.Text = "Delete item";
         buttonDeleteRow.Enabled = false;
 
+        // Add "refresh"
+        Button buttonRefresh = new Button();
+        buttonRefresh.Click += new EventHandler(refeshArrayDisplay);
+        buttonRefresh.Text = "Refresh";
+
         if (bReadOnly)
         {
           buttonNewRow.Visible = false;
           buttonDeleteRow.Visible = false;
+          buttonRefresh.SetBounds(165, 5, 75, 23);
+        }
+        else
+        {
+          buttonRefresh.Visible = false;
         }
         arrayListView.View = View.Details;
         buttonNewRow.SetBounds(5, 5, 75, 23);
         buttonDeleteRow.SetBounds(85, 5, 75, 23);
         buttonCancel.SetBounds(165, 5, 75, 23);
         buttonOk.SetBounds(245, 5, 70, 23);
-        arrayListView.Bounds = new Rectangle(new Point(5, 33), new Size(310, 160));
+        // arrayListView.Bounds = new Rectangle(new Point(5, 33), new Size(310, 160));
+        arrayListView.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        arrayListView.Location = new Point( 5, 33 );
+        arrayListView.Size = new Size(275, 210);
 
-        loadArray(Value.ValueTypeObject.Items, Value.GetArray());
-        form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonDeleteRow, buttonCancel, arrayListView });
+        initColumnsArray(Value.ValueTypeObject.Items);
+        loadArray(Value.GetArray());
+        form.Controls.AddRange(new Control[] { buttonOk, buttonNewRow, buttonDeleteRow, buttonRefresh, buttonCancel, arrayListView });
       }
       else
       {
@@ -2063,15 +2078,19 @@ namespace nsRSMPGS
 
       buttonBrowse.Text = "Browse...";
       buttonCancel.Text = "Cancel";
-      buttonOk.Text = "OK";
 
       buttonOk.DialogResult = DialogResult.OK;
       buttonCancel.DialogResult = DialogResult.Cancel;
 
       if (bReadOnly)
       {
+        buttonOk.Text = "Close";
         buttonCancel.Visible = false;
         checkBoxUpdatedEvenIfValueNotChanged.Enabled = false;
+      }
+      else
+      {
+        buttonOk.Text = "OK";
       }
 
       //      comboBox.SetBounds(12, 112, 183, 21);
@@ -2110,7 +2129,7 @@ namespace nsRSMPGS
         form.Controls.AddRange(new Control[] { comboBox, buttonOk, buttonCancel, buttonBrowse, textBox, checkBoxUpdatedEvenIfValueNotChanged });
       }
 
-      form.FormBorderStyle = FormBorderStyle.FixedDialog;
+      form.FormBorderStyle = (Value.ValueTypeObject.ValueType == cValueTypeObject.eValueType._array) ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog;
       form.StartPosition = FormStartPosition.CenterScreen;
       form.MinimizeBox = false;
       form.MaximizeBox = false;
@@ -2166,7 +2185,8 @@ namespace nsRSMPGS
       return dialogResult;
     }
 
-    private static void loadArray(Dictionary<string, cYAMLMapping> items, List<Dictionary<string, string>> array)
+    // splitted columns init and load items (to not loose columns resized on 'refresh')
+    private static void initColumnsArray(Dictionary<string, cYAMLMapping> items)
     {
       // Add column headers
       foreach (var item in items)
@@ -2175,7 +2195,9 @@ namespace nsRSMPGS
         col.Text = item.Key;
         arrayListView.Columns.Add(col);
       }
-
+    }
+    private static void loadArray(List<Dictionary<string, string>> array)
+    {
       // Exit if no values entered
       if (array == null)
       {
@@ -2260,6 +2282,12 @@ namespace nsRSMPGS
       inputArrayRow(i);
     }
 
+    private static void refeshArrayDisplay(object sender, EventArgs e)
+    {
+      arrayListView.Items.Clear();
+      loadArray(currentArrayValue.GetArray());
+    }
+
     private static void selectArrayRow(object sender, EventArgs e)
     {
       ListView send = (ListView)sender;
@@ -2274,10 +2302,14 @@ namespace nsRSMPGS
       }
     }
 
+    // index at -1 to add a new item in array
     private static void inputArrayRow(int index)
     {
       arrayListViewIndex = index;
       arrayForm.Controls.Clear();
+
+      // Create the ToolTip
+      ToolTip toolTipInputArray = new ToolTip();
 
       Button buttonOk = new Button();
       Button buttonCancel = new Button();
@@ -2303,9 +2335,8 @@ namespace nsRSMPGS
       bool isCombo;
 
       int y = 10;
-      int itemIndex = 0;
 
-      Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
+      Dictionary<string, cYAMLMapping> items = currentArrayValue.ValueTypeObject.Items;
 
       // YAMLMapping
       KeyValuePair<string, cYAMLMapping> item;
@@ -2323,11 +2354,11 @@ namespace nsRSMPGS
 
       Dictionary<string, cYAMLMapping> schemaMappings;
 
-      for (int i = 0; i < items.Count; i++)
+      for (int iKeyIndex = 0; iKeyIndex < items.Count; iKeyIndex++)
       {
 
         // get YAMLMapping
-        item = items.ElementAt(i);
+        item = items.ElementAt(iKeyIndex);
         schemaKey = item.Key;
         schemaValue = item.Value;
         schemaScalars = schemaValue.YAMLScalars;
@@ -2395,11 +2426,12 @@ namespace nsRSMPGS
 
         label = new Label();
         label.Text = item.Key;
-        ToolTip toolTip = new ToolTip();
-        toolTip.SetToolTip(label, schemaDescription);
+        toolTipInputArray.SetToolTip(label, schemaDescription);
         label.SetBounds(10, y, 75, 23);
 
         sendCheckBox = new CheckBox();
+        sendCheckBox.Name = "OptChk" + iKeyIndex.ToString();
+        toolTipInputArray.SetToolTip(sendCheckBox,"Include optional key");
         sendCheckBox.SetBounds(270, y, 23, 23);
 
         if (!schemaScalarOptional)
@@ -2423,22 +2455,24 @@ namespace nsRSMPGS
             if (isCombo)
             {
               comboBox.SetBounds(110, y, 150, 23);
-              comboBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+              comboBox.Tag = schemaScalarType + "#" + schemaScalarOptional + "#" + iKeyIndex;
+              comboBox.TextChanged += new System.EventHandler(arrayValue_TextChanged);
               arrayForm.Controls.AddRange(new Control[] { label, comboBox, sendCheckBox });
             }
             else
             {
               textBox = new TextBox();
               textBox.SetBounds(110, y, 150, 23);
-              textBox.Tag = schemaScalarType + "#" + schemaScalarOptional;
+              textBox.Tag = schemaScalarType + "#" + schemaScalarOptional + "#" + iKeyIndex;
+              textBox.TextChanged += new System.EventHandler(arrayValue_TextChanged);
               arrayForm.Controls.AddRange(new Control[] { label, textBox, sendCheckBox });
             }
 
             if (arrayListViewIndex != -1)
             {
-              if (itemIndex == 0)
+              if (iKeyIndex == 0)
               {
-                if (arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
+                if (arrayListView.Items[arrayListViewIndex].Tag!=null && arrayListView.Items[arrayListViewIndex].Tag.ToString() == "True")
                 {
                   if (isCombo)
                   {
@@ -2453,26 +2487,26 @@ namespace nsRSMPGS
               }
               else
               {
-                if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Tag.ToString() == "True")
+                if (arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Tag!=null && arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Tag.ToString() == "True")
                 {
                   if (isCombo)
                   {
-                    comboBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                    comboBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Text;
                   }
                   else
                   {
-                    textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text;
+                    textBox.Text = arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Text;
                   }
                   sendCheckBox.Checked = true;
                 }
               }
-              itemIndex = itemIndex + 1;
             }
             break;
           case "number":
           case "integer":
             numericUpDown = new NumericUpDown();
-            numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional;
+            numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional + "#" + iKeyIndex;
+            numericUpDown.TextChanged += new System.EventHandler(arrayValue_TextChanged);
             numericUpDown.SetBounds(110, y, 150, 23);
             arrayForm.Controls.AddRange(new Control[] { label, numericUpDown, sendCheckBox });
 
@@ -2488,7 +2522,7 @@ namespace nsRSMPGS
 
             if (arrayListViewIndex != -1)
             {
-              if (itemIndex == 0)
+              if (iKeyIndex == 0)
               {
                 if(arrayListView.Items[arrayListViewIndex].Text == "")
                 {
@@ -2502,17 +2536,16 @@ namespace nsRSMPGS
               }
               else
               {
-                if (arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text == "")
+                if (arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Text == "")
                 {
                   sendCheckBox.Checked = false;
                 }
                 else
                 {
-                  numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[itemIndex].Text);
+                  numericUpDown.Value = Int32.Parse(arrayListView.Items[arrayListViewIndex].SubItems[iKeyIndex].Text);
                   sendCheckBox.Checked = true;
                 }
               }
-              itemIndex = itemIndex + 1;
             }
             break;
           default:
@@ -2527,6 +2560,23 @@ namespace nsRSMPGS
       arrayForm.ClientSize = new Size(300, y + 45);
 
       DialogResult dialogResult = arrayForm.ShowDialog();
+    }
+
+    // Auto check optional checkbox if corresponding TextBox/ComboBox/NumericUpDown value modified
+    private static void arrayValue_TextChanged(object sender, EventArgs e)
+    {
+      Control valueControl = (Control)sender;
+      string tag = valueControl.Tag.ToString();
+      string[] subs = tag.Split('#'); // to get key index
+      if (subs.Length >= 3)
+      {
+        CheckBox chkControl = (CheckBox)valueControl.Parent.Controls.Find("OptChk" + subs[2], false).First();
+        if (chkControl != null)
+        {
+          if (chkControl.Visible)
+            chkControl.Checked = true;
+        }
+      }
     }
 
     private static void saveArrayRow(object sender, EventArgs e)
@@ -2563,7 +2613,7 @@ namespace nsRSMPGS
         currentItem = arrayListView.Items[arrayListViewIndex];
       }
 
-      Dictionary<string, cYAMLMapping> items = array.ValueTypeObject.Items;
+      Dictionary<string, cYAMLMapping> items = currentArrayValue.ValueTypeObject.Items;
 
       if (arrayListViewIndex == -1)
       {
