@@ -83,16 +83,10 @@ namespace nsRSMPGS
         statusMsgType = cJSon.StatusMsgType.Subscribe;
       }
 
-      // Each group belongs to a RoadSide object
-      //////Modification: only searching selected status items for current objet displayed
-      //////foreach (ListViewGroup lvGroup in listView_Status.Groups)
-      //////{
-
       RoadSideObject = null;
 
       List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4> StatusSubscribeValues = new List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4>();
 
-      //////foreach (ListViewItem lvItem in lvGroup.Items)
       foreach( ListViewItem lvItem in listView_Status.Items )
       {
         if (lvItem.Selected)
@@ -149,8 +143,6 @@ namespace nsRSMPGS
             return;
         }
       }
-
-      //////}
     }
 
     /*
