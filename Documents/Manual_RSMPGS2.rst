@@ -30,14 +30,14 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS2_1_0_6_Setup.exe``.
+Start installation by running ``RSMPGS2_1_0_7_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
-RSMPGS1 is written in C# with Microsoft Visual Studio 2015 and requires
+RSMPGS2 is written in C# with Microsoft Visual Studio 2015 and requires
 .NET Framework 4.6.1.
 
-The following files and folders which are included in the RSMPGS1 installation.
+The following files and folders which are included in the RSMPGS2 installation.
 All files and folders are placed under the installation folder.
 
 ==========================  ==============================================
@@ -157,12 +157,12 @@ readable format.
 
 RSMPGS2 may import the YAML found in GitHub –
 `rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_schema>`_.
-But RSMPGS1 requires an extended format which includes the objects as well.
+But RSMPGS2 requires an extended format which includes the objects as well.
 An example is saved in the sub-folder ``.\YAML``.
 
 Starting the simulator
 ----------------------
-When RSMPGS1 is started it will automatically use the installation folder as
+When RSMPGS2 is started it will automatically use the installation folder as
 the project folder. RSMPGS2 is expecting to find the Settings folder in the
 project folder.
 
@@ -251,9 +251,9 @@ Loading new objects is only available if the simulator is disconnected
 Creates a new debug window. Any number of debug forms can be created, but it
 will affect performance.
 
-**Debug -Tile all debug windows**
+**Debug - Tile all debug windows**
 
-Moves all debug forms to the right of RSMPGS1 (if there is space) and puts them
+Moves all debug forms to the right of RSMPGS2 (if there is space) and puts them
 in a line.
 
 **Debug - Close all debug windows**
@@ -667,9 +667,9 @@ The red texts are messages which are received, green texts are the ones which
 are sent out. The time stamp has millisecond resolution which is shown if the
 column is expanded somewhat.
 
-If show raw data is not selection, then RSMPGS1 will format the text for better
+If show raw data is not selection, then RSMPGS2 will format the text for better
 readability. If there are CR/LF and tabs in the received Json, these control
-characters will be used to increase readability. If not, RSMPGS1 will use a set
+characters will be used to increase readability. If not, RSMPGS2 will use a set
 of simple rules to format the text.
 
 RSMPGS2 is always removing CR/LF, tabs and finalizing form feed (FF) before
@@ -684,7 +684,7 @@ Time stamps are also presented decoded in both UTC and local time.
 
 **Select what to debug – Show all traffic in raw format**
 
-Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
+Shows all packets unformatted in raw data format. ASCII codes which RSMPGS2 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
 
@@ -702,7 +702,7 @@ different types of formulas for every packet type.
 **Copy selection to Clipboard**
 
 In the debug window, it is possible to select one or more lines and copy to the
-clipboard with this function. RSMPGS1 delimits every line with CR/LF
+clipboard with this function. RSMPGS2 delimits every line with CR/LF
 (0x0d/0x0a) as text in the clipboard.
 
 Every column is delimited with a tab (0x09).

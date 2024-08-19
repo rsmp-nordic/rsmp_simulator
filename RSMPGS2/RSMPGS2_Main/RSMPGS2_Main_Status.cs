@@ -83,55 +83,48 @@ namespace nsRSMPGS
         statusMsgType = cJSon.StatusMsgType.Subscribe;
       }
 
-      // Each group belongs to a RoadSide object
-      foreach (ListViewGroup lvGroup in listView_Status.Groups)
+      RoadSideObject = null;
+
+      List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4> StatusSubscribeValues = new List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4>();
+
+      foreach( ListViewItem lvItem in listView_Status.Items )
       {
-
-        RoadSideObject = null;
-
-        List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4> StatusSubscribeValues = new List<RSMP_Messages.StatusSubscribe_Status_Over_3_1_4>();
-
-        foreach (ListViewItem lvItem in lvGroup.Items)
+        if (lvItem.Selected)
         {
-          if (lvItem.Selected)
+
+          cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
+
+          if (RoadSideObject == null)
           {
-
-            cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
-
-            if (RoadSideObject == null)
-            {
-              RoadSideObject = StatusReturnValue.StatusObject.RoadSideObject;
-            }
-
-            RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 statusSubscribe_Status = new RSMP_Messages.StatusSubscribe_Status_Over_3_1_4();
-
-            statusSubscribe_Status.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
-            statusSubscribe_Status.n = StatusReturnValue.sName;
-
-            if (statusMsgType == cJSon.StatusMsgType.Subscribe)
-            {
-              statusSubscribe_Status.uRt = sUpdateRate;
-              statusSubscribe_Status.sOc = bAlwaysUpdateOnChange;
-            }
-            else
-            {
-              statusSubscribe_Status.uRt = null;
-              statusSubscribe_Status.sOc = false;
-            }
-
-            StatusReturnValue.sLastUpdateRate = statusSubscribe_Status.uRt;
-            StatusReturnValue.bLastUpdateOnChange = statusSubscribe_Status.sOc;
-
-            StatusSubscribeValues.Add(statusSubscribe_Status);
+            RoadSideObject = StatusReturnValue.StatusObject.RoadSideObject;
           }
+
+          RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 statusSubscribe_Status = new RSMP_Messages.StatusSubscribe_Status_Over_3_1_4();
+
+          statusSubscribe_Status.sCI = StatusReturnValue.StatusObject.sStatusCodeId;
+          statusSubscribe_Status.n = StatusReturnValue.sName;
+
+          if (statusMsgType == cJSon.StatusMsgType.Subscribe)
+          {
+            statusSubscribe_Status.uRt = sUpdateRate;
+            statusSubscribe_Status.sOc = bAlwaysUpdateOnChange;
+          }
+          else
+          {
+            statusSubscribe_Status.uRt = null;
+            statusSubscribe_Status.sOc = false;
+          }
+
+          StatusReturnValue.sLastUpdateRate = statusSubscribe_Status.uRt;
+          StatusReturnValue.bLastUpdateOnChange = statusSubscribe_Status.sOc;
+
+          StatusSubscribeValues.Add(statusSubscribe_Status);
         }
+      }
 
-        if (StatusSubscribeValues.Count == 0 || RoadSideObject == null)
-        {
-          continue;
-        }
-
-
+      if (StatusSubscribeValues.Count > 0 && RoadSideObject != null)
+      {
+        // Send message with status selected for this object
         switch (statusMsgType)
         {
           case cJSon.StatusMsgType.Subscribe:
@@ -149,8 +142,6 @@ namespace nsRSMPGS
           default:
             return;
         }
-
-
       }
     }
 
