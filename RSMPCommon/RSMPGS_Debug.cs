@@ -474,7 +474,7 @@ namespace nsRSMPGS
           {
             swDebugFile = File.AppendText(filename);
             swDebugFile.WriteLine("");
-            swDebugFile.WriteLine("========== Starting " + RSMPGS.SimulatorType.ToString() + " Debug record ==========");
+            swDebugFile.WriteLine("========== Starting " + RSMPGS.SimulatorType.ToString() + " (version " + Application.ProductVersion + ") Debug record ==========");
             swDebugFile.WriteLine("");
 
             toolStripMenuItem_SaveContinousToFile.ToolTipText = "Recording to : '" + filename + "'";
