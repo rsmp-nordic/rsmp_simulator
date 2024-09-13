@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS1_1_0_7_Setup.exe``.
+Start installation by running ``RSMPGS1_1_0_8_Setup.exe``.
 
 The installation program recommends a suitable folder.
 

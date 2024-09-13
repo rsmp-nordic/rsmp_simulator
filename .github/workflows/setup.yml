@@ -11,8 +11,8 @@ on:
 
 env:
   SXL: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
-  SXL_1_2: rsmp_schema/schemas/tlc/1.2/sxl.yaml
-  SXL_1_1: rsmp_schema/schemas/tlc/1.1/sxl.yaml
+  SXL_1_2: rsmp_schema/schemas/tlc/1.2.0/sxl.yaml
+  SXL_1_1: rsmp_schema/schemas/tlc/1.1.0/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
   SITE: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
