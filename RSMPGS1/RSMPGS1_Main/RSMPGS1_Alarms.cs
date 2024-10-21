@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics.Eventing.Reader;
+using RSMP_Messages;
+using System.Reflection;
 
 namespace nsRSMPGS
 {
@@ -297,6 +299,22 @@ namespace nsRSMPGS
 
       try
       {
+        if(iSelectedColumn == 4) // ExternalAlarmCodeId
+        {
+          cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
+          string sValue = lvHitTest.SubItem.Text;
+          List<Dictionary<string, string>> array = new List<Dictionary<string, string>>();
+          cValueTypeObject sExternalAlarmCodeId_type = new cValueTypeObject(null, null, "string", null, 0, 0, null, null);
+          cValue cExternalAlarmCodeId = new cValue(sExternalAlarmCodeId_type, true);
+          cExternalAlarmCodeId.SetValue(AlarmObject.sExternalAlarmCodeId);
+
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, cExternalAlarmCodeId, "NULL", true, false) == DialogResult.OK)
+          {
+            AlarmObject.sExternalAlarmCodeId = sValue;
+            lvHitTest.SubItem.Text = sValue;
+          }
+        }
+
         // Tag is ex Value_2
         if ((listview.Columns[iSelectedColumn].Tag != null) && (listview.Columns[iSelectedColumn].Tag.ToString().StartsWith("Value", StringComparison.OrdinalIgnoreCase)))
         {
