@@ -802,15 +802,15 @@ namespace nsRSMPGS
     }
 
 
-    public RSMP_Messages.StatusUpdate CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS)
+    public void CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS)
     {
       string sSendBuffer;
 
-      return CreateAndSendStatusUpdateMessage(RoadSideObject, sS, false, out sSendBuffer);
+      CreateAndSendStatusUpdateMessage(RoadSideObject, sS, false, out sSendBuffer);
     }
 
 
-    public RSMP_Messages.StatusUpdate CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS, bool bCreateMessageOnly, out string sSendBuffer)
+    public void CreateAndSendStatusUpdateMessage(cRoadSideObject RoadSideObject, List<RSMP_Messages.Status_VTQ> sS, bool bCreateMessageOnly, out string sSendBuffer)
     {
 
       sSendBuffer = "";
@@ -833,7 +833,7 @@ namespace nsRSMPGS
 
       if (bCreateMessageOnly)
       {
-        return StatusUpdateMessage;
+        return;
       }
 
       if (RSMPGS.JSon.SendJSonPacket(StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer, true))
@@ -854,7 +854,7 @@ namespace nsRSMPGS
         }
       }
 
-      return StatusUpdateMessage;
+      return;
 
     }
 
