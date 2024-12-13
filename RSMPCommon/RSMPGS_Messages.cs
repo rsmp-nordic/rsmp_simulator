@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RSMP_Messages
 {
@@ -84,6 +85,24 @@ namespace RSMP_Messages
     public string fS; // functionalState
 
     public bool[] se; // StatusBits
+  }
+
+  // Use string for status bits in RSMP 3.1.1 and RSMP 3.1.2
+  public class AggregatedStatus3_1_2
+  {
+    public string mType;
+    public string type;
+    public string mId;
+
+    public string ntsOId; // ntsObjectId
+    public string xNId; // externalNtsId
+    public string cId; // componentId
+
+    public string aSTS; // AggregatedTimeStamp
+    public string fP; // functionalPosition
+    public string fS; // functionalState
+
+    public List<string> se; // StatusBits
   }
 
   public class AggregatedStatusRequest

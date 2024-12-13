@@ -261,7 +261,36 @@ namespace nsRSMPGS
         AggregatedStatusMessage.se[iIndex] = RoadSideObject.bBitStatus[iIndex];
       }
 
-      sSendBuffer = JSonSerializer.SerializeObject(AggregatedStatusMessage);
+      // RSMP 3.1.1 and RSMP 3.1.2 used strings for status bits in aggregated status
+      if (NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_1 || NegotiatedRSMPVersion == RSMPVersion.RSMP_3_1_2)
+      {
+        RSMP_Messages.AggregatedStatus3_1_2 AggregatedStatusMessage3_1_2 = new RSMP_Messages.AggregatedStatus3_1_2();
+        AggregatedStatusMessage3_1_2.mType = AggregatedStatusMessage.mType;
+        AggregatedStatusMessage3_1_2.type = AggregatedStatusMessage.type;
+        AggregatedStatusMessage3_1_2.mId = AggregatedStatusMessage.mId;
+        AggregatedStatusMessage3_1_2.ntsOId = AggregatedStatusMessage.ntsOId;
+        AggregatedStatusMessage3_1_2.xNId = AggregatedStatusMessage.xNId;
+        AggregatedStatusMessage3_1_2.cId = AggregatedStatusMessage.cId;
+        AggregatedStatusMessage3_1_2.aSTS = AggregatedStatusMessage.aSTS;
+
+        AggregatedStatusMessage3_1_2.fP = AggregatedStatusMessage.fP;
+        AggregatedStatusMessage3_1_2.fS = AggregatedStatusMessage.fS;
+
+        AggregatedStatusMessage3_1_2.se = new List<string>();
+        foreach (bool state in AggregatedStatusMessage.se)
+        {
+          if (state)
+            AggregatedStatusMessage3_1_2.se.Add("True");
+          else
+            AggregatedStatusMessage3_1_2.se.Add("False");
+        }
+
+        sSendBuffer = JSonSerializer.SerializeObject(AggregatedStatusMessage3_1_2);
+      }
+      else
+      { 
+        sSendBuffer = JSonSerializer.SerializeObject(AggregatedStatusMessage);
+      }
 
       if (bCreateMessageOnly)
       {
