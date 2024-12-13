@@ -223,14 +223,14 @@ namespace nsRSMPGS
     }
 
 
-    public void CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject)
+    public RSMP_Messages.AggregatedStatus CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject)
     {
       string sSendBuffer;
 
-      CreateAndSendAggregatedStatusMessage(RoadSideObject, false, out sSendBuffer);
+      return CreateAndSendAggregatedStatusMessage(RoadSideObject, false, out sSendBuffer);
     }
 
-    public void CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject, bool bCreateMessageOnly, out string sSendBuffer)
+    public RSMP_Messages.AggregatedStatus CreateAndSendAggregatedStatusMessage(cRoadSideObject RoadSideObject, bool bCreateMessageOnly, out string sSendBuffer)
     {
 
       sSendBuffer = "";
@@ -265,7 +265,7 @@ namespace nsRSMPGS
 
       if (bCreateMessageOnly)
       {
-        return;
+        return AggregatedStatusMessage;
       }
 
       if (RSMPGS.JSon.SendJSonPacket(AggregatedStatusMessage.type, AggregatedStatusMessage.mId, sSendBuffer, true))
@@ -285,6 +285,9 @@ namespace nsRSMPGS
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Buffered aggregated status message, ntsOId: " + AggregatedStatusMessage.ntsOId + ", Type: " + AggregatedStatusMessage.type + ", MsgId: " + AggregatedStatusMessage.mId);
         }
       }
+
+      return AggregatedStatusMessage;
+
     }
 
     private bool DecodeAndParseAggregatedStatusRequestMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
