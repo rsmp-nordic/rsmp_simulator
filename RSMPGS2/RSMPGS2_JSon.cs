@@ -287,6 +287,9 @@ namespace nsRSMPGS
         {
           AlarmObject.AlarmCount = 0;
         }
+        
+        // Update the column "External Alarm Code Id" based on xACId
+        AlarmObject.sExternalAlarmCodeId = AlarmHeader.xACId;
 
         // Don't update the alarm unless the timestamp is equal or newer
         if(DateTime.Compare(AlarmObject.sTimestamp, DateTime.Parse(AlarmHeader.aTs)) <= 0)
