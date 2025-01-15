@@ -308,7 +308,7 @@ namespace nsRSMPGS
           cValue cExternalAlarmCodeId = new cValue(sExternalAlarmCodeId_type, true);
           cExternalAlarmCodeId.SetValue(AlarmObject.sExternalAlarmCodeId);
 
-          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, cExternalAlarmCodeId, "NULL", true, false) == DialogResult.OK)
+          if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, cExternalAlarmCodeId, "Manufacturer specific alarm code and alarm description", true, false) == DialogResult.OK)
           {
             AlarmObject.sExternalAlarmCodeId = sValue;
             lvHitTest.SubItem.Text = sValue;
