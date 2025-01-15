@@ -287,6 +287,9 @@ namespace nsRSMPGS
         {
           AlarmObject.AlarmCount = 0;
         }
+        
+        // Update the column "External Alarm Code Id" based on xACId
+        AlarmObject.sExternalAlarmCodeId = AlarmHeader.xACId;
 
         // Don't update the alarm unless the timestamp is equal or newer
         if(DateTime.Compare(AlarmObject.sTimestamp, DateTime.Parse(AlarmHeader.aTs)) <= 0)
@@ -793,6 +796,10 @@ namespace nsRSMPGS
       cStatusEvent StatusEvent = null;
       string sSendBuffer;
 
+      string messageTypeDisplayed = "status request";
+      if (statusType.ToLower() == "statusunsubscribe")
+        messageTypeDisplayed = "unsubscription";
+
       try
       {
         StatusRequest = new RSMP_Messages.StatusRequest();
@@ -818,15 +825,7 @@ namespace nsRSMPGS
           StatusEvent.sMessageId = StatusRequest.mId;
           StatusEvent.sStatusCodeId = StatusRequest_Status.sCI;
           StatusEvent.sName = StatusRequest_Status.n;
-          if (statusType.ToLower() == "statusunsubscribe")
-          {
-            StatusEvent.sEvent = "Sent unsubscription";
-            //StatusReturnValue.sLastUpdateRate = null;
-          }
-          else
-          {
-            StatusEvent.sEvent = "Sent status request";
-          }
+          StatusEvent.sEvent = "Sent "+messageTypeDisplayed;
 
           if (RSMPGS_Main.bWriteEventsContinous)
           {
@@ -844,12 +843,12 @@ namespace nsRSMPGS
         RSMPGS.JSon.SendJSonPacket(StatusRequest.type, StatusRequest.mId, sSendBuffer, true);
         if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent status message, ComponentId: " + StatusRequest.cId + " , MsgId: " + StatusRequest.mId);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent "+ messageTypeDisplayed + " message, ComponentId: " + StatusRequest.cId + " , MsgId: " + StatusRequest.mId);
         }
       }
       catch (Exception e)
       {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create status message: {0}", e.Message);
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create "+ messageTypeDisplayed + " message: {0}", e.Message);
       }
     }
 

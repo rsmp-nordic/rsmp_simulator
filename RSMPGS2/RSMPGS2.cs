@@ -62,6 +62,10 @@ using System.Security.Authentication;
 // 24.08.19 / DO / 1.0.7     / For simple value modif, option to considerate updated even if same value. #91 (pull request #91 / marcgarba)
 //                           / Modifications on array window and item edit #96 (pull request #96 / marcgarba)
 //                           / When sending status, only using selected items for current object #95 (pull request #95 / marcgarba)
+// 25.01.15 / DO / 1.0.8     / Added version in debug file + fixed 'unsubscription' in SystemLog (pull request #98 / marcgarba)    
+//                           / Use RSMP version string "3.2.0" instead of "3.2" #101
+//                           / Use strings for the state bits in aggregated status in RSMP 3.1.1 and RSMP 3.1.2 #106 
+//                           / Add ability to edit ExternalAlarmCodeId #104
 //
 //
 // ---------------------------------------------------------------------------------------------------

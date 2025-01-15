@@ -128,7 +128,7 @@
       this.RSMP_3_1_3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_1_5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.RSMP_3_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.RSMP_3_2_0 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_2_1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.RSMP_3_2_2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
@@ -1227,7 +1227,7 @@
             this.RSMP_3_1_3,
             this.RSMP_3_1_4,
             this.RSMP_3_1_5,
-            this.RSMP_3_2,
+            this.RSMP_3_2_0,
             this.RSMP_3_2_1,
             this.RSMP_3_2_2});
       this.dataGridView_Behaviour.Location = new System.Drawing.Point(2, 15);
@@ -1286,11 +1286,11 @@
       this.RSMP_3_1_5.Name = "RSMP_3_1_5";
       this.RSMP_3_1_5.Width = 50;
       // 
-      // RSMP_3_2
+      // RSMP_3_2_0
       // 
-      this.RSMP_3_2.HeaderText = "3.2";
-      this.RSMP_3_2.Name = "RSMP_3_2";
-      this.RSMP_3_2.Width = 50;
+      this.RSMP_3_2_0.HeaderText = "3.2.0";
+      this.RSMP_3_2_0.Name = "RSMP_3_2_0";
+      this.RSMP_3_2_0.Width = 50;
       // 
       // RSMP_3_2_1
       // 
@@ -2438,7 +2438,7 @@
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_3;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_4;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_1_5;
-    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_0;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_1;
     private System.Windows.Forms.DataGridViewCheckBoxColumn RSMP_3_2_2;
     private System.Windows.Forms.GroupBox groupBox_Statistics;
