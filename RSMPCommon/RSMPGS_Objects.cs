@@ -515,7 +515,7 @@ namespace nsRSMPGS
 
     private object oValue = null;
 
-    private List<Dictionary<string, string>> items = new List<Dictionary<string, string>>(); // array
+    private List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(); // array
 
     private eQuality quality = eQuality.unknown;
 
@@ -687,13 +687,13 @@ namespace nsRSMPGS
       return oValue;
     }
 
-    public bool SetArray(List<Dictionary<string, string>> items)
+    public bool SetArray(List<Dictionary<string, object>> items)
     {
       this.items = items;
       quality = eQuality.recent;
       return true;
     }
-    public List<Dictionary<string, string>> GetArray()
+    public List<Dictionary<string, object>> GetArray()
     {
       return this.items;
     }

@@ -459,7 +459,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
       RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored Process data to '{0}'", FileName);
     }
 
-    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, object oValue, List<Dictionary<string, string>> items)
+    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, object oValue, List<Dictionary<string, object>> items)
     {
       // Could be array, in which case "oValue" is not used
       if (sType.Equals("array", StringComparison.OrdinalIgnoreCase))
