@@ -70,7 +70,7 @@ namespace nsRSMPGS
           sValues[0] = StatusObject.sDescription.Split('\n').First().TrimEnd('.');
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
-          sValues[3] = StatusReturnValue.Value.GetValue();
+          sValues[3] = StatusReturnValue.Value.GetValue().ToString();
           sValues[4] = StatusReturnValue.sComment.Replace("\n", " / ");
 
           lvItem.SubItems.AddRange(sValues);
@@ -122,7 +122,7 @@ namespace nsRSMPGS
       try
       {
 
-        string sValue = StatusReturnValue.Value.GetValue();
+        string sValue = StatusReturnValue.Value.GetValue().ToString();
         List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
         if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, false) == DialogResult.OK)
         {

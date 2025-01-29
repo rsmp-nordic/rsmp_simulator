@@ -77,7 +77,7 @@ namespace nsRSMPGS
 					lvItem.SubItems.Add(CommandReturnValue.sLastRecAge);
 #endif
 #if _RSMPGS1
-          lvItem.SubItems.Add(CommandReturnValue.Value.GetValue());
+          lvItem.SubItems.Add(CommandReturnValue.Value.GetValue().ToString());
           lvItem.SubItems.Add("");
 #endif
           lvItem.SubItems.Add(CommandReturnValue.sComment.Replace("\n", " / "));
@@ -96,7 +96,7 @@ namespace nsRSMPGS
       {
         if ((cCommandReturnValue)lvItem.Tag == CommandReturnValue)
         {
-          lvItem.SubItems[5].Text = CommandReturnValue.Value.GetValue();
+          lvItem.SubItems[5].Text = CommandReturnValue.Value.GetValue().ToString();
           lvItem.SubItems[6].Text = CommandReturnValue.Value.Quality.ToString();
           break;
         }

@@ -86,7 +86,7 @@ namespace nsRSMPGS
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue().ToString(); ;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
@@ -255,9 +255,9 @@ namespace nsRSMPGS
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
 
-        if (AlarmReturnValues.sValue.GetType() == typeof(string))
+        if (AlarmReturnValues.oValue.GetType() == typeof(string))
         {
-          lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
+          lvItem.SubItems.Add(AlarmReturnValues.oValue.ToString());
         }
         else
         {
