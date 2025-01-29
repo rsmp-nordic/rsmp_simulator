@@ -251,7 +251,7 @@ namespace nsRSMPGS
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
           string sValue = lvHitTest.SubItem.Text;
-          List<Dictionary<string, string>> array = AlarmReturnValue.Value.GetArray();
+          List<Dictionary<string, object>> array = AlarmReturnValue.Value.GetArray();
           cFormsHelper.InputStatusBoxValueType("View alarm", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, true);
         }
       }

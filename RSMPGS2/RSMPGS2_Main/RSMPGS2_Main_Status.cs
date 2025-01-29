@@ -393,7 +393,7 @@ namespace nsRSMPGS
       try
       {
         string sValue = StatusReturnValue.Value.GetValue().ToString();
-        List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
+        List<Dictionary<string, object>> array = StatusReturnValue.Value.GetArray();
         cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, true);
       }
       catch
