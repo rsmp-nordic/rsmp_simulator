@@ -579,10 +579,10 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
           case cValueTypeObject.eValueType._ordinal:
-            oValue = GetValueMin().ToString();
+            oValue = GetValueMin();
             break;
           case cValueTypeObject.eValueType._boolean:
-            oValue = "false";
+            oValue = false;
             break;
           default:
             oValue = "(invalid type)";
