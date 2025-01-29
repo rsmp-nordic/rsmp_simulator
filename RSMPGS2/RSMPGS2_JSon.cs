@@ -425,7 +425,7 @@ namespace nsRSMPGS
             }
             else
             {
-              sStatusValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+              sStatusValue = (Reply.v.ToString().Length < 10) ? Reply.v.ToString() : Reply.v.ToString().Substring(0, 9) + "...";
             }
             sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + sStatusValue;
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
@@ -442,7 +442,7 @@ namespace nsRSMPGS
           {
             if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
             {
-              RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
+              RSMPGS.SysLog.StoreBase64DebugData(Reply.v.ToString());
             }
             CommandEvent.oValue = "base64";
           }
@@ -451,7 +451,7 @@ namespace nsRSMPGS
             CommandEvent.oValue = Reply.v;
           }
           CommandEvent.sAge = Reply.age;
-          CommandReturnValue.sLastRecValue = Reply.v;
+          CommandReturnValue.sLastRecValue = Reply.v.ToString();
           CommandReturnValue.sLastRecAge = Reply.age;
 
           if (RSMPGS_Main.bWriteEventsContinous)
