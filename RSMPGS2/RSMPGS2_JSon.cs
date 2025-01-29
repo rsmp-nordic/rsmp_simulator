@@ -178,7 +178,7 @@ namespace nsRSMPGS
               string arrayResult = ValidateArrayObject(AlarmReturnValue.Value.ValueTypeObject.Items, Reply.v);
               Reply.v = stringifyObject(Reply.v);
 
-              List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.v);
+              List<Dictionary<string, object>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, object>>>((string)Reply.v);
 
               AlarmReturnValue.Value.SetArray(dictionaries);
 
@@ -528,7 +528,7 @@ namespace nsRSMPGS
 
             Reply.s = stringifyObject(Reply.s);
 
-            List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.s);
+            List<Dictionary<string, object>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, object>>>((string)Reply.s);
             StatusReturnValue.Value.SetArray(dictionaries);
 
             Reply.s = "(array)";
