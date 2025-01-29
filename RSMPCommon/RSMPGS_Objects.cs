@@ -643,6 +643,12 @@ namespace nsRSMPGS
       }
     }
 
+    public bool SetValue(object oValue)
+    {
+      this.oValue = oValue;
+      quality = eQuality.recent;
+      return true;
+    }
     public bool SetValue(string sValue)
     {
       switch (ValueTypeObject.ValueType)

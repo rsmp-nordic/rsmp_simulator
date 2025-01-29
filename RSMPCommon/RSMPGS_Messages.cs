@@ -137,7 +137,7 @@ namespace RSMP_Messages
     public string cCI;  // CommandCodeId
     public string n;  // Name
     public string cO;  // Command
-    public string v;  // Value
+    public object v;  // Value
   }
 
   public class CommandResponse
