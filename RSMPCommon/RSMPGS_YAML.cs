@@ -231,8 +231,8 @@ namespace nsRSMPGS
     public string sMappingName;
     public cYAMLMapping Parent = null;
 
-    public Dictionary<string, string> YAMLScalars = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-    public Dictionary<string, cYAMLMapping> YAMLMappings = new Dictionary<string, cYAMLMapping>(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, string> YAMLScalars = new Dictionary<string, string>(StringComparer.Ordinal);
+    public Dictionary<string, cYAMLMapping> YAMLMappings = new Dictionary<string, cYAMLMapping>(StringComparer.Ordinal);
 
     public string GetScalar(string sKey)
     {
