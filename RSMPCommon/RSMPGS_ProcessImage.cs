@@ -36,8 +36,8 @@ namespace nsRSMPGS
     public List<cSiteIdObject> SiteIdObjects = new List<cSiteIdObject>();
 
     // These ones are flat
-    public Dictionary<string, cRoadSideObject> RoadSideObjects = new Dictionary<string, cRoadSideObject>(StringComparer.InvariantCultureIgnoreCase);
-    public Dictionary<string, cValueTypeObject> ValueTypeObjects = new Dictionary<string, cValueTypeObject>(StringComparer.InvariantCultureIgnoreCase);
+    public Dictionary<string, cRoadSideObject> RoadSideObjects = new Dictionary<string, cRoadSideObject>(StringComparer.InvariantCulture);
+    public Dictionary<string, cValueTypeObject> ValueTypeObjects = new Dictionary<string, cValueTypeObject>(StringComparer.InvariantCulture);
 
     public List<cAlarmObject> AlarmObjects = new List<cAlarmObject>();
     public List<cCommandObject> CommandObjects = new List<cCommandObject>();
