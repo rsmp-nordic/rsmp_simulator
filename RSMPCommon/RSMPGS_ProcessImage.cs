@@ -1220,8 +1220,8 @@ namespace nsRSMPGS
 
         Double dMin = 0;
         Double dMax = 0;
-        Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        Dictionary<string, cYAMLMapping> items = new Dictionary<string, cYAMLMapping>(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string> eNums = new Dictionary<string, string>(StringComparer.Ordinal);
+        Dictionary<string, cYAMLMapping> items = new Dictionary<string, cYAMLMapping>(StringComparer.Ordinal);
 
         try
         {
