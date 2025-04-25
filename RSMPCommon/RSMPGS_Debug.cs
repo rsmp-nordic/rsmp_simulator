@@ -342,23 +342,27 @@ namespace nsRSMPGS
           }
         }
         // Make timestamps more readable...
-        // String.Format("{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}", AlarmHeaderAndBody.aTs.ToLocalTime());
-        // "aTs":"\/Date(1320254751484)\/"
-        //int iDatePosition = sRowData.IndexOf("\\/Date(", StringComparison.OrdinalIgnoreCase);
-        int iDatePosition = sRowData.IndexOf("\":\"20", StringComparison.OrdinalIgnoreCase);
-        if (iDatePosition >= 0)
+        // (if wanted!)
+        if (ToolStripMenuItem_DecodedTimes.Checked)
         {
-          try
+          // String.Format("{0:yyyy-MM-dd}T{0:HH:mm:ss.fff}", AlarmHeaderAndBody.aTs.ToLocalTime());
+          // "aTs":"\/Date(1320254751484)\/"
+          //int iDatePosition = sRowData.IndexOf("\\/Date(", StringComparison.OrdinalIgnoreCase);
+          int iDatePosition = sRowData.IndexOf("\":\"20", StringComparison.OrdinalIgnoreCase);
+          if (iDatePosition >= 0)
           {
-            // "aSTS":"2019-02-26T15:36:17.588Z","
-            if (sRowData.Substring(iDatePosition + 13, 1).Equals("T", StringComparison.OrdinalIgnoreCase))
+            try
             {
-              DateTime dtTimeStamp = DateTime.ParseExact(sRowData.Substring(iDatePosition + 3, 24).ToUpper(), @"yyyy-MM-dd\THH:mm:ss.fff\Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
-              sRowData += " << debugger decoded UTC: " + String.Format("{0:yyyy-MM-dd} {0:HH:mm:ss.fff}", dtTimeStamp.ToUniversalTime()) + ", local: " + String.Format("{0:yyyy-MM-dd} {0:HH:mm:ss.fff}", dtTimeStamp.ToLocalTime()) + " >>";
+              // "aSTS":"2019-02-26T15:36:17.588Z","
+              if (sRowData.Substring(iDatePosition + 13, 1).Equals("T", StringComparison.OrdinalIgnoreCase))
+              {
+                DateTime dtTimeStamp = DateTime.ParseExact(sRowData.Substring(iDatePosition + 3, 24).ToUpper(), @"yyyy-MM-dd\THH:mm:ss.fff\Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                sRowData += " << debugger decoded UTC: " + String.Format("{0:yyyy-MM-dd} {0:HH:mm:ss.fff}", dtTimeStamp.ToUniversalTime()) + ", local: " + String.Format("{0:yyyy-MM-dd} {0:HH:mm:ss.fff}", dtTimeStamp.ToLocalTime()) + " >>";
+              }
             }
-          }
-          catch
-          {
+            catch
+            {
+            }
           }
         }
 
