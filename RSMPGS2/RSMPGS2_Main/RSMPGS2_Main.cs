@@ -120,42 +120,31 @@ namespace nsRSMPGS
     // Create new debug form
     private void ToolStripMenuItem_File_Debug_CreateNew_Click(object sender, EventArgs e)
     {
-      RSMPGS_Debug DebugForm = new RSMPGS_Debug();
-      //DebugForm.MainForm = this;
-      DebugForm.CalcNewCaption();
-      RSMPGS.DebugForms.Add(DebugForm);
-      DebugForm.Show();
+      DebugWindow_Create();
     }
 
-    // Tile debug forms
+    // Show/Cascade/Tile debug forms
+    private void ToolStripMenuItem_File_Debug_Show_Click(object sender, EventArgs e)
+    {
+      AllDebugWindows_Rearrange(RSMPGS_Main.RearrangeWindows_Mode.RearrangeWindows_front);
+    }
+    private void ToolStripMenuItem_File_Debug_Cascade_Click(object sender, EventArgs e)
+    {
+      AllDebugWindows_Rearrange(RSMPGS_Main.RearrangeWindows_Mode.RearrangeWindows_cascade);
+    }
+    private void ToolStripMenuItem_File_Debug_TileH_Click(object sender, EventArgs e)
+    {
+      AllDebugWindows_Rearrange(RSMPGS_Main.RearrangeWindows_Mode.RearrangeWindows_tile_hori);
+    }
     private void ToolStripMenuItem_File_Debug_Tile_Click(object sender, EventArgs e)
     {
-      int iX = this.Left + this.Width;
-      int iY = this.Top;
-
-      if (iX > Screen.PrimaryScreen.Bounds.Width) iX = 0;
-      if (iY > Screen.PrimaryScreen.Bounds.Height) iY = 0;
-
-      foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
-      {
-        DebugForm.WindowState = FormWindowState.Normal;
-        DebugForm.Left = iX;
-        DebugForm.Top = iY;
-        DebugForm.Width = 500;
-        DebugForm.Height = 500;
-        DebugForm.BringToFront();
-        iX += 50;
-        iY += 50;
-      }
+      AllDebugWindows_Rearrange(RSMPGS_Main.RearrangeWindows_Mode.RearrangeWindows_tile_verti);
     }
 
     // Close all debug forms
     private void ToolStripMenuItem_File_Debug_CloseAll_Click(object sender, EventArgs e)
     {
-      while (RSMPGS.DebugForms.Count() > 0)
-      {
-        RSMPGS.DebugForms[0].Close();
-      }
+      AllDebugWindows_Close();
     }
 
     public void AddSysLogListItemMethod(cSysLogAndDebug.Severity severity, string sDateTime, string sLogText)
