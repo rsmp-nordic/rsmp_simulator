@@ -251,10 +251,21 @@ Loading new objects is only available if the simulator is disconnected
 Creates a new debug window. Any number of debug windows can be created, but it
 will affect performance.
 
-**Debug - Tile all debug windows**
+**Debug - Show all debug windows in front**
 
-Moves all debug windows to the right of RSMPGS2 (if there is space) and puts them
-in a line.
+Moves all debug windows to the front.
+
+**Debug - Cascade all debug windows**
+
+Cascade all debug windows.
+
+**Debug - Tile horizontally all debug windows**
+
+Show all debug windows side by side horizontally.
+
+**Debug - Tile vertically all debug windows**
+
+Show all debug windows side by side vertically.
 
 **Debug - Close all debug windows**
 
@@ -687,7 +698,7 @@ Shows all packets unformatted in raw data format. ASCII codes which RSMPGS2 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
 
-**Select what to debug - Show decoded time**
+**Select what to debug - Show decoded times**
 
 Show the time stamp in both UTC and local time.
 
@@ -712,7 +723,7 @@ Every column is delimited with a tab (0x09).
 
 **Clear debug list**
 
-Empties the debug form.
+Empties the debug window.
 
 **Save continuous to file (record)…**
 
@@ -730,6 +741,6 @@ contents without having to be closed first.
 To close the file and stop recording this option must be unchecked (it will be
 checked when the file is opened and recording is in progress).
 
-**Close debug form**
+**Close debug window**
 
 Closes the debug window.
