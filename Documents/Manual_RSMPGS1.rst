@@ -743,7 +743,7 @@ Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
 
-**Select what to debug - Show decoded time**
+**Select what to debug - Show decoded times**
 
 Show the time stamp in both UTC and local time.
 
@@ -768,7 +768,7 @@ Every column is delimited with a tab (0x09).
 
 **Clear debug list**
 
-Empties the debug form.
+Empties the debug window.
 
 **Save continuous to file (record)…**
 
@@ -786,6 +786,6 @@ contents without having to be closed first.
 To close the file and stop recording this option must be unchecked (it will be
 checked when the file is opened and recording is in progress).
 
-**Close debug form**
+**Close debug window**
 
 Closes the debug window.
