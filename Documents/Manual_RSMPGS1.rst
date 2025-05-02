@@ -82,7 +82,7 @@ selected in the interface. Interval in milliseconds.
 
 **MaxDebugLines**
 
-Number of lines shown in the Debug-forms.
+Number of lines shown in the Debug windows.
 
 **DaysToKeepLogFiles**
 
@@ -241,17 +241,17 @@ Loading new objects is only available if the simulator is disconnected
 
 **Debug - Create new debug window**
 
-Creates a new debug window. Any number of debug forms can be created, but it
+Creates a new debug window. Any number of debug windows can be created, but it
 will affect performance.
 
 **Debug - Tile all debug windows**
 
-Moves all debug forms to the right of RSMPGS1 (if there is space) and puts them
+Moves all debug windows to the right of RSMPGS1 (if there is space) and puts them
 in a line.
 
 **Debug - Close all debug windows**
 
-Closes all debug forms.
+Closes all debug windows.
 
 **Debug - Store base64 updates**
 
@@ -648,7 +648,7 @@ log.
 Test send
 ^^^^^^^^^
 JSon is text based and in this tab text files can be sent as is. The files may
-be JSon debug data from the debug-forms.
+be JSon debug data from the debug window.
 
 .. image:: img/test_send.png
    :align: left
@@ -698,10 +698,10 @@ If a lot of buffered messages are to be sent when connected, the system log
 will be flooded and take some time to fill. Ticking this box will significally
 improve speed.
 
-Debug form
-----------
-The Debug form shows sent and received data more or less formatted depending on
-chosen display format.
+Debug window
+------------
+The Debug window shows sent and received data more or less formatted depending
+on chosen display format.
 
 .. image:: img/debug.png
    :align: left
@@ -765,7 +765,7 @@ File name and file location are determined by the user. RSMPGS1 suggests the
 folder name ``\LogFiles\DebugFiles.``
 
 If the file does not exist it will be created and filled up with new debug
-data. The same data which is presented in the form is stored in the file. The
+data. The same data which is presented in the window is stored in the file. The
 file is an ordinary text file and will be flushed every 100 milliseconds.
 Because of this, it can be copied or opened (only for reading) with complete
 contents without having to be closed first.
