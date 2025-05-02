@@ -85,7 +85,7 @@ selected in the interface. Interval in milliseconds.
 
 **MaxDebugLines**
 
-Number of lines shown in the Debug-forms.
+Number of lines shown in the Debug windows.
 
 **DaysToKeepLogFiles**
 
@@ -248,17 +248,17 @@ Loading new objects is only available if the simulator is disconnected
 
 **Debug - Create new debug window**
 
-Creates a new debug window. Any number of debug forms can be created, but it
+Creates a new debug window. Any number of debug windows can be created, but it
 will affect performance.
 
 **Debug - Tile all debug windows**
 
-Moves all debug forms to the right of RSMPGS2 (if there is space) and puts them
+Moves all debug windows to the right of RSMPGS2 (if there is space) and puts them
 in a line.
 
 **Debug - Close all debug windows**
 
-Closes all debug forms.
+Closes all debug windows.
 
 **Debug - Store base64 updates**
 
@@ -631,7 +631,7 @@ the ``Value`` column.
 Test send
 ^^^^^^^^^
 JSon is text based and in this tab text files can be sent as is. The files may
-be JSon debug data from the debug forms.
+be JSon debug data from the debug windows.
 
 .. image:: img/test_send.png
    :align: left
@@ -653,10 +653,10 @@ sent.
 
 Open and read a text file inte the above text form.
 
-Debug form
-----------
-The Debug form shows sent and received data more or less formatted depending on
-chosen display format.
+Debug window
+------------
+The Debug window shows sent and received data more or less formatted depending
+on chosen display format.
 
 .. image:: img/debug.png
    :align: left
@@ -667,15 +667,14 @@ The red texts are messages which are received, green texts are the ones which
 are sent out. The time stamp has millisecond resolution which is shown if the
 column is expanded somewhat.
 
-If show raw data is not selection, then RSMPGS2 will format the text for better
-readability. If there are CR/LF and tabs in the received Json, these control
-characters will be used to increase readability. If not, RSMPGS2 will use a set
-of simple rules to format the text.
+If ``Show all traffic in raw format`` data is not selected, then RSMPGS2 will
+format the text for better readability.
+If there are CR/LF and tabs in the received Json, these control characters will
+be used to increase readability. If not, RSMPGS2 will use a set of simple rules
+to format the text.
 
-RSMPGS2 is always removing CR/LF, tabs and finalizing form feed (FF) before
+RSMPGS2 is always removing CR/LF, tabs and the ending form feed (FF) before
 deserializing.
-
-Time stamps are also presented decoded in both UTC and local time.
 
 .. image:: img/select_debug.png
    :align: left
@@ -687,6 +686,10 @@ Time stamps are also presented decoded in both UTC and local time.
 Shows all packets unformatted in raw data format. ASCII codes which RSMPGS2 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
+
+**Select what to debug - Show decoded time**
+
+Show the time stamp in both UTC and local time.
 
 **Select what to debug – All packet types**
 
@@ -719,7 +722,7 @@ File name and file location are determined by the user. RSMPGS2 suggests the
 folder name ``\LogFiles\DebugFiles.``
 
 If the file does not exist it will be created and filled up with new debug
-data. The same data which is presented in the form is stored in the file. The
+data. The same data which is presented in the window is stored in the file. The
 file is an ordinary text file and will be flushed every 100 milliseconds.
 Because of this, it can be copied or opened (only for reading) with complete
 contents without having to be closed first.
