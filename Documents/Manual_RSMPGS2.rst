@@ -676,9 +676,6 @@ to format the text.
 RSMPGS2 is always removing CR/LF, tabs and the ending form feed (FF) before
 deserializing.
 
-If ``Show decoded times`` is selected, then RSMPGS2 will show the time stamp in
-in both UTC and local time.
-
 .. image:: img/select_debug.png
    :align: left
    :width: 50%
@@ -689,6 +686,10 @@ in both UTC and local time.
 Shows all packets unformatted in raw data format. ASCII codes which RSMPGS2 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
+
+**Select what to debug - Show decoded time**
+
+Show the time stamp in both UTC and local time.
 
 **Select what to debug – All packet types**
 
