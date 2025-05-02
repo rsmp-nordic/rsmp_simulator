@@ -712,12 +712,13 @@ The red texts are messages which are received, green texts are the ones which
 are sent out. The time stamp has millisecond resolution which is shown if the
 column is expanded somewhat.
 
-If show raw data is not selection, then RSMPGS1 will format the text for better
-readability. If there are CR/LF and tabs in the received Json, these control
-characters will be used to increase readability. If not, RSMPGS1 will use a set
-of simple rules to format the text.
+If ``Show all traffic in raw format`` is not selected, then RSMPGS1 will format
+the text for better readability.
+If there are CR/LF and tabs in the received Json, these control characters will
+be used to increase readability. If not, RSMPGS1 will use a set of simple rules
+to format the text.
 
-RSMPGS1 is always removing CR/LF, tabs and finalizing form feed (FF) before
+RSMPGS1 is always removing CR/LF, tabs and the ending form feed (FF) before
 deserializing.
 
 Time stamps are also presented decoded in both UTC and local time.
