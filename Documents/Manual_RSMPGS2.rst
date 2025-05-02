@@ -676,7 +676,8 @@ to format the text.
 RSMPGS2 is always removing CR/LF, tabs and the ending form feed (FF) before
 deserializing.
 
-Time stamps are also presented decoded in both UTC and local time.
+If ``Show decoded times`` is selected, then RSMPGS2 will show the time stamp in
+in both UTC and local time.
 
 .. image:: img/select_debug.png
    :align: left
