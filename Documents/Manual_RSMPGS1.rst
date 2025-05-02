@@ -244,10 +244,21 @@ Loading new objects is only available if the simulator is disconnected
 Creates a new debug window. Any number of debug windows can be created, but it
 will affect performance.
 
-**Debug - Tile all debug windows**
+**Debug - Show all debug windows in front**
 
-Moves all debug windows to the right of RSMPGS1 (if there is space) and puts them
-in a line.
+Moves all debug windows to the front.
+
+**Debug - Cascade all debug windows**
+
+Cascade all debug windows.
+
+**Debug - Tile horizontally all debug windows**
+
+Show all debug windows side by side horizontally.
+
+**Debug - Tile vertically all debug windows**
+
+Show all debug windows side by side vertically.
 
 **Debug - Close all debug windows**
 
