@@ -417,30 +417,31 @@ namespace nsRSMPGS
 
     private string GetCurrentLinesSelected()
     {
-      string sDebugData = "";
+      string sDebugAllLines = "";
       foreach (ListViewItem lvItem in listView_Debug.SelectedItems)
       {
         string sDebugLine = "";
         if (!toolStripMenuItem_CopyOnlyTextToClipboard.Checked)
         {
+          bool bFirstCol = true;
           foreach (ListViewItem.ListViewSubItem lvSubItem in lvItem.SubItems)
           {
+            if (!bFirstCol)
+              sDebugLine += "\t";
+            else
+              bFirstCol = false;
             sDebugLine += lvSubItem.Text;
-            sDebugLine += "\t";
           }
         }
-        else
+        else if (lvItem.SubItems.Count>=3)
         {
           sDebugLine = lvItem.SubItems[2].Text;
-          sDebugLine += "\t";
         }
-        if (sDebugData.Length > 0)
-        {
-          sDebugData += "\r\n";
-        }
-        sDebugData += sDebugLine.Substring(0, sDebugLine.Length - 1); ;
+        if (sDebugAllLines.Length > 0)
+          sDebugAllLines += "\r\n";
+        sDebugAllLines += sDebugLine;
       }
-      return sDebugData;
+      return sDebugAllLines;
     }
 
     private void toolStripMenuItem_CopyToClipboard_Click(object sender, EventArgs e)
