@@ -62,6 +62,7 @@
       this.columnHeader_Direction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Text = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.ToolStripMenuItem_DecodedTimes = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem_CopyOnlyTextToClipboard = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip_Debug.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -82,6 +83,7 @@
             this.ToolStripMenuItem_PacketTypes,
             this.ToolStripMenuItem_ShowLastRow,
             this.toolStripMenuItem_Delimiter_1,
+            this.toolStripMenuItem_CopyOnlyTextToClipboard,
             this.toolStripMenuItem_CopyToClipboard,
             this.toolStripMenuItem_Clear,
             this.toolStripMenuItem_Delimiter_2,
@@ -328,7 +330,14 @@
       // columnHeader_Text
       // 
       this.columnHeader_Text.Text = "Data";
-      this.columnHeader_Text.Width = 447;
+      this.columnHeader_Text.Width = 592;
+      // 
+      // toolStripMenuItem_CopyOnlyTextToClipboard
+      // 
+      this.toolStripMenuItem_CopyOnlyTextToClipboard.CheckOnClick = true;
+      this.toolStripMenuItem_CopyOnlyTextToClipboard.Name = "toolStripMenuItem_CopyOnlyTextToClipboard";
+      this.toolStripMenuItem_CopyOnlyTextToClipboard.Size = new System.Drawing.Size(300, 26);
+      this.toolStripMenuItem_CopyOnlyTextToClipboard.Text = "Copy only Data to Clipboard";
       // 
       // ToolStripMenuItem_DecodedTimes
       // 
@@ -347,6 +356,7 @@
       this.Controls.Add(this.listView_Debug);
       this.Controls.Add(this.menuStrip_Debug);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.KeyPreview = true;
       this.MainMenuStrip = this.menuStrip_Debug;
       this.Margin = new System.Windows.Forms.Padding(4);
       this.Name = "RSMPGS_Debug";
@@ -355,6 +365,8 @@
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RSMPGS_Debug_FormClosing);
       this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RSMPGS_Debug_FormClosed);
       this.Load += new System.EventHandler(this.RSMPGS_Debug_Load);
+      this.SizeChanged += new System.EventHandler(this.RSMPGS_Debug_SizeChanged);
+      this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RSMPGS_Debug_KeyDown);
       this.menuStrip_Debug.ResumeLayout(false);
       this.menuStrip_Debug.PerformLayout();
       this.ResumeLayout(false);
@@ -396,5 +408,6 @@
     public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PacketTypes_Version;
     public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_SaveContinousToFile;
     public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DecodedTimes;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_CopyOnlyTextToClipboard;
   }
 }

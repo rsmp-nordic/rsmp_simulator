@@ -419,25 +419,60 @@ namespace nsRSMPGS
       toolStripMenuItem_SaveContinousToFile.Checked = swDebugFile != null;
     }
 
-    private void toolStripMenuItem_CopyToClipboard_Click(object sender, EventArgs e)
+    private string GetCurrentLinesSelected()
     {
-      string sDebugData = "";
+      string sDebugAllLines = "";
       foreach (ListViewItem lvItem in listView_Debug.SelectedItems)
       {
         string sDebugLine = "";
-        foreach (ListViewItem.ListViewSubItem lvSubItem in lvItem.SubItems)
+        if (!toolStripMenuItem_CopyOnlyTextToClipboard.Checked)
         {
-          sDebugLine += lvSubItem.Text;
-          sDebugLine += "\t";
+          bool bFirstCol = true;
+          foreach (ListViewItem.ListViewSubItem lvSubItem in lvItem.SubItems)
+          {
+            if (!bFirstCol)
+              sDebugLine += "\t";
+            else
+              bFirstCol = false;
+            sDebugLine += lvSubItem.Text;
+          }
         }
-        if (sDebugData.Length > 0)
+        else if (lvItem.SubItems.Count>=3)
         {
-          sDebugData += "\r\n";
+          sDebugLine = lvItem.SubItems[2].Text;
         }
-        sDebugData += sDebugLine.Substring(0, sDebugLine.Length - 1); ;
+        if (sDebugAllLines.Length > 0)
+          sDebugAllLines += "\r\n";
+        sDebugAllLines += sDebugLine;
       }
+      return sDebugAllLines;
+    }
+
+    private void toolStripMenuItem_CopyToClipboard_Click(object sender, EventArgs e)
+    {
       Clipboard.Clear();
-      Clipboard.SetText(sDebugData);
+      string sDebugData = GetCurrentLinesSelected();
+      if (sDebugData != "")
+        Clipboard.SetText(sDebugData);
+    }
+
+    // Keys Ctrl+C also to copy current selection.
+    private void RSMPGS_Debug_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
+      {
+        if (listView_Debug.SelectedItems.Count > 0)
+        {
+          Clipboard.Clear();
+          string sDebugData = GetCurrentLinesSelected();
+          if (sDebugData != "")
+            Clipboard.SetText(sDebugData);
+        }
+        else
+        {
+          MessageBox.Show("No line currently selected !");
+        }
+      }
     }
 
     private void toolStripMenuItem_Clear_Click(object sender, EventArgs e)
@@ -577,6 +612,11 @@ namespace nsRSMPGS
 
     }
 
+    // auto-resize Data column according to window width
+    private void RSMPGS_Debug_SizeChanged(object sender, EventArgs e)
+    {
+      this.columnHeader_Text.Width = this.Width-this.columnHeader_Direction.Width-this.columnHeader_Time.Width-40;
+    }
   }
 
 }
