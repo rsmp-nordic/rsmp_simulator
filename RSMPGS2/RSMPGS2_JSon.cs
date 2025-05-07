@@ -178,7 +178,7 @@ namespace nsRSMPGS
               string arrayResult = ValidateArrayObject(AlarmReturnValue.Value.ValueTypeObject.Items, Reply.v);
               Reply.v = stringifyObject(Reply.v);
 
-              List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.v);
+              List<Dictionary<string, object>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, object>>>((string)Reply.v);
 
               AlarmReturnValue.Value.SetArray(dictionaries);
 
@@ -425,7 +425,7 @@ namespace nsRSMPGS
             }
             else
             {
-              sStatusValue = (Reply.v.Length < 10) ? Reply.v : Reply.v.Substring(0, 9) + "...";
+              sStatusValue = (Reply.v.ToString().Length < 10) ? Reply.v.ToString() : Reply.v.ToString().Substring(0, 9) + "...";
             }
             sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + sStatusValue;
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
@@ -442,23 +442,23 @@ namespace nsRSMPGS
           {
             if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
             {
-              RSMPGS.SysLog.StoreBase64DebugData(Reply.v);
+              RSMPGS.SysLog.StoreBase64DebugData(Reply.v.ToString());
             }
-            CommandEvent.sValue = "base64";
+            CommandEvent.oValue = "base64";
           }
           else
           {
-            CommandEvent.sValue = Reply.v;
+            CommandEvent.oValue = Reply.v;
           }
           CommandEvent.sAge = Reply.age;
-          CommandReturnValue.sLastRecValue = Reply.v;
+          CommandReturnValue.sLastRecValue = Reply.v.ToString();
           CommandReturnValue.sLastRecAge = Reply.age;
 
           if (RSMPGS_Main.bWriteEventsContinous)
           {
             RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
                     CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandResponse.cId, CommandEvent.sCommandCodeId,
-                    CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
+                    CommandEvent.sName, CommandEvent.sCommand, CommandEvent.oValue, CommandEvent.sAge, CommandEvent.sEvent);
           }
           RoadSideObject.CommandEvents.Add(CommandEvent);
           RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandResponse.ntsOId, CommandResponse.cId, CommandEvent, false, bUseCaseSensitiveIds);
@@ -528,7 +528,7 @@ namespace nsRSMPGS
 
             Reply.s = stringifyObject(Reply.s);
 
-            List<Dictionary<string, string>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, string>>>((string)Reply.s);
+            List<Dictionary<string, object>> dictionaries = JSonSerializer.Deserialize<List<Dictionary<string, object>>>((string)Reply.s);
             StatusReturnValue.Value.SetArray(dictionaries);
 
             Reply.s = "(array)";
@@ -722,21 +722,21 @@ namespace nsRSMPGS
           if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
           {
             // Path?
-            if (CommandReturnValue.Value.GetValue().Contains("\\"))
+            if (CommandReturnValue.Value.GetValue().ToString().Contains("\\"))
             {
               try
               {
                 byte[] Base64Bytes = null;
                 // Open file for reading 
-                System.IO.FileStream fsBase64 = new System.IO.FileStream(CommandReturnValue.Value.GetValue(), System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                System.IO.FileStream fsBase64 = new System.IO.FileStream(CommandReturnValue.Value.GetValue().ToString(), System.IO.FileMode.Open, System.IO.FileAccess.Read);
                 System.IO.BinaryReader brBase64 = new System.IO.BinaryReader(fsBase64);
-                long lBytes = new System.IO.FileInfo(CommandReturnValue.Value.GetValue()).Length;
+                long lBytes = new System.IO.FileInfo(CommandReturnValue.Value.GetValue().ToString()).Length;
                 Base64Bytes = brBase64.ReadBytes((Int32)lBytes);
                 fsBase64.Close();
                 fsBase64.Dispose();
                 brBase64.Close();
                 CommandRequest_Value.v = Convert.ToBase64String(Base64Bytes);
-                if (CommandRequest_Value.v.Length > (cTcpSocketClientThread.BUFLENGTH - 100))
+                if (CommandRequest_Value.v.ToString().Length > (cTcpSocketClientThread.BUFLENGTH - 100))
                 {
                   RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Base64 encoded packet is too big (" + Base64Bytes.GetLength(0).ToString() + " bytes), max buffer length is " + cTcpSocketClientThread.BUFLENGTH.ToString() + " bytes");
                   CommandRequest_Value.v = null;
@@ -759,7 +759,7 @@ namespace nsRSMPGS
           CommandEvent.sCommandCodeId = CommandReturnValue.CommandObject.sCommandCodeId;
           CommandEvent.sName = CommandReturnValue.sName;
           CommandEvent.sCommand = CommandReturnValue.sCommand;
-          CommandEvent.sValue = CommandReturnValue.Value.GetValue();
+          CommandEvent.oValue = CommandReturnValue.Value.GetValue();
           RoadSideObject.CommandEvents.Add(CommandEvent);
           RSMPGS.MainForm.HandleCommandListUpdate(RoadSideObject, CommandRequest.ntsOId, CommandRequest.cId, CommandEvent, true, bUseCaseSensitiveIds);
 
@@ -767,7 +767,7 @@ namespace nsRSMPGS
           {
             RSMPGS.SysLog.EventLog("Command;{0}\tMId: {1}\tComponentId: {2}\tCommandCodeId: {3}\tName: {4}\tCommand: {5}\tValue: {6}\t Age: {7}\tEvent: {8}",
             CommandEvent.sTimeStamp, CommandEvent.sMessageId, CommandRequest.cId, CommandEvent.sCommandCodeId,
-            CommandEvent.sName, CommandEvent.sCommand, CommandEvent.sValue, CommandEvent.sAge, CommandEvent.sEvent);
+            CommandEvent.sName, CommandEvent.sCommand, CommandEvent.oValue, CommandEvent.sAge, CommandEvent.sEvent);
           }
         }
 

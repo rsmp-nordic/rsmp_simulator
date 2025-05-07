@@ -264,7 +264,7 @@ namespace nsRSMPGS
           sValues[0] = StatusObject.sDescription.Split('\n').First().TrimEnd('.');
           sValues[1] = StatusReturnValue.sName;
           sValues[2] = StatusReturnValue.Value.GetValueType();
-          sValues[3] = StatusReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase) ? "(array)" : StatusReturnValue.Value.GetValue();
+          sValues[3] = StatusReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase) ? "(array)" : StatusReturnValue.Value.GetValue().ToString();
           sValues[4] = StatusReturnValue.sQuality;
           sValues[5] = StatusReturnValue.sLastUpdateRate == null ?  "" : StatusReturnValue.sLastUpdateRate;
           sValues[6] = StatusReturnValue.bLastUpdateOnChange.ToString();
@@ -392,8 +392,8 @@ namespace nsRSMPGS
 
       try
       {
-        string sValue = StatusReturnValue.Value.GetValue();
-        List<Dictionary<string, string>> array = StatusReturnValue.Value.GetArray();
+        string sValue = StatusReturnValue.Value.GetValue().ToString();
+        List<Dictionary<string, object>> array = StatusReturnValue.Value.GetArray();
         cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, true);
       }
       catch

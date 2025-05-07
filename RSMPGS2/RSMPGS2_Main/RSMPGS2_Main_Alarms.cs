@@ -83,7 +83,7 @@ namespace nsRSMPGS
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase)  ? "(array)" : AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType().Equals("array", StringComparison.OrdinalIgnoreCase)  ? "(array)" : AlarmReturnValue.Value.GetValue().ToString();
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
@@ -211,7 +211,7 @@ namespace nsRSMPGS
       foreach (cAlarmEventReturnValue AlarmReturnValues in AlarmEvent.AlarmEventReturnValues)
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
-        lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
+        lvItem.SubItems.Add(AlarmReturnValues.oValue.ToString());
       }
 
       listView_AlarmEvents.Items.Add(lvItem);
@@ -251,7 +251,7 @@ namespace nsRSMPGS
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
           string sValue = lvHitTest.SubItem.Text;
-          List<Dictionary<string, string>> array = AlarmReturnValue.Value.GetArray();
+          List<Dictionary<string, object>> array = AlarmReturnValue.Value.GetArray();
           cFormsHelper.InputStatusBoxValueType("View alarm", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, true);
         }
       }

@@ -86,7 +86,7 @@ namespace nsRSMPGS
       {
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sName;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValueType();
-        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue();
+        lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.Value.GetValue().ToString(); ;
         lvItem.SubItems[iSubItemIndex++].Text = AlarmReturnValue.sComment.Replace("\n", " / ");
       }
 
@@ -255,9 +255,9 @@ namespace nsRSMPGS
       {
         lvItem.SubItems.Add(AlarmReturnValues.sName);
 
-        if (AlarmReturnValues.sValue.GetType() == typeof(string))
+        if (AlarmReturnValues.oValue.GetType() == typeof(string))
         {
-          lvItem.SubItems.Add(AlarmReturnValues.sValue.ToString());
+          lvItem.SubItems.Add(AlarmReturnValues.oValue.ToString());
         }
         else
         {
@@ -303,7 +303,7 @@ namespace nsRSMPGS
         {
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           string sValue = lvHitTest.SubItem.Text;
-          List<Dictionary<string, string>> array = new List<Dictionary<string, string>>();
+          List<Dictionary<string, object>> array = new List<Dictionary<string, object>>();
           cValueTypeObject sExternalAlarmCodeId_type = new cValueTypeObject(null, null, "string", null, 0, 0, null, null);
           cValue cExternalAlarmCodeId = new cValue(sExternalAlarmCodeId_type, true);
           cExternalAlarmCodeId.SetValue(AlarmObject.sExternalAlarmCodeId);
@@ -322,7 +322,7 @@ namespace nsRSMPGS
           cAlarmObject AlarmObject = (cAlarmObject)lvItem.Tag;
           cAlarmReturnValue AlarmReturnValue = AlarmObject.AlarmReturnValues[iIndex];
           string sValue = lvHitTest.SubItem.Text;
-          List<Dictionary<string, string>> array = AlarmReturnValue.Value.GetArray();
+          List<Dictionary<string, object>> array = AlarmReturnValue.Value.GetArray();
           if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, AlarmReturnValue.Value, AlarmReturnValue.sComment, true, false) == DialogResult.OK)
           {
             AlarmReturnValue.Value.SetValue(sValue);

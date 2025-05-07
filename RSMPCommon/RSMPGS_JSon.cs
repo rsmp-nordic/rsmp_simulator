@@ -1187,7 +1187,7 @@ namespace nsRSMPGS
       // incoming status
       //string[] fieldStrings;
       string statusKey;
-      string statusValue;
+      object statusValue;
       Boolean hit;
 
       // loop alla YAMLMappings
@@ -1247,7 +1247,7 @@ namespace nsRSMPGS
             KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
 
             statusKey = f.Key;
-            statusValue = (string)f.Value;
+            statusValue = f.Value;
 
             cellName = "row:" + (rowIndex + 1).ToString() + " col:" + schemaKey + " ";
 
@@ -1259,7 +1259,7 @@ namespace nsRSMPGS
                 case "integer":
                   try
                   {
-                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iValue = Int32.Parse(statusValue.ToString());
                     Int32 iMin = Int32.Parse(schemaScalarMin);
                     Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
@@ -1273,7 +1273,7 @@ namespace nsRSMPGS
                 case "long":
                   try
                   {
-                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iValue = Int32.Parse(statusValue.ToString());
                     Int32 iMin = Int32.Parse(schemaScalarMin);
                     Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
@@ -1288,7 +1288,7 @@ namespace nsRSMPGS
                 case "real":
                   try
                   {
-                    Double dValue = Double.Parse(statusValue);
+                    Double dValue = Double.Parse(statusValue.ToString());
                     Double dMin = Double.Parse(schemaScalarMin);
                     Double dMax = Double.Parse(schemaScalarMax);
                     if (dValue < dMin) { return cellName + " to small"; }
@@ -1303,10 +1303,10 @@ namespace nsRSMPGS
                   // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
                   // preserve backwards compability we need to treat this as case
                   // insensitive for now
-                  if(!(statusValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+                  if(!(statusValue.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase)))
                   {
                     return cellName + "boolean can't be parsed";
                   }
@@ -1347,7 +1347,7 @@ namespace nsRSMPGS
         foreach (object field in fields)
         {
           KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
-          fieldString = "\"" + f.Key + "\":\"" + (string)f.Value + "\"";
+          fieldString = "\"" + f.Key + "\":\"" + f.Value + "\"";
           if (objectString != "") { objectString = objectString + ","; }
           objectString = objectString + fieldString;
         }
@@ -1357,18 +1357,18 @@ namespace nsRSMPGS
       return "[" + objectsString + "]";
     }
 
-    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums)
+    public bool ValidateTypeAndRange(string sType, object oValue, Dictionary<string, string> sEnums)
     {
-      return ValidateTypeAndRange(sType, sValue, sEnums, 0, 0);
+      return ValidateTypeAndRange(sType, oValue, sEnums, 0, 0);
     }
 
-    public bool ValidateTypeAndRange(string sType, string sValue, Dictionary<string, string> sEnums, double dMin, double dMax)
+    public bool ValidateTypeAndRange(string sType, object oValue, Dictionary<string, string> sEnums, double dMin, double dMax)
     {
       bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
       var comparisonType = StringComparison.Ordinal;
       if (!bUseCaseSensitiveValue) { comparisonType = StringComparison.OrdinalIgnoreCase; }
 
-      if (sValue == null)
+      if (oValue == null)
       {
         return false;
       }
@@ -1386,7 +1386,7 @@ namespace nsRSMPGS
         case "integer":
           try
           {
-            Int32 iValue = Int32.Parse(sValue);
+            Int32 iValue = Int32.Parse(oValue.ToString());
             bValueIsValid = true;
           }
           catch { }
@@ -1395,7 +1395,7 @@ namespace nsRSMPGS
         case "long":
           try
           {
-            Int32 iValue = Int32.Parse(sValue);
+            Int32 iValue = Int32.Parse(oValue.ToString());
             bValueIsValid = true;
           }
           catch { }
@@ -1405,7 +1405,7 @@ namespace nsRSMPGS
         case "real":
           try
           {
-            Double dValue = Double.Parse(sValue);
+            Double dValue = Double.Parse(oValue.ToString());
             bValueIsValid = true;
           }
           catch { }
@@ -1415,10 +1415,11 @@ namespace nsRSMPGS
           // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
           // preserve backwards compability we need to treat this as case
           // insensitive for now
-          bValueIsValid = sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("1", StringComparison.OrdinalIgnoreCase);
+          
+          bValueIsValid = oValue.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ||
+            oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
+            oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
+            oValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase);
           break;
 
         case "base64":
@@ -1426,7 +1427,7 @@ namespace nsRSMPGS
           {
             Encoding encoding;
             encoding = Encoding.GetEncoding("IBM437");
-            byte[] Base64Bytes = encoding.GetBytes(sValue);
+            byte[] Base64Bytes = encoding.GetBytes(oValue.ToString());
             char[] Base64Chars = encoding.GetChars(Base64Bytes);
             byte[] Base8Bytes = System.Convert.FromBase64CharArray(Base64Chars, 0, Base64Chars.GetLength(0));
             bValueIsValid = true;
@@ -1440,7 +1441,7 @@ namespace nsRSMPGS
           {
             try
             {
-              UInt32 iValue = UInt32.Parse(sValue);
+              UInt32 iValue = UInt32.Parse(oValue.ToString());
               bValueIsValid = true;
             }
             catch { }
@@ -1470,7 +1471,7 @@ namespace nsRSMPGS
 
             try
             {
-              Double dValue = Double.Parse(sValue);
+              Double dValue = Double.Parse(oValue.ToString());
               bValueIsValid = dValue <= dMax && dValue >= dMin;
 
               if (sEnums != null && sEnums.Count > 0)
@@ -1478,7 +1479,7 @@ namespace nsRSMPGS
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
                 {
-                  if (sValue.Equals(sEnum, comparisonType))
+                  if (oValue.ToString().Equals(sEnum, comparisonType))
                   {
                     bValueIsValid = true;
                   }
@@ -1497,7 +1498,7 @@ namespace nsRSMPGS
                 bValueIsValid = false;
                 foreach (string sEnum in sEnums.Keys)
                 {
-                  if (sValue.Equals(sEnum, comparisonType))
+                  if (oValue.ToString().Equals(sEnum, comparisonType))
                   {
                     bValueIsValid = true;
                   }

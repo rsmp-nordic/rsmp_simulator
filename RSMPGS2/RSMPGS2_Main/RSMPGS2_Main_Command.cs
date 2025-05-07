@@ -140,7 +140,7 @@ namespace nsRSMPGS
       lvItem.SubItems.Add(CommandEvent.sCommandCodeId);
       lvItem.SubItems.Add(CommandEvent.sName);
       lvItem.SubItems.Add(CommandEvent.sCommand);
-      lvItem.SubItems.Add(CommandEvent.sValue);
+      lvItem.SubItems.Add(CommandEvent.oValue.ToString());
       lvItem.SubItems.Add(CommandEvent.sAge);
 
 
@@ -163,7 +163,7 @@ namespace nsRSMPGS
                 if (lvItem.SubItems[3].Text.Equals(CommandEvent.sCommandCodeId, StringComparison.OrdinalIgnoreCase)
                 && lvItem.SubItems[4].Text.Equals(CommandEvent.sName, StringComparison.OrdinalIgnoreCase))
                 {
-                  lvItem.SubItems[7].Text = CommandEvent.sValue;
+                  lvItem.SubItems[7].Text = CommandEvent.oValue.ToString();
                   lvItem.SubItems[8].Text = CommandEvent.sAge;
 
                   break;
@@ -187,7 +187,7 @@ namespace nsRSMPGS
               if (lvItem.SubItems[0].Text.Equals(CommandEvent.sCommandCodeId, StringComparison.OrdinalIgnoreCase)
               && lvItem.SubItems[2].Text.Equals(CommandEvent.sName, StringComparison.OrdinalIgnoreCase))
               {
-                lvItem.SubItems[5].Text = CommandEvent.sValue;
+                lvItem.SubItems[5].Text = CommandEvent.oValue.ToString();
                 lvItem.SubItems[6].Text = CommandEvent.sAge;
 
                 break;

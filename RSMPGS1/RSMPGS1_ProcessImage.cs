@@ -419,7 +419,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           {
             if (AlarmReturnValue.Value.Quality == cValue.eQuality.recent)
             {
-              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + "." + AlarmReturnValue.sName + ".Value", AlarmReturnValue.Value.GetValue());
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Alarms", AlarmObject.sAlarmCodeId + "." + AlarmReturnValue.sName + ".Value", AlarmReturnValue.Value.GetValue().ToString());
             }
           }
         }
@@ -429,7 +429,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           {
             if (StatusReturnValue.Value.GetValue() != "?")
             {
-              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Status", StatusObject.sStatusCodeId + "." + StatusReturnValue.sName + ".Status", StatusReturnValue.Value.GetValue());
+              cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Status", StatusObject.sStatusCodeId + "." + StatusReturnValue.sName + ".Status", StatusReturnValue.Value.GetValue().ToString());
             }
           }
         }
@@ -459,9 +459,9 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
       RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Stored Process data to '{0}'", FileName);
     }
 
-    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, string sValue, List<Dictionary<string, string>> items)
+    public void UpdateStatusValue(ref RSMP_Messages.Status_VTQ s, string sType, object oValue, List<Dictionary<string, object>> items)
     {
-      // Could be array
+      // Could be array, in which case "oValue" is not used
       if (sType.Equals("array", StringComparison.OrdinalIgnoreCase))
       {
         
@@ -478,7 +478,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
         return;
       }
 
-      if (sValue == null)
+      if (oValue == null)
       {
         s.s = null;
         s.q = "unknown";
@@ -489,15 +489,15 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
       if (sType.Equals("base64", StringComparison.OrdinalIgnoreCase))
       {
         // Path?
-        if (sValue.Contains("\\"))
+        if (oValue.ToString().Contains("\\"))
         {
           try
           {
             byte[] Base64Bytes = null;
             // Open file for reading 
-            System.IO.FileStream fsBase64 = new System.IO.FileStream(sValue, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            System.IO.FileStream fsBase64 = new System.IO.FileStream(oValue.ToString(), System.IO.FileMode.Open, System.IO.FileAccess.Read);
             System.IO.BinaryReader brBase64 = new System.IO.BinaryReader(fsBase64);
-            long lBytes = new System.IO.FileInfo(sValue).Length;
+            long lBytes = new System.IO.FileInfo(oValue.ToString()).Length;
             Base64Bytes = brBase64.ReadBytes((Int32)lBytes);
             fsBase64.Close();
             fsBase64.Dispose();
@@ -512,20 +512,20 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
           }
           catch (Exception e)
           {
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", sValue, e.Message);
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not base64-encode and send file '{0}', error {1}", oValue.ToString(), e.Message);
             s.q = "unknown";
           }
         }
         else
         {
-          s.s = sValue;
+          s.s = oValue;
           s.q = "recent";
         }
         return;
       }
 
 
-      s.s = sValue;
+      s.s = oValue;
       s.q = "recent";
 
     }

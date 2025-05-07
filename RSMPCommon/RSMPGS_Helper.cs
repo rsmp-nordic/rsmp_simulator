@@ -1971,7 +1971,7 @@ namespace nsRSMPGS
 
     }
 
-    public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, string>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged, bool bReadOnly)
+    public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, object>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged, bool bReadOnly)
     {
 
       Form form = new Form();
@@ -2196,7 +2196,7 @@ namespace nsRSMPGS
         arrayListView.Columns.Add(col);
       }
     }
-    private static void loadArray(List<Dictionary<string, string>> array)
+    private static void loadArray(List<Dictionary<string, object>> array)
     {
       // Exit if no values entered
       if (array == null)
@@ -2208,7 +2208,7 @@ namespace nsRSMPGS
       ListViewSubItem listViewSubItem;
 
       // Add each item to list
-      foreach (Dictionary<string, string> item in array)
+      foreach (Dictionary<string, object> item in array)
       {
         listViewItem = new ListViewItem();
 
@@ -2217,18 +2217,18 @@ namespace nsRSMPGS
         {
           listViewSubItem = new ListViewSubItem();
 
-          string value = null;
+          object value = null;
           item.TryGetValue(col.Text, out value);
           if (value != null)
           {
             if (col.Index > 0)
-            { 
-              listViewSubItem.Text = value;
+            {
+              listViewSubItem.Text = value.ToString();
               listViewSubItem.Tag = "True";
             }
             else
             {
-              listViewItem.Text = value;
+              listViewItem.Text = value.ToString();
               listViewItem.Tag = "True";
             }
           }
@@ -2242,26 +2242,64 @@ namespace nsRSMPGS
       }
     }
 
-    private static List<Dictionary<string, string>> getItems()
+    private static List<Dictionary<string, object>> getItems()
     {
-      List<Dictionary<string, string>> array = new List<Dictionary<string, string>>();
+      List<Dictionary<string, object>> array = new List<Dictionary<string, object>>();
 
       int col;
-      Dictionary<string, string> item;
+      Dictionary<string, object> item;
       foreach (ListViewItem listItem in arrayListView.Items)
       {
         col = 0;
-        item = new Dictionary<string, string>();
+        item = new Dictionary<string, object>();
         foreach (ListViewSubItem subitem in listItem.SubItems)
         {
-          if((col == 0) && (listItem.Tag != null) && (listItem.Tag.ToString() == "True"))
+          string sName = arrayListView.Columns[col].Text;
+          string sValue = listItem.SubItems[col].Text;
+          object oValue;
+          string sType = "";
+
+          Dictionary<string, cYAMLMapping> items = currentArrayValue.ValueTypeObject.Items;
+          foreach (string i in items.Keys)
+            if (i == sName)
+              sType = items[i].YAMLScalars["type"];
+
+          switch (sType.ToLower())
           {
-            item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+            case "integer":
+              int iValue;
+              if (int.TryParse(sValue, out iValue))
+                oValue = iValue;
+              else
+                oValue = null;
+              break;
+            case "number":
+            case "long":
+              int lValue;
+              if (int.TryParse(sValue, out lValue))
+                oValue = lValue;
+              else
+                oValue = null;
+              break;
+            case "boolean":
+              if (sValue.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+                oValue = true;
+              else
+                oValue = false;
+              break;
+            default:
+              oValue = sValue;
+              break;
           }
 
+          if((col == 0) && (listItem.Tag != null) && (listItem.Tag.ToString() == "True"))
+          {
+            item.Add(sName, oValue);
+          }
+          
           if((col > 0) && (listItem.SubItems[col].Tag != null) && (listItem.SubItems[col].Tag.ToString() == "True"))
           { 
-            item.Add(arrayListView.Columns[col].Text, listItem.SubItems[col].Text);
+            item.Add(sName, oValue);
           }
           col++;
         }
