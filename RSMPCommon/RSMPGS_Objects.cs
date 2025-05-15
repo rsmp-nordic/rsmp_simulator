@@ -524,6 +524,7 @@ namespace nsRSMPGS
     public enum eQuality
     {
       unknown,
+      undefined,
       recent,
       old
     }
