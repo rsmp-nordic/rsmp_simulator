@@ -519,7 +519,14 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusReturnValue.Value.SetValue(Reply.s.ToString());
+            if(Reply.s == null)
+            {
+                StatusReturnValue.Value.SetValue("(null)");
+            }
+            else
+            {
+                StatusReturnValue.Value.SetValue(Reply.s.ToString());
+            }
           }
 
           if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
