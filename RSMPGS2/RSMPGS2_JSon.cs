@@ -556,7 +556,32 @@ namespace nsRSMPGS
             return false;
           }
 
-          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          if(StatusReturnValue.sQuality == cValue.eQuality.unknown.ToString())
+          {
+            // if quality is unknown, skip validation of string
+            sError = "Status unimplemeted? Quality is unknown.";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
+            return true; // Return messageAck
+          }
+
+          if (StatusReturnValue.sQuality == cValue.eQuality.undefined.ToString())
+          {
+            // Check if rsmp version is supported, if not error
+            if (NegotiatedRSMPVersion > RSMPVersion.RSMP_3_1_3)
+            {
+                sError = "Component unknown? Quality is undefined.";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
+                return true; // Return messageAck
+            }
+            else
+            {
+                sError = "Component unknown? Quality is undefined not added until RSMP 3.1.3.";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+                return false;
+            }
+          }
+
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             string sStatusValue;
             if (Reply.s == null)
