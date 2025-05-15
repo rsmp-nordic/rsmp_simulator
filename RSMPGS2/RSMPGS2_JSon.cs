@@ -559,25 +559,25 @@ namespace nsRSMPGS
           if(StatusReturnValue.sQuality == cValue.eQuality.unknown.ToString())
           {
             // if quality is unknown, skip validation of string
-            sError = "Status unimplemeted? Quality is unknown.";
+            sError = "Failed to handle Status message. Quality: unknown";
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
-            return true; // Return messageAck
+            return true; // Return MessageAck
           }
 
           if (StatusReturnValue.sQuality == cValue.eQuality.undefined.ToString())
           {
             // Check if rsmp version is supported, if not error
-            if (NegotiatedRSMPVersion > RSMPVersion.RSMP_3_1_3)
+            if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_1_3)
             {
-                sError = "Component unknown? Quality is undefined.";
+                sError = "Failed to handle Status message. Quality: undefined";
                 RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
-                return true; // Return messageAck
+                return true; // Return MessageAck
             }
             else
             {
-                sError = "Component unknown? Quality is undefined not added until RSMP 3.1.3.";
+                sError = "Failed to handle Status message. Quality: undefined. (Not added until RSMP 3.1.3)";
                 RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
-                return false;
+                return false; // Return MessageNotAck
             }
           }
 
