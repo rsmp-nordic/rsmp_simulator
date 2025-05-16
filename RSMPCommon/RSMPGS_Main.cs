@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Security.Authentication;
+using System.Runtime.CompilerServices;
 
 namespace nsRSMPGS
 {
@@ -1156,6 +1157,95 @@ namespace nsRSMPGS
     {
 
       ToolStripMenuItem_File_LoadObjects.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected ? false : true;
+    }
+
+    public enum RearrangeWindows_Mode
+    {
+      RearrangeWindows_front,
+      RearrangeWindows_cascade,
+      RearrangeWindows_tile_hori,
+      RearrangeWindows_tile_verti
+    }
+    public void DebugWindow_Create( )
+    {
+      RSMPGS_Debug DebugForm = new RSMPGS_Debug();
+      //      DebugForm.MainForm = this;
+      DebugForm.Left = Screen.PrimaryScreen.WorkingArea.X;
+      DebugForm.Top = Screen.PrimaryScreen.WorkingArea.Y;
+      DebugForm.CalcNewCaption();
+      RSMPGS.DebugForms.Add(DebugForm);
+      DebugForm.Show();
+    }
+    public void AllDebugWindows_Rearrange(RearrangeWindows_Mode mode )
+    {
+      if (RSMPGS.DebugForms.Count == 0)
+        return;
+
+      // if possible, do not overlap the main window
+      // and try to use free space on the left or right
+      Rectangle DebugZone = Screen.PrimaryScreen.WorkingArea;
+      if (this.Left + this.Width + 400 < DebugZone.Width)
+      {
+        DebugZone.X = this.Left + this.Width;
+        DebugZone.Width = DebugZone.Width - this.Width;
+      }
+      else if (this.Left > 400)
+      {
+        DebugZone.Width = this.Left - DebugZone.X;
+      }
+
+      int iX = DebugZone.X;
+      int iY = this.Top;
+      if (mode != RearrangeWindows_Mode.RearrangeWindows_cascade)
+        iY = DebugZone.Y;
+      // width/height of each debug window for tile mode
+      int iTileW = DebugZone.Width / RSMPGS.DebugForms.Count;
+      int iTileH = DebugZone.Height / RSMPGS.DebugForms.Count;
+
+      foreach (RSMPGS_Debug DebugForm in RSMPGS.DebugForms)
+      {
+        switch (mode)
+        {
+          case RearrangeWindows_Mode.RearrangeWindows_cascade:
+            {
+              DebugForm.Left = iX;
+              DebugForm.Top = iY;
+              DebugForm.Width = 500;
+              DebugForm.Height = 500;
+              iX += 50;
+              iY += 50;
+              break;
+            }
+          case RearrangeWindows_Mode.RearrangeWindows_tile_hori:
+            {
+              DebugForm.Left = iX;
+              DebugForm.Top = iY;
+              DebugForm.Width = DebugZone.Width;
+              DebugForm.Height = iTileH;
+              iY += iTileH;
+              break;
+            }
+          case RearrangeWindows_Mode.RearrangeWindows_tile_verti:
+            {
+              DebugForm.Left = iX;
+              DebugForm.Top = iY;
+              DebugForm.Width = iTileW;
+              DebugForm.Height = DebugZone.Height;
+              iX += iTileW;
+              break;
+            }
+        }
+        DebugForm.WindowState = FormWindowState.Normal;
+        DebugForm.BringToFront();
+      }
+
+    }
+    public void AllDebugWindows_Close( )
+    {
+      while (RSMPGS.DebugForms.Count() > 0)
+      {
+        RSMPGS.DebugForms[0].Close();
+      }
     }
 
   }
