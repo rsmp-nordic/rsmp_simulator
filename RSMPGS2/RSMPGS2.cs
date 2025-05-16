@@ -72,6 +72,7 @@ using System.Security.Authentication;
 //                           / Revised main menu for debug windows (show in front / cascade / tile)  (pull request #114 / marcgarba)
 //                           / Ctrl+c to copy selection in debug window + option copy data only (pull request #119 / marcgarba)
 //                           / Handle undefined and unknown quality #121
+// 25.05.16 / DO / 1.0.10    / Revert PR 114 since it causes issues in main window
 //
 //
 // ---------------------------------------------------------------------------------------------------
