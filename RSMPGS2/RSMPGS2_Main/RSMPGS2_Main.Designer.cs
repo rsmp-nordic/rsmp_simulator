@@ -2726,6 +2726,11 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_YAML;
     public System.Windows.Forms.CheckBox checkBox_AutomaticallyLoadObjects;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadObjects_Delimiter;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Show;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileH;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
   }
 }
 
