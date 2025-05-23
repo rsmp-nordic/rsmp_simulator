@@ -398,7 +398,12 @@
       // 
       this.ToolStripMenuItem_File_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File_Debug_CreateNew,
-            this.ToolStripMenuItem_File_Debug_Tile,
+            this.toolStripSeparator4,
+            this.ToolStripMenuItem_File_Debug_Show,
+            this.ToolStripMenuItem_File_Debug_Cascade,
+            this.ToolStripMenuItem_File_Debug_TileH,
+            this.ToolStripMenuItem_File_Debug_TileV,
+            this.toolStripSeparator5,
             this.ToolStripMenuItem_File_Debug_CloseAll,
             this.toolStripMenuItem1,
             this.ToolStripMenuItem_StoreBase64Updates});
