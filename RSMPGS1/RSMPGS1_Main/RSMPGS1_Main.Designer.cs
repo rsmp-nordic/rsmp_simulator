@@ -2505,6 +2505,11 @@
     private System.Windows.Forms.Button button_BufferedMessages_CreateRandom;
     public System.Windows.Forms.TextBox textBox_BufferedMessages;
     private System.Windows.Forms.Label label_CreateRandomMessages_Total;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Show;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileH;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
   }
 }
 
