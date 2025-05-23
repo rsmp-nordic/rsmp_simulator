@@ -415,15 +415,46 @@
       // 
       this.ToolStripMenuItem_File_Debug_CreateNew.Name = "ToolStripMenuItem_File_Debug_CreateNew";
       this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(215, 22);
-      this.ToolStripMenuItem_File_Debug_CreateNew.Text = "&Create new debug window";
+      this.ToolStripMenuItem_File_Debug_CreateNew.Text = "Create &new debug window";
       this.ToolStripMenuItem_File_Debug_CreateNew.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CreateNew_Click);
       // 
-      // ToolStripMenuItem_File_Debug_Tile
+      // toolStripSeparator4
       // 
-      this.ToolStripMenuItem_File_Debug_Tile.Name = "ToolStripMenuItem_File_Debug_Tile";
-      this.ToolStripMenuItem_File_Debug_Tile.Size = new System.Drawing.Size(215, 22);
-      this.ToolStripMenuItem_File_Debug_Tile.Text = "&Tile all debug windows";
-      this.ToolStripMenuItem_File_Debug_Tile.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
+      this.toolStripSeparator4.Name = "toolStripSeparator4";
+      this.toolStripSeparator4.Size = new System.Drawing.Size(212, 6);
+      // 
+      // ToolStripMenuItem_File_Debug_Show
+      // 
+      this.ToolStripMenuItem_File_Debug_Show.Name = "ToolStripMenuItem_File_Debug_Show";
+      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Show.Text = "Show all debug windows in &front";
+      this.ToolStripMenuItem_File_Debug_Show.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Show_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_Cascade
+      // 
+      this.ToolStripMenuItem_File_Debug_Cascade.Name = "ToolStripMenuItem_File_Debug_Cascade";
+      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Cascade.Text = "&Cascade all debug windows";
+      this.ToolStripMenuItem_File_Debug_Cascade.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Cascade_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_TileH
+      // 
+      this.ToolStripMenuItem_File_Debug_TileH.Name = "ToolStripMenuItem_File_Debug_TileH";
+      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileH.Text = "Tile &horizontally all debug windows";
+      this.ToolStripMenuItem_File_Debug_TileH.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_TileH_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_TileV
+      // 
+      this.ToolStripMenuItem_File_Debug_TileV.Name = "ToolStripMenuItem_File_Debug_TileV";
+      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileV.Text = "Tile &vertically all debug windows";
+      this.ToolStripMenuItem_File_Debug_TileV.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
+      // 
+      // toolStripSeparator5
+      // 
+      this.toolStripSeparator5.Name = "toolStripSeparator5";
+      this.toolStripSeparator5.Size = new System.Drawing.Size(212, 6);
       // 
       // ToolStripMenuItem_File_Debug_CloseAll
       // 
