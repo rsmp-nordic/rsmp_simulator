@@ -40,7 +40,12 @@
       this.ToolStripMenuItem_Delimiter_0 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_CreateNew = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_Debug_Tile = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_File_Debug_Show = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_Cascade = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_TileH = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_TileV = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug_CloseAll = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_StoreBase64Updates = new System.Windows.Forms.ToolStripMenuItem();
