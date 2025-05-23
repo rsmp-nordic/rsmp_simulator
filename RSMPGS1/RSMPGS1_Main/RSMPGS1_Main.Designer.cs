@@ -2312,7 +2312,7 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_CreateNew;
-    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Tile;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileV;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_CloseAll;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_Delimiter_0;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Close;
