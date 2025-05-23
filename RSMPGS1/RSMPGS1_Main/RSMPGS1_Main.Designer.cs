@@ -40,7 +40,12 @@
       this.ToolStripMenuItem_Delimiter_0 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_CreateNew = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_Debug_Tile = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_File_Debug_Show = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_Cascade = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_TileH = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_Debug_TileV = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug_CloseAll = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_StoreBase64Updates = new System.Windows.Forms.ToolStripMenuItem();
@@ -347,7 +352,12 @@
       // 
       this.ToolStripMenuItem_File_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File_Debug_CreateNew,
-            this.ToolStripMenuItem_File_Debug_Tile,
+            this.toolStripSeparator2,
+            this.ToolStripMenuItem_File_Debug_Show,
+            this.ToolStripMenuItem_File_Debug_Cascade,
+            this.ToolStripMenuItem_File_Debug_TileH,
+            this.ToolStripMenuItem_File_Debug_TileV,
+            this.toolStripSeparator3,
             this.ToolStripMenuItem_File_Debug_CloseAll,
             this.toolStripMenuItem1,
             this.ToolStripMenuItem_StoreBase64Updates});
@@ -359,15 +369,46 @@
       // 
       this.ToolStripMenuItem_File_Debug_CreateNew.Name = "ToolStripMenuItem_File_Debug_CreateNew";
       this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(215, 22);
-      this.ToolStripMenuItem_File_Debug_CreateNew.Text = "&Create new debug window";
+      this.ToolStripMenuItem_File_Debug_CreateNew.Text = "Create &new debug window";
       this.ToolStripMenuItem_File_Debug_CreateNew.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CreateNew_Click);
       // 
-      // ToolStripMenuItem_File_Debug_Tile
+      // toolStripSeparator2
       // 
-      this.ToolStripMenuItem_File_Debug_Tile.Name = "ToolStripMenuItem_File_Debug_Tile";
-      this.ToolStripMenuItem_File_Debug_Tile.Size = new System.Drawing.Size(215, 22);
-      this.ToolStripMenuItem_File_Debug_Tile.Text = "&Tile all debug windows";
-      this.ToolStripMenuItem_File_Debug_Tile.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
+      this.toolStripSeparator2.Name = "toolStripSeparator2";
+      this.toolStripSeparator2.Size = new System.Drawing.Size(212, 6);
+      // 
+      // ToolStripMenuItem_File_Debug_Show
+      // 
+      this.ToolStripMenuItem_File_Debug_Show.Name = "ToolStripMenuItem_File_Debug_Show";
+      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Show.Text = "Show all debug windows in &front";
+      this.ToolStripMenuItem_File_Debug_Show.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Show_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_Cascade
+      // 
+      this.ToolStripMenuItem_File_Debug_Cascade.Name = "ToolStripMenuItem_File_Debug_Cascade";
+      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Cascade.Text = "&Cascade all debug windows";
+      this.ToolStripMenuItem_File_Debug_Cascade.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Cascade_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_TileH
+      // 
+      this.ToolStripMenuItem_File_Debug_TileH.Name = "ToolStripMenuItem_File_Debug_TileH";
+      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileH.Text = "Tile &horizontally all debug windows";
+      this.ToolStripMenuItem_File_Debug_TileH.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_TileH_Click);
+      // 
+      // ToolStripMenuItem_File_Debug_TileV
+      // 
+      this.ToolStripMenuItem_File_Debug_TileV.Name = "ToolStripMenuItem_File_Debug_TileV";
+      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileV.Text = "Tile &vertically all debug windows";
+      this.ToolStripMenuItem_File_Debug_TileV.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
+      // 
+      // toolStripSeparator3
+      // 
+      this.toolStripSeparator3.Name = "toolStripSeparator3";
+      this.toolStripSeparator3.Size = new System.Drawing.Size(212, 6);
       // 
       // ToolStripMenuItem_File_Debug_CloseAll
       // 
@@ -2307,7 +2348,7 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_CreateNew;
-    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Tile;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileV;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_CloseAll;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_Delimiter_0;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Close;
@@ -2500,6 +2541,11 @@
     private System.Windows.Forms.Button button_BufferedMessages_CreateRandom;
     public System.Windows.Forms.TextBox textBox_BufferedMessages;
     private System.Windows.Forms.Label label_CreateRandomMessages_Total;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Show;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileH;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
   }
 }
 
