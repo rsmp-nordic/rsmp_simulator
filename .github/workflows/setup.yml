@@ -150,7 +150,7 @@ jobs:
 
   setup:
     name: Create Installer
-    runs-on: windows-2019
+    runs-on: windows-2022
     needs: [create_sxl, create_manual ]
     steps:
       - name: Checkout repository
