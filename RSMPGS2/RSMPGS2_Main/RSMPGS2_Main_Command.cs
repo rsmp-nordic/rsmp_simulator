@@ -143,7 +143,7 @@ namespace nsRSMPGS
       lvItem.SubItems.Add(CommandEvent.sValue);
       lvItem.SubItems.Add(CommandEvent.sAge);
 
-
+      listView_CommandEvents.ScrollAndMaxLines(true);
     }
 
     public void HandleCommandListUpdate(cRoadSideObject RoadSideObject, string sntsOId, string scId, cCommandEvent CommandEvent, bool bSend, bool bUseCaseSensitiveIds)

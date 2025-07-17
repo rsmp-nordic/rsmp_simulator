@@ -79,6 +79,7 @@
       this.treeView_SitesAndObjects = new System.Windows.Forms.TreeView();
       this.imageList_ListView = new System.Windows.Forms.ImageList(this.components);
       this.groupBox_SystemLog = new System.Windows.Forms.GroupBox();
+      this.checkBox_AutoScrollSysLog = new System.Windows.Forms.CheckBox();
       this.button_ClearSystemLog = new System.Windows.Forms.Button();
       this.checkBox_ViewOnlyFailedPackets = new System.Windows.Forms.CheckBox();
       this.imageList_Severity = new System.Windows.Forms.ImageList(this.components);
@@ -322,21 +323,21 @@
       // ToolStripMenuItem_File_LoadObjects_CSV
       // 
       this.ToolStripMenuItem_File_LoadObjects_CSV.Name = "ToolStripMenuItem_File_LoadObjects_CSV";
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(135, 22);
       this.ToolStripMenuItem_File_LoadObjects_CSV.Text = "CSV-files...";
       this.ToolStripMenuItem_File_LoadObjects_CSV.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_CSV_Click);
       // 
       // ToolStripMenuItem_File_LoadObjects_YAML
       // 
       this.ToolStripMenuItem_File_LoadObjects_YAML.Name = "ToolStripMenuItem_File_LoadObjects_YAML";
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(135, 22);
       this.ToolStripMenuItem_File_LoadObjects_YAML.Text = "YAML-file...";
       this.ToolStripMenuItem_File_LoadObjects_YAML.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_YAML_Click);
       // 
       // ToolStripMenuItem_File_LoadObjects_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadObjects_Delimiter.Name = "ToolStripMenuItem_File_LoadObjects_Delimiter";
-      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(149, 6);
+      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(132, 6);
       // 
       // ToolStripMenuItem_Delimiter_0
       // 
@@ -686,6 +687,7 @@
       // 
       // groupBox_SystemLog
       // 
+      this.groupBox_SystemLog.Controls.Add(this.checkBox_AutoScrollSysLog);
       this.groupBox_SystemLog.Controls.Add(this.button_ClearSystemLog);
       this.groupBox_SystemLog.Controls.Add(this.checkBox_ViewOnlyFailedPackets);
       this.groupBox_SystemLog.Controls.Add(this.listView_SysLog);
@@ -696,6 +698,19 @@
       this.groupBox_SystemLog.TabIndex = 1;
       this.groupBox_SystemLog.TabStop = false;
       this.groupBox_SystemLog.Text = "System &Log";
+      // 
+      // checkBox_AutoScrollSysLog
+      // 
+      this.checkBox_AutoScrollSysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.checkBox_AutoScrollSysLog.AutoSize = true;
+      this.checkBox_AutoScrollSysLog.Checked = true;
+      this.checkBox_AutoScrollSysLog.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(188, 200);
+      this.checkBox_AutoScrollSysLog.Name = "checkBox_AutoScrollSysLog";
+      this.checkBox_AutoScrollSysLog.Size = new System.Drawing.Size(75, 17);
+      this.checkBox_AutoScrollSysLog.TabIndex = 5;
+      this.checkBox_AutoScrollSysLog.Text = "Auto-scroll";
+      this.checkBox_AutoScrollSysLog.UseVisualStyleBackColor = true;
       // 
       // button_ClearSystemLog
       // 
@@ -1088,7 +1103,7 @@
       this.label_SXL_FilePath.AutoSize = true;
       this.label_SXL_FilePath.Location = new System.Drawing.Point(27, 102);
       this.label_SXL_FilePath.Name = "label_SXL_FilePath";
-      this.label_SXL_FilePath.Size = new System.Drawing.Size(81, 13);
+      this.label_SXL_FilePath.Size = new System.Drawing.Size(51, 13);
       this.label_SXL_FilePath.TabIndex = 9;
       this.label_SXL_FilePath.Text = "SXL path";
       this.label_SXL_FilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1119,7 +1134,7 @@
       this.label_SXL_VersionFromFile.AutoSize = true;
       this.label_SXL_VersionFromFile.Location = new System.Drawing.Point(138, 53);
       this.label_SXL_VersionFromFile.Name = "label_SXL_VersionFromFile";
-      this.label_SXL_VersionFromFile.Size = new System.Drawing.Size(151, 13);
+      this.label_SXL_VersionFromFile.Size = new System.Drawing.Size(121, 13);
       this.label_SXL_VersionFromFile.TabIndex = 6;
       this.label_SXL_VersionFromFile.Text = "SXL version found in file";
       this.label_SXL_VersionFromFile.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1146,7 +1161,7 @@
       this.label_SXL_VersionManually.AutoSize = true;
       this.label_SXL_VersionManually.Location = new System.Drawing.Point(24, 27);
       this.label_SXL_VersionManually.Name = "label_SXL_VersionManually";
-      this.label_SXL_VersionManually.Size = new System.Drawing.Size(265, 13);
+      this.label_SXL_VersionManually.Size = new System.Drawing.Size(235, 13);
       this.label_SXL_VersionManually.TabIndex = 0;
       this.label_SXL_VersionManually.Text = "Active SXL version to be used when connecting";
       this.label_SXL_VersionManually.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -2042,6 +2057,7 @@
             this.columnHeader_StatusBits_Description});
       this.listView_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
       this.listView_AggregatedStatus_StatusBits.FullRowSelect = true;
+      this.listView_AggregatedStatus_StatusBits.HideSelection = false;
       this.listView_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(3, 16);
       this.listView_AggregatedStatus_StatusBits.MultiSelect = false;
       this.listView_AggregatedStatus_StatusBits.Name = "listView_AggregatedStatus_StatusBits";
@@ -2500,6 +2516,7 @@
     private System.Windows.Forms.Button button_BufferedMessages_CreateRandom;
     public System.Windows.Forms.TextBox textBox_BufferedMessages;
     private System.Windows.Forms.Label label_CreateRandomMessages_Total;
+    public System.Windows.Forms.CheckBox checkBox_AutoScrollSysLog;
   }
 }
 

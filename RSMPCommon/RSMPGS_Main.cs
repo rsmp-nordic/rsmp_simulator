@@ -981,22 +981,25 @@ namespace nsRSMPGS
 
       if (bIsUpdatingAlarmEventList)
       {
-        listView_AlarmEvents.EndUpdate();
-        listView_AlarmEvents.ResumeSorting();
+//        listView_AlarmEvents.EndUpdate();
+//        listView_AlarmEvents.ResumeSorting();
+        listView_AlarmEvents.EndUpdateWithScrollAndMaxLines( true );
         bIsUpdatingAlarmEventList = false;
       }
 
       if (bIsUpdatingStatusEventList)
       {
-        listView_StatusEvents.EndUpdate();
-        listView_StatusEvents.ResumeSorting();
+//        listView_StatusEvents.EndUpdate();
+//        listView_StatusEvents.ResumeSorting();
+        listView_StatusEvents.EndUpdateWithScrollAndMaxLines( true );
         bIsUpdatingStatusEventList = false;
       }
 
       if (bIsUpdatingAggregatedStatusEventList)
       {
-        listView_AggregatedStatusEvents.EndUpdate();
-        listView_AggregatedStatusEvents.ResumeSorting();
+//        listView_AggregatedStatusEvents.EndUpdate();
+//        listView_AggregatedStatusEvents.ResumeSorting();
+        listView_AggregatedStatusEvents.EndUpdateWithScrollAndMaxLines( true );
         bIsUpdatingAggregatedStatusEventList = false;
       }
 
