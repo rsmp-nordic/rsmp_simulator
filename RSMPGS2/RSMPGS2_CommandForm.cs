@@ -25,6 +25,7 @@ namespace nsRSMPGS
       groupBox_Commands.Text = "Object: " + RoadSideObject.sComponentId;
 
       int i = 0;
+      int iFirstRowSelectedVisible = -1;
 
       foreach (cCommandObject CommandObject in RoadSideObject.CommandObjects)
       {
@@ -69,9 +70,14 @@ namespace nsRSMPGS
             combocell.Items.AddRange(aCommands);
             this.dataGridView_Commands.Rows[i].Cells[4].Value = aCommands[0];
           }
+          if (iFirstRowSelectedVisible==-1 && bWasSelected)
+            iFirstRowSelectedVisible = i;
+
           i++;
         }
       }
+      if (iFirstRowSelectedVisible!=-1 )
+        this.dataGridView_Commands.FirstDisplayedScrollingRowIndex = iFirstRowSelectedVisible;
     }
 
     private void dataGridView_Commands_CellClick(object sender, DataGridViewCellEventArgs e)

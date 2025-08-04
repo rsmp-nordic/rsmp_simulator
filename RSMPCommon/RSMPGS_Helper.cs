@@ -1801,6 +1801,8 @@ namespace nsRSMPGS
   {
 
     public ListViewColumnSorter ColumnSorter = new nsRSMPGS.ListViewColumnSorter();
+    public bool bAutoResizeCols = false;
+    public bool bSortingEnabled = true;
 
     public void StopSorting()
     {
@@ -1817,6 +1819,27 @@ namespace nsRSMPGS
     {
       ListViewItemSorter = ColumnSorter;
       DoubleBuffered = true;
+    }
+
+    public void ScrollAndMaxLines(bool bShowLastLine)
+    {
+      if (Items.Count == 0)
+        return;
+
+      while (Items.Count > 2000)
+      {
+        Items.RemoveAt(0);
+      }
+
+      if (bShowLastLine)
+      {
+        EnsureVisible(Items.Count - 1);
+      }
+
+      if (bAutoResizeCols)
+      {
+        AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+      }
     }
   }
 

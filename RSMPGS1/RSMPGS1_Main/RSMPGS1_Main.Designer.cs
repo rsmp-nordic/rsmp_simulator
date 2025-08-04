@@ -84,6 +84,7 @@
       this.treeView_SitesAndObjects = new System.Windows.Forms.TreeView();
       this.imageList_ListView = new System.Windows.Forms.ImageList(this.components);
       this.groupBox_SystemLog = new System.Windows.Forms.GroupBox();
+      this.checkBox_AutoScrollSysLog = new System.Windows.Forms.CheckBox();
       this.button_ClearSystemLog = new System.Windows.Forms.Button();
       this.checkBox_ViewOnlyFailedPackets = new System.Windows.Forms.CheckBox();
       this.imageList_Severity = new System.Windows.Forms.ImageList(this.components);
@@ -727,6 +728,7 @@
       // 
       // groupBox_SystemLog
       // 
+      this.groupBox_SystemLog.Controls.Add(this.checkBox_AutoScrollSysLog);
       this.groupBox_SystemLog.Controls.Add(this.button_ClearSystemLog);
       this.groupBox_SystemLog.Controls.Add(this.checkBox_ViewOnlyFailedPackets);
       this.groupBox_SystemLog.Controls.Add(this.listView_SysLog);
@@ -737,6 +739,19 @@
       this.groupBox_SystemLog.TabIndex = 1;
       this.groupBox_SystemLog.TabStop = false;
       this.groupBox_SystemLog.Text = "System &Log";
+      // 
+      // checkBox_AutoScrollSysLog
+      // 
+      this.checkBox_AutoScrollSysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.checkBox_AutoScrollSysLog.AutoSize = true;
+      this.checkBox_AutoScrollSysLog.Checked = true;
+      this.checkBox_AutoScrollSysLog.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(188, 200);
+      this.checkBox_AutoScrollSysLog.Name = "checkBox_AutoScrollSysLog";
+      this.checkBox_AutoScrollSysLog.Size = new System.Drawing.Size(75, 17);
+      this.checkBox_AutoScrollSysLog.TabIndex = 5;
+      this.checkBox_AutoScrollSysLog.Text = "Auto-scroll";
+      this.checkBox_AutoScrollSysLog.UseVisualStyleBackColor = true;
       // 
       // button_ClearSystemLog
       // 
@@ -2541,6 +2556,7 @@
     private System.Windows.Forms.Button button_BufferedMessages_CreateRandom;
     public System.Windows.Forms.TextBox textBox_BufferedMessages;
     private System.Windows.Forms.Label label_CreateRandomMessages_Total;
+    public System.Windows.Forms.CheckBox checkBox_AutoScrollSysLog;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Show;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
