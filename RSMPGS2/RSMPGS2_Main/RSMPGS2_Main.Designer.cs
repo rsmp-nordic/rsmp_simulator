@@ -136,17 +136,41 @@
       this.button_ResetRSMPSettingToDefault = new System.Windows.Forms.Button();
       this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
       this.button_ClearStatistics = new System.Windows.Forms.Button();
+      this.listView_Statistics = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Statistics_Desription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Statistics_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Statistics_Unit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Alarms = new System.Windows.Forms.TabPage();
       this.splitContainer_Alarms = new System.Windows.Forms.SplitContainer();
+      this.listView_Alarms = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Alarms_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_AlarmEvents = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_ExternalAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Priority = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Alarms_Category = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Alarm = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_Acknowledge = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_Suspend = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator_2 = new System.Windows.Forms.ToolStripSeparator();
       this.toolStripMenuItem_Alarm_RequestCurrentState = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox_AlarmEvents = new System.Windows.Forms.GroupBox();
+      this.listView_AlarmEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_AlarmEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_RoadSideObject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_Direction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AlarmEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_AggregatedStatus = new System.Windows.Forms.TabPage();
       this.splitContainer_AggregatedStatus = new System.Windows.Forms.SplitContainer();
       this.groupBox_AggregatedStatus_StatusBits = new System.Windows.Forms.GroupBox();
+      this.listView_AggregatedStatus_StatusBits = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_StatusBits_BitNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusBits_NTSColor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusBits_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.splitContainer_AggregatedStatus_FunctionalStatPos_Events = new System.Windows.Forms.SplitContainer();
       this.splitContainer_FunctionalStatPos = new System.Windows.Forms.SplitContainer();
       this.groupBox_AggregatedStatus_FunctionalPosition = new System.Windows.Forms.GroupBox();
@@ -155,8 +179,24 @@
       this.listBox_AggregatedStatus_FunctionalState = new System.Windows.Forms.ListBox();
       this.button_AggregatedStatus_Request = new System.Windows.Forms.Button();
       this.groupBox_AggregatedStatusEvents = new System.Windows.Forms.GroupBox();
+      this.listView_AggregatedStatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_AggStatEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_BitStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_FuncPos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_AggStatEvent_FuncState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Status = new System.Windows.Forms.TabPage();
       this.splitContainer_Status = new System.Windows.Forms.SplitContainer();
+      this.listView_Status = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Status_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_UpdateOnChange = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Status_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Status = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_StatusRequest = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_StatusSubscribe = new System.Windows.Forms.ToolStripMenuItem();
@@ -169,9 +209,38 @@
       this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_StatusUnsubscribe = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox_StatusEvents = new System.Windows.Forms.GroupBox();
+      this.listView_StatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_StatusEvents_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_MessageId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_StatusEvents_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_Commands = new System.Windows.Forms.TabPage();
+      this.splitContainer_Commands = new System.Windows.Forms.SplitContainer();
+      this.listView_Commands = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_Commands_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Commands_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Commands = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ToolStripMenuItem_Commands = new System.Windows.Forms.ToolStripMenuItem();
+      this.groupBox_CommandEvents = new System.Windows.Forms.GroupBox();
+      this.listView_CommandEvents = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_CommandEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_CommandEvent_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPage_TestSend = new System.Windows.Forms.TabPage();
       this.splitContainer_TestSend = new System.Windows.Forms.SplitContainer();
       this.button_TestPackage_1_Browse = new System.Windows.Forms.Button();
@@ -186,79 +255,6 @@
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
-      this.listView_SysLog = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_SysLog_Severity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_SysLog_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_SysLog_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_Statistics = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Statistics_Desription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Statistics_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Statistics_Unit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_Alarms = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Alarms_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_AlarmEvents = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_ExternalAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Priority = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Alarms_Category = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_AlarmEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_AlarmEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_RoadSideObject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_AlarmCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_Direction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AlarmEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_AggregatedStatus_StatusBits = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_StatusBits_BitNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusBits_NTSColor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusBits_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_AggregatedStatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_AggStatEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_BitStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_FuncPos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_AggStatEvent_FuncState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_Status = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Status_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_UpdateOnChange = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Status_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.listView_StatusEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_StatusEvents_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_MessageId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_StatusCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_Quality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_StatusEvents_UpdateRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.splitContainer_Commands = new System.Windows.Forms.SplitContainer();
-      this.listView_Commands = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_Commands_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Commands_Comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.groupBox_CommandEvents = new System.Windows.Forms.GroupBox();
-      this.listView_CommandEvents = new nsRSMPGS.ListViewDoubleBuffered();
-      this.columnHeader_CommandEvent_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_MsgId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Event = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_CommandCodeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_CommandEvent_Age = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -315,7 +311,12 @@
       this.contextMenuStrip_Status.SuspendLayout();
       this.groupBox_StatusEvents.SuspendLayout();
       this.tabPage_Commands.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).BeginInit();
+      this.splitContainer_Commands.Panel1.SuspendLayout();
+      this.splitContainer_Commands.Panel2.SuspendLayout();
+      this.splitContainer_Commands.SuspendLayout();
       this.contextMenuStrip_Commands.SuspendLayout();
+      this.groupBox_CommandEvents.SuspendLayout();
       this.tabPage_TestSend.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_TestSend)).BeginInit();
       this.splitContainer_TestSend.Panel1.SuspendLayout();
@@ -323,11 +324,6 @@
       this.splitContainer_TestSend.SuspendLayout();
       this.groupBox_TestSend1.SuspendLayout();
       this.groupBox_TestSend2.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).BeginInit();
-      this.splitContainer_Commands.Panel1.SuspendLayout();
-      this.splitContainer_Commands.Panel2.SuspendLayout();
-      this.splitContainer_Commands.SuspendLayout();
-      this.groupBox_CommandEvents.SuspendLayout();
       this.SuspendLayout();
       // 
       // timer_System
@@ -1372,6 +1368,42 @@
       this.button_ClearStatistics.UseVisualStyleBackColor = true;
       this.button_ClearStatistics.Click += new System.EventHandler(this.button_ClearStatistics_Click);
       // 
+      // listView_Statistics
+      // 
+      this.listView_Statistics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.listView_Statistics.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Statistics_Desription,
+            this.columnHeader_Statistics_Value,
+            this.columnHeader_Statistics_Unit});
+      this.listView_Statistics.FullRowSelect = true;
+      this.listView_Statistics.GridLines = true;
+      this.listView_Statistics.HideSelection = false;
+      this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
+      this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2);
+      this.listView_Statistics.Name = "listView_Statistics";
+      this.listView_Statistics.Size = new System.Drawing.Size(665, 310);
+      this.listView_Statistics.TabIndex = 0;
+      this.listView_Statistics.UseCompatibleStateImageBehavior = false;
+      this.listView_Statistics.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_Statistics_Desription
+      // 
+      this.columnHeader_Statistics_Desription.Text = "Description";
+      this.columnHeader_Statistics_Desription.Width = 200;
+      // 
+      // columnHeader_Statistics_Value
+      // 
+      this.columnHeader_Statistics_Value.Text = "Value";
+      this.columnHeader_Statistics_Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.columnHeader_Statistics_Value.Width = 100;
+      // 
+      // columnHeader_Statistics_Unit
+      // 
+      this.columnHeader_Statistics_Unit.Text = "Unit";
+      this.columnHeader_Statistics_Unit.Width = 100;
+      // 
       // tabPage_Alarms
       // 
       this.tabPage_Alarms.Controls.Add(this.splitContainer_Alarms);
@@ -1400,6 +1432,80 @@
       this.splitContainer_Alarms.Size = new System.Drawing.Size(666, 719);
       this.splitContainer_Alarms.SplitterDistance = 370;
       this.splitContainer_Alarms.TabIndex = 0;
+      // 
+      // listView_Alarms
+      // 
+      this.listView_Alarms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Alarms_Status,
+            this.columnHeader_Alarms_AlarmEvents,
+            this.columnHeader_Alarms_AlarmCodeId,
+            this.columnHeader_Alarms_Description,
+            this.columnHeader_Alarms_ExternalAlarmCodeId,
+            this.columnHeader_Alarms_ExternalNtSAlarmCodeId,
+            this.columnHeader_Alarms_Priority,
+            this.columnHeader_Alarms_Category});
+      this.listView_Alarms.ContextMenuStrip = this.contextMenuStrip_Alarm;
+      this.listView_Alarms.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_Alarms.FullRowSelect = true;
+      this.listView_Alarms.GridLines = true;
+      this.listView_Alarms.HideSelection = false;
+      this.listView_Alarms.Location = new System.Drawing.Point(0, 0);
+      this.listView_Alarms.Name = "listView_Alarms";
+      this.listView_Alarms.Size = new System.Drawing.Size(666, 370);
+      this.listView_Alarms.TabIndex = 1;
+      this.listView_Alarms.UseCompatibleStateImageBehavior = false;
+      this.listView_Alarms.View = System.Windows.Forms.View.Details;
+      this.listView_Alarms.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Alarms.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Alarms_MouseDoubleClick);
+      // 
+      // columnHeader_Alarms_Status
+      // 
+      this.columnHeader_Alarms_Status.Text = "Status";
+      this.columnHeader_Alarms_Status.Width = 104;
+      // 
+      // columnHeader_Alarms_AlarmEvents
+      // 
+      this.columnHeader_Alarms_AlarmEvents.Text = "Active Events";
+      this.columnHeader_Alarms_AlarmEvents.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // columnHeader_Alarms_AlarmCodeId
+      // 
+      this.columnHeader_Alarms_AlarmCodeId.Tag = "AlarmCodeId";
+      this.columnHeader_Alarms_AlarmCodeId.Text = "AlarmCodeId";
+      this.columnHeader_Alarms_AlarmCodeId.Width = 83;
+      // 
+      // columnHeader_Alarms_Description
+      // 
+      this.columnHeader_Alarms_Description.Tag = "Description";
+      this.columnHeader_Alarms_Description.Text = "Description";
+      this.columnHeader_Alarms_Description.Width = 154;
+      // 
+      // columnHeader_Alarms_ExternalAlarmCodeId
+      // 
+      this.columnHeader_Alarms_ExternalAlarmCodeId.Tag = "ExternalAlarmCodeId";
+      this.columnHeader_Alarms_ExternalAlarmCodeId.Text = "ExternalAlarmCodeId";
+      this.columnHeader_Alarms_ExternalAlarmCodeId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.columnHeader_Alarms_ExternalAlarmCodeId.Width = 127;
+      // 
+      // columnHeader_Alarms_ExternalNtSAlarmCodeId
+      // 
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Tag = "ExternalNtSAlarmCodeId";
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Text = "ExternalNTSAlarmCodeId";
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Width = 143;
+      // 
+      // columnHeader_Alarms_Priority
+      // 
+      this.columnHeader_Alarms_Priority.Tag = "Priority";
+      this.columnHeader_Alarms_Priority.Text = "Priority";
+      this.columnHeader_Alarms_Priority.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.columnHeader_Alarms_Priority.Width = 63;
+      // 
+      // columnHeader_Alarms_Category
+      // 
+      this.columnHeader_Alarms_Category.Tag = "Category";
+      this.columnHeader_Alarms_Category.Text = "Category";
+      this.columnHeader_Alarms_Category.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
       // 
       // contextMenuStrip_Alarm
       // 
@@ -1453,6 +1559,64 @@
       this.groupBox_AlarmEvents.TabStop = false;
       this.groupBox_AlarmEvents.Text = "Alarm &Events";
       // 
+      // listView_AlarmEvents
+      // 
+      this.listView_AlarmEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_AlarmEvent_TimeStamp,
+            this.columnHeader_AlarmEvent_RoadSideObject,
+            this.columnHeader_AlarmEvent_MsgId,
+            this.columnHeader_AlarmEvent_AlarmCodeId,
+            this.columnHeader_AlarmEvent_Direction,
+            this.columnHeader_AlarmEvent_Event});
+      this.listView_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_AlarmEvents.FullRowSelect = true;
+      this.listView_AlarmEvents.GridLines = true;
+      this.listView_AlarmEvents.HideSelection = false;
+      this.listView_AlarmEvents.Location = new System.Drawing.Point(3, 16);
+      this.listView_AlarmEvents.MultiSelect = false;
+      this.listView_AlarmEvents.Name = "listView_AlarmEvents";
+      this.listView_AlarmEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_AlarmEvents.TabIndex = 3;
+      this.listView_AlarmEvents.UseCompatibleStateImageBehavior = false;
+      this.listView_AlarmEvents.View = System.Windows.Forms.View.Details;
+      this.listView_AlarmEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      // 
+      // columnHeader_AlarmEvent_TimeStamp
+      // 
+      this.columnHeader_AlarmEvent_TimeStamp.Tag = "AlarmEvent_Timestamp";
+      this.columnHeader_AlarmEvent_TimeStamp.Text = "Timestamp";
+      this.columnHeader_AlarmEvent_TimeStamp.Width = 181;
+      // 
+      // columnHeader_AlarmEvent_RoadSideObject
+      // 
+      this.columnHeader_AlarmEvent_RoadSideObject.Tag = "AlarmEvent_RoadSideObject";
+      this.columnHeader_AlarmEvent_RoadSideObject.Text = "Object";
+      this.columnHeader_AlarmEvent_RoadSideObject.Width = 100;
+      // 
+      // columnHeader_AlarmEvent_MsgId
+      // 
+      this.columnHeader_AlarmEvent_MsgId.Tag = "AlarmEvent_MsgId";
+      this.columnHeader_AlarmEvent_MsgId.Text = "MessageId";
+      this.columnHeader_AlarmEvent_MsgId.Width = 260;
+      // 
+      // columnHeader_AlarmEvent_AlarmCodeId
+      // 
+      this.columnHeader_AlarmEvent_AlarmCodeId.Tag = "AlarmEvent_AlarmCodeId";
+      this.columnHeader_AlarmEvent_AlarmCodeId.Text = "AlarmCodeId";
+      this.columnHeader_AlarmEvent_AlarmCodeId.Width = 116;
+      // 
+      // columnHeader_AlarmEvent_Direction
+      // 
+      this.columnHeader_AlarmEvent_Direction.Tag = "AlarmEvent_Direction";
+      this.columnHeader_AlarmEvent_Direction.Text = "Direction";
+      this.columnHeader_AlarmEvent_Direction.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // columnHeader_AlarmEvent_Event
+      // 
+      this.columnHeader_AlarmEvent_Event.Tag = "AlarmEvent_Event";
+      this.columnHeader_AlarmEvent_Event.Text = "Event";
+      this.columnHeader_AlarmEvent_Event.Width = 127;
+      // 
       // tabPage_AggregatedStatus
       // 
       this.tabPage_AggregatedStatus.Controls.Add(this.splitContainer_AggregatedStatus);
@@ -1492,6 +1656,39 @@
       this.groupBox_AggregatedStatus_StatusBits.TabIndex = 12;
       this.groupBox_AggregatedStatus_StatusBits.TabStop = false;
       this.groupBox_AggregatedStatus_StatusBits.Text = "StatusBits";
+      // 
+      // listView_AggregatedStatus_StatusBits
+      // 
+      this.listView_AggregatedStatus_StatusBits.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_StatusBits_BitNumber,
+            this.columnHeader_StatusBits_NTSColor,
+            this.columnHeader_StatusBits_Description});
+      this.listView_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_AggregatedStatus_StatusBits.FullRowSelect = true;
+      this.listView_AggregatedStatus_StatusBits.HideSelection = false;
+      this.listView_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(3, 16);
+      this.listView_AggregatedStatus_StatusBits.MultiSelect = false;
+      this.listView_AggregatedStatus_StatusBits.Name = "listView_AggregatedStatus_StatusBits";
+      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 196);
+      this.listView_AggregatedStatus_StatusBits.SmallImageList = this.imageList_ListView;
+      this.listView_AggregatedStatus_StatusBits.TabIndex = 7;
+      this.listView_AggregatedStatus_StatusBits.UseCompatibleStateImageBehavior = false;
+      this.listView_AggregatedStatus_StatusBits.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_StatusBits_BitNumber
+      // 
+      this.columnHeader_StatusBits_BitNumber.Text = "Status bit";
+      this.columnHeader_StatusBits_BitNumber.Width = 63;
+      // 
+      // columnHeader_StatusBits_NTSColor
+      // 
+      this.columnHeader_StatusBits_NTSColor.Text = "NTS Color";
+      this.columnHeader_StatusBits_NTSColor.Width = 70;
+      // 
+      // columnHeader_StatusBits_Description
+      // 
+      this.columnHeader_StatusBits_Description.Text = "Description";
+      this.columnHeader_StatusBits_Description.Width = 434;
       // 
       // splitContainer_AggregatedStatus_FunctionalStatPos_Events
       // 
@@ -1595,6 +1792,56 @@
       this.groupBox_AggregatedStatusEvents.TabStop = false;
       this.groupBox_AggregatedStatusEvents.Text = "Aggregated Status &Events";
       // 
+      // listView_AggregatedStatusEvents
+      // 
+      this.listView_AggregatedStatusEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_AggStatEvent_TimeStamp,
+            this.columnHeader_AggStatEvent_MsgId,
+            this.columnHeader_AggStatEvent_BitStatus,
+            this.columnHeader_AggStatEvent_FuncPos,
+            this.columnHeader_AggStatEvent_FuncState});
+      this.listView_AggregatedStatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_AggregatedStatusEvents.FullRowSelect = true;
+      this.listView_AggregatedStatusEvents.GridLines = true;
+      this.listView_AggregatedStatusEvents.HideSelection = false;
+      this.listView_AggregatedStatusEvents.Location = new System.Drawing.Point(3, 16);
+      this.listView_AggregatedStatusEvents.MultiSelect = false;
+      this.listView_AggregatedStatusEvents.Name = "listView_AggregatedStatusEvents";
+      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 308);
+      this.listView_AggregatedStatusEvents.TabIndex = 3;
+      this.listView_AggregatedStatusEvents.UseCompatibleStateImageBehavior = false;
+      this.listView_AggregatedStatusEvents.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_AggStatEvent_TimeStamp
+      // 
+      this.columnHeader_AggStatEvent_TimeStamp.Tag = "AggStatEvent_Timestamp";
+      this.columnHeader_AggStatEvent_TimeStamp.Text = "Timestamp";
+      this.columnHeader_AggStatEvent_TimeStamp.Width = 181;
+      // 
+      // columnHeader_AggStatEvent_MsgId
+      // 
+      this.columnHeader_AggStatEvent_MsgId.Tag = "AggStatEvent_MsgId";
+      this.columnHeader_AggStatEvent_MsgId.Text = "MessageId";
+      this.columnHeader_AggStatEvent_MsgId.Width = 260;
+      // 
+      // columnHeader_AggStatEvent_BitStatus
+      // 
+      this.columnHeader_AggStatEvent_BitStatus.Tag = "AggStatEvent_BitStatus";
+      this.columnHeader_AggStatEvent_BitStatus.Text = "BitStatus";
+      this.columnHeader_AggStatEvent_BitStatus.Width = 116;
+      // 
+      // columnHeader_AggStatEvent_FuncPos
+      // 
+      this.columnHeader_AggStatEvent_FuncPos.Tag = "AggStatEvent_FuncPos";
+      this.columnHeader_AggStatEvent_FuncPos.Text = "FunctionalPosition";
+      this.columnHeader_AggStatEvent_FuncPos.Width = 127;
+      // 
+      // columnHeader_AggStatEvent_FuncState
+      // 
+      this.columnHeader_AggStatEvent_FuncState.Tag = "AggStatEvent_FuncState";
+      this.columnHeader_AggStatEvent_FuncState.Text = "FunctionalState";
+      this.columnHeader_AggStatEvent_FuncState.Width = 109;
+      // 
       // tabPage_Status
       // 
       this.tabPage_Status.Controls.Add(this.splitContainer_Status);
@@ -1623,6 +1870,72 @@
       this.splitContainer_Status.Size = new System.Drawing.Size(666, 719);
       this.splitContainer_Status.SplitterDistance = 370;
       this.splitContainer_Status.TabIndex = 2;
+      // 
+      // listView_Status
+      // 
+      this.listView_Status.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Status_StatusCodeId,
+            this.columnHeader_Status_Description,
+            this.columnHeader_Status_Name,
+            this.columnHeader_Status_Type,
+            this.columnHeader_Status_Value,
+            this.columnHeader_Status_Quality,
+            this.columnHeader_Status_UpdateRate,
+            this.columnHeader_Status_UpdateOnChange,
+            this.columnHeader_Status_Comment});
+      this.listView_Status.ContextMenuStrip = this.contextMenuStrip_Status;
+      this.listView_Status.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_Status.FullRowSelect = true;
+      this.listView_Status.GridLines = true;
+      this.listView_Status.HideSelection = false;
+      this.listView_Status.Location = new System.Drawing.Point(0, 0);
+      this.listView_Status.Name = "listView_Status";
+      this.listView_Status.Size = new System.Drawing.Size(666, 370);
+      this.listView_Status.TabIndex = 1;
+      this.listView_Status.UseCompatibleStateImageBehavior = false;
+      this.listView_Status.View = System.Windows.Forms.View.Details;
+      this.listView_Status.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Status.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Status_MouseDoubleClick);
+      // 
+      // columnHeader_Status_StatusCodeId
+      // 
+      this.columnHeader_Status_StatusCodeId.Text = "StatusCodeId";
+      this.columnHeader_Status_StatusCodeId.Width = 104;
+      // 
+      // columnHeader_Status_Description
+      // 
+      this.columnHeader_Status_Description.Text = "Description";
+      this.columnHeader_Status_Description.Width = 90;
+      // 
+      // columnHeader_Status_Name
+      // 
+      this.columnHeader_Status_Name.Text = "Name";
+      // 
+      // columnHeader_Status_Type
+      // 
+      this.columnHeader_Status_Type.Text = "Type";
+      // 
+      // columnHeader_Status_Value
+      // 
+      this.columnHeader_Status_Value.Text = "Value";
+      // 
+      // columnHeader_Status_Quality
+      // 
+      this.columnHeader_Status_Quality.Text = "Quality";
+      // 
+      // columnHeader_Status_UpdateRate
+      // 
+      this.columnHeader_Status_UpdateRate.Text = "UpdateRate";
+      this.columnHeader_Status_UpdateRate.Width = 97;
+      // 
+      // columnHeader_Status_UpdateOnChange
+      // 
+      this.columnHeader_Status_UpdateOnChange.Text = "UpdateOnChange";
+      this.columnHeader_Status_UpdateOnChange.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // columnHeader_Status_Comment
+      // 
+      this.columnHeader_Status_Comment.Text = "Comment";
       // 
       // contextMenuStrip_Status
       // 
@@ -1722,6 +2035,70 @@
       this.groupBox_StatusEvents.TabStop = false;
       this.groupBox_StatusEvents.Text = "Status &Events";
       // 
+      // listView_StatusEvents
+      // 
+      this.listView_StatusEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_StatusEvents_TimeStamp,
+            this.columnHeader_StatusEvents_MessageId,
+            this.columnHeader_StatusEvents_Event,
+            this.columnHeader_StatusEvents_StatusCodeId,
+            this.columnHeader_StatusEvents_Name,
+            this.columnHeader_StatusEvents_Value,
+            this.columnHeader_StatusEvents_Quality,
+            this.columnHeader_StatusEvents_UpdateRate});
+      this.listView_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_StatusEvents.FullRowSelect = true;
+      this.listView_StatusEvents.GridLines = true;
+      this.listView_StatusEvents.HideSelection = false;
+      this.listView_StatusEvents.Location = new System.Drawing.Point(3, 16);
+      this.listView_StatusEvents.MultiSelect = false;
+      this.listView_StatusEvents.Name = "listView_StatusEvents";
+      this.listView_StatusEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_StatusEvents.TabIndex = 3;
+      this.listView_StatusEvents.UseCompatibleStateImageBehavior = false;
+      this.listView_StatusEvents.View = System.Windows.Forms.View.Details;
+      this.listView_StatusEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      // 
+      // columnHeader_StatusEvents_TimeStamp
+      // 
+      this.columnHeader_StatusEvents_TimeStamp.Tag = "";
+      this.columnHeader_StatusEvents_TimeStamp.Text = "Timestamp";
+      this.columnHeader_StatusEvents_TimeStamp.Width = 91;
+      // 
+      // columnHeader_StatusEvents_MessageId
+      // 
+      this.columnHeader_StatusEvents_MessageId.Tag = "";
+      this.columnHeader_StatusEvents_MessageId.Text = "MessageId";
+      this.columnHeader_StatusEvents_MessageId.Width = 139;
+      // 
+      // columnHeader_StatusEvents_Event
+      // 
+      this.columnHeader_StatusEvents_Event.Tag = "";
+      this.columnHeader_StatusEvents_Event.Text = "Event";
+      this.columnHeader_StatusEvents_Event.Width = 127;
+      // 
+      // columnHeader_StatusEvents_StatusCodeId
+      // 
+      this.columnHeader_StatusEvents_StatusCodeId.Text = "StatusCodeId";
+      this.columnHeader_StatusEvents_StatusCodeId.Width = 92;
+      // 
+      // columnHeader_StatusEvents_Name
+      // 
+      this.columnHeader_StatusEvents_Name.Text = "Name";
+      // 
+      // columnHeader_StatusEvents_Value
+      // 
+      this.columnHeader_StatusEvents_Value.Text = "Value";
+      // 
+      // columnHeader_StatusEvents_Quality
+      // 
+      this.columnHeader_StatusEvents_Quality.Text = "Quality";
+      // 
+      // columnHeader_StatusEvents_UpdateRate
+      // 
+      this.columnHeader_StatusEvents_UpdateRate.Text = "UpdateRate";
+      this.columnHeader_StatusEvents_UpdateRate.Width = 99;
+      // 
       // tabPage_Commands
       // 
       this.tabPage_Commands.Controls.Add(this.splitContainer_Commands);
@@ -1732,6 +2109,87 @@
       this.tabPage_Commands.TabIndex = 5;
       this.tabPage_Commands.Text = "Commands";
       this.tabPage_Commands.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer_Commands
+      // 
+      this.splitContainer_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer_Commands.Location = new System.Drawing.Point(3, 3);
+      this.splitContainer_Commands.Name = "splitContainer_Commands";
+      this.splitContainer_Commands.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer_Commands.Panel1
+      // 
+      this.splitContainer_Commands.Panel1.Controls.Add(this.listView_Commands);
+      // 
+      // splitContainer_Commands.Panel2
+      // 
+      this.splitContainer_Commands.Panel2.Controls.Add(this.groupBox_CommandEvents);
+      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 719);
+      this.splitContainer_Commands.SplitterDistance = 370;
+      this.splitContainer_Commands.TabIndex = 1;
+      // 
+      // listView_Commands
+      // 
+      this.listView_Commands.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Commands_CommandCodeId,
+            this.columnHeader_Commands_Description,
+            this.columnHeader_Commands_Name,
+            this.columnHeader_Commands_Command,
+            this.columnHeader_Commands_Type,
+            this.columnHeader_Commands_Value,
+            this.columnHeader_Commands_Age,
+            this.columnHeader_Commands_Comment});
+      this.listView_Commands.ContextMenuStrip = this.contextMenuStrip_Commands;
+      this.listView_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_Commands.FullRowSelect = true;
+      this.listView_Commands.GridLines = true;
+      this.listView_Commands.HideSelection = false;
+      this.listView_Commands.Location = new System.Drawing.Point(0, 0);
+      this.listView_Commands.Name = "listView_Commands";
+      this.listView_Commands.Size = new System.Drawing.Size(666, 370);
+      this.listView_Commands.TabIndex = 1;
+      this.listView_Commands.UseCompatibleStateImageBehavior = false;
+      this.listView_Commands.View = System.Windows.Forms.View.Details;
+      this.listView_Commands.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      // 
+      // columnHeader_Commands_CommandCodeId
+      // 
+      this.columnHeader_Commands_CommandCodeId.Text = "CommandCodeId";
+      this.columnHeader_Commands_CommandCodeId.Width = 103;
+      // 
+      // columnHeader_Commands_Description
+      // 
+      this.columnHeader_Commands_Description.Text = "Description";
+      this.columnHeader_Commands_Description.Width = 90;
+      // 
+      // columnHeader_Commands_Name
+      // 
+      this.columnHeader_Commands_Name.Text = "Name";
+      this.columnHeader_Commands_Name.Width = 68;
+      // 
+      // columnHeader_Commands_Command
+      // 
+      this.columnHeader_Commands_Command.Text = "Command";
+      this.columnHeader_Commands_Command.Width = 81;
+      // 
+      // columnHeader_Commands_Type
+      // 
+      this.columnHeader_Commands_Type.Text = "Type";
+      this.columnHeader_Commands_Type.Width = 89;
+      // 
+      // columnHeader_Commands_Value
+      // 
+      this.columnHeader_Commands_Value.Text = "Value";
+      this.columnHeader_Commands_Value.Width = 103;
+      // 
+      // columnHeader_Commands_Age
+      // 
+      this.columnHeader_Commands_Age.Text = "Age";
+      // 
+      // columnHeader_Commands_Comment
+      // 
+      this.columnHeader_Commands_Comment.Text = "Comment";
+      this.columnHeader_Commands_Comment.Width = 96;
       // 
       // contextMenuStrip_Commands
       // 
@@ -1749,6 +2207,80 @@
       this.ToolStripMenuItem_Commands.Tag = "SelectCommandsAndSend";
       this.ToolStripMenuItem_Commands.Text = "&Commands";
       this.ToolStripMenuItem_Commands.Click += new System.EventHandler(this.ToolStripMenuItem_Commands_Click);
+      // 
+      // groupBox_CommandEvents
+      // 
+      this.groupBox_CommandEvents.Controls.Add(this.listView_CommandEvents);
+      this.groupBox_CommandEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.groupBox_CommandEvents.Location = new System.Drawing.Point(0, 0);
+      this.groupBox_CommandEvents.Name = "groupBox_CommandEvents";
+      this.groupBox_CommandEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_CommandEvents.TabIndex = 0;
+      this.groupBox_CommandEvents.TabStop = false;
+      this.groupBox_CommandEvents.Text = "Command &Events";
+      // 
+      // listView_CommandEvents
+      // 
+      this.listView_CommandEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_CommandEvent_TimeStamp,
+            this.columnHeader_CommandEvent_MsgId,
+            this.columnHeader_CommandEvent_Event,
+            this.columnHeader_CommandEvent_CommandCodeId,
+            this.columnHeader_CommandEvent_Name,
+            this.columnHeader_CommandEvent_Command,
+            this.columnHeader_CommandEvent_Value,
+            this.columnHeader_CommandEvent_Age});
+      this.listView_CommandEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.listView_CommandEvents.FullRowSelect = true;
+      this.listView_CommandEvents.GridLines = true;
+      this.listView_CommandEvents.HideSelection = false;
+      this.listView_CommandEvents.Location = new System.Drawing.Point(3, 16);
+      this.listView_CommandEvents.MultiSelect = false;
+      this.listView_CommandEvents.Name = "listView_CommandEvents";
+      this.listView_CommandEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_CommandEvents.TabIndex = 3;
+      this.listView_CommandEvents.UseCompatibleStateImageBehavior = false;
+      this.listView_CommandEvents.View = System.Windows.Forms.View.Details;
+      this.listView_CommandEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      // 
+      // columnHeader_CommandEvent_TimeStamp
+      // 
+      this.columnHeader_CommandEvent_TimeStamp.Tag = "CommandEvent_Timestamp";
+      this.columnHeader_CommandEvent_TimeStamp.Text = "Timestamp";
+      this.columnHeader_CommandEvent_TimeStamp.Width = 181;
+      // 
+      // columnHeader_CommandEvent_MsgId
+      // 
+      this.columnHeader_CommandEvent_MsgId.Tag = "CommandEvent_MsgId";
+      this.columnHeader_CommandEvent_MsgId.Text = "MessageId";
+      this.columnHeader_CommandEvent_MsgId.Width = 260;
+      // 
+      // columnHeader_CommandEvent_Event
+      // 
+      this.columnHeader_CommandEvent_Event.Tag = "CommandEvent_Event";
+      this.columnHeader_CommandEvent_Event.Text = "Event";
+      this.columnHeader_CommandEvent_Event.Width = 127;
+      // 
+      // columnHeader_CommandEvent_CommandCodeId
+      // 
+      this.columnHeader_CommandEvent_CommandCodeId.Text = "CommandCodeId";
+      // 
+      // columnHeader_CommandEvent_Name
+      // 
+      this.columnHeader_CommandEvent_Name.Text = "Name";
+      // 
+      // columnHeader_CommandEvent_Command
+      // 
+      this.columnHeader_CommandEvent_Command.Text = "Command";
+      this.columnHeader_CommandEvent_Command.Width = 99;
+      // 
+      // columnHeader_CommandEvent_Value
+      // 
+      this.columnHeader_CommandEvent_Value.Text = "Value";
+      // 
+      // columnHeader_CommandEvent_Age
+      // 
+      this.columnHeader_CommandEvent_Age.Text = "Age";
       // 
       // tabPage_TestSend
       // 
@@ -1893,580 +2425,6 @@
       // 
       this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
       // 
-      // listView_SysLog
-      // 
-      this.listView_SysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.listView_SysLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_SysLog_Severity,
-            this.columnHeader_SysLog_TimeStamp,
-            this.columnHeader_SysLog_Description});
-      this.listView_SysLog.FullRowSelect = true;
-      this.listView_SysLog.GridLines = true;
-      this.listView_SysLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-      this.listView_SysLog.HideSelection = false;
-      this.listView_SysLog.Location = new System.Drawing.Point(6, 18);
-      this.listView_SysLog.Margin = new System.Windows.Forms.Padding(2);
-      this.listView_SysLog.MultiSelect = false;
-      this.listView_SysLog.Name = "listView_SysLog";
-      this.listView_SysLog.ShowItemToolTips = true;
-      this.listView_SysLog.Size = new System.Drawing.Size(301, 258);
-      this.listView_SysLog.SmallImageList = this.imageList_Severity;
-      this.listView_SysLog.TabIndex = 0;
-      this.listView_SysLog.UseCompatibleStateImageBehavior = false;
-      this.listView_SysLog.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_SysLog_Severity
-      // 
-      this.columnHeader_SysLog_Severity.Text = "Severity";
-      this.columnHeader_SysLog_Severity.Width = 10;
-      // 
-      // columnHeader_SysLog_TimeStamp
-      // 
-      this.columnHeader_SysLog_TimeStamp.Text = "Time";
-      // 
-      // columnHeader_SysLog_Description
-      // 
-      this.columnHeader_SysLog_Description.Text = "Description";
-      this.columnHeader_SysLog_Description.Width = 200;
-      // 
-      // listView_Statistics
-      // 
-      this.listView_Statistics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.listView_Statistics.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_Statistics_Desription,
-            this.columnHeader_Statistics_Value,
-            this.columnHeader_Statistics_Unit});
-      this.listView_Statistics.FullRowSelect = true;
-      this.listView_Statistics.GridLines = true;
-      this.listView_Statistics.HideSelection = false;
-      this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
-      this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2);
-      this.listView_Statistics.Name = "listView_Statistics";
-      this.listView_Statistics.Size = new System.Drawing.Size(665, 310);
-      this.listView_Statistics.TabIndex = 0;
-      this.listView_Statistics.UseCompatibleStateImageBehavior = false;
-      this.listView_Statistics.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_Statistics_Desription
-      // 
-      this.columnHeader_Statistics_Desription.Text = "Description";
-      this.columnHeader_Statistics_Desription.Width = 200;
-      // 
-      // columnHeader_Statistics_Value
-      // 
-      this.columnHeader_Statistics_Value.Text = "Value";
-      this.columnHeader_Statistics_Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.columnHeader_Statistics_Value.Width = 100;
-      // 
-      // columnHeader_Statistics_Unit
-      // 
-      this.columnHeader_Statistics_Unit.Text = "Unit";
-      this.columnHeader_Statistics_Unit.Width = 100;
-      // 
-      // listView_Alarms
-      // 
-      this.listView_Alarms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_Alarms_Status,
-            this.columnHeader_Alarms_AlarmEvents,
-            this.columnHeader_Alarms_AlarmCodeId,
-            this.columnHeader_Alarms_Description,
-            this.columnHeader_Alarms_ExternalAlarmCodeId,
-            this.columnHeader_Alarms_ExternalNtSAlarmCodeId,
-            this.columnHeader_Alarms_Priority,
-            this.columnHeader_Alarms_Category});
-      this.listView_Alarms.ContextMenuStrip = this.contextMenuStrip_Alarm;
-      this.listView_Alarms.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_Alarms.FullRowSelect = true;
-      this.listView_Alarms.GridLines = true;
-      this.listView_Alarms.HideSelection = false;
-      this.listView_Alarms.Location = new System.Drawing.Point(0, 0);
-      this.listView_Alarms.Name = "listView_Alarms";
-      this.listView_Alarms.Size = new System.Drawing.Size(666, 370);
-      this.listView_Alarms.TabIndex = 1;
-      this.listView_Alarms.UseCompatibleStateImageBehavior = false;
-      this.listView_Alarms.View = System.Windows.Forms.View.Details;
-      this.listView_Alarms.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      this.listView_Alarms.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Alarms_MouseDoubleClick);
-
-      // 
-      // columnHeader_Alarms_Status
-      // 
-      this.columnHeader_Alarms_Status.Text = "Status";
-      this.columnHeader_Alarms_Status.Width = 104;
-      // 
-      // columnHeader_Alarms_AlarmEvents
-      // 
-      this.columnHeader_Alarms_AlarmEvents.Text = "Active Events";
-      this.columnHeader_Alarms_AlarmEvents.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      // 
-      // columnHeader_Alarms_AlarmCodeId
-      // 
-      this.columnHeader_Alarms_AlarmCodeId.Tag = "AlarmCodeId";
-      this.columnHeader_Alarms_AlarmCodeId.Text = "AlarmCodeId";
-      this.columnHeader_Alarms_AlarmCodeId.Width = 83;
-      // 
-      // columnHeader_Alarms_Description
-      // 
-      this.columnHeader_Alarms_Description.Tag = "Description";
-      this.columnHeader_Alarms_Description.Text = "Description";
-      this.columnHeader_Alarms_Description.Width = 154;
-      // 
-      // columnHeader_Alarms_ExternalAlarmCodeId
-      // 
-      this.columnHeader_Alarms_ExternalAlarmCodeId.Tag = "ExternalAlarmCodeId";
-      this.columnHeader_Alarms_ExternalAlarmCodeId.Text = "ExternalAlarmCodeId";
-      this.columnHeader_Alarms_ExternalAlarmCodeId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.columnHeader_Alarms_ExternalAlarmCodeId.Width = 127;
-      // 
-      // columnHeader_Alarms_ExternalNtSAlarmCodeId
-      // 
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Tag = "ExternalNtSAlarmCodeId";
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Text = "ExternalNTSAlarmCodeId";
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.columnHeader_Alarms_ExternalNtSAlarmCodeId.Width = 143;
-      // 
-      // columnHeader_Alarms_Priority
-      // 
-      this.columnHeader_Alarms_Priority.Tag = "Priority";
-      this.columnHeader_Alarms_Priority.Text = "Priority";
-      this.columnHeader_Alarms_Priority.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.columnHeader_Alarms_Priority.Width = 63;
-      // 
-      // columnHeader_Alarms_Category
-      // 
-      this.columnHeader_Alarms_Category.Tag = "Category";
-      this.columnHeader_Alarms_Category.Text = "Category";
-      this.columnHeader_Alarms_Category.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      // 
-      // listView_AlarmEvents
-      // 
-      this.listView_AlarmEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_AlarmEvent_TimeStamp,
-            this.columnHeader_AlarmEvent_RoadSideObject,
-            this.columnHeader_AlarmEvent_MsgId,
-            this.columnHeader_AlarmEvent_AlarmCodeId,
-            this.columnHeader_AlarmEvent_Direction,
-            this.columnHeader_AlarmEvent_Event});
-      this.listView_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_AlarmEvents.FullRowSelect = true;
-      this.listView_AlarmEvents.GridLines = true;
-      this.listView_AlarmEvents.HideSelection = false;
-      this.listView_AlarmEvents.Location = new System.Drawing.Point(3, 16);
-      this.listView_AlarmEvents.MultiSelect = false;
-      this.listView_AlarmEvents.Name = "listView_AlarmEvents";
-      this.listView_AlarmEvents.Size = new System.Drawing.Size(660, 326);
-      this.listView_AlarmEvents.TabIndex = 3;
-      this.listView_AlarmEvents.UseCompatibleStateImageBehavior = false;
-      this.listView_AlarmEvents.View = System.Windows.Forms.View.Details;
-      this.listView_AlarmEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      // 
-      // columnHeader_AlarmEvent_TimeStamp
-      // 
-      this.columnHeader_AlarmEvent_TimeStamp.Tag = "AlarmEvent_Timestamp";
-      this.columnHeader_AlarmEvent_TimeStamp.Text = "Timestamp";
-      this.columnHeader_AlarmEvent_TimeStamp.Width = 181;
-      // 
-      // columnHeader_AlarmEvent_RoadSideObject
-      // 
-      this.columnHeader_AlarmEvent_RoadSideObject.Tag = "AlarmEvent_RoadSideObject";
-      this.columnHeader_AlarmEvent_RoadSideObject.Text = "Object";
-      this.columnHeader_AlarmEvent_RoadSideObject.Width = 100;
-      // 
-      // columnHeader_AlarmEvent_MsgId
-      // 
-      this.columnHeader_AlarmEvent_MsgId.Tag = "AlarmEvent_MsgId";
-      this.columnHeader_AlarmEvent_MsgId.Text = "MessageId";
-      this.columnHeader_AlarmEvent_MsgId.Width = 260;
-      // 
-      // columnHeader_AlarmEvent_AlarmCodeId
-      // 
-      this.columnHeader_AlarmEvent_AlarmCodeId.Tag = "AlarmEvent_AlarmCodeId";
-      this.columnHeader_AlarmEvent_AlarmCodeId.Text = "AlarmCodeId";
-      this.columnHeader_AlarmEvent_AlarmCodeId.Width = 116;
-      // 
-      // columnHeader_AlarmEvent_Direction
-      // 
-      this.columnHeader_AlarmEvent_Direction.Tag = "AlarmEvent_Direction";
-      this.columnHeader_AlarmEvent_Direction.Text = "Direction";
-      this.columnHeader_AlarmEvent_Direction.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      // 
-      // columnHeader_AlarmEvent_Event
-      // 
-      this.columnHeader_AlarmEvent_Event.Tag = "AlarmEvent_Event";
-      this.columnHeader_AlarmEvent_Event.Text = "Event";
-      this.columnHeader_AlarmEvent_Event.Width = 127;
-      // 
-      // listView_AggregatedStatus_StatusBits
-      // 
-      this.listView_AggregatedStatus_StatusBits.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_StatusBits_BitNumber,
-            this.columnHeader_StatusBits_NTSColor,
-            this.columnHeader_StatusBits_Description});
-      this.listView_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_AggregatedStatus_StatusBits.FullRowSelect = true;
-      this.listView_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(3, 16);
-      this.listView_AggregatedStatus_StatusBits.MultiSelect = false;
-      this.listView_AggregatedStatus_StatusBits.Name = "listView_AggregatedStatus_StatusBits";
-      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 196);
-      this.listView_AggregatedStatus_StatusBits.SmallImageList = this.imageList_ListView;
-      this.listView_AggregatedStatus_StatusBits.TabIndex = 7;
-      this.listView_AggregatedStatus_StatusBits.UseCompatibleStateImageBehavior = false;
-      this.listView_AggregatedStatus_StatusBits.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_StatusBits_BitNumber
-      // 
-      this.columnHeader_StatusBits_BitNumber.Text = "Status bit";
-      this.columnHeader_StatusBits_BitNumber.Width = 63;
-      // 
-      // columnHeader_StatusBits_NTSColor
-      // 
-      this.columnHeader_StatusBits_NTSColor.Text = "NTS Color";
-      this.columnHeader_StatusBits_NTSColor.Width = 70;
-      // 
-      // columnHeader_StatusBits_Description
-      // 
-      this.columnHeader_StatusBits_Description.Text = "Description";
-      this.columnHeader_StatusBits_Description.Width = 434;
-      // 
-      // listView_AggregatedStatusEvents
-      // 
-      this.listView_AggregatedStatusEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_AggStatEvent_TimeStamp,
-            this.columnHeader_AggStatEvent_MsgId,
-            this.columnHeader_AggStatEvent_BitStatus,
-            this.columnHeader_AggStatEvent_FuncPos,
-            this.columnHeader_AggStatEvent_FuncState});
-      this.listView_AggregatedStatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_AggregatedStatusEvents.FullRowSelect = true;
-      this.listView_AggregatedStatusEvents.GridLines = true;
-      this.listView_AggregatedStatusEvents.HideSelection = false;
-      this.listView_AggregatedStatusEvents.Location = new System.Drawing.Point(3, 16);
-      this.listView_AggregatedStatusEvents.MultiSelect = false;
-      this.listView_AggregatedStatusEvents.Name = "listView_AggregatedStatusEvents";
-      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 308);
-      this.listView_AggregatedStatusEvents.TabIndex = 3;
-      this.listView_AggregatedStatusEvents.UseCompatibleStateImageBehavior = false;
-      this.listView_AggregatedStatusEvents.View = System.Windows.Forms.View.Details;
-      // 
-      // columnHeader_AggStatEvent_TimeStamp
-      // 
-      this.columnHeader_AggStatEvent_TimeStamp.Tag = "AggStatEvent_Timestamp";
-      this.columnHeader_AggStatEvent_TimeStamp.Text = "Timestamp";
-      this.columnHeader_AggStatEvent_TimeStamp.Width = 181;
-      // 
-      // columnHeader_AggStatEvent_MsgId
-      // 
-      this.columnHeader_AggStatEvent_MsgId.Tag = "AggStatEvent_MsgId";
-      this.columnHeader_AggStatEvent_MsgId.Text = "MessageId";
-      this.columnHeader_AggStatEvent_MsgId.Width = 260;
-      // 
-      // columnHeader_AggStatEvent_BitStatus
-      // 
-      this.columnHeader_AggStatEvent_BitStatus.Tag = "AggStatEvent_BitStatus";
-      this.columnHeader_AggStatEvent_BitStatus.Text = "BitStatus";
-      this.columnHeader_AggStatEvent_BitStatus.Width = 116;
-      // 
-      // columnHeader_AggStatEvent_FuncPos
-      // 
-      this.columnHeader_AggStatEvent_FuncPos.Tag = "AggStatEvent_FuncPos";
-      this.columnHeader_AggStatEvent_FuncPos.Text = "FunctionalPosition";
-      this.columnHeader_AggStatEvent_FuncPos.Width = 127;
-      // 
-      // columnHeader_AggStatEvent_FuncState
-      // 
-      this.columnHeader_AggStatEvent_FuncState.Tag = "AggStatEvent_FuncState";
-      this.columnHeader_AggStatEvent_FuncState.Text = "FunctionalState";
-      this.columnHeader_AggStatEvent_FuncState.Width = 109;
-      // 
-      // listView_Status
-      // 
-      this.listView_Status.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_Status_StatusCodeId,
-            this.columnHeader_Status_Description,
-            this.columnHeader_Status_Name,
-            this.columnHeader_Status_Type,
-            this.columnHeader_Status_Value,
-            this.columnHeader_Status_Quality,
-            this.columnHeader_Status_UpdateRate,
-            this.columnHeader_Status_UpdateOnChange,
-            this.columnHeader_Status_Comment});
-      this.listView_Status.ContextMenuStrip = this.contextMenuStrip_Status;
-      this.listView_Status.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_Status.FullRowSelect = true;
-      this.listView_Status.GridLines = true;
-      this.listView_Status.HideSelection = false;
-      this.listView_Status.Location = new System.Drawing.Point(0, 0);
-      this.listView_Status.Name = "listView_Status";
-      this.listView_Status.Size = new System.Drawing.Size(666, 370);
-      this.listView_Status.TabIndex = 1;
-      this.listView_Status.UseCompatibleStateImageBehavior = false;
-      this.listView_Status.View = System.Windows.Forms.View.Details;
-      this.listView_Status.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      this.listView_Status.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Status_MouseDoubleClick);
-      // 
-      // columnHeader_Status_StatusCodeId
-      // 
-      this.columnHeader_Status_StatusCodeId.Text = "StatusCodeId";
-      this.columnHeader_Status_StatusCodeId.Width = 104;
-      // 
-      // columnHeader_Status_Description
-      // 
-      this.columnHeader_Status_Description.Text = "Description";
-      this.columnHeader_Status_Description.Width = 90;
-      // 
-      // columnHeader_Status_Name
-      // 
-      this.columnHeader_Status_Name.Text = "Name";
-      // 
-      // columnHeader_Status_Type
-      // 
-      this.columnHeader_Status_Type.Text = "Type";
-      // 
-      // columnHeader_Status_Value
-      // 
-      this.columnHeader_Status_Value.Text = "Value";
-      // 
-      // columnHeader_Status_Quality
-      // 
-      this.columnHeader_Status_Quality.Text = "Quality";
-      // 
-      // columnHeader_Status_UpdateRate
-      // 
-      this.columnHeader_Status_UpdateRate.Text = "UpdateRate";
-      this.columnHeader_Status_UpdateRate.Width = 97;
-      // 
-      // columnHeader_Status_UpdateOnChange
-      // 
-      this.columnHeader_Status_UpdateOnChange.Text = "UpdateOnChange";
-      this.columnHeader_Status_UpdateOnChange.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      // 
-      // columnHeader_Status_Comment
-      // 
-      this.columnHeader_Status_Comment.Text = "Comment";
-      // 
-      // listView_StatusEvents
-      // 
-      this.listView_StatusEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_StatusEvents_TimeStamp,
-            this.columnHeader_StatusEvents_MessageId,
-            this.columnHeader_StatusEvents_Event,
-            this.columnHeader_StatusEvents_StatusCodeId,
-            this.columnHeader_StatusEvents_Name,
-            this.columnHeader_StatusEvents_Value,
-            this.columnHeader_StatusEvents_Quality,
-            this.columnHeader_StatusEvents_UpdateRate});
-      this.listView_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_StatusEvents.FullRowSelect = true;
-      this.listView_StatusEvents.GridLines = true;
-      this.listView_StatusEvents.HideSelection = false;
-      this.listView_StatusEvents.Location = new System.Drawing.Point(3, 16);
-      this.listView_StatusEvents.MultiSelect = false;
-      this.listView_StatusEvents.Name = "listView_StatusEvents";
-      this.listView_StatusEvents.Size = new System.Drawing.Size(660, 326);
-      this.listView_StatusEvents.TabIndex = 3;
-      this.listView_StatusEvents.UseCompatibleStateImageBehavior = false;
-      this.listView_StatusEvents.View = System.Windows.Forms.View.Details;
-      this.listView_StatusEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      // 
-      // columnHeader_StatusEvents_TimeStamp
-      // 
-      this.columnHeader_StatusEvents_TimeStamp.Tag = "";
-      this.columnHeader_StatusEvents_TimeStamp.Text = "Timestamp";
-      this.columnHeader_StatusEvents_TimeStamp.Width = 91;
-      // 
-      // columnHeader_StatusEvents_MessageId
-      // 
-      this.columnHeader_StatusEvents_MessageId.Tag = "";
-      this.columnHeader_StatusEvents_MessageId.Text = "MessageId";
-      this.columnHeader_StatusEvents_MessageId.Width = 139;
-      // 
-      // columnHeader_StatusEvents_Event
-      // 
-      this.columnHeader_StatusEvents_Event.Tag = "";
-      this.columnHeader_StatusEvents_Event.Text = "Event";
-      this.columnHeader_StatusEvents_Event.Width = 127;
-      // 
-      // columnHeader_StatusEvents_StatusCodeId
-      // 
-      this.columnHeader_StatusEvents_StatusCodeId.Text = "StatusCodeId";
-      this.columnHeader_StatusEvents_StatusCodeId.Width = 92;
-      // 
-      // columnHeader_StatusEvents_Name
-      // 
-      this.columnHeader_StatusEvents_Name.Text = "Name";
-      // 
-      // columnHeader_StatusEvents_Value
-      // 
-      this.columnHeader_StatusEvents_Value.Text = "Value";
-      // 
-      // columnHeader_StatusEvents_Quality
-      // 
-      this.columnHeader_StatusEvents_Quality.Text = "Quality";
-      // 
-      // columnHeader_StatusEvents_UpdateRate
-      // 
-      this.columnHeader_StatusEvents_UpdateRate.Text = "UpdateRate";
-      this.columnHeader_StatusEvents_UpdateRate.Width = 99;
-      // 
-      // splitContainer_Commands
-      // 
-      this.splitContainer_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer_Commands.Location = new System.Drawing.Point(3, 3);
-      this.splitContainer_Commands.Name = "splitContainer_Commands";
-      this.splitContainer_Commands.Orientation = System.Windows.Forms.Orientation.Horizontal;
-      // 
-      // splitContainer_Commands.Panel1
-      // 
-      this.splitContainer_Commands.Panel1.Controls.Add(this.listView_Commands);
-      // 
-      // splitContainer_Commands.Panel2
-      // 
-      this.splitContainer_Commands.Panel2.Controls.Add(this.groupBox_CommandEvents);
-      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 719);
-      this.splitContainer_Commands.SplitterDistance = 370;
-      this.splitContainer_Commands.TabIndex = 1;
-      // 
-      // listView_Commands
-      // 
-      this.listView_Commands.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_Commands_CommandCodeId,
-            this.columnHeader_Commands_Description,
-            this.columnHeader_Commands_Name,
-            this.columnHeader_Commands_Command,
-            this.columnHeader_Commands_Type,
-            this.columnHeader_Commands_Value,
-            this.columnHeader_Commands_Age,
-            this.columnHeader_Commands_Comment});
-      this.listView_Commands.ContextMenuStrip = this.contextMenuStrip_Commands;
-      this.listView_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_Commands.FullRowSelect = true;
-      this.listView_Commands.GridLines = true;
-      this.listView_Commands.HideSelection = false;
-      this.listView_Commands.Location = new System.Drawing.Point(0, 0);
-      this.listView_Commands.Name = "listView_Commands";
-      this.listView_Commands.Size = new System.Drawing.Size(666, 370);
-      this.listView_Commands.TabIndex = 1;
-      this.listView_Commands.UseCompatibleStateImageBehavior = false;
-      this.listView_Commands.View = System.Windows.Forms.View.Details;
-      this.listView_Commands.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      // 
-      // columnHeader_Commands_CommandCodeId
-      // 
-      this.columnHeader_Commands_CommandCodeId.Text = "CommandCodeId";
-      this.columnHeader_Commands_CommandCodeId.Width = 103;
-      // 
-      // columnHeader_Commands_Description
-      // 
-      this.columnHeader_Commands_Description.Text = "Description";
-      this.columnHeader_Commands_Description.Width = 90;
-      // 
-      // columnHeader_Commands_Name
-      // 
-      this.columnHeader_Commands_Name.Text = "Name";
-      this.columnHeader_Commands_Name.Width = 68;
-      // 
-      // columnHeader_Commands_Command
-      // 
-      this.columnHeader_Commands_Command.Text = "Command";
-      this.columnHeader_Commands_Command.Width = 81;
-      // 
-      // columnHeader_Commands_Type
-      // 
-      this.columnHeader_Commands_Type.Text = "Type";
-      this.columnHeader_Commands_Type.Width = 89;
-      // 
-      // columnHeader_Commands_Value
-      // 
-      this.columnHeader_Commands_Value.Text = "Value";
-      this.columnHeader_Commands_Value.Width = 103;
-      // 
-      // columnHeader_Commands_Age
-      // 
-      this.columnHeader_Commands_Age.Text = "Age";
-      // 
-      // columnHeader_Commands_Comment
-      // 
-      this.columnHeader_Commands_Comment.Text = "Comment";
-      this.columnHeader_Commands_Comment.Width = 96;
-      // 
-      // groupBox_CommandEvents
-      // 
-      this.groupBox_CommandEvents.Controls.Add(this.listView_CommandEvents);
-      this.groupBox_CommandEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.groupBox_CommandEvents.Location = new System.Drawing.Point(0, 0);
-      this.groupBox_CommandEvents.Name = "groupBox_CommandEvents";
-      this.groupBox_CommandEvents.Size = new System.Drawing.Size(666, 345);
-      this.groupBox_CommandEvents.TabIndex = 0;
-      this.groupBox_CommandEvents.TabStop = false;
-      this.groupBox_CommandEvents.Text = "Command &Events";
-      // 
-      // listView_CommandEvents
-      // 
-      this.listView_CommandEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_CommandEvent_TimeStamp,
-            this.columnHeader_CommandEvent_MsgId,
-            this.columnHeader_CommandEvent_Event,
-            this.columnHeader_CommandEvent_CommandCodeId,
-            this.columnHeader_CommandEvent_Name,
-            this.columnHeader_CommandEvent_Command,
-            this.columnHeader_CommandEvent_Value,
-            this.columnHeader_CommandEvent_Age});
-      this.listView_CommandEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listView_CommandEvents.FullRowSelect = true;
-      this.listView_CommandEvents.GridLines = true;
-      this.listView_CommandEvents.HideSelection = false;
-      this.listView_CommandEvents.Location = new System.Drawing.Point(3, 16);
-      this.listView_CommandEvents.MultiSelect = false;
-      this.listView_CommandEvents.Name = "listView_CommandEvents";
-      this.listView_CommandEvents.Size = new System.Drawing.Size(660, 326);
-      this.listView_CommandEvents.TabIndex = 3;
-      this.listView_CommandEvents.UseCompatibleStateImageBehavior = false;
-      this.listView_CommandEvents.View = System.Windows.Forms.View.Details;
-      this.listView_CommandEvents.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
-      // 
-      // columnHeader_CommandEvent_TimeStamp
-      // 
-      this.columnHeader_CommandEvent_TimeStamp.Tag = "CommandEvent_Timestamp";
-      this.columnHeader_CommandEvent_TimeStamp.Text = "Timestamp";
-      this.columnHeader_CommandEvent_TimeStamp.Width = 181;
-      // 
-      // columnHeader_CommandEvent_MsgId
-      // 
-      this.columnHeader_CommandEvent_MsgId.Tag = "CommandEvent_MsgId";
-      this.columnHeader_CommandEvent_MsgId.Text = "MessageId";
-      this.columnHeader_CommandEvent_MsgId.Width = 260;
-      // 
-      // columnHeader_CommandEvent_Event
-      // 
-      this.columnHeader_CommandEvent_Event.Tag = "CommandEvent_Event";
-      this.columnHeader_CommandEvent_Event.Text = "Event";
-      this.columnHeader_CommandEvent_Event.Width = 127;
-      // 
-      // columnHeader_CommandEvent_CommandCodeId
-      // 
-      this.columnHeader_CommandEvent_CommandCodeId.Text = "CommandCodeId";
-      // 
-      // columnHeader_CommandEvent_Name
-      // 
-      this.columnHeader_CommandEvent_Name.Text = "Name";
-      // 
-      // columnHeader_CommandEvent_Command
-      // 
-      this.columnHeader_CommandEvent_Command.Text = "Command";
-      this.columnHeader_CommandEvent_Command.Width = 99;
-      // 
-      // columnHeader_CommandEvent_Value
-      // 
-      this.columnHeader_CommandEvent_Value.Text = "Value";
-      // 
-      // columnHeader_CommandEvent_Age
-      // 
-      this.columnHeader_CommandEvent_Age.Text = "Age";
-      // 
       // RSMPGS_Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2542,7 +2500,12 @@
       this.contextMenuStrip_Status.ResumeLayout(false);
       this.groupBox_StatusEvents.ResumeLayout(false);
       this.tabPage_Commands.ResumeLayout(false);
+      this.splitContainer_Commands.Panel1.ResumeLayout(false);
+      this.splitContainer_Commands.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).EndInit();
+      this.splitContainer_Commands.ResumeLayout(false);
       this.contextMenuStrip_Commands.ResumeLayout(false);
+      this.groupBox_CommandEvents.ResumeLayout(false);
       this.tabPage_TestSend.ResumeLayout(false);
       this.splitContainer_TestSend.Panel1.ResumeLayout(false);
       this.splitContainer_TestSend.Panel2.ResumeLayout(false);
@@ -2552,11 +2515,6 @@
       this.groupBox_TestSend1.PerformLayout();
       this.groupBox_TestSend2.ResumeLayout(false);
       this.groupBox_TestSend2.PerformLayout();
-      this.splitContainer_Commands.Panel1.ResumeLayout(false);
-      this.splitContainer_Commands.Panel2.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Commands)).EndInit();
-      this.splitContainer_Commands.ResumeLayout(false);
-      this.groupBox_CommandEvents.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
