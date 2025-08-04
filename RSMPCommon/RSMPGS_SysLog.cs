@@ -49,6 +49,8 @@ namespace nsRSMPGS
       sEventFilePath = cPrivateProfile.EventFilesPath();
 
       RSMPGS.MainForm.listView_SysLog.StopSorting();
+      RSMPGS.MainForm.listView_SysLog.bAutoResizeCols = true;
+      RSMPGS.MainForm.listView_SysLog.bSortingEnabled = false;
 
     }
 

@@ -1801,6 +1801,8 @@ namespace nsRSMPGS
   {
 
     public ListViewColumnSorter ColumnSorter = new nsRSMPGS.ListViewColumnSorter();
+    public bool bAutoResizeCols = false;
+    public bool bSortingEnabled = true;
 
     public void StopSorting()
     {
