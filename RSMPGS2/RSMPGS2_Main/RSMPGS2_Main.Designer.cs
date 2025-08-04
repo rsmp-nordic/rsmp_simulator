@@ -87,8 +87,13 @@
       this.treeView_SitesAndObjects = new System.Windows.Forms.TreeView();
       this.imageList_ListView = new System.Windows.Forms.ImageList(this.components);
       this.groupBox_SystemLog = new System.Windows.Forms.GroupBox();
+      this.checkBox_AutoScrollSysLog = new System.Windows.Forms.CheckBox();
       this.button_ClearSystemLog = new System.Windows.Forms.Button();
       this.checkBox_ViewOnlyFailedPackets = new System.Windows.Forms.CheckBox();
+      this.listView_SysLog = new nsRSMPGS.ListViewDoubleBuffered();
+      this.columnHeader_SysLog_Severity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_SysLog_TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_SysLog_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.imageList_Severity = new System.Windows.Forms.ImageList(this.components);
       this.tabControl_Object = new System.Windows.Forms.TabControl();
       this.tabPage_Generic = new System.Windows.Forms.TabPage();
@@ -798,6 +803,7 @@
       // 
       // groupBox_SystemLog
       // 
+      this.groupBox_SystemLog.Controls.Add(this.checkBox_AutoScrollSysLog);
       this.groupBox_SystemLog.Controls.Add(this.button_ClearSystemLog);
       this.groupBox_SystemLog.Controls.Add(this.checkBox_ViewOnlyFailedPackets);
       this.groupBox_SystemLog.Controls.Add(this.listView_SysLog);
@@ -808,6 +814,19 @@
       this.groupBox_SystemLog.TabIndex = 1;
       this.groupBox_SystemLog.TabStop = false;
       this.groupBox_SystemLog.Text = "System &Log";
+      // 
+      // checkBox_AutoScrollSysLog
+      // 
+      this.checkBox_AutoScrollSysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.checkBox_AutoScrollSysLog.AutoSize = true;
+      this.checkBox_AutoScrollSysLog.Checked = true;
+      this.checkBox_AutoScrollSysLog.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(155, 286);
+      this.checkBox_AutoScrollSysLog.Name = "checkBox_AutoScrollSysLog";
+      this.checkBox_AutoScrollSysLog.Size = new System.Drawing.Size(75, 17);
+      this.checkBox_AutoScrollSysLog.TabIndex = 6;
+      this.checkBox_AutoScrollSysLog.Text = "Auto-scroll";
+      this.checkBox_AutoScrollSysLog.UseVisualStyleBackColor = true;
       // 
       // button_ClearSystemLog
       // 
@@ -830,6 +849,44 @@
       this.checkBox_ViewOnlyFailedPackets.TabIndex = 4;
       this.checkBox_ViewOnlyFailedPackets.Text = "View only failed packets";
       this.checkBox_ViewOnlyFailedPackets.UseVisualStyleBackColor = true;
+      // 
+      // listView_SysLog
+      // 
+      this.listView_SysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.listView_SysLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_SysLog_Severity,
+            this.columnHeader_SysLog_TimeStamp,
+            this.columnHeader_SysLog_Description});
+      this.listView_SysLog.FullRowSelect = true;
+      this.listView_SysLog.GridLines = true;
+      this.listView_SysLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+      this.listView_SysLog.HideSelection = false;
+      this.listView_SysLog.Location = new System.Drawing.Point(6, 18);
+      this.listView_SysLog.Margin = new System.Windows.Forms.Padding(2);
+      this.listView_SysLog.MultiSelect = false;
+      this.listView_SysLog.Name = "listView_SysLog";
+      this.listView_SysLog.ShowItemToolTips = true;
+      this.listView_SysLog.Size = new System.Drawing.Size(301, 258);
+      this.listView_SysLog.SmallImageList = this.imageList_Severity;
+      this.listView_SysLog.TabIndex = 0;
+      this.listView_SysLog.UseCompatibleStateImageBehavior = false;
+      this.listView_SysLog.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_SysLog_Severity
+      // 
+      this.columnHeader_SysLog_Severity.Text = "Severity";
+      this.columnHeader_SysLog_Severity.Width = 10;
+      // 
+      // columnHeader_SysLog_TimeStamp
+      // 
+      this.columnHeader_SysLog_TimeStamp.Text = "Time";
+      // 
+      // columnHeader_SysLog_Description
+      // 
+      this.columnHeader_SysLog_Description.Text = "Description";
+      this.columnHeader_SysLog_Description.Width = 200;
       // 
       // imageList_Severity
       // 
@@ -2726,6 +2783,7 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_YAML;
     public System.Windows.Forms.CheckBox checkBox_AutomaticallyLoadObjects;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadObjects_Delimiter;
+    public System.Windows.Forms.CheckBox checkBox_AutoScrollSysLog;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Show;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
