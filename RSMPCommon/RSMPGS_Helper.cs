@@ -1841,13 +1841,6 @@ namespace nsRSMPGS
           AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
       }
     }
-    public void EndUpdateWithScrollAndMaxLines(bool bShowLastLine)
-    {
-      ScrollAndMaxLines( bShowLastLine );
-      EndUpdate();
-      if (bSortingEnabled)
-        ResumeSorting();
-    }
   }
 
 
