@@ -1818,6 +1818,34 @@ namespace nsRSMPGS
       ListViewItemSorter = ColumnSorter;
       DoubleBuffered = true;
     }
+
+    public void ScrollAndMaxLines( bool bShowLastLine )
+    {
+      if (Items.Count > 0)
+      {
+        while (Items.Count > 2000)
+        {
+          Items.RemoveAt(0);
+        }
+
+        if (bShowLastLine)
+        {
+          EnsureVisible(Items.Count - 1);
+          //keep any line selected even when scrolling (we can now, as no longer used to decide whether to scroll or not)
+          //Items[Items.Count - 1].Selected = true;
+        }
+
+        if (bAutoResizeCols)
+          AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+      }
+    }
+    public void EndUpdateWithScrollAndMaxLines(bool bShowLastLine)
+    {
+      ScrollAndMaxLines( bShowLastLine );
+      EndUpdate();
+      if (bSortingEnabled)
+        ResumeSorting();
+    }
   }
 
 
