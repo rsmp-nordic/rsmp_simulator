@@ -1821,24 +1821,24 @@ namespace nsRSMPGS
       DoubleBuffered = true;
     }
 
-    public void ScrollAndMaxLines( bool bShowLastLine )
+    public void ScrollAndMaxLines(bool bShowLastLine)
     {
-      if (Items.Count > 0)
+      if (Items.Count == 0)
+        return;
+
+      while (Items.Count > 2000)
       {
-        while (Items.Count > 2000)
-        {
-          Items.RemoveAt(0);
-        }
+        Items.RemoveAt(0);
+      }
 
-        if (bShowLastLine)
-        {
-          EnsureVisible(Items.Count - 1);
-          //keep any line selected even when scrolling (we can now, as no longer used to decide whether to scroll or not)
-          //Items[Items.Count - 1].Selected = true;
-        }
+      if (bShowLastLine)
+      {
+        EnsureVisible(Items.Count - 1);
+      }
 
-        if (bAutoResizeCols)
-          AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+      if (bAutoResizeCols)
+      {
+        AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
       }
     }
   }
