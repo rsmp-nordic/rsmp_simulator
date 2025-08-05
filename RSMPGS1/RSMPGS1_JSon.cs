@@ -687,6 +687,9 @@ namespace nsRSMPGS
         cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
+          if (RoadSideObject == null)
+            break;
+
           cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
           if (StatusObject == null)
           {
