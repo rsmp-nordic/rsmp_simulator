@@ -493,9 +493,12 @@ namespace nsRSMPGS
         // Check for unknown command code id (cCI) and unknown name (n) in arguments
         // Only MessageNotAck should be sent in such case
         // Scan through each value to set
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
         foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
         {
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
+          if (RoadSideObject == null)
+            break;
+
           cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
           if (CommandObject == null)
           {
