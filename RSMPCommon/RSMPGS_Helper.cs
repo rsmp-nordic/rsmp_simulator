@@ -542,7 +542,7 @@ namespace nsRSMPGS
     public static void LoadRSMPSettings()
     {
 
-      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true, true, true, true);
+      AddSetting("AllowUseRSMPVersion", "Allow/use RSMP version in protocol negotiation", true, true, true, true, true, true, true, true, false);
 
       AddSetting("SendVersionInfoAtConnect", "Send and expect version info when connecting", true);
       AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL version incompability", false);
@@ -559,19 +559,19 @@ namespace nsRSMPGS
 
 #if _RSMPGS1
 
-      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false, false, false);
-      AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true, true, true);
-      AddSetting("Buffer10000Messages", "Buffer up to 10000 messages (instead of 1000)", false, false, false, true, true, true, true, true);
-      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, true, true, true, true, true, true, true);
-      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true, true, true, true);
-      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true, true, true, true);
-      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true, true, true, true);
-      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true, true, true, true, true);
+      AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false, false, false, false);
+      AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true, true, true, true);
+      AddSetting("Buffer10000Messages", "Buffer up to 10000 messages (instead of 1000)", false, false, false, true, true, true, true, true, true);
+      AddSetting("SendAggregatedStatusAtConnect", "Send aggregated status when connecting", false, true, true, true, true, true, true, true, true);
+      AddSetting("SendAllAlarmsWhenConnect", "Send all alarms when connecting", false, false, true, true, true, true, true, true, true);
+      AddSetting("BufferAndSendAlarmsWhenConnect", "Buffer alarm events when disconnected and send them when connecting", false, false, true, true, true, true, true, true, true);
+      AddSetting("BufferAndSendAggregatedStatusWhenConnect", "Buffer aggregated status when disconnected and send them when connecting", false, false, true, true, true, true, true, true, true);
+      AddSetting("BufferAndSendStatusUpdatesWhenConnect", "Buffer status updates when disconnected and send them when connecting", false, false, true, true, true, true, true, true, true);
 
 #endif
-      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true, true, true);
-      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true, true);
-      AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true, true);
+      AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true, true, true, true);
+      AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true, true, true);
+      AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true, true, true);
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", false);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
@@ -590,7 +590,7 @@ namespace nsRSMPGS
 
     private static void AddSetting(string sKey, string sDescription, bool bDefaultValue)
     {
-      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false, false, false, false);
+      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false, false, false, false, false);
     }
 
     private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0, bool bRSMP_3_2_1, bool bRSMP_3_2_2, bool bRSMP_3_3_0)
