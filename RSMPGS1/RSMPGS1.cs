@@ -73,6 +73,14 @@ using System.Security.Authentication;
 //                           / Use RSMP version string "3.2.0" instead of "3.2" #101
 //                           / Use strings for the state bits in aggregated status in RSMP 3.1.1 and RSMP 3.1.2 #106 
 //                           / Add ability to edit ExternalAlarmCodeId #104
+// 25.05.16 / DO / 1.0.9     / Treat values in SXL as case sensitive #110
+//                           / For beginners, easier config per default in .ini (pull request #112 / marcgarba)
+//                           / In debug window menu, new option to decode times or not + renamed some items (pull request #113 / marcgarba)
+//                           / Revised main menu for debug windows (show in front / cascade / tile)  (pull request #114 / marcgarba)
+//                           / Ctrl+c to copy selection in debug window + option copy data only (pull request #119 / marcgarba)
+//                           / Handle undefined and unknown quality #121
+// 25.05.16 / DO / 1.0.10    / Revert PR 114 since it causes issues in main window
+//
 //
 //
 // ---------------------------------------------------------------------------------------------------

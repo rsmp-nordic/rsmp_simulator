@@ -490,6 +490,71 @@ namespace nsRSMPGS
       {
         RSMP_Messages.CommandRequest CommandRequest = JSonSerializer.Deserialize<RSMP_Messages.CommandRequest>(sJSon);
 
+        // Check for unknown command code id (cCI) and unknown name (n) in arguments
+        // Only MessageNotAck should be sent in such case
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
+        foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
+        {
+          if (RoadSideObject == null)
+            break;
+
+          cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
+          if (CommandObject == null)
+          {
+            // Cannot find command code id
+            sError = "Got Command, failed to find cCI (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+          cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(n => n.sName.Equals(CommandRequest_Value.n, sc));
+          if (CommandReturnValue == null)
+          {
+            // Cannot find name
+            sError = "Got Command, failed to find name (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+
+          if (!CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
+          {
+            // Cannot find command (cO)
+            sError = "Got Command, failed to find command (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+
+          if (!ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v, CommandReturnValue.Value.GetSelectableValues(),
+            CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
+          {
+            // MessageNotAck
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+        }
+
         // Scan through each value to set
         foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
         {
@@ -501,7 +566,6 @@ namespace nsRSMPGS
           rv.n = CommandRequest_Value.n;
           rv.cCI = CommandRequest_Value.cCI;
 
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
           if (RoadSideObject == null)
           {
             // Cannot find component id
@@ -528,21 +592,8 @@ namespace nsRSMPGS
           {
             rv.age = "recent";
             rv.v = CommandRequest_Value.v;
-            
-            cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
-            if (CommandObject == null)
-            {
-              // Cannot find command code id
-              sError = "Got Command, failed to find cCI (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
 
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
+            cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
 
             // RSMPGS 3.2.2: All arguments (return values) needs to be present
             if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_2_2)
@@ -573,51 +624,6 @@ namespace nsRSMPGS
             }
 
             cCommandReturnValue CommandReturnValue = CommandObject.CommandReturnValues.Find(n => n.sName.Equals(CommandRequest_Value.n, sc));
-            if (CommandReturnValue == null)
-            {
-              // Cannot find name
-              sError = "Got Command, failed to find name (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
-
-            if (!CommandReturnValue.sCommand.Equals(CommandRequest_Value.cO, sc))
-            {
-              // Cannot find command (cO)
-              sError = "Got Command, failed to find command (NTSObjectId: " + CommandRequest.ntsOId + ", ComponentId: " + CommandRequest.cId + ", CommandCodeId: " + CommandRequest_Value.cCI + ", Name: " + CommandRequest_Value.n + ", Command: " + CommandRequest_Value.cO + ", Value: " + CommandRequest_Value.v + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
-
-            if (!ValidateTypeAndRange(CommandReturnValue.Value.GetValueType(), CommandRequest_Value.v, CommandReturnValue.Value.GetSelectableValues(),
-              CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
-            {
-              // Value fails validation
-              rv.v = null;
-              rv.age = "unknown";
-
-              // MessageNotAck
-              sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.ToString().Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.ToString().Substring(0, 9) + "...");
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
-
             if (CommandReturnValue.Value.GetValueType().Equals("base64", StringComparison.OrdinalIgnoreCase))
             {
               if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
@@ -682,16 +688,54 @@ namespace nsRSMPGS
         // StatusSubscribe, StatusUnsubscribe and StatusRequest are very much alike, differs by the uRt property only
         RSMP_Messages.StatusSubscribe_Over_3_1_4 StatusSubscribe = JSonSerializer.Deserialize<RSMP_Messages.StatusSubscribe_Over_3_1_4>(sJSon);
 
+        // Check for unknown status code id (sCI) and unknown name (n) in arguments
+        // Only MessageNotAck should be sent in such case
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
+          if (RoadSideObject == null)
+            break;
 
+          cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
+          if (StatusObject == null)
+          {
+            // Cannot find status code id
+            sError = "Got Status, failed to find sCI (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+
+          cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
+          if (StatusReturnValue == null)
+          {
+            // Cannot find name
+            sError = "Got Status, failed to find name (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+        }
+
+        // Continue process message, outcome should result in StatusResponse/StatusUpdate
+        foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
+        {
           RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
 
           // Set initial values
           s.sCI = StatusSubscribe_Status.sCI;
           s.n = StatusSubscribe_Status.n;
 
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
           if (RoadSideObject == null)
           {
             // Cannot find component id
@@ -720,36 +764,7 @@ namespace nsRSMPGS
             s.q = "recent";
 
             cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
-            if (StatusObject == null)
-            {
-              // Cannot find status code id
-              sError = "Got Status, failed to find sCI (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
-
             cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
-            if (StatusReturnValue == null)
-            {
-              // Cannot find name
-              sError = "Got Status, failed to find name (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-
-            }
-
             RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue(), StatusReturnValue.Value.GetArray());
             switch (statusMsgType)
             {

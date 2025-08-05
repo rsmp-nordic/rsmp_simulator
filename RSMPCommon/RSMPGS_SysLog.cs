@@ -49,6 +49,8 @@ namespace nsRSMPGS
       sEventFilePath = cPrivateProfile.EventFilesPath();
 
       RSMPGS.MainForm.listView_SysLog.StopSorting();
+      RSMPGS.MainForm.listView_SysLog.bAutoResizeCols = true;
+      RSMPGS.MainForm.listView_SysLog.bSortingEnabled = false;
 
     }
 
@@ -101,49 +103,23 @@ namespace nsRSMPGS
           bool bShowLastItem;
 
           // Show last only if it was selected or none was selected
-          if (RSMPGS.MainForm.listView_SysLog.SelectedItems.Count == 0)
-          {
-            bShowLastItem = true;
-          }
-          else
-          {
-            if (RSMPGS.MainForm.listView_SysLog.SelectedItems[0].Index == RSMPGS.MainForm.listView_SysLog.Items.Count - 1)
-            {
-              RSMPGS.MainForm.listView_SysLog.SelectedItems[0].Selected = false;
-              bShowLastItem = true;
-            }
-            else
-            {
-              bShowLastItem = false;
-            }
-          }
+          bShowLastItem = RSMPGS.MainForm.checkBox_AutoScrollSysLog.Checked;
 
           for (int iIndex = 0; iIndex < RSMPGS.SysLogItems.Count; iIndex++)
           {
             RSMPGS.MainForm.listView_SysLog.Items.Add(RSMPGS.SysLogItems[iIndex]);
           }
 
-          while (RSMPGS.MainForm.listView_SysLog.Items.Count > 2000)
-          {
-            RSMPGS.MainForm.listView_SysLog.Items.RemoveAt(0);
-          }
-
           RSMPGS.SysLogItems.Clear();
 
-          if (bShowLastItem)
-          {
-            RSMPGS.MainForm.listView_SysLog.EnsureVisible(RSMPGS.MainForm.listView_SysLog.Items.Count - 1);
-            RSMPGS.MainForm.listView_SysLog.Items[RSMPGS.MainForm.listView_SysLog.Items.Count - 1].Selected = true;
-          }
-
-          RSMPGS.MainForm.listView_SysLog.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
+          RSMPGS.MainForm.listView_SysLog.ScrollAndMaxLines(bShowLastItem);
           RSMPGS.MainForm.listView_SysLog.EndUpdate();
-
+          if (RSMPGS.MainForm.listView_SysLog.bSortingEnabled)
+          {
+            RSMPGS.MainForm.listView_SysLog.ResumeSorting();
+          }
           RSMPGS.MainForm.Refresh();
-
         }
-
       }
 
       CloseSysLogFile();

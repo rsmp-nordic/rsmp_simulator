@@ -4,9 +4,7 @@ name: Build installer
 
 on:
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
   workflow_dispatch:
 
 env:
@@ -150,7 +148,7 @@ jobs:
 
   setup:
     name: Create Installer
-    runs-on: windows-2019
+    runs-on: windows-2022
     needs: [create_sxl, create_manual ]
     steps:
       - name: Checkout repository

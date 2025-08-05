@@ -1415,7 +1415,7 @@ namespace nsRSMPGS
           // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
           // preserve backwards compability we need to treat this as case
           // insensitive for now
-          
+
           bValueIsValid = oValue.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||

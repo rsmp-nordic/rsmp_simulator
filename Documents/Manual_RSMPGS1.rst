@@ -30,7 +30,7 @@ RSMPGS2   Interface simulator for supervision system
 
 Installation
 ------------
-Start installation by running ``RSMPGS1_1_0_9_Setup.exe``.
+Start installation by running ``RSMPGS1_1_0_11_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
@@ -82,7 +82,7 @@ selected in the interface. Interval in milliseconds.
 
 **MaxDebugLines**
 
-Number of lines shown in the Debug-forms.
+Number of lines shown in the Debug windows.
 
 **DaysToKeepLogFiles**
 
@@ -241,17 +241,28 @@ Loading new objects is only available if the simulator is disconnected
 
 **Debug - Create new debug window**
 
-Creates a new debug window. Any number of debug forms can be created, but it
+Creates a new debug window. Any number of debug windows can be created, but it
 will affect performance.
 
-**Debug - Tile all debug windows**
+**Debug - Show all debug windows in front**
 
-Moves all debug forms to the right of RSMPGS1 (if there is space) and puts them
-in a line.
+Moves all debug windows to the front.
+
+**Debug - Cascade all debug windows**
+
+Cascade all debug windows.
+
+**Debug - Tile horizontally all debug windows**
+
+Show all debug windows side by side horizontally.
+
+**Debug - Tile vertically all debug windows**
+
+Show all debug windows side by side vertically.
 
 **Debug - Close all debug windows**
 
-Closes all debug forms.
+Closes all debug windows.
 
 **Debug - Store base64 updates**
 
@@ -648,7 +659,7 @@ log.
 Test send
 ^^^^^^^^^
 JSon is text based and in this tab text files can be sent as is. The files may
-be JSon debug data from the debug-forms.
+be JSon debug data from the debug window.
 
 .. image:: img/test_send.png
    :align: left
@@ -698,10 +709,10 @@ If a lot of buffered messages are to be sent when connected, the system log
 will be flooded and take some time to fill. Ticking this box will significally
 improve speed.
 
-Debug form
-----------
-The Debug form shows sent and received data more or less formatted depending on
-chosen display format.
+Debug window
+------------
+The Debug window shows sent and received data more or less formatted depending
+on chosen display format.
 
 .. image:: img/debug.png
    :align: left
@@ -712,15 +723,14 @@ The red texts are messages which are received, green texts are the ones which
 are sent out. The time stamp has millisecond resolution which is shown if the
 column is expanded somewhat.
 
-If show raw data is not selection, then RSMPGS1 will format the text for better
-readability. If there are CR/LF and tabs in the received Json, these control
-characters will be used to increase readability. If not, RSMPGS1 will use a set
-of simple rules to format the text.
+If ``Show all traffic in raw format`` is not selected, then RSMPGS1 will format
+the text for better readability.
+If there are CR/LF and tabs in the received Json, these control characters will
+be used to increase readability. If not, RSMPGS1 will use a set of simple rules
+to format the text.
 
-RSMPGS1 is always removing CR/LF, tabs and finalizing form feed (FF) before
+RSMPGS1 is always removing CR/LF, tabs and the ending form feed (FF) before
 deserializing.
-
-Time stamps are also presented decoded in both UTC and local time.
 
 .. image:: img/select_debug.png
    :align: left
@@ -732,6 +742,10 @@ Time stamps are also presented decoded in both UTC and local time.
 Shows all packets unformatted in raw data format. ASCII codes which RSMPGS1 is
 not certain if they are writable are shown as <ASCII> i hex-format, e. g.
 <0x0c> for formfeed.
+
+**Select what to debug - Show decoded times**
+
+Show the time stamp in both UTC and local time.
 
 **Select what to debug – All packet types**
 
@@ -754,7 +768,7 @@ Every column is delimited with a tab (0x09).
 
 **Clear debug list**
 
-Empties the debug form.
+Empties the debug window.
 
 **Save continuous to file (record)…**
 
@@ -764,7 +778,7 @@ File name and file location are determined by the user. RSMPGS1 suggests the
 folder name ``\LogFiles\DebugFiles.``
 
 If the file does not exist it will be created and filled up with new debug
-data. The same data which is presented in the form is stored in the file. The
+data. The same data which is presented in the window is stored in the file. The
 file is an ordinary text file and will be flushed every 100 milliseconds.
 Because of this, it can be copied or opened (only for reading) with complete
 contents without having to be closed first.
@@ -772,6 +786,6 @@ contents without having to be closed first.
 To close the file and stop recording this option must be unchecked (it will be
 checked when the file is opened and recording is in progress).
 
-**Close debug form**
+**Close debug window**
 
 Closes the debug window.

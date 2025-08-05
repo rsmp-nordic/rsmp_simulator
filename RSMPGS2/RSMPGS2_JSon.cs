@@ -519,7 +519,14 @@ namespace nsRSMPGS
           }
           else
           {
-            StatusReturnValue.Value.SetValue(Reply.s.ToString());
+            if(Reply.s == null)
+            {
+                StatusReturnValue.Value.SetValue("(null)");
+            }
+            else
+            {
+                StatusReturnValue.Value.SetValue(Reply.s.ToString());
+            }
           }
 
           if (StatusReturnValue.Value.ValueTypeObject.ValueType.ToString() == "_array")
@@ -549,7 +556,32 @@ namespace nsRSMPGS
             return false;
           }
 
-          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s.ToString(), StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
+          if(StatusReturnValue.sQuality == cValue.eQuality.unknown.ToString())
+          {
+            // if quality is unknown, skip validation of string
+            sError = "Failed to handle Status message. Quality: unknown";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
+            return true; // Return MessageAck
+          }
+
+          if (StatusReturnValue.sQuality == cValue.eQuality.undefined.ToString())
+          {
+            // Check if rsmp version is supported, if not error
+            if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_1_3)
+            {
+                sError = "Failed to handle Status message. Quality: undefined";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, sError);
+                return true; // Return MessageAck
+            }
+            else
+            {
+                sError = "Failed to handle Status message. Quality: undefined. (Not added until RSMP 3.1.3)";
+                RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+                return false; // Return MessageNotAck
+            }
+          }
+
+          if (!ValidateTypeAndRange(StatusReturnValue.Value.GetValueType(), Reply.s, StatusReturnValue.Value.GetSelectableValues(), StatusReturnValue.Value.GetValueMin(), StatusReturnValue.Value.GetValueMax()))
           {
             string sStatusValue;
             if (Reply.s == null)
