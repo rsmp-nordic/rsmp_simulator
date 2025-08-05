@@ -540,7 +540,6 @@ namespace nsRSMPGS
           rv.n = CommandRequest_Value.n;
           rv.cCI = CommandRequest_Value.cCI;
 
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
           if (RoadSideObject == null)
           {
             // Cannot find component id
