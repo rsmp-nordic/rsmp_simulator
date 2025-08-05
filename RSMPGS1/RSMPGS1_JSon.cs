@@ -545,7 +545,7 @@ namespace nsRSMPGS
             CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
           {
             // MessageNotAck
-            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.ToString().Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.ToString().Substring(0, 9) + "...");
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
             if (!bHasSentAckOrNack)
             {
