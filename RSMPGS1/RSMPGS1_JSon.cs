@@ -688,16 +688,54 @@ namespace nsRSMPGS
         // StatusSubscribe, StatusUnsubscribe and StatusRequest are very much alike, differs by the uRt property only
         RSMP_Messages.StatusSubscribe_Over_3_1_4 StatusSubscribe = JSonSerializer.Deserialize<RSMP_Messages.StatusSubscribe_Over_3_1_4>(sJSon);
 
+        // Check for unknown status code id (sCI) and unknown name (n) in arguments
+        // Only MessageNotAck should be sent in such case
+        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
+          if (RoadSideObject == null)
+            break;
 
+          cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
+          if (StatusObject == null)
+          {
+            // Cannot find status code id
+            sError = "Got Status, failed to find sCI (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+
+          cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
+          if (StatusReturnValue == null)
+          {
+            // Cannot find name
+            sError = "Got Status, failed to find name (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
+
+            // MessageNotAck
+            if (!bHasSentAckOrNack)
+            {
+              bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
+            }
+            return false;
+          }
+        }
+
+        // Continue process message, outcome should result in StatusResponse/StatusUpdate
+        foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
+        {
           RSMP_Messages.Status_VTQ s = new RSMP_Messages.Status_VTQ();
 
           // Set initial values
           s.sCI = StatusSubscribe_Status.sCI;
           s.n = StatusSubscribe_Status.n;
 
-          cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
           if (RoadSideObject == null)
           {
             // Cannot find component id
@@ -726,36 +764,7 @@ namespace nsRSMPGS
             s.q = "recent";
 
             cStatusObject StatusObject = RoadSideObject.StatusObjects.Find(x => x.sStatusCodeId.Equals(StatusSubscribe_Status.sCI, sc));
-            if (StatusObject == null)
-            {
-              // Cannot find status code id
-              sError = "Got Status, failed to find sCI (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-            }
-
             cStatusReturnValue StatusReturnValue = StatusObject.StatusReturnValues.Find(x => x.sName.Equals(StatusSubscribe_Status.n, sc));
-            if (StatusReturnValue == null)
-            {
-              // Cannot find name
-              sError = "Got Status, failed to find name (NTSObjectId: " + StatusSubscribe.ntsOId + ", ComponentId: " + StatusSubscribe.cId + ", StatusCodeId: " + StatusSubscribe_Status.sCI + ", Name: " + StatusSubscribe_Status.n + ")";
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
-
-              // MessageNotAck
-              if (!bHasSentAckOrNack)
-              {
-                bHasSentAckOrNack = SendPacketAck(false, packetHeader.mId, sError);
-              }
-              return false;
-
-            }
-
             RSMPGS.ProcessImage.UpdateStatusValue(ref s, StatusReturnValue.Value.GetValueType(), StatusReturnValue.Value.GetValue(), StatusReturnValue.Value.GetArray());
             switch (statusMsgType)
             {
