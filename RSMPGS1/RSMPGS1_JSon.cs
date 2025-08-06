@@ -591,7 +591,12 @@ namespace nsRSMPGS
           else
           {
             rv.age = "recent";
-            rv.v = CommandRequest_Value.v;
+
+            // Prior to RSMP 3.3.0, send value as string
+            if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+              rv.v = CommandRequest_Value.v.ToString();
+            else
+              rv.v = CommandRequest_Value.v;
 
             cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
 
