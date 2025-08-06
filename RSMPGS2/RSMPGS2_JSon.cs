@@ -781,7 +781,14 @@ namespace nsRSMPGS
               }
             }
           }
-          else CommandRequest_Value.v = CommandReturnValue.Value.GetValue();
+          else
+          {
+            // Prior to RSMP 3.3.0, send value as string
+            if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+              CommandRequest_Value.v = CommandReturnValue.Value.GetValue().ToString();
+            else
+              CommandRequest_Value.v = CommandReturnValue.Value.GetValue();
+          }
           CommandRequest.arg.Add(CommandRequest_Value);
 
           cCommandEvent CommandEvent = new cCommandEvent();
