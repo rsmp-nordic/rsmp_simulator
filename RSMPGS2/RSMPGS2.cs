@@ -73,7 +73,7 @@ using System.Security.Authentication;
 //                           / Ctrl+c to copy selection in debug window + option copy data only (pull request #119 / marcgarba)
 //                           / Handle undefined and unknown quality #121
 // 25.05.16 / DO / 1.0.10    / Revert PR 114 since it causes issues in main window
-// xx.xx.16 / DO / 1.0.11    / Add functions for rearrange debug windows and put them on top #127
+// 25.08.06 / DO / 1.0.11    / Add functions for rearrange debug windows and put them on top #127
 //                           / RSMP 3.3.0: Support for sending integer, booleans as json types instead of strings #108
 //                           / AutoScroll for SysLog + show selected command directly in command form #131
 //                           / Don't process partial subscription request if any status code id (sCI) or name (n) is incorrect #132
