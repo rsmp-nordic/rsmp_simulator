@@ -30,7 +30,7 @@ namespace nsRSMPGS
     public string sName;
     public string sCommand;
 
-    public string sValue;
+    public object oValue;
     public string sAge;
   }
 

@@ -178,9 +178,13 @@ namespace nsRSMPGS
           }
           else
           {
-            rv.v = AlarmReturnValue.Value.GetValue();
+            // Prior to RSMP 3.3.0, send value as string
+            if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+              rv.v = AlarmReturnValue.Value.GetValue().ToString();
+            else
+              rv.v = AlarmReturnValue.Value.GetValue();
           }
-          
+
           AlarmHeaderAndBody.rvs.Add(rv);
           AlarmEvent.AlarmEventReturnValues.Add(new nsRSMPGS.cAlarmEventReturnValue(rv.n, rv.v));
         }
@@ -545,7 +549,7 @@ namespace nsRSMPGS
             CommandReturnValue.Value.GetValueMin(), CommandReturnValue.Value.GetValueMax()))
           {
             // MessageNotAck
-            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.Substring(0, 9) + "...");
+            sError = "Value and/or type is out of range or invalid for this RSMP protocol version, type: " + CommandReturnValue.Value.GetValueType() + ", value: " + ((CommandRequest_Value.v.ToString().Length < 10) ? CommandRequest_Value.v : CommandRequest_Value.v.ToString().Substring(0, 9) + "...");
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "{0}", sError);
             if (!bHasSentAckOrNack)
             {
@@ -591,7 +595,12 @@ namespace nsRSMPGS
           else
           {
             rv.age = "recent";
-            rv.v = CommandRequest_Value.v;
+
+            // Prior to RSMP 3.3.0, send value as string
+            if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+              rv.v = CommandRequest_Value.v.ToString();
+            else
+              rv.v = CommandRequest_Value.v;
 
             cCommandObject CommandObject = RoadSideObject.CommandObjects.Find(cci => cci.sCommandCodeId.Equals(CommandRequest_Value.cCI, sc));
 
@@ -628,7 +637,7 @@ namespace nsRSMPGS
             {
               if (RSMPGS.MainForm.ToolStripMenuItem_StoreBase64Updates.Checked)
               {
-                CommandReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v));
+                CommandReturnValue.Value.SetValue(RSMPGS.SysLog.StoreBase64DebugData(CommandRequest_Value.v.ToString()));
               }
             }
             else

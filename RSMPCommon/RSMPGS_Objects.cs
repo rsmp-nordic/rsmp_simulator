@@ -268,12 +268,12 @@ namespace nsRSMPGS
   public class cAlarmEventReturnValue
   {
     public string sName;
-    public object sValue;
+    public object oValue;
 
-    public cAlarmEventReturnValue(string sName, object sValue)
+    public cAlarmEventReturnValue(string sName, object oValue)
     {
       this.sName = sName;
-      this.sValue = sValue;
+      this.oValue = oValue;
     }
   }
 
@@ -513,9 +513,9 @@ namespace nsRSMPGS
   public class cValue
   {
 
-    private string sValue = "";
+    private object oValue = null;
 
-    private List<Dictionary<string, string>> items = new List<Dictionary<string, string>>(); // array
+    private List<Dictionary<string, object>> items = new List<Dictionary<string, object>>(); // array
 
     private eQuality quality = eQuality.unknown;
 
@@ -565,28 +565,28 @@ namespace nsRSMPGS
           case cValueTypeObject.eValueType._scale:
           case cValueTypeObject.eValueType._number:
           case cValueTypeObject.eValueType._unit:
-            sValue = "?";
+            oValue = "?";
             break;
           case cValueTypeObject.eValueType._base64:
-            sValue = "";
+            oValue = "";
             break;
           case cValueTypeObject.eValueType._timestamp:
-            sValue = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
+            oValue = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", System.Globalization.CultureInfo.InvariantCulture);
             break; 
           case cValueTypeObject.eValueType._array:
-            sValue = "(array)";
+            oValue = "(array)";
             break;
           case cValueTypeObject.eValueType._integer:
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
           case cValueTypeObject.eValueType._ordinal:
-            sValue = GetValueMin().ToString();
+            oValue = GetValueMin();
             break;
           case cValueTypeObject.eValueType._boolean:
-            sValue = "false";
+            oValue = false;
             break;
           default:
-            sValue = "(invalid type)";
+            oValue = "(invalid type)";
             break;
 
         }
@@ -598,14 +598,14 @@ namespace nsRSMPGS
           foreach (string sEnum in sEnums.Keys)
           {
             // Select the first one in the list
-            sValue = sEnum;
+            oValue = sEnum;
             break;
           }
         }
       }
       else
       {
-        sValue = "(type not found)";
+        oValue = "(type not found)";
       }
     }
 
@@ -644,33 +644,76 @@ namespace nsRSMPGS
       }
     }
 
-    public bool SetValue(object sValue)
+    public bool SetValue(object oValue)
     {
-      this.sValue = sValue == null ? null : sValue.ToString();
+      this.oValue = oValue;
       quality = eQuality.recent;
       return true;
     }
-    public string GetValue()
+    public bool SetValue(string sValue)
     {
-      if (sValue == null)
+      switch (ValueTypeObject.ValueType)
       {
-        return "";
+        case eValueType._integer:
+          int iValue;
+          if (int.TryParse(sValue, out iValue))
+            this.oValue = iValue;
+          else
+            this.oValue = null;
+          break;
+        case eValueType._number:
+        case eValueType._long:
+          long lValue;
+          if (long.TryParse(sValue, out lValue))
+            this.oValue = lValue;
+          else
+            this.oValue = null;
+          break;
+        case eValueType._boolean:
+          if (sValue.Equals("True", StringComparison.InvariantCultureIgnoreCase))
+            this.oValue = true;
+          else
+            this.oValue = false;
+          break;
+        default:
+          this.oValue = sValue == null ? null : sValue.ToString();
+          break;
       }
-      else
-      {
-        return sValue;
-      }
+
+      quality = eQuality.recent;
+      return true;
+    }
+    public object GetValue()
+    {
+      return oValue;
     }
 
-    public bool SetArray(List<Dictionary<string, string>> items)
+    public bool SetArray(List<Dictionary<string, object>> items)
     {
       this.items = items;
       quality = eQuality.recent;
       return true;
     }
-    public List<Dictionary<string, string>> GetArray()
+    public List<Dictionary<string, object>> GetArray()
     {
-      return this.items;
+      // Prior to RSMP 3.3.0, return values in arrays as string
+      if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+      {
+        // Make a copy of item.items, but convert all values to string
+        List<Dictionary<string, object>> itemsString = new List<Dictionary<string, object>>();
+        foreach (var itemD in this.items)
+        {
+          Dictionary<string, object> val = new Dictionary<string, object>();
+          foreach (var item in itemD)
+          {
+            val.Add(item.Key, item.Value.ToString());
+          }
+          itemsString.Add(val);
+        }
+        return itemsString;
+      }
+      else
+        return this.items;
     }
   }
 

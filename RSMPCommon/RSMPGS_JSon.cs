@@ -1188,7 +1188,7 @@ namespace nsRSMPGS
       // incoming status
       //string[] fieldStrings;
       string statusKey;
-      string statusValue;
+      object statusValue;
       Boolean hit;
 
       // loop alla YAMLMappings
@@ -1248,7 +1248,7 @@ namespace nsRSMPGS
             KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
 
             statusKey = f.Key;
-            statusValue = (string)f.Value;
+            statusValue = f.Value;
 
             cellName = "row:" + (rowIndex + 1).ToString() + " col:" + schemaKey + " ";
 
@@ -1260,7 +1260,7 @@ namespace nsRSMPGS
                 case "integer":
                   try
                   {
-                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iValue = Int32.Parse(statusValue.ToString());
                     Int32 iMin = Int32.Parse(schemaScalarMin);
                     Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
@@ -1274,7 +1274,7 @@ namespace nsRSMPGS
                 case "long":
                   try
                   {
-                    Int32 iValue = Int32.Parse(statusValue);
+                    Int32 iValue = Int32.Parse(statusValue.ToString());
                     Int32 iMin = Int32.Parse(schemaScalarMin);
                     Int32 iMax = Int32.Parse(schemaScalarMax);
                     if (iValue < iMin) { return cellName + " to small"; }
@@ -1289,7 +1289,7 @@ namespace nsRSMPGS
                 case "real":
                   try
                   {
-                    Double dValue = Double.Parse(statusValue);
+                    Double dValue = Double.Parse(statusValue.ToString());
                     Double dMin = Double.Parse(schemaScalarMin);
                     Double dMax = Double.Parse(schemaScalarMax);
                     if (dValue < dMin) { return cellName + " to small"; }
@@ -1304,10 +1304,10 @@ namespace nsRSMPGS
                   // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
                   // preserve backwards compability we need to treat this as case
                   // insensitive for now
-                  if(!(statusValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-                    statusValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+                  if(!(statusValue.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
+                    statusValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase)))
                   {
                     return cellName + "boolean can't be parsed";
                   }
@@ -1348,7 +1348,7 @@ namespace nsRSMPGS
         foreach (object field in fields)
         {
           KeyValuePair<string, object> f = (KeyValuePair<string, object>)field;
-          fieldString = "\"" + f.Key + "\":\"" + (string)f.Value + "\"";
+          fieldString = "\"" + f.Key + "\":\"" + f.Value + "\"";
           if (objectString != "") { objectString = objectString + ","; }
           objectString = objectString + fieldString;
         }
@@ -1416,6 +1416,7 @@ namespace nsRSMPGS
           // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
           // preserve backwards compability we need to treat this as case
           // insensitive for now
+
           bValueIsValid = oValue.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
