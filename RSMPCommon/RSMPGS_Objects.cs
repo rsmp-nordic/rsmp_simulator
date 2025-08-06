@@ -696,7 +696,24 @@ namespace nsRSMPGS
     }
     public List<Dictionary<string, object>> GetArray()
     {
-      return this.items;
+      // Prior to RSMP 3.3.0, return values in arrays as string
+      if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+      {
+        // Make a copy of item.items, but convert all values to string
+        List<Dictionary<string, object>> itemsString = new List<Dictionary<string, object>>();
+        foreach (var itemD in this.items)
+        {
+          Dictionary<string, object> val = new Dictionary<string, object>();
+          foreach (var item in itemD)
+          {
+            val.Add(item.Key, item.Value.ToString());
+          }
+          itemsString.Add(val);
+        }
+        return itemsString;
+      }
+      else
+        return this.items;
     }
   }
 
