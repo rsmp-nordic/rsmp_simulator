@@ -178,9 +178,13 @@ namespace nsRSMPGS
           }
           else
           {
-            rv.v = AlarmReturnValue.Value.GetValue();
+            // Prior to RSMP 3.3.0, send value as string
+            if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+              rv.v = AlarmReturnValue.Value.GetValue().ToString();
+            else
+              rv.v = AlarmReturnValue.Value.GetValue();
           }
-          
+
           AlarmHeaderAndBody.rvs.Add(rv);
           AlarmEvent.AlarmEventReturnValues.Add(new nsRSMPGS.cAlarmEventReturnValue(rv.n, rv.v));
         }
