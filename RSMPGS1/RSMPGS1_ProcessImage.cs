@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Threading;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+using System.Globalization;
 using System.IO;
 using System.Text;
-using System.Globalization;
-using System.Collections.Generic;
+using System.Threading;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using System.Web.Script.Serialization;
-using System.Diagnostics.Eventing.Reader;
+using static nsRSMPGS.cJSon;
 
 namespace nsRSMPGS
 {
@@ -524,10 +525,13 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
         return;
       }
 
+      // Prior to RSMP 3.3.0, send value as string
+      if (RSMPGS.JSon.NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        s.s = oValue.ToString();
+      else
+        s.s = oValue;
 
-      s.s = oValue;
       s.q = "recent";
-
     }
 
     public void CyclicCleanup(int iElapsedMillisecs)
