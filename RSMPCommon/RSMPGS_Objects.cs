@@ -561,9 +561,10 @@ namespace nsRSMPGS
         {
           case cValueTypeObject.eValueType._unknown:
           case cValueTypeObject.eValueType._string:
+          case cValueTypeObject.eValueType._string_list_as_string:
           case cValueTypeObject.eValueType._raw:
           case cValueTypeObject.eValueType._scale:
-          case cValueTypeObject.eValueType._number:
+
           case cValueTypeObject.eValueType._unit:
             oValue = "?";
             break;
@@ -577,12 +578,19 @@ namespace nsRSMPGS
             oValue = "(array)";
             break;
           case cValueTypeObject.eValueType._integer:
+          case cValueTypeObject.eValueType._integer_as_string:
+          case cValueTypeObject.eValueType._integer_list_as_string:
+          case cValueTypeObject.eValueType._number:
+          case cValueTypeObject.eValueType._number_as_string:
+          case cValueTypeObject.eValueType._number_list_as_string:
           case cValueTypeObject.eValueType._long:
           case cValueTypeObject.eValueType._real:
           case cValueTypeObject.eValueType._ordinal:
             oValue = GetValueMin();
             break;
           case cValueTypeObject.eValueType._boolean:
+          case cValueTypeObject.eValueType._boolean_as_string:
+          case cValueTypeObject.eValueType._boolean_list_as_string:
             oValue = false;
             break;
           default:
@@ -748,7 +756,14 @@ namespace nsRSMPGS
       _scale,
       _unit,
       _ordinal,
-      _array
+      _array,
+      _number_as_string,
+      _integer_as_string,
+      _boolean_as_string,
+      _string_list_as_string,
+      _number_list_as_string,
+      _integer_list_as_string,
+      _boolean_list_as_string
     }
 
     public string sComment;

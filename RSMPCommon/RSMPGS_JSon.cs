@@ -1385,6 +1385,7 @@ namespace nsRSMPGS
           break;
 
         case "integer":
+        case "integer_as_string":
           try
           {
             Int32 iValue = Int32.Parse(oValue.ToString());
@@ -1403,6 +1404,7 @@ namespace nsRSMPGS
           break;
 
         case "number":
+        case "number_as_string":
         case "real":
           try
           {
@@ -1413,6 +1415,7 @@ namespace nsRSMPGS
           break;
 
         case "boolean":
+        case "boolean_as_string":
           // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
           // preserve backwards compability we need to treat this as case
           // insensitive for now
@@ -1466,8 +1469,10 @@ namespace nsRSMPGS
         switch (sType.ToLower())
         {
           case "integer":
+          case "integer_as_string":
           case "long":
           case "number":
+          case "number_as_string":
           case "real":
 
             try
@@ -1491,6 +1496,7 @@ namespace nsRSMPGS
             break;
           case "timestamp":
           case "string":
+          case "string_list_as_string":
 
             try
             {
