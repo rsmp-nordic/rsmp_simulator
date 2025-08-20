@@ -112,12 +112,7 @@ namespace nsRSMPGS
 
           RSMPGS.SysLogItems.Clear();
 
-          RSMPGS.MainForm.listView_SysLog.ScrollAndMaxLines(bShowLastItem);
-          RSMPGS.MainForm.listView_SysLog.EndUpdate();
-          if (RSMPGS.MainForm.listView_SysLog.bSortingEnabled)
-          {
-            RSMPGS.MainForm.listView_SysLog.ResumeSorting();
-          }
+          RSMPGS.MainForm.listView_SysLog.EndUpdateWithScrollAndMaxLines(bShowLastItem);
           RSMPGS.MainForm.Refresh();
         }
       }

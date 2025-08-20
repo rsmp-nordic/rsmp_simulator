@@ -1863,6 +1863,15 @@ namespace nsRSMPGS
         AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
       }
     }
+
+    // do directly scroll with max lines before EndUpdate + sorting if wanted
+    public void EndUpdateWithScrollAndMaxLines(bool bShowLastLine)
+    {
+      ScrollAndMaxLines(bShowLastLine);
+      EndUpdate();
+      if (bSortingEnabled)
+        ResumeSorting();
+    }
   }
 
 
