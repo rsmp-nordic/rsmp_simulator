@@ -14,6 +14,7 @@ env:
   SXL_1_1: rsmp_schema/schemas/tlc/1.1.0/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
+  SITE_1_3_0: YAML/SXL_Traffic_Controller_ver_1_3_0-site.yaml
   SITE: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
   SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
@@ -91,7 +92,7 @@ jobs:
           #   - value1
           #   - value2
           #   The first format is not supported by the simulator.
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_3_0 --site $SITE > TLC_SXL_1_3_0.yaml
+          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_3_0 --site $SITE_1_3_0 > TLC_SXL_1_3_0.yaml
           ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2_1.yaml
           # Also include older SXL files
           ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
