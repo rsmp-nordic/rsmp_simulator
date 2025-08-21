@@ -301,7 +301,7 @@ namespace RSMP_Messages
     public string wTs;
   }
 
-  public class rsVersion
+  public class rsVersion_Base
   {
     public string mType;
     public string type;
@@ -311,6 +311,15 @@ namespace RSMP_Messages
     public List<SiteId> siteId; // SiteId's
 
     public string SXL;  // Signal Exchange List
+  }
+
+  public class rsVersion_Until_3_3_0 : rsVersion_Base
+  {
+  }
+
+  public class rsVersion_From_3_3_0 : rsVersion_Base 
+  {
+    public bool receiveAlarms;
   }
 
   public class Version_RSMP

@@ -168,10 +168,16 @@ namespace nsRSMPGS
           switch (Header.type.ToLower())
           {
             case "version":
-
-              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion), sJSon, ref sError) &&
+              if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+              {
+                bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_From_3_3_0), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "Version", ref sError);
-
+              }
+              else
+              {
+                bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_Until_3_3_0), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Version", ref sError);
+              }
               break;
 
             case "messageack":
