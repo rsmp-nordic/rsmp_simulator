@@ -319,7 +319,8 @@ namespace RSMP_Messages
 
   public class rsVersion_From_3_3_0 : rsVersion_Base 
   {
-    public bool receiveAlarms;
+
+    public bool receiveAlarms = true;
   }
 
   public class Version_RSMP
