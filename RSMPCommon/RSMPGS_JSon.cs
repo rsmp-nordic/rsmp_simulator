@@ -756,6 +756,10 @@ namespace nsRSMPGS
       rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
       rsVersion.siteId = new List<RSMP_Messages.SiteId>();
 
+#if _RSMPGS2
+      rsVersion.receiveAlarms = RSMPGS.Settings["RecieveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+#endif
+
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
       for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
