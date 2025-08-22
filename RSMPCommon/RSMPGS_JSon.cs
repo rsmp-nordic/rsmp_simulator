@@ -783,7 +783,11 @@ namespace nsRSMPGS
       rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
       rsVersion.siteId = new List<RSMP_Messages.SiteId>();
 
+#if _RSMPGS1
+      rsVersion.step = "Request";
+#endif
 #if _RSMPGS2
+      rsVersion.step = "Response";
       rsVersion.receiveAlarms = RSMPGS.Settings["RecieveAlarms"].GetActualValue(NegotiatedRSMPVersion);
 #endif
 
