@@ -682,6 +682,32 @@ namespace nsRSMPGS
 
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
     {
+#if _RSMPGS1
+      bool bFrom_3_3_0 = false;
+
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+      for (int iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      {
+        if (setting.GetActualValue((RSMPVersion)iIndex))
+        {
+          if((RSMPVersion)iIndex >= RSMPVersion.RSMP_3_3_0)
+          {
+            bFrom_3_3_0 = true;
+          }
+        }
+      }
+
+      if (bFrom_3_3_0)
+      {
+        return CreateAndSendVersionMessage_From_3_3_0();
+      }
+      else
+      {
+        return CreateAndSendVersionMessage_Until_3_3_0();
+      }
+#endif
+
+#if _RSMPGS2
       if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
       {
         return CreateAndSendVersionMessage_From_3_3_0();
@@ -690,6 +716,7 @@ namespace nsRSMPGS
       {
         return CreateAndSendVersionMessage_Until_3_3_0();
       }
+#endif
     }
 
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage_Until_3_3_0()
