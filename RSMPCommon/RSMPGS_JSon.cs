@@ -86,6 +86,10 @@ namespace nsRSMPGS
 
     public RSMPVersion NegotiatedRSMPVersion = RSMPVersion.NotSupported;
 
+#if _RSMPGS1
+    public bool SendAlarms = true;
+#endif
+
     public List<cJSonMessageIdAndTimeStamp> JSonMessageIdAndTimeStamps = new List<cJSonMessageIdAndTimeStamp>();
 
     public enum RSMPVersion
@@ -825,6 +829,15 @@ namespace nsRSMPGS
           }
         }
         bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
+
+#if _RSMPGS1
+        SendAlarms = rsVersion.receiveAlarms;
+
+        if(!SendAlarms)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "recieveAlarms = false. We will not send alarms unless requested");
+        }
+#endif
       }
       catch (Exception e)
       {
