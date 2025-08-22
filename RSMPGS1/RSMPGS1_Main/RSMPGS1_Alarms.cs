@@ -161,12 +161,12 @@ namespace nsRSMPGS
         case "ActiveAndSend":
 
           AlarmObject.bActive = AlarmObject.bActive == false;
-					if (AlarmObject.bActive)
-					{
+          if (AlarmObject.bActive)
+          {
             AlarmObject.AlarmCount++;
             AlarmObject.bAcknowledged = false;
-					}
-          if (!AlarmObject.bSuspended)
+          }
+          if (!AlarmObject.bSuspended && RSMPGS.JSon.SendAlarms)
           {
             RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue, out AlarmEvent);
           }
@@ -175,26 +175,20 @@ namespace nsRSMPGS
         case "AcknowledgeAndSend":
 
           AlarmObject.bAcknowledged = true;
-          if (!AlarmObject.bSuspended)
+          if (!AlarmObject.bSuspended && RSMPGS.JSon.SendAlarms)
           {
             RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Acknowledge, out AlarmEvent);
           }
-          //JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Acknowledge);
-          //foreach (cAlarmEvent ScanAlarmEvent in AlarmObject.AlarmEvents)
-          //{
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Local ack of alarm: " + AlarmObject.sAlarmCodeId);
-          //RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Local ack of alarm, TimeStamp: " + ScanAlarmEvent.sTimeStamp + ", MsgId: " + ScanAlarmEvent.sMessageId);// + ", SequenceNumber: " + ScanAlarmEvent.sSequenceNumber);
-          //}
-          //AlarmObject.AlarmEvents.Clear();
-          //while (AlarmObject.AlarmEvents.Count > 0) AlarmObject.AlarmEvents.RemoveAt(0);
-          //listView_AlarmEvents.Items.Clear();
           break;
 
         case "SuspendAndSend":
 
           AlarmObject.bSuspended = AlarmObject.bSuspended == false;
-          RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Suspend, out AlarmEvent);
-					//JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation_Suspend);
+          if (RSMPGS.JSon.SendAlarms)
+          {
+            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Suspend, out AlarmEvent);
+          }
           break;
 
       }
