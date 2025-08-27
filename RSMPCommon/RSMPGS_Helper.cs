@@ -902,15 +902,46 @@ namespace nsRSMPGS
 
         if (Setting.IsAffectedByRSMPVersion)
         {
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_1", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_1) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_2", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_2) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_3) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_4) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_5) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_0) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_1", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_1) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_2", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_2) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_3_0", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_3_0) ? 1 : 0);
+          foreach (cJSon.RSMPVersion rSMPVersion in Setting.lAffectedRSMPVersions)
+          {
+            string sCategory;
+            int iValue = Setting.GetActualValue(rSMPVersion) ? 1 : 0;
+
+            switch (rSMPVersion)
+            {
+              case cJSon.RSMPVersion.RSMP_3_1_1:
+                sCategory = "Behaviour_RSMP_3_1_1";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_2:
+                sCategory = "Behaviour_RSMP_3_1_2";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_3:
+                sCategory = "Behaviour_RSMP_3_1_3";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_4:
+                sCategory = "Behaviour_RSMP_3_1_4";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_5:
+                sCategory = "Behaviour_RSMP_3_1_5";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_0:
+                sCategory = "Behaviour_RSMP_3_2_0";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_1:
+                sCategory = "Behaviour_RSMP_3_2_1";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_2:
+                sCategory = "Behaviour_RSMP_3_2_2";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_3_0:
+                sCategory = "Behaviour_RSMP_3_3_0";
+                break;
+              default:
+                continue;
+            }
+
+            cPrivateProfile.WriteIniFileInt(sCategory, sKey, iValue);
+          }
         }
         else
         {
