@@ -963,17 +963,20 @@ namespace nsRSMPGS
         {
           foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
           {
-            //if (AlarmObject.bActive == true || AlarmObject.bSuspended == true)
-            //{
-            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
-            //}
+            if(RSMPGS.JSon.SendAlarms)
+            { 
+              RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
+            }
           }
         }
       }
 
       if (cHelper.IsSettingChecked("BufferAndSendAlarmsWhenConnect"))
       {
-        SendBufferedEvents(cBufferedMessage.eMessageType.Alarm);
+        if (RSMPGS.JSon.SendAlarms)
+        {
+          SendBufferedEvents(cBufferedMessage.eMessageType.Alarm);
+        }
       }
 
       if (cHelper.IsSettingChecked("BufferAndSendAggregatedStatusWhenConnect"))

@@ -86,6 +86,10 @@ namespace nsRSMPGS
 
     public RSMPVersion NegotiatedRSMPVersion = RSMPVersion.NotSupported;
 
+#if _RSMPGS1
+    public bool SendAlarms = true;
+#endif
+
     public List<cJSonMessageIdAndTimeStamp> JSonMessageIdAndTimeStamps = new List<cJSonMessageIdAndTimeStamp>();
 
     public enum RSMPVersion
@@ -169,7 +173,8 @@ namespace nsRSMPGS
           {
             case "version":
 
-              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion), sJSon, ref sError) &&
+              // Only validate using the required fields or the version message
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_Until_3_3_0), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "Version", ref sError);
 
               break;
@@ -677,8 +682,47 @@ namespace nsRSMPGS
 
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
     {
+#if _RSMPGS1
+      bool bFrom_3_3_0 = false;
 
-      RSMP_Messages.rsVersion rsVersion = new RSMP_Messages.rsVersion();
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+      for (int iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      {
+        if (setting.GetActualValue((RSMPVersion)iIndex))
+        {
+          if((RSMPVersion)iIndex >= RSMPVersion.RSMP_3_3_0)
+          {
+            bFrom_3_3_0 = true;
+          }
+        }
+      }
+
+      if (bFrom_3_3_0)
+      {
+        return CreateAndSendVersionMessage_From_3_3_0();
+      }
+      else
+      {
+        return CreateAndSendVersionMessage_Until_3_3_0();
+      }
+#endif
+
+#if _RSMPGS2
+      if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+      {
+        return CreateAndSendVersionMessage_From_3_3_0();
+      }
+      else
+      {
+        return CreateAndSendVersionMessage_Until_3_3_0();
+      }
+#endif
+    }
+
+    public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage_Until_3_3_0()
+    {
+
+      RSMP_Messages.rsVersion_Until_3_3_0 rsVersion = new RSMP_Messages.rsVersion_Until_3_3_0();
 
       int iIndex;
 
@@ -726,6 +770,61 @@ namespace nsRSMPGS
 
     }
 
+    public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage_From_3_3_0()
+    {
+
+      RSMP_Messages.rsVersion_From_3_3_0 rsVersion = new RSMP_Messages.rsVersion_From_3_3_0();
+
+      int iIndex;
+
+      rsVersion.mType = "rSMsg";
+      rsVersion.type = "Version";
+      rsVersion.mId = System.Guid.NewGuid().ToString();
+      rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
+      rsVersion.siteId = new List<RSMP_Messages.SiteId>();
+
+#if _RSMPGS2
+      rsVersion.receiveAlarms = RSMPGS.Settings["RecieveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+#endif
+
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+
+      for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      {
+        if (setting.GetActualValue((RSMPVersion)iIndex))
+        {
+          rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+        }
+      }
+
+      rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
+      foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
+      {
+        RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
+        sId.sId = SiteIdObject.sSiteId;
+        rsVersion.siteId.Add(sId);
+      }
+
+      string sSendBuffer = JSonSerializer.SerializeObject(rsVersion);
+
+      cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(rsVersion.type, rsVersion.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
+
+      // Don't pass through message queueing
+      if (RSMPGS.RSMPConnection.SendJSonPacket(rsVersion.type, sSendBuffer))
+      {
+        if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent Version packet, MsgId: {0}", rsVersion.mId);
+        }
+        return JSonMessageIdAndTimeStamp;
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
     private bool DecodeAndParseVersionMessage(string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref string sError)
     {
 
@@ -737,7 +836,7 @@ namespace nsRSMPGS
 
       try
       {
-        RSMP_Messages.rsVersion rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion>(sJSon);
+        RSMP_Messages.rsVersion_From_3_3_0 rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_From_3_3_0>(sJSon);
 
         cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
@@ -761,6 +860,15 @@ namespace nsRSMPGS
           }
         }
         bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
+
+#if _RSMPGS1
+        SendAlarms = rsVersion.receiveAlarms;
+
+        if(!SendAlarms)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "recieveAlarms = false. We will not send alarms unless requested");
+        }
+#endif
       }
       catch (Exception e)
       {
