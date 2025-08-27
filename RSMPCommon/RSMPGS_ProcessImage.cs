@@ -141,7 +141,11 @@ namespace nsRSMPGS
       cYAMLMapping YAMLObjectTypes;
       cYAMLMapping YAMLSites;
 
-      YAML.YAMLMappings.TryGetValue("objects", out YAMLObjectTypes);
+      YAML.YAMLMappings.TryGetValue("components", out YAMLObjectTypes);
+
+      // In RSMP <3.3.0 it's called "objects". Supported for backwards compability
+      if(YAMLObjectTypes == null)
+        YAML.YAMLMappings.TryGetValue("objects", out YAMLObjectTypes);
 
       if (YAMLObjectTypes != null)
       {
@@ -295,9 +299,11 @@ namespace nsRSMPGS
 
         cYAMLMapping YAMLSiteObjects;
 
-        if (YAMLSite.YAMLMappings.TryGetValue("objects", out YAMLSiteObjects) == false)
+        if (YAMLSite.YAMLMappings.TryGetValue("components", out YAMLSiteObjects) == false)
         {
-          continue;
+          // In RSMP <3.3.0 it's called "objects". Supported for backwards compability
+          if (YAMLSite.YAMLMappings.TryGetValue("objects", out YAMLSiteObjects) == false)
+            continue;
         }
 
         foreach (cYAMLMapping YAMLSiteObject in YAMLSiteObjects.YAMLMappings.Values)
