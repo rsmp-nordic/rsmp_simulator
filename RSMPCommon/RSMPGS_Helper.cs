@@ -17,6 +17,7 @@ using static System.Windows.Forms.ListViewItem;
 using System.Runtime.CompilerServices;
 using RSMP_Messages;
 using System.Drawing.Printing;
+using nsRSMPGS.Properties;
 
 namespace nsRSMPGS
 {
@@ -29,6 +30,7 @@ namespace nsRSMPGS
     public int RowIndex;
 
     public bool IsAffectedByRSMPVersion;
+    public List<cJSon.RSMPVersion> lAffectedRSMPVersions;
 
     private bool bActualValue;
 
@@ -54,7 +56,7 @@ namespace nsRSMPGS
     private bool bDefaultValue_RSMP_3_2_2;
     private bool bDefaultValue_RSMP_3_3_0;
 
-    public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5, bool bDefaultValue_RSMP_3_2_0, bool bDefaultValue_RSMP_3_2_1, bool bDefaultValue_RSMP_3_2_2, bool bDefaultValue_RSMP_3_3_0)
+    public cSetting(string sKey, string sDescription, int iRowIndex, bool IsAffectedByRSMPVersion, List<cJSon.RSMPVersion> lAffectedRSMPVersions, bool bDefaultValue, bool bDefaultValue_RSMP_3_1_1, bool bDefaultValue_RSMP_3_1_2, bool bDefaultValue_RSMP_3_1_3, bool bDefaultValue_RSMP_3_1_4, bool bDefaultValue_RSMP_3_1_5, bool bDefaultValue_RSMP_3_2_0, bool bDefaultValue_RSMP_3_2_1, bool bDefaultValue_RSMP_3_2_2, bool bDefaultValue_RSMP_3_3_0)
     {
 
       this.sKey = sKey;
@@ -63,6 +65,8 @@ namespace nsRSMPGS
       this.RowIndex = iRowIndex;
 
       this.IsAffectedByRSMPVersion = IsAffectedByRSMPVersion;
+
+      this.lAffectedRSMPVersions = lAffectedRSMPVersions;
 
       this.bDefaultValue = bDefaultValue;
 
@@ -572,6 +576,8 @@ namespace nsRSMPGS
       AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true, true, true);
+      List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
+      AddSetting("RecieveAlarms", "Request to receive alarms", lAffectedRSMPVersions, true); 
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", false);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);
@@ -590,15 +596,28 @@ namespace nsRSMPGS
 
     private static void AddSetting(string sKey, string sDescription, bool bDefaultValue)
     {
-      AddSetting(sKey, sDescription, false, bDefaultValue, false, false, false, false, false, false, false, false, false);
+      AddSetting(sKey, sDescription, false, null, bDefaultValue, false, false, false, false, false, false, false, false, false);
     }
 
     private static void AddSetting(string sKey, string sDescription, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0, bool bRSMP_3_2_1, bool bRSMP_3_2_2, bool bRSMP_3_3_0)
     {
-      AddSetting(sKey, sDescription, true, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0, bRSMP_3_2_1, bRSMP_3_2_2, bRSMP_3_3_0);
+      List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion>
+      {
+        cJSon.RSMPVersion.RSMP_3_1_1, cJSon.RSMPVersion.RSMP_3_1_2, cJSon.RSMPVersion.RSMP_3_1_3,
+        cJSon.RSMPVersion.RSMP_3_1_4, cJSon.RSMPVersion.RSMP_3_1_5, cJSon.RSMPVersion.RSMP_3_2_0,
+        cJSon.RSMPVersion.RSMP_3_2_1, cJSon.RSMPVersion.RSMP_3_2_2, cJSon.RSMPVersion.RSMP_3_3_0
+      };
+
+      AddSetting(sKey, sDescription, true, lAffectedRSMPVersions, false, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0, bRSMP_3_2_1, bRSMP_3_2_2, bRSMP_3_3_0);
     }
 
-    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0, bool bRSMP_3_2_1, bool bRSMP_3_2_2, bool bRSMP_3_3_0)
+    private static void AddSetting(string sKey, string sDescription, List<cJSon.RSMPVersion> lAffectedVersions, bool bDefaultValue)
+    {
+      AddSetting(sKey, sDescription, true, lAffectedVersions, false, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue, bDefaultValue);
+    }
+
+
+    private static void AddSetting(string sKey, string sDescription, bool IsAffectedByRSMPVersion, List<cJSon.RSMPVersion> lAffectedRSMPVersions, bool bDefaultValue, bool bRSMP_3_1_1, bool bRSMP_3_1_2, bool bRSMP_3_1_3, bool bRSMP_3_1_4, bool bRSMP_3_1_5, bool bRSMP_3_2_0, bool bRSMP_3_2_1, bool bRSMP_3_2_2, bool bRSMP_3_3_0)
    {
 
       int iRowIndex = RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(sDescription, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0, bRSMP_3_2_1, bRSMP_3_2_2, bRSMP_3_3_0);
@@ -606,7 +625,7 @@ namespace nsRSMPGS
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows.Add(
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[2]
 
-      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0, bRSMP_3_2_1, bRSMP_3_2_2, bRSMP_3_3_0);
+      cSetting Setting = new cSetting(sKey, sDescription, iRowIndex, IsAffectedByRSMPVersion, lAffectedRSMPVersions, bDefaultValue, bRSMP_3_1_1, bRSMP_3_1_2, bRSMP_3_1_3, bRSMP_3_1_4, bRSMP_3_1_5, bRSMP_3_2_0, bRSMP_3_2_1, bRSMP_3_2_2, bRSMP_3_3_0);
 
       RSMPGS.Settings.Add(sKey, Setting);
 
@@ -619,41 +638,113 @@ namespace nsRSMPGS
       {
         int iColumnIndex;
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_1);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_1", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_1_1))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_1);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_1", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_1);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_1));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_2);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_2", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_1_2))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_2);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_2", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_2);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_2));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_1_3))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_3);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_1_4))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_4);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_1_5))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_5);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_2_0))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_0);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_1);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_1", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_2_1))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_1);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_1", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_1);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_1));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_2);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_2", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_2_2))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_2);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_2_2", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_2);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_2));
+        }
 
-        iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_3_0);
-        Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_3_0", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
-        RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+        if (lAffectedRSMPVersions.Contains(cJSon.RSMPVersion.RSMP_3_3_0))
+        {
+          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_3_0);
+          Setting.SetActualValue(iColumnIndex, cPrivateProfile.GetIniFileInt("Behaviour_RSMP_3_3_0", sKey, Setting.GetDefaultValue(iColumnIndex) ? 1 : 0) != 0);
+          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetActualValue(iColumnIndex);
+          ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_3_0);
+        }
+        else
+        {
+          HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_3_0));
+        }
 
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported));
 
@@ -676,19 +767,8 @@ namespace nsRSMPGS
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_1));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_2));
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_3_0));
+        ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.NotSupported);
       }
-
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.NotSupported);
-
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_1);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_2);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_3);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_4);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_1_5);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_0);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_1);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_2_2);
-      ApplySettingBackColor(iRowIndex, cJSon.RSMPVersion.RSMP_3_3_0);
 
       //RSMPGS.MainForm.dataGridView_Behaviour.Rows[iRowIndex].Cells[1].Style.BackColor = Color.Red;
 
@@ -822,15 +902,46 @@ namespace nsRSMPGS
 
         if (Setting.IsAffectedByRSMPVersion)
         {
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_1", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_1) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_2", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_2) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_3", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_3) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_4", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_4) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_1_5", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_1_5) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_0", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_0) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_1", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_1) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_2_2", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_2_2) ? 1 : 0);
-          cPrivateProfile.WriteIniFileInt("Behaviour_RSMP_3_3_0", sKey, Setting.GetActualValue(cJSon.RSMPVersion.RSMP_3_3_0) ? 1 : 0);
+          foreach (cJSon.RSMPVersion rSMPVersion in Setting.lAffectedRSMPVersions)
+          {
+            string sCategory;
+            int iValue = Setting.GetActualValue(rSMPVersion) ? 1 : 0;
+
+            switch (rSMPVersion)
+            {
+              case cJSon.RSMPVersion.RSMP_3_1_1:
+                sCategory = "Behaviour_RSMP_3_1_1";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_2:
+                sCategory = "Behaviour_RSMP_3_1_2";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_3:
+                sCategory = "Behaviour_RSMP_3_1_3";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_4:
+                sCategory = "Behaviour_RSMP_3_1_4";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_1_5:
+                sCategory = "Behaviour_RSMP_3_1_5";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_0:
+                sCategory = "Behaviour_RSMP_3_2_0";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_1:
+                sCategory = "Behaviour_RSMP_3_2_1";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_2_2:
+                sCategory = "Behaviour_RSMP_3_2_2";
+                break;
+              case cJSon.RSMPVersion.RSMP_3_3_0:
+                sCategory = "Behaviour_RSMP_3_3_0";
+                break;
+              default:
+                continue;
+            }
+
+            cPrivateProfile.WriteIniFileInt(sCategory, sKey, iValue);
+          }
         }
         else
         {
@@ -849,24 +960,11 @@ namespace nsRSMPGS
       {
         if (Setting.IsAffectedByRSMPVersion)
         {
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_1);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_2);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_3);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_4);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_1_5);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_0);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_1);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_2_2);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
-          iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.RSMP_3_3_0);
-          RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
+          foreach(cJSon.RSMPVersion rSMPVersion in Setting.lAffectedRSMPVersions)
+          {
+            iColumnIndex = Setting.GetColumnIndex(rSMPVersion);
+            RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
+          }
         }
         else
         {
@@ -1862,6 +1960,15 @@ namespace nsRSMPGS
       {
         AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
       }
+    }
+
+    // do directly scroll with max lines before EndUpdate + sorting if wanted
+    public void EndUpdateWithScrollAndMaxLines(bool bShowLastLine)
+    {
+      ScrollAndMaxLines(bShowLastLine);
+      EndUpdate();
+      if (bSortingEnabled)
+        ResumeSorting();
     }
   }
 

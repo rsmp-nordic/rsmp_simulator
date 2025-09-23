@@ -900,6 +900,14 @@ namespace nsRSMPGS
       {
         if (cHelper.IsSettingChecked("BufferAndSendStatusUpdatesWhenConnect"))
         {
+          foreach (Status_VTQ status in StatusUpdateMessage.sS)
+          {
+            if (status.q == "recent")
+            {
+              status.q = "old";
+            }
+          }
+          sSendBuffer = JSonSerializer.SerializeObject(StatusUpdateMessage);
 
           cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer);
           RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);
@@ -963,17 +971,20 @@ namespace nsRSMPGS
         {
           foreach (cAlarmObject AlarmObject in RoadSideObject.AlarmObjects)
           {
-            //if (AlarmObject.bActive == true || AlarmObject.bSuspended == true)
-            //{
-            RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
-            //}
+            if(RSMPGS.JSon.SendAlarms)
+            { 
+              RSMPGS.JSon.CreateAndSendAlarmMessage(AlarmObject, cJSon.AlarmSpecialisation.Issue);
+            }
           }
         }
       }
 
       if (cHelper.IsSettingChecked("BufferAndSendAlarmsWhenConnect"))
       {
-        SendBufferedEvents(cBufferedMessage.eMessageType.Alarm);
+        if (RSMPGS.JSon.SendAlarms)
+        {
+          SendBufferedEvents(cBufferedMessage.eMessageType.Alarm);
+        }
       }
 
       if (cHelper.IsSettingChecked("BufferAndSendAggregatedStatusWhenConnect"))
