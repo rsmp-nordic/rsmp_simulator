@@ -87,6 +87,11 @@ using System.Security.Authentication;
 //                           / Don't process partial commands #133
 //                           / Add initial support for RSMP 3.3.0 (disabled by default) #134
 //                           / RSMP 3.3.0: Add inital support for legacy types #135
+// 25.09.23 / DO / 1.0.12    / RSMP 3.3.0: Add support for 'receiveAlarms' #140
+//                           / RSMP 3.3.0: Support "step" in version message #141
+//                           / RSMP 3.3.0 YAML: change name of "objects" to "components" #139
+//                           / Added a SplitContainer in TestSend tab for RSMPGS1 #142
+//                           / Buffered status messaged should set q=old #144
 //
 //
 //
