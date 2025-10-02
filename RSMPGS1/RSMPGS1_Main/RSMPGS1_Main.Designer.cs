@@ -74,6 +74,8 @@
       this.ToolStripMenuItem_SplitPackets = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_View = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_View_Clear_AlarmEvents = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_ConnectionStatus = new System.Windows.Forms.ToolStripTextBox();
@@ -209,9 +211,9 @@
       this.button_SendTestPackage_1 = new System.Windows.Forms.Button();
       this.groupBox_TestSend1 = new System.Windows.Forms.GroupBox();
       this.textBox_TestPackage_1 = new System.Windows.Forms.TextBox();
-      this.button_TestPackage_2_Browse = new System.Windows.Forms.Button();
-      this.button_SendTestPackage_2 = new System.Windows.Forms.Button();
       this.groupBox_TestSend2 = new System.Windows.Forms.GroupBox();
+      this.button_SendTestPackage_2 = new System.Windows.Forms.Button();
+      this.button_TestPackage_2_Browse = new System.Windows.Forms.Button();
       this.textBox_TestPackage_2 = new System.Windows.Forms.TextBox();
       this.tabPage_BufferedMessages = new System.Windows.Forms.TabPage();
       this.groupBox_BufferedMessages = new System.Windows.Forms.GroupBox();
@@ -615,6 +617,8 @@
       // 
       this.ToolStripMenuItem_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_View_AlwaysShowGroupHeaders,
+            this.toolStripSeparator4,
+            this.ToolStripMenuItem_View_AutoScroll_AlarmEvents,
             this.toolStripSeparator1,
             this.ToolStripMenuItem_View_Clear_AlarmEvents});
       this.ToolStripMenuItem_View.Name = "ToolStripMenuItem_View";
@@ -625,19 +629,33 @@
       // 
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.CheckOnClick = true;
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Name = "ToolStripMenuItem_View_AlwaysShowGroupHeaders";
-      this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Size = new System.Drawing.Size(221, 22);
+      this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Size = new System.Drawing.Size(224, 22);
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Text = "&Always show group headers";
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.CheckedChanged += new System.EventHandler(this.ToolStripMenuItem_View_AlwaysShowGroupHeaders_CheckedChanged);
+      // 
+      // toolStripSeparator4
+      // 
+      this.toolStripSeparator4.Name = "toolStripSeparator4";
+      this.toolStripSeparator4.Size = new System.Drawing.Size(221, 6);
+      // 
+      // ToolStripMenuItem_View_AutoScroll_AlarmEvents
+      // 
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked = true;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.CheckOnClick = true;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Name = "ToolStripMenuItem_View_AutoScroll_AlarmEvents";
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Size = new System.Drawing.Size(224, 22);
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Text = "Auto-Scroll Alarm Events list";
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(218, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
       // 
       // ToolStripMenuItem_View_Clear_AlarmEvents
       // 
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Name = "ToolStripMenuItem_View_Clear_AlarmEvents";
-      this.ToolStripMenuItem_View_Clear_AlarmEvents.Size = new System.Drawing.Size(221, 22);
+      this.ToolStripMenuItem_View_Clear_AlarmEvents.Size = new System.Drawing.Size(224, 22);
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Text = "Clear &Alarm Events list";
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Click += new System.EventHandler(this.ToolStripMenuItem_View_Clear_AlarmEvents_Click);
       // 
@@ -2005,7 +2023,7 @@
       // 
       this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
       this.splitContainer_TestSend.Size = new System.Drawing.Size(707, 526);
-      this.splitContainer_TestSend.SplitterDistance = 349;
+      this.splitContainer_TestSend.SplitterDistance = 348;
       this.splitContainer_TestSend.TabIndex = 7;
       // 
       // button_TestPackage_1_Browse
@@ -2038,7 +2056,7 @@
       this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
       this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend1.Name = "groupBox_TestSend1";
-      this.groupBox_TestSend1.Size = new System.Drawing.Size(346, 526);
+      this.groupBox_TestSend1.Size = new System.Drawing.Size(345, 526);
       this.groupBox_TestSend1.TabIndex = 0;
       this.groupBox_TestSend1.TabStop = false;
       this.groupBox_TestSend1.Text = "JSon package 1";
@@ -2052,19 +2070,23 @@
       this.textBox_TestPackage_1.Multiline = true;
       this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
       this.textBox_TestPackage_1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_1.Size = new System.Drawing.Size(337, 472);
+      this.textBox_TestPackage_1.Size = new System.Drawing.Size(336, 472);
       this.textBox_TestPackage_1.TabIndex = 0;
       // 
-      // button_TestPackage_2_Browse
+      // groupBox_TestSend2
       // 
-      this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(167, 497);
-      this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
-      this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
-      this.button_TestPackage_2_Browse.TabIndex = 6;
-      this.button_TestPackage_2_Browse.Text = "Browse...";
-      this.button_TestPackage_2_Browse.UseVisualStyleBackColor = true;
-      this.button_TestPackage_2_Browse.Click += new System.EventHandler(this.button_TestPackage_2_Browse_Click);
+      this.groupBox_TestSend2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_TestSend2.Controls.Add(this.button_SendTestPackage_2);
+      this.groupBox_TestSend2.Controls.Add(this.button_TestPackage_2_Browse);
+      this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
+      this.groupBox_TestSend2.Location = new System.Drawing.Point(3, 0);
+      this.groupBox_TestSend2.Name = "groupBox_TestSend2";
+      this.groupBox_TestSend2.Size = new System.Drawing.Size(347, 526);
+      this.groupBox_TestSend2.TabIndex = 7;
+      this.groupBox_TestSend2.TabStop = false;
+      this.groupBox_TestSend2.Text = "JSon package 2";
       // 
       // button_SendTestPackage_2
       // 
@@ -2077,20 +2099,16 @@
       this.button_SendTestPackage_2.UseVisualStyleBackColor = true;
       this.button_SendTestPackage_2.Click += new System.EventHandler(this.button_SendTestPackage_2_Click);
       // 
-      // groupBox_TestSend2
+      // button_TestPackage_2_Browse
       // 
-      this.groupBox_TestSend2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.groupBox_TestSend2.Controls.Add(this.button_SendTestPackage_2);
-      this.groupBox_TestSend2.Controls.Add(this.button_TestPackage_2_Browse);
-      this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
-      this.groupBox_TestSend2.Location = new System.Drawing.Point(3, 0);
-      this.groupBox_TestSend2.Name = "groupBox_TestSend2";
-      this.groupBox_TestSend2.Size = new System.Drawing.Size(346, 526);
-      this.groupBox_TestSend2.TabIndex = 7;
-      this.groupBox_TestSend2.TabStop = false;
-      this.groupBox_TestSend2.Text = "JSon package 2";
+      this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(167, 497);
+      this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
+      this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
+      this.button_TestPackage_2_Browse.TabIndex = 6;
+      this.button_TestPackage_2_Browse.Text = "Browse...";
+      this.button_TestPackage_2_Browse.UseVisualStyleBackColor = true;
+      this.button_TestPackage_2_Browse.Click += new System.EventHandler(this.button_TestPackage_2_Browse_Click);
       // 
       // textBox_TestPackage_2
       // 
@@ -2101,7 +2119,7 @@
       this.textBox_TestPackage_2.Multiline = true;
       this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
       this.textBox_TestPackage_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_2.Size = new System.Drawing.Size(334, 472);
+      this.textBox_TestPackage_2.Size = new System.Drawing.Size(335, 472);
       this.textBox_TestPackage_2.TabIndex = 3;
       // 
       // tabPage_BufferedMessages
@@ -2622,6 +2640,8 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     private System.Windows.Forms.SplitContainer splitContainer_TestSend;
     private System.Windows.Forms.GroupBox groupBox_TestSend2;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_AlarmEvents;
   }
 }
 
