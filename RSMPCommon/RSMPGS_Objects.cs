@@ -667,7 +667,22 @@ namespace nsRSMPGS
           if (int.TryParse(sValue, out iValue))
             this.oValue = iValue;
           else
-            this.oValue = null;
+          {
+            // Handle comma separated lists needed for backwards compatibility.
+
+            bool bSuccessfulParse = false;
+            foreach(string cValue in sValue.Split(','))
+            {
+              if (int.TryParse(cValue, out iValue))
+                bSuccessfulParse = true;
+            }
+
+            if (bSuccessfulParse)
+              this.oValue = sValue.ToString();
+            else
+              this.oValue = null;
+          }
+          
           break;
         case eValueType._number:
         case eValueType._long:
@@ -904,7 +919,14 @@ namespace nsRSMPGS
           }
           else
           {
-            return false;
+            // Handle comma separated lists needed for backwards compatibility.
+            bool bSuccessfulParse = true;
+            foreach (string cValue in sValue.Split(','))
+            {
+              if (!int.TryParse(cValue, out iValue))
+                bSuccessfulParse = false;
+            }
+            return bSuccessfulParse;
           }
 
         case eValueType._long:
