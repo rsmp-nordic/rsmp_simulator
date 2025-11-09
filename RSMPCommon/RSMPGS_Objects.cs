@@ -668,21 +668,12 @@ namespace nsRSMPGS
             this.oValue = iValue;
           else
           {
-            // Handle comma separated lists needed for backwards compatibility.
-
-            bool bSuccessfulParse = false;
-            foreach(string cValue in sValue.Split(','))
-            {
-              if (int.TryParse(cValue, out iValue))
-                bSuccessfulParse = true;
-            }
-
-            if (bSuccessfulParse)
-              this.oValue = sValue.ToString();
-            else
-              this.oValue = null;
+            // If integer fails parsing, treat it as a string
+            // We still want to allow invalid values, so we won't set it to null
+            // unless it is null
+            this.oValue = sValue == null ? null : sValue.ToString();
           }
-          
+
           break;
         case eValueType._number:
         case eValueType._long:
