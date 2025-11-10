@@ -1493,8 +1493,8 @@ namespace nsRSMPGS
             foreach (string cValue in oValue.ToString().Split(','))
             {
               Int32 iValue = Int32.Parse(cValue);
-              bValueIsValid = true;
             }
+            bValueIsValid = true;
           }
           catch { }
           break;
