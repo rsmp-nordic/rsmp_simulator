@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Linq.Expressions;
 
 namespace nsRSMPGS
 {
@@ -1461,6 +1462,11 @@ namespace nsRSMPGS
         return false;
       }
 
+      // Legacy: If RSMP < 3.3.0, integer needs to be treated as integer_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "integer")
+          sType = "integer_list_as_string";
+
       bool bValueIsValid = false;
 
       switch (sType.ToLower())
@@ -1477,6 +1483,18 @@ namespace nsRSMPGS
           {
             Int32 iValue = Int32.Parse(oValue.ToString());
             bValueIsValid = true;
+          }
+          catch { }
+          break;
+
+        case "integer_list_as_string":
+          try
+          {
+            foreach (string cValue in oValue.ToString().Split(','))
+            {
+              Int32 iValue = Int32.Parse(cValue);
+              bValueIsValid = true;
+            }
           }
           catch { }
           break;
