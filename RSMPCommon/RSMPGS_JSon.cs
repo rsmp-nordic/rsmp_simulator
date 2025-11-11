@@ -1547,7 +1547,7 @@ namespace nsRSMPGS
             if(!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
               cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
               cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)));
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
             {
               bValueIsValid = false;
             }
