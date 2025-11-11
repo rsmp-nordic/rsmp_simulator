@@ -686,8 +686,10 @@ namespace nsRSMPGS
         case eValueType._boolean:
           if (sValue.Equals("True", StringComparison.InvariantCultureIgnoreCase))
             this.oValue = true;
-          else
+          else if (sValue.Equals("False", StringComparison.InvariantCultureIgnoreCase))
             this.oValue = false;
+          else
+            this.oValue = sValue == null ? null : sValue.ToString();
           break;
         default:
           this.oValue = sValue == null ? null : sValue.ToString();
