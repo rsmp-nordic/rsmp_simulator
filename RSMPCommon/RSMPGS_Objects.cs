@@ -887,10 +887,10 @@ namespace nsRSMPGS
             // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
             // preserve backwards compatibility we need to treat this as case
             // insensitive for now
-            if (!(sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-              sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-              sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-              sValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+            if (!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
             {
               return false;
             }
