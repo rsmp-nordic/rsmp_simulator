@@ -1467,6 +1467,11 @@ namespace nsRSMPGS
         if (sType.ToLower() == "integer")
           sType = "integer_list_as_string";
 
+      // Legacy: If RSMP < 3.3.0, boolean needs to be treated as boolean_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "boolean")
+          sType = "boolean_list_as_string";
+
       bool bValueIsValid = false;
 
       switch (sType.ToLower())
@@ -1529,6 +1534,24 @@ namespace nsRSMPGS
             oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase);
+          break;
+
+        case "boolean_list_as_string":
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compatibility we need to treat this as case
+          // insensitive for now
+
+          bValueIsValid = true;
+          foreach (string cValue in oValue.ToString().Split(','))
+          {
+            if(!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+            {
+              bValueIsValid = false;
+            }
+          }
           break;
 
         case "base64":

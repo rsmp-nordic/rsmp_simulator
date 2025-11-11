@@ -686,8 +686,10 @@ namespace nsRSMPGS
         case eValueType._boolean:
           if (sValue.Equals("True", StringComparison.InvariantCultureIgnoreCase))
             this.oValue = true;
-          else
+          else if (sValue.Equals("False", StringComparison.InvariantCultureIgnoreCase))
             this.oValue = false;
+          else
+            this.oValue = sValue == null ? null : sValue.ToString();
           break;
         default:
           this.oValue = sValue == null ? null : sValue.ToString();
@@ -879,20 +881,21 @@ namespace nsRSMPGS
 
         case eValueType._boolean:
 
-          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
-          // preserve backwards compatibility we need to treat this as case
-          // insensitive for now
-          if (sValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
-            sValue.Equals("1", StringComparison.OrdinalIgnoreCase))
+          // Handle comma separated lists needed for backwards compatibility.
+          foreach (string cValue in sValue.Split(','))
           {
-            return true;
+            // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+            // preserve backwards compatibility we need to treat this as case
+            // insensitive for now
+            if (!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+            {
+              return false;
+            }
           }
-          else
-          {
-            return false;
-          }
+          return true;
 
         case eValueType._integer:
 
