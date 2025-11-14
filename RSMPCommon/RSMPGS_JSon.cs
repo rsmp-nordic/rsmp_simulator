@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Linq.Expressions;
 
 namespace nsRSMPGS
 {
@@ -683,28 +684,7 @@ namespace nsRSMPGS
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
     {
 #if _RSMPGS1
-      bool bFrom_3_3_0 = false;
-
-      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
-      for (int iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
-      {
-        if (setting.GetActualValue((RSMPVersion)iIndex))
-        {
-          if((RSMPVersion)iIndex >= RSMPVersion.RSMP_3_3_0)
-          {
-            bFrom_3_3_0 = true;
-          }
-        }
-      }
-
-      if (bFrom_3_3_0)
-      {
-        return CreateAndSendVersionMessage_From_3_3_0();
-      }
-      else
-      {
-        return CreateAndSendVersionMessage_Until_3_3_0();
-      }
+      return CreateAndSendVersionMessage_Until_3_3_0();
 #endif
 
 #if _RSMPGS2
@@ -1482,6 +1462,16 @@ namespace nsRSMPGS
         return false;
       }
 
+      // Legacy: If RSMP < 3.3.0, integer needs to be treated as integer_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "integer")
+          sType = "integer_list_as_string";
+
+      // Legacy: If RSMP < 3.3.0, boolean needs to be treated as boolean_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "boolean")
+          sType = "boolean_list_as_string";
+
       bool bValueIsValid = false;
 
       switch (sType.ToLower())
@@ -1497,6 +1487,18 @@ namespace nsRSMPGS
           try
           {
             Int32 iValue = Int32.Parse(oValue.ToString());
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
+
+        case "integer_list_as_string":
+          try
+          {
+            foreach (string cValue in oValue.ToString().Split(','))
+            {
+              Int32 iValue = Int32.Parse(cValue);
+            }
             bValueIsValid = true;
           }
           catch { }
@@ -1532,6 +1534,24 @@ namespace nsRSMPGS
             oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase);
+          break;
+
+        case "boolean_list_as_string":
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compatibility we need to treat this as case
+          // insensitive for now
+
+          bValueIsValid = true;
+          foreach (string cValue in oValue.ToString().Split(','))
+          {
+            if(!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+            {
+              bValueIsValid = false;
+            }
+          }
           break;
 
         case "base64":

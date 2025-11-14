@@ -428,7 +428,7 @@ listBox_AggregatedStatus_FunctionalState_SelectedIndexChanged(object sender, Eve
         {
           foreach (cStatusReturnValue StatusReturnValue in StatusObject.StatusReturnValues)
           {
-            if (StatusReturnValue.Value.GetValue() != "?")
+            if (StatusReturnValue.Value.GetValue().ToString() != "?")
             {
               cPrivateProfile.WriteIniFileString(FileName, RoadSideObject.UniqueId() + ".Status", StatusObject.sStatusCodeId + "." + StatusReturnValue.sName + ".Status", StatusReturnValue.Value.GetValue().ToString());
             }

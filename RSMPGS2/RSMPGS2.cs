@@ -80,6 +80,18 @@ using System.Security.Authentication;
 //                           / Don't process partial commands #133
 //                           / Add initial support for RSMP 3.3.0 (disabled by default) #134
 //                           / RSMP 3.3.0: Add inital support for legacy types #135
+// 25.09.23 / DO / 1.0.12    / RSMP 3.3.0: Add support for 'receiveAlarms' #140
+//                           / RSMP 3.3.0: Support "step" in version message #141
+//                           / RSMP 3.3.0 YAML: change name of "objects" to "components" #139
+//                           / Added a SplitContainer in TestSend tab for RSMPGS1 #142
+//                           / Buffered status messaged should set q=old #144
+// 25.11.14 / DO / 1.0.13    / In menu added auto-scroll option for listview #147
+//                           / RSMP 3.3.0: Only send "receiveAlarms" from RSMPGS2 #149
+//                           / Workaround for comma separated integer lists (legacy SXL) #150
+//                           / RSMPGS1: When setting values, treat integers as string if it fails parsing #151
+//                           / Validate legacy type integer_list_as_string #152
+//                           / Validate legacy type boolean_list_as_string #153
+//
 //
 //
 // ---------------------------------------------------------------------------------------------------

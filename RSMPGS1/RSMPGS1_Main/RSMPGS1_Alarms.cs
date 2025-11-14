@@ -258,6 +258,8 @@ namespace nsRSMPGS
           lvItem.SubItems.Add("(array)");
         }
       }
+
+      listView_AlarmEvents.ScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked);
     }
 
     private void listView_Alarms_MouseClick(object sender, MouseEventArgs e)

@@ -982,19 +982,19 @@ namespace nsRSMPGS
 
       if (bIsUpdatingAlarmEventList)
       {
-        listView_AlarmEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_AlarmEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked);
         bIsUpdatingAlarmEventList = false;
       }
 
       if (bIsUpdatingStatusEventList)
       {
-        listView_StatusEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_StatusEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_StatusEvents.Checked);
         bIsUpdatingStatusEventList = false;
       }
 
       if (bIsUpdatingAggregatedStatusEventList)
       {
-        listView_AggregatedStatusEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_AggregatedStatusEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Checked);
         bIsUpdatingAggregatedStatusEventList = false;
       }
 
