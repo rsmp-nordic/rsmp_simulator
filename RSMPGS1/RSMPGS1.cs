@@ -92,6 +92,12 @@ using System.Security.Authentication;
 //                           / RSMP 3.3.0 YAML: change name of "objects" to "components" #139
 //                           / Added a SplitContainer in TestSend tab for RSMPGS1 #142
 //                           / Buffered status messaged should set q=old #144
+// 25.11.14 / DO / 1.0.13    / In menu added auto-scroll option for listview #147
+//                           / RSMP 3.3.0: Only send "receiveAlarms" from RSMPGS2 #149
+//                           / Workaround for comma separated integer lists (legacy SXL) #150
+//                           / RSMPGS1: When setting values, treat integers as string if it fails parsing #151
+//                           / Validate legacy type integer_list_as_string #152
+//                           / Validate legacy type boolean_list_as_string #153
 //
 //
 //
