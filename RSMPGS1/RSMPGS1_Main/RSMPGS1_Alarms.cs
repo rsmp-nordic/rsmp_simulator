@@ -239,7 +239,7 @@ namespace nsRSMPGS
     {
 
       ListViewItem lvItem = listView_AlarmEvents.Items.Add(AlarmEvent.sTimeStamp);
-      lvItem.SubItems.Add(AlarmObject.RoadSideObject.sComponentId + " / " + AlarmObject.RoadSideObject.sObject);
+      lvItem.SubItems.Add(AlarmObject.RoadSideObject.sComponentId + " - " + AlarmObject.RoadSideObject.sObject);
       lvItem.SubItems.Add(AlarmEvent.sMessageId);
       lvItem.SubItems.Add(AlarmEvent.sAlarmCodeId);
       lvItem.SubItems.Add(AlarmEvent.sDirection);

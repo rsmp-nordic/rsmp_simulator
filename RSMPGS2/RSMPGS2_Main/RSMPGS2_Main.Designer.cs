@@ -810,7 +810,7 @@
       this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(313, 440);
       this.groupBox_SitesAndObjects.TabIndex = 1;
       this.groupBox_SitesAndObjects.TabStop = false;
-      this.groupBox_SitesAndObjects.Text = "&Sites and Objects";
+      this.groupBox_SitesAndObjects.Text = "&Sites and Components";
       // 
       // checkBox_ShowTooltip
       // 

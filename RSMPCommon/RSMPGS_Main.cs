@@ -501,7 +501,7 @@ namespace nsRSMPGS
 
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
-        string sGroupName = RoadSideObject.sComponentId + " / " + RoadSideObject.sObject + " (" + RoadSideObject.sDescription + ")";
+        string sGroupName = RoadSideObject.sComponentId + " - " + RoadSideObject.sObject + " (" + RoadSideObject.sDescription + ")";
         RoadSideObject.StatusGroup = new ListViewGroup(sGroupName);
         RoadSideObject.AlarmsGroup = new ListViewGroup(sGroupName);
         RoadSideObject.CommandsGroup = new ListViewGroup(sGroupName);

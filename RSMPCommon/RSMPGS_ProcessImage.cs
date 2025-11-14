@@ -354,7 +354,7 @@ namespace nsRSMPGS
             RoadSideObject.sFunctionalState = "";
 
             RoadSideObject.SiteIdObject = SiteIdObject;
-            treeNode = new TreeNode(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
+            treeNode = new TreeNode(RoadSideObject.sComponentId + " - " + RoadSideObject.sObject);
             SiteIdObject.RoadSideObjects.Add(RoadSideObject);
             treeNode.Tag = RoadSideObject;
             treeNode.SelectedImageIndex = RoadSideObject.bIsComponentGroup ? 2 : 1;
@@ -937,7 +937,7 @@ namespace nsRSMPGS
                   RoadSideObject.sFunctionalState = "";
 
                   RoadSideObject.SiteIdObject = LastSiteIdObject;
-                  treeNode = new TreeNode(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
+                  treeNode = new TreeNode(RoadSideObject.sComponentId + " - " + RoadSideObject.sObject);
                   LastSiteIdObject.RoadSideObjects.Add(RoadSideObject);
                   treeNode.Tag = RoadSideObject;
                   treeNode.SelectedImageIndex = RoadSideObject.bIsComponentGroup ? 2 : 1;
