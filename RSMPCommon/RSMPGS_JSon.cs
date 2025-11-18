@@ -1,19 +1,21 @@
-﻿using System;
+﻿using nsRSMPGS.Properties;
+using RSMP_Messages;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Web.Script.Serialization;
-using System.Threading;
 using System.Globalization;
-using System.Reflection;
-using System.Collections;
-using System.Text.RegularExpressions;
+using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web.Script.Serialization;
+using System.Windows.Forms;
 
 namespace nsRSMPGS
 {
@@ -383,7 +385,7 @@ namespace nsRSMPGS
 
               if (DecodeAndParseVersionMessage(sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref sError) == false)
               {
-                SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible");
+                SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible. Only the following versions are supported: " + SupportedRSMPVersions());
                 // Allow for some negotiation
                 Thread.Sleep(100);
                 RSMPGS.RSMPConnection.Disconnect();
@@ -805,6 +807,22 @@ namespace nsRSMPGS
 
     }
 
+    private string SupportedRSMPVersions()
+    {
+      List<string> RSMPVersions = new List<string>();
+
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+
+      for (int iIndex = 1; iIndex < sRSMPVersions.Count(); iIndex++)
+      {
+          if (setting.GetActualValue((RSMPVersion)iIndex))
+          {
+            RSMPVersions.Add(sRSMPVersions[iIndex]);
+          }
+      }
+
+      return String.Join(",", RSMPVersions);
+    }
     private bool DecodeAndParseVersionMessage(string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref string sError)
     {
 
