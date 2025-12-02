@@ -745,6 +745,9 @@ namespace nsRSMPGS
           s.sCI = StatusSubscribe_Status.sCI;
           s.n = StatusSubscribe_Status.n;
 
+          // Don't process if subscription already exists
+          bool bSubscriptionAlreadyExists = false;
+
           if (RoadSideObject == null)
           {
             // Cannot find component id
@@ -782,15 +785,20 @@ namespace nsRSMPGS
                 break;
               case StatusMsgType.UnSubscribe:
               case StatusMsgType.Subscribe:
-                // Delete subscription if it already exists
+
+                // Check if subscription already exists
                 foreach (cSubscription Subscription in RoadSideObject.Subscriptions)
                 {
                   if (Subscription.StatusReturnValue == StatusReturnValue)
                   {
-                    RoadSideObject.Subscriptions.Remove(Subscription);
+                    if (statusMsgType == StatusMsgType.Subscribe)
+                      bSubscriptionAlreadyExists = true;
+                    if (statusMsgType == StatusMsgType.UnSubscribe)
+                      RoadSideObject.Subscriptions.Remove(Subscription);
                     break;
                   }
                 }
+
                 if (statusMsgType == StatusMsgType.Subscribe)
                 {
                   string sUpdateRate = StatusSubscribe_Status.uRt;
@@ -801,8 +809,16 @@ namespace nsRSMPGS
                     float.TryParse(StatusSubscribe_Status.uRt.Replace('.', ','), out fUpdateRate);
                   }
                   bool bAlwaysSendOnChange = StatusSubscribe_Status.sOc;
-                  RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate, bAlwaysSendOnChange));
-                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+
+                  if (!bSubscriptionAlreadyExists)
+                  { 
+                    RoadSideObject.Subscriptions.Add(new cSubscription(StatusObject, StatusReturnValue, fUpdateRate, bAlwaysSendOnChange));
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+                  }
+                  else
+                  {
+                    RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got status subscribe to already subscribed status. Not sending StatusUpdate. (NTSObjectId: {0}, ComponentId: {1}. StatusCodeId: {2}, Name: {3}, Status: {4})", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusObject.sStatusCodeId, StatusReturnValue.sName, StatusReturnValue.Value.GetValue());
+                  }
                 }
                 else
                 {
@@ -816,11 +832,12 @@ namespace nsRSMPGS
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Got status request/subscribe, failed to update StatusCodeId or Object (could be unknown value) (NTSObjectId: {0}, ComponentId: {1}, StatusCodeId: {2}))", StatusSubscribe.ntsOId, StatusSubscribe.cId, StatusSubscribe_Status.sCI);
             }
 
-            sS.Add(s);
+            if (!bSubscriptionAlreadyExists)
+              sS.Add(s);
           }
         }
 
-        if (statusMsgType != StatusMsgType.UnSubscribe)
+        if (statusMsgType != StatusMsgType.UnSubscribe && sS.Count > 0)
         {
           // Response message
           RSMP_Messages.StatusResponse StatusResponse = new RSMP_Messages.StatusResponse();
