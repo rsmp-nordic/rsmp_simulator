@@ -501,7 +501,7 @@ namespace nsRSMPGS
 
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
-        string sGroupName = RoadSideObject.sComponentId + " / " + RoadSideObject.sObject + " (" + RoadSideObject.sDescription + ")";
+        string sGroupName = RoadSideObject.sComponentId + " - " + RoadSideObject.sObject + " (" + RoadSideObject.sDescription + ")";
         RoadSideObject.StatusGroup = new ListViewGroup(sGroupName);
         RoadSideObject.AlarmsGroup = new ListViewGroup(sGroupName);
         RoadSideObject.CommandsGroup = new ListViewGroup(sGroupName);
@@ -982,19 +982,19 @@ namespace nsRSMPGS
 
       if (bIsUpdatingAlarmEventList)
       {
-        listView_AlarmEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_AlarmEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked);
         bIsUpdatingAlarmEventList = false;
       }
 
       if (bIsUpdatingStatusEventList)
       {
-        listView_StatusEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_StatusEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_StatusEvents.Checked);
         bIsUpdatingStatusEventList = false;
       }
 
       if (bIsUpdatingAggregatedStatusEventList)
       {
-        listView_AggregatedStatusEvents.EndUpdateWithScrollAndMaxLines(true);
+        listView_AggregatedStatusEvents.EndUpdateWithScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Checked);
         bIsUpdatingAggregatedStatusEventList = false;
       }
 

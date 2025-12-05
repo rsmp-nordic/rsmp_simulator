@@ -900,6 +900,14 @@ namespace nsRSMPGS
       {
         if (cHelper.IsSettingChecked("BufferAndSendStatusUpdatesWhenConnect"))
         {
+          foreach (Status_VTQ status in StatusUpdateMessage.sS)
+          {
+            if (status.q == "recent")
+            {
+              status.q = "old";
+            }
+          }
+          sSendBuffer = JSonSerializer.SerializeObject(StatusUpdateMessage);
 
           cBufferedMessage BufferedMessage = new cBufferedMessage(cBufferedMessage.eMessageType.Status, StatusUpdateMessage.type, StatusUpdateMessage.mId, sSendBuffer);
           RSMPGS.MainForm.AddBufferedMessageToListAndListView(BufferedMessage);

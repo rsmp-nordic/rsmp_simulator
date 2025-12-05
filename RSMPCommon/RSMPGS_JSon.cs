@@ -1,18 +1,21 @@
-﻿using System;
+﻿using nsRSMPGS.Properties;
+using RSMP_Messages;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Web.Script.Serialization;
-using System.Threading;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Collections;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web.Script.Serialization;
+using System.Windows.Forms;
 
 namespace nsRSMPGS
 {
@@ -382,7 +385,7 @@ namespace nsRSMPGS
 
               if (DecodeAndParseVersionMessage(sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref sError) == false)
               {
-                SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible");
+                SendPacketAck(false, Header.mId, "RSMP or SXL versions are incompatible. Only the following versions are supported: " + SupportedRSMPVersions());
                 // Allow for some negotiation
                 Thread.Sleep(100);
                 RSMPGS.RSMPConnection.Disconnect();
@@ -683,28 +686,7 @@ namespace nsRSMPGS
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage()
     {
 #if _RSMPGS1
-      bool bFrom_3_3_0 = false;
-
-      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
-      for (int iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
-      {
-        if (setting.GetActualValue((RSMPVersion)iIndex))
-        {
-          if((RSMPVersion)iIndex >= RSMPVersion.RSMP_3_3_0)
-          {
-            bFrom_3_3_0 = true;
-          }
-        }
-      }
-
-      if (bFrom_3_3_0)
-      {
-        return CreateAndSendVersionMessage_From_3_3_0();
-      }
-      else
-      {
-        return CreateAndSendVersionMessage_Until_3_3_0();
-      }
+      return CreateAndSendVersionMessage_Until_3_3_0();
 #endif
 
 #if _RSMPGS2
@@ -829,6 +811,22 @@ namespace nsRSMPGS
 
     }
 
+    private string SupportedRSMPVersions()
+    {
+      List<string> RSMPVersions = new List<string>();
+
+      cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
+
+      for (int iIndex = 1; iIndex < sRSMPVersions.Count(); iIndex++)
+      {
+          if (setting.GetActualValue((RSMPVersion)iIndex))
+          {
+            RSMPVersions.Add(sRSMPVersions[iIndex]);
+          }
+      }
+
+      return String.Join(",", RSMPVersions);
+    }
     private bool DecodeAndParseVersionMessage(string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref string sError)
     {
 
@@ -1486,6 +1484,16 @@ namespace nsRSMPGS
         return false;
       }
 
+      // Legacy: If RSMP < 3.3.0, integer needs to be treated as integer_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "integer")
+          sType = "integer_list_as_string";
+
+      // Legacy: If RSMP < 3.3.0, boolean needs to be treated as boolean_list_as_string
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        if (sType.ToLower() == "boolean")
+          sType = "boolean_list_as_string";
+
       bool bValueIsValid = false;
 
       switch (sType.ToLower())
@@ -1501,6 +1509,18 @@ namespace nsRSMPGS
           try
           {
             Int32 iValue = Int32.Parse(oValue.ToString());
+            bValueIsValid = true;
+          }
+          catch { }
+          break;
+
+        case "integer_list_as_string":
+          try
+          {
+            foreach (string cValue in oValue.ToString().Split(','))
+            {
+              Int32 iValue = Int32.Parse(cValue);
+            }
             bValueIsValid = true;
           }
           catch { }
@@ -1536,6 +1556,24 @@ namespace nsRSMPGS
             oValue.ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("0", StringComparison.OrdinalIgnoreCase) ||
             oValue.ToString().Equals("1", StringComparison.OrdinalIgnoreCase);
+          break;
+
+        case "boolean_list_as_string":
+          // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
+          // preserve backwards compatibility we need to treat this as case
+          // insensitive for now
+
+          bValueIsValid = true;
+          foreach (string cValue in oValue.ToString().Split(','))
+          {
+            if(!(cValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+              cValue.Equals("1", StringComparison.OrdinalIgnoreCase)))
+            {
+              bValueIsValid = false;
+            }
+          }
           break;
 
         case "base64":

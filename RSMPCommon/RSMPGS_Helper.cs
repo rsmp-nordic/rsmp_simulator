@@ -552,14 +552,15 @@ namespace nsRSMPGS
       AddSetting("SXL_VersionIgnore", "Ignore client RSMP and SXL version incompability", false);
       AddSetting("SendWatchdogPacketAtStartup", "Send and expect Watchdog packet when connecting", true);
 
-      /*
 #if _RSMPGS2
 
-      AddSetting("SendInitialRequestsOfAlarms", "Send initial alarms Request messages when connected", false, false, false, false, true);
-      AddSetting("SendInitialRequestsOfAggStatus", "Send initial aggregated status Request messages when connected", false, false, false, false, true);
+      //AddSetting("SendInitialRequestsOfAlarms", "Send initial alarms Request messages when connected", false, false, false, false, true);
+      //AddSetting("SendInitialRequestsOfAggStatus", "Send initial aggregated status Request messages when connected", false, false, false, false, true);
 
+      List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
+      AddSetting("RecieveAlarms", "Request to receive alarms", lAffectedRSMPVersions, true);
 #endif
-*/
+
 
 #if _RSMPGS1
 
@@ -576,8 +577,6 @@ namespace nsRSMPGS
       AddSetting("UseStrictProtocolAnalysis", "Use strict and unforgiving protocol parsing", false, true, true, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveIds", "Use case sensitive lookup for object id's and references", false, true, true, true, true, true, true, true, true);
       AddSetting("UseCaseSensitiveValue", "Use case sensitive value", false, false, false, false, false, true, true, true, true);
-      List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
-      AddSetting("RecieveAlarms", "Request to receive alarms", lAffectedRSMPVersions, true); 
       AddSetting("DontAckPackets", "Never Ack or NAck packets", false);
       AddSetting("ResendUnackedPackets", "Resend unacked packets", false);
       AddSetting("WaitInfiniteForUnackedPackets", "Wait infinite for packet Ack / NAcks", false);

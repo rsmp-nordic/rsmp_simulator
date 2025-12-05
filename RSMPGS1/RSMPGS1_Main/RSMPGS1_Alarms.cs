@@ -239,7 +239,7 @@ namespace nsRSMPGS
     {
 
       ListViewItem lvItem = listView_AlarmEvents.Items.Add(AlarmEvent.sTimeStamp);
-      lvItem.SubItems.Add(AlarmObject.RoadSideObject.sComponentId + " / " + AlarmObject.RoadSideObject.sObject);
+      lvItem.SubItems.Add(AlarmObject.RoadSideObject.sComponentId + " - " + AlarmObject.RoadSideObject.sObject);
       lvItem.SubItems.Add(AlarmEvent.sMessageId);
       lvItem.SubItems.Add(AlarmEvent.sAlarmCodeId);
       lvItem.SubItems.Add(AlarmEvent.sDirection);
@@ -258,6 +258,8 @@ namespace nsRSMPGS
           lvItem.SubItems.Add("(array)");
         }
       }
+
+      listView_AlarmEvents.ScrollAndMaxLines(ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked);
     }
 
     private void listView_Alarms_MouseClick(object sender, MouseEventArgs e)

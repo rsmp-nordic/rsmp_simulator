@@ -75,6 +75,11 @@
       this.ToolStripMenuItem_View = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_View_Clear_AlarmEvents = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_View_Clear_StatusEvents = new System.Windows.Forms.ToolStripMenuItem();
@@ -375,21 +380,21 @@
       // ToolStripMenuItem_File_LoadObjects_CSV
       // 
       this.ToolStripMenuItem_File_LoadObjects_CSV.Name = "ToolStripMenuItem_File_LoadObjects_CSV";
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(135, 22);
       this.ToolStripMenuItem_File_LoadObjects_CSV.Text = "CSV-files...";
       this.ToolStripMenuItem_File_LoadObjects_CSV.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_CSV_Click);
       // 
       // ToolStripMenuItem_File_LoadObjects_YAML
       // 
       this.ToolStripMenuItem_File_LoadObjects_YAML.Name = "ToolStripMenuItem_File_LoadObjects_YAML";
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(152, 22);
+      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(135, 22);
       this.ToolStripMenuItem_File_LoadObjects_YAML.Text = "YAML-file...";
       this.ToolStripMenuItem_File_LoadObjects_YAML.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_YAML_Click);
       // 
       // ToolStripMenuItem_File_LoadObjects_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadObjects_Delimiter.Name = "ToolStripMenuItem_File_LoadObjects_Delimiter";
-      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(149, 6);
+      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(132, 6);
       // 
       // ToolStripMenuItem_Delimiter_0
       // 
@@ -416,65 +421,65 @@
       // ToolStripMenuItem_File_Debug_CreateNew
       // 
       this.ToolStripMenuItem_File_Debug_CreateNew.Name = "ToolStripMenuItem_File_Debug_CreateNew";
-      this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_CreateNew.Text = "Create &new debug window";
       this.ToolStripMenuItem_File_Debug_CreateNew.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CreateNew_Click);
       // 
       // toolStripSeparator4
       // 
       this.toolStripSeparator4.Name = "toolStripSeparator4";
-      this.toolStripSeparator4.Size = new System.Drawing.Size(212, 6);
+      this.toolStripSeparator4.Size = new System.Drawing.Size(256, 6);
       // 
       // ToolStripMenuItem_File_Debug_Show
       // 
       this.ToolStripMenuItem_File_Debug_Show.Name = "ToolStripMenuItem_File_Debug_Show";
-      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_Show.Text = "Show all debug windows in &front";
       this.ToolStripMenuItem_File_Debug_Show.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Show_Click);
       // 
       // ToolStripMenuItem_File_Debug_Cascade
       // 
       this.ToolStripMenuItem_File_Debug_Cascade.Name = "ToolStripMenuItem_File_Debug_Cascade";
-      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_Cascade.Text = "&Cascade all debug windows";
       this.ToolStripMenuItem_File_Debug_Cascade.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Cascade_Click);
       // 
       // ToolStripMenuItem_File_Debug_TileH
       // 
       this.ToolStripMenuItem_File_Debug_TileH.Name = "ToolStripMenuItem_File_Debug_TileH";
-      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_TileH.Text = "Tile &horizontally all debug windows";
       this.ToolStripMenuItem_File_Debug_TileH.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_TileH_Click);
       // 
       // ToolStripMenuItem_File_Debug_TileV
       // 
       this.ToolStripMenuItem_File_Debug_TileV.Name = "ToolStripMenuItem_File_Debug_TileV";
-      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_TileV.Text = "Tile &vertically all debug windows";
       this.ToolStripMenuItem_File_Debug_TileV.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
       // 
       // toolStripSeparator5
       // 
       this.toolStripSeparator5.Name = "toolStripSeparator5";
-      this.toolStripSeparator5.Size = new System.Drawing.Size(212, 6);
+      this.toolStripSeparator5.Size = new System.Drawing.Size(256, 6);
       // 
       // ToolStripMenuItem_File_Debug_CloseAll
       // 
       this.ToolStripMenuItem_File_Debug_CloseAll.Name = "ToolStripMenuItem_File_Debug_CloseAll";
-      this.ToolStripMenuItem_File_Debug_CloseAll.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_File_Debug_CloseAll.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_File_Debug_CloseAll.Text = "Close all debug &windows";
       this.ToolStripMenuItem_File_Debug_CloseAll.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CloseAll_Click);
       // 
       // toolStripMenuItem1
       // 
       this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-      this.toolStripMenuItem1.Size = new System.Drawing.Size(212, 6);
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(256, 6);
       // 
       // ToolStripMenuItem_StoreBase64Updates
       // 
       this.ToolStripMenuItem_StoreBase64Updates.CheckOnClick = true;
       this.ToolStripMenuItem_StoreBase64Updates.Name = "ToolStripMenuItem_StoreBase64Updates";
-      this.ToolStripMenuItem_StoreBase64Updates.Size = new System.Drawing.Size(215, 22);
+      this.ToolStripMenuItem_StoreBase64Updates.Size = new System.Drawing.Size(259, 22);
       this.ToolStripMenuItem_StoreBase64Updates.Text = "&Store base64 updates";
       // 
       // toolStripSeparator_Delimiter_1
@@ -656,6 +661,11 @@
       this.ToolStripMenuItem_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_View_AlwaysShowGroupHeaders,
             this.toolStripSeparator1,
+            this.ToolStripMenuItem_View_AutoScroll_AlarmEvents,
+            this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents,
+            this.ToolStripMenuItem_View_AutoScroll_StatusEvents,
+            this.ToolStripMenuItem_View_AutoScroll_CommandEvents,
+            this.toolStripSeparator6,
             this.ToolStripMenuItem_View_Clear_AlarmEvents,
             this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents,
             this.ToolStripMenuItem_View_Clear_StatusEvents,
@@ -668,40 +678,81 @@
       // 
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.CheckOnClick = true;
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Name = "ToolStripMenuItem_View_AlwaysShowGroupHeaders";
-      this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Size = new System.Drawing.Size(256, 22);
+      this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Size = new System.Drawing.Size(289, 22);
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.Text = "Always show group &headers";
       this.ToolStripMenuItem_View_AlwaysShowGroupHeaders.CheckedChanged += new System.EventHandler(this.ToolStripMenuItem_View_AlwaysShowGroupHeaders_CheckedChanged);
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(253, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(286, 6);
+      // 
+      // ToolStripMenuItem_View_AutoScroll_AlarmEvents
+      // 
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Checked = true;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.CheckOnClick = true;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Name = "ToolStripMenuItem_View_AutoScroll_AlarmEvents";
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Size = new System.Drawing.Size(289, 22);
+      this.ToolStripMenuItem_View_AutoScroll_AlarmEvents.Text = "Auto-Scroll Alarm Events list";
+      // 
+      // ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents
+      // 
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Checked = true;
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.CheckOnClick = true;
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Name = "ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents";
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Size = new System.Drawing.Size(289, 22);
+      this.ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents.Text = "Auto-Scroll Aggregated Status Events list";
+      // 
+      // ToolStripMenuItem_View_AutoScroll_StatusEvents
+      // 
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.Checked = true;
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.CheckOnClick = true;
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.Name = "ToolStripMenuItem_View_AutoScroll_StatusEvents";
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.Size = new System.Drawing.Size(289, 22);
+      this.ToolStripMenuItem_View_AutoScroll_StatusEvents.Text = "Auto-Scroll Status Events list";
+      // 
+      // ToolStripMenuItem_View_AutoScroll_CommandEvents
+      // 
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.Checked = true;
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.CheckOnClick = true;
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.Name = "ToolStripMenuItem_View_AutoScroll_CommandEvents";
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.Size = new System.Drawing.Size(289, 22);
+      this.ToolStripMenuItem_View_AutoScroll_CommandEvents.Text = "Auto-Scroll Command Events list";
+      // 
+      // toolStripSeparator6
+      // 
+      this.toolStripSeparator6.Name = "toolStripSeparator6";
+      this.toolStripSeparator6.Size = new System.Drawing.Size(286, 6);
       // 
       // ToolStripMenuItem_View_Clear_AlarmEvents
       // 
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Name = "ToolStripMenuItem_View_Clear_AlarmEvents";
-      this.ToolStripMenuItem_View_Clear_AlarmEvents.Size = new System.Drawing.Size(256, 22);
+      this.ToolStripMenuItem_View_Clear_AlarmEvents.Size = new System.Drawing.Size(289, 22);
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Text = "Clear &Alarm Events list";
       this.ToolStripMenuItem_View_Clear_AlarmEvents.Click += new System.EventHandler(this.ToolStripMenuItem_View_Clear_AlarmEvents_Click);
       // 
       // ToolStripMenuItem_View_Clear_AggregatedStatusEvents
       // 
       this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents.Name = "ToolStripMenuItem_View_Clear_AggregatedStatusEvents";
-      this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents.Size = new System.Drawing.Size(256, 22);
+      this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents.Size = new System.Drawing.Size(289, 22);
       this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents.Text = "Clear A&ggregated Status Events list";
       this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents.Click += new System.EventHandler(this.ToolStripMenuItem_View_Clear_AggregatedStatusEvents_Click);
       // 
       // ToolStripMenuItem_View_Clear_StatusEvents
       // 
       this.ToolStripMenuItem_View_Clear_StatusEvents.Name = "ToolStripMenuItem_View_Clear_StatusEvents";
-      this.ToolStripMenuItem_View_Clear_StatusEvents.Size = new System.Drawing.Size(256, 22);
+      this.ToolStripMenuItem_View_Clear_StatusEvents.Size = new System.Drawing.Size(289, 22);
       this.ToolStripMenuItem_View_Clear_StatusEvents.Text = "Clear &Status Events list";
       this.ToolStripMenuItem_View_Clear_StatusEvents.Click += new System.EventHandler(this.ToolStripMenuItem_View_Clear_StatusEvents_Click);
       // 
       // ToolStripMenuItem_View_Clear_CommandEvents
       // 
       this.ToolStripMenuItem_View_Clear_CommandEvents.Name = "ToolStripMenuItem_View_Clear_CommandEvents";
-      this.ToolStripMenuItem_View_Clear_CommandEvents.Size = new System.Drawing.Size(256, 22);
+      this.ToolStripMenuItem_View_Clear_CommandEvents.Size = new System.Drawing.Size(289, 22);
       this.ToolStripMenuItem_View_Clear_CommandEvents.Text = "Clear &Command Events list";
       this.ToolStripMenuItem_View_Clear_CommandEvents.Click += new System.EventHandler(this.ToolStripMenuItem_View_Clear_CommandEvents_Click);
       // 
@@ -759,7 +810,7 @@
       this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(313, 440);
       this.groupBox_SitesAndObjects.TabIndex = 1;
       this.groupBox_SitesAndObjects.TabStop = false;
-      this.groupBox_SitesAndObjects.Text = "&Sites and Objects";
+      this.groupBox_SitesAndObjects.Text = "&Sites and Components";
       // 
       // checkBox_ShowTooltip
       // 
@@ -1127,7 +1178,7 @@
       this.label_SXL_FilePath.AutoSize = true;
       this.label_SXL_FilePath.Location = new System.Drawing.Point(24, 104);
       this.label_SXL_FilePath.Name = "label_SXL_FilePath";
-      this.label_SXL_FilePath.Size = new System.Drawing.Size(81, 13);
+      this.label_SXL_FilePath.Size = new System.Drawing.Size(51, 13);
       this.label_SXL_FilePath.TabIndex = 11;
       this.label_SXL_FilePath.Text = "SXL path";
       this.label_SXL_FilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1148,7 +1199,7 @@
       this.checkBox_AlwaysUseSXLFromFile.Location = new System.Drawing.Point(48, 76);
       this.checkBox_AlwaysUseSXLFromFile.Name = "checkBox_AlwaysUseSXLFromFile";
       this.checkBox_AlwaysUseSXLFromFile.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-      this.checkBox_AlwaysUseSXLFromFile.Size = new System.Drawing.Size(270, 17);
+      this.checkBox_AlwaysUseSXLFromFile.Size = new System.Drawing.Size(240, 17);
       this.checkBox_AlwaysUseSXLFromFile.TabIndex = 7;
       this.checkBox_AlwaysUseSXLFromFile.Text = "(Always use the SXL version from file (if found";
       this.checkBox_AlwaysUseSXLFromFile.UseVisualStyleBackColor = true;
@@ -1159,7 +1210,7 @@
       this.label_SXL_VersionFromFile.AutoSize = true;
       this.label_SXL_VersionFromFile.Location = new System.Drawing.Point(138, 53);
       this.label_SXL_VersionFromFile.Name = "label_SXL_VersionFromFile";
-      this.label_SXL_VersionFromFile.Size = new System.Drawing.Size(151, 13);
+      this.label_SXL_VersionFromFile.Size = new System.Drawing.Size(121, 13);
       this.label_SXL_VersionFromFile.TabIndex = 6;
       this.label_SXL_VersionFromFile.Text = "SXL version found in file";
       this.label_SXL_VersionFromFile.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1186,7 +1237,7 @@
       this.label_SXL_VersionManually.AutoSize = true;
       this.label_SXL_VersionManually.Location = new System.Drawing.Point(24, 27);
       this.label_SXL_VersionManually.Name = "label_SXL_VersionManually";
-      this.label_SXL_VersionManually.Size = new System.Drawing.Size(265, 13);
+      this.label_SXL_VersionManually.Size = new System.Drawing.Size(235, 13);
       this.label_SXL_VersionManually.TabIndex = 0;
       this.label_SXL_VersionManually.Text = "Active SXL version to be used when connecting";
       this.label_SXL_VersionManually.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -2318,7 +2369,7 @@
       this.splitContainer_TestSend.Panel2.Controls.Add(this.button_TestPackage_2_Browse);
       this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
       this.splitContainer_TestSend.Size = new System.Drawing.Size(672, 725);
-      this.splitContainer_TestSend.SplitterDistance = 318;
+      this.splitContainer_TestSend.SplitterDistance = 328;
       this.splitContainer_TestSend.TabIndex = 0;
       // 
       // button_TestPackage_1_Browse
@@ -2351,7 +2402,7 @@
       this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
       this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend1.Name = "groupBox_TestSend1";
-      this.groupBox_TestSend1.Size = new System.Drawing.Size(318, 687);
+      this.groupBox_TestSend1.Size = new System.Drawing.Size(328, 687);
       this.groupBox_TestSend1.TabIndex = 0;
       this.groupBox_TestSend1.TabStop = false;
       this.groupBox_TestSend1.Text = "JSon package 1";
@@ -2364,7 +2415,8 @@
       this.textBox_TestPackage_1.Location = new System.Drawing.Point(3, 19);
       this.textBox_TestPackage_1.Multiline = true;
       this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
-      this.textBox_TestPackage_1.Size = new System.Drawing.Size(310, 664);
+      this.textBox_TestPackage_1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.textBox_TestPackage_1.Size = new System.Drawing.Size(320, 664);
       this.textBox_TestPackage_1.TabIndex = 1;
       // 
       // button_SendTestPackage_2
@@ -2397,7 +2449,7 @@
       this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
       this.groupBox_TestSend2.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend2.Name = "groupBox_TestSend2";
-      this.groupBox_TestSend2.Size = new System.Drawing.Size(318, 687);
+      this.groupBox_TestSend2.Size = new System.Drawing.Size(328, 687);
       this.groupBox_TestSend2.TabIndex = 1;
       this.groupBox_TestSend2.TabStop = false;
       this.groupBox_TestSend2.Text = "JSon package 2";
@@ -2410,7 +2462,8 @@
       this.textBox_TestPackage_2.Location = new System.Drawing.Point(6, 19);
       this.textBox_TestPackage_2.Multiline = true;
       this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
-      this.textBox_TestPackage_2.Size = new System.Drawing.Size(306, 664);
+      this.textBox_TestPackage_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.textBox_TestPackage_2.Size = new System.Drawing.Size(316, 664);
       this.textBox_TestPackage_2.TabIndex = 4;
       // 
       // openFileDialog_TestPackage
@@ -2756,6 +2809,11 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_Cascade;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Debug_TileH;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_AlarmEvents;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_AggregatedStatusEvents;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_StatusEvents;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_CommandEvents;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
   }
 }
 

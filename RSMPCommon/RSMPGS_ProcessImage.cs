@@ -141,7 +141,11 @@ namespace nsRSMPGS
       cYAMLMapping YAMLObjectTypes;
       cYAMLMapping YAMLSites;
 
-      YAML.YAMLMappings.TryGetValue("objects", out YAMLObjectTypes);
+      YAML.YAMLMappings.TryGetValue("components", out YAMLObjectTypes);
+
+      // In RSMP <3.3.0 it's called "objects". Supported for backwards compability
+      if(YAMLObjectTypes == null)
+        YAML.YAMLMappings.TryGetValue("objects", out YAMLObjectTypes);
 
       if (YAMLObjectTypes != null)
       {
@@ -295,9 +299,11 @@ namespace nsRSMPGS
 
         cYAMLMapping YAMLSiteObjects;
 
-        if (YAMLSite.YAMLMappings.TryGetValue("objects", out YAMLSiteObjects) == false)
+        if (YAMLSite.YAMLMappings.TryGetValue("components", out YAMLSiteObjects) == false)
         {
-          continue;
+          // In RSMP <3.3.0 it's called "objects". Supported for backwards compability
+          if (YAMLSite.YAMLMappings.TryGetValue("objects", out YAMLSiteObjects) == false)
+            continue;
         }
 
         foreach (cYAMLMapping YAMLSiteObject in YAMLSiteObjects.YAMLMappings.Values)
@@ -348,7 +354,7 @@ namespace nsRSMPGS
             RoadSideObject.sFunctionalState = "";
 
             RoadSideObject.SiteIdObject = SiteIdObject;
-            treeNode = new TreeNode(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
+            treeNode = new TreeNode(RoadSideObject.sComponentId + " - " + RoadSideObject.sObject);
             SiteIdObject.RoadSideObjects.Add(RoadSideObject);
             treeNode.Tag = RoadSideObject;
             treeNode.SelectedImageIndex = RoadSideObject.bIsComponentGroup ? 2 : 1;
@@ -931,7 +937,7 @@ namespace nsRSMPGS
                   RoadSideObject.sFunctionalState = "";
 
                   RoadSideObject.SiteIdObject = LastSiteIdObject;
-                  treeNode = new TreeNode(RoadSideObject.sComponentId + " / " + RoadSideObject.sObject);
+                  treeNode = new TreeNode(RoadSideObject.sComponentId + " - " + RoadSideObject.sObject);
                   LastSiteIdObject.RoadSideObjects.Add(RoadSideObject);
                   treeNode.Tag = RoadSideObject;
                   treeNode.SelectedImageIndex = RoadSideObject.bIsComponentGroup ? 2 : 1;
