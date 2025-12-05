@@ -766,10 +766,10 @@ namespace nsRSMPGS
       rsVersion.siteId = new List<RSMP_Messages.SiteId>();
 
 #if _RSMPGS1
-      rsVersion.step = "Request";
+      rsVersion.subtype = "Request";
 #endif
 #if _RSMPGS2
-      rsVersion.step = "Response";
+      rsVersion.subtype = "Response";
       rsVersion.receiveAlarms = RSMPGS.Settings["RecieveAlarms"].GetActualValue(NegotiatedRSMPVersion);
 #endif
 

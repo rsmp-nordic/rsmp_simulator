@@ -321,7 +321,7 @@ namespace RSMP_Messages
   {
 
     public bool receiveAlarms = true;
-    public string step;
+    public string subtype;
   }
 
   public class Version_RSMP
