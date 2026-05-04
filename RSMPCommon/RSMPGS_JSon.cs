@@ -868,7 +868,7 @@ namespace nsRSMPGS
 
         if(!SendAlarms)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "recieveAlarms = false. We will not send alarms unless requested");
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "receiveAlarms = false. We will not send alarms unless requested");
         }
 #endif
       }
