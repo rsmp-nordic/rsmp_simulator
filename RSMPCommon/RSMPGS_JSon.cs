@@ -837,8 +837,7 @@ namespace nsRSMPGS
 
       try
       {
-        RSMP_Messages.rsVersion_Until_3_3_0 rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_Until_3_3_0>(sJSon);
-
+        RSMP_Messages.rsVersion_All rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_All>(sJSon);
         cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
         foreach (RSMP_Messages.Version_RSMP Version_RSMP in rsVersion.RSMP)
@@ -863,6 +862,12 @@ namespace nsRSMPGS
         bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
 
 #if _RSMPGS1
+        if (HighestRSMPVersion == RSMPVersion.RSMP_3_3_0)
+        {
+          // If 3.3.0. RSMPGS1 doesn't care 
+          bSXLVersionIsOk = true;
+        }
+
         SendAlarms = rsVersion.receiveAlarms;
 
         if(!SendAlarms)

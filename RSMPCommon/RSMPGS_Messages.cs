@@ -313,12 +313,19 @@ namespace RSMP_Messages
 
   public class rsVersion_Until_3_3_0 : rsVersion_Base
   {
-    public string SXL;  // Signal Exchange List
+    public string SXL;
   }
 
   public class rsVersion_From_3_3_0 : rsVersion_Base 
   {
+    public bool receiveAlarms = true;
+    public string step;
+  }
 
+  // Needed for validation
+  public class rsVersion_All : rsVersion_Base
+  {
+    public string SXL;
     public bool receiveAlarms = true;
     public string step;
   }
