@@ -838,7 +838,7 @@ namespace nsRSMPGS
 
       try
       {
-        RSMP_Messages.rsVersion_From_3_3_0 rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_From_3_3_0>(sJSon);
+        RSMP_Messages.rsVersion_Until_3_3_0 rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_Until_3_3_0>(sJSon);
 
         cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 

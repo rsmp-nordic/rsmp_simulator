@@ -309,12 +309,11 @@ namespace RSMP_Messages
 
     public List<Version_RSMP> RSMP; // Versions
     public List<SiteId> siteId; // SiteId's
-
-    public string SXL;  // Signal Exchange List
   }
 
   public class rsVersion_Until_3_3_0 : rsVersion_Base
   {
+    public string SXL;  // Signal Exchange List
   }
 
   public class rsVersion_From_3_3_0 : rsVersion_Base 
