@@ -783,7 +783,6 @@ namespace nsRSMPGS
         }
       }
 
-      rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
       foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
       {
         RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
