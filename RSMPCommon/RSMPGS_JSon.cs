@@ -770,7 +770,7 @@ namespace nsRSMPGS
 #endif
 #if _RSMPGS2
       rsVersion.step = "Response";
-      rsVersion.receiveAlarms = RSMPGS.Settings["RecieveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+      rsVersion.receiveAlarms = RSMPGS.Settings["ReceiveAlarms"].GetActualValue(NegotiatedRSMPVersion);
 #endif
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
