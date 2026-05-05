@@ -316,18 +316,23 @@ namespace RSMP_Messages
     public string SXL;
   }
 
-  public class rsVersion_From_3_3_0 : rsVersion_Base 
+  public class rsVersionRequest_From_3_3_0 : rsVersion_Base 
+  {
+    public bool receiveAlarms = true;
+    public string step;
+    public string SXL;
+  }
+
+  public class rsVersionResponse_From_3_3_0 : rsVersion_Base
   {
     public bool receiveAlarms = true;
     public string step;
   }
 
   // Needed for validation
-  public class rsVersion_All : rsVersion_Base
+  public class rsVersionResponse_Generic : rsVersionResponse_From_3_3_0
   {
     public string SXL;
-    public bool receiveAlarms = true;
-    public string step;
   }
 
   public class Version_RSMP
