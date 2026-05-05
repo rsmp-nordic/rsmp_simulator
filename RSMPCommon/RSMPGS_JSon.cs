@@ -755,7 +755,7 @@ namespace nsRSMPGS
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage_From_3_3_0()
     {
 
-      RSMP_Messages.rsVersion_From_3_3_0 rsVersion = new RSMP_Messages.rsVersion_From_3_3_0();
+      RSMP_Messages.rsVersion_All rsVersion = new RSMP_Messages.rsVersion_All();
 
       int iIndex;
 
@@ -782,6 +782,10 @@ namespace nsRSMPGS
           rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
         }
       }
+
+#if _RSMPGS1
+      rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
+#endif
 
       foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
       {
