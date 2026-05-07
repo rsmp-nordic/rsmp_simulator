@@ -388,16 +388,19 @@ namespace nsRSMPGS
 
       lvItem = listview.SelectedItems[0];
       cStatusReturnValue StatusReturnValue = (cStatusReturnValue)lvItem.Tag;
-      cStatusObject StatusObject = StatusReturnValue.StatusObject;
-
-      try
+      if (StatusReturnValue.Value.ValueTypeObject != null)
       {
-        string sValue = StatusReturnValue.Value.GetValue().ToString();
-        List<Dictionary<string, object>> array = StatusReturnValue.Value.GetArray();
-        cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, true);
+        cStatusObject StatusObject = StatusReturnValue.StatusObject;
+
+        try
+        {
+          string sValue = StatusReturnValue.Value.GetValue().ToString();
+          List<Dictionary<string, object>> array = StatusReturnValue.Value.GetArray();
+          cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, true);
+        }
+        catch
+        { }
       }
-      catch
-      { }
     }
   }
 }
