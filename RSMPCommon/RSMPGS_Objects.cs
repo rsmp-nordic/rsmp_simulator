@@ -546,7 +546,10 @@ namespace nsRSMPGS
 
     public string GetValueType()
     {
-      return ValueTypeObject.GetValueTypeAsString();
+      if (ValueTypeObject != null)
+        return ValueTypeObject.GetValueTypeAsString();
+      else
+        return "(type not found)";
     }
 
     public void SetInitialUnknownValue()
