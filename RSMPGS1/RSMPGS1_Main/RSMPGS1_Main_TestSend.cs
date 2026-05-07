@@ -25,36 +25,12 @@ namespace nsRSMPGS
 
     private void button_TestPackage_1_Browse_Click(object sender, EventArgs e)
     {
-      if (openFileDialog_TestPackage.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-      {
-        try
-        {
-          textBox_TestPackage_1.Clear();
-          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
-          textBox_TestPackage_1.Text = swTestPackageFile.ReadToEnd();
-          swTestPackageFile.Close();
-        }
-        catch
-        {
-        }
-      }
+      cFormsHelper.browseFileToLoadInTextBox(openFileDialog_TestPackage, textBox_TestPackage_1);
     }
 
     private void button_TestPackage_2_Browse_Click(object sender, EventArgs e)
     {
-      if (openFileDialog_TestPackage.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-      {
-        try
-        {
-          textBox_TestPackage_2.Clear();
-          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog_TestPackage.FileName));
-          textBox_TestPackage_2.Text = swTestPackageFile.ReadToEnd();
-          swTestPackageFile.Close();
-        }
-        catch
-        {
-        }
-      }
+      cFormsHelper.browseFileToLoadInTextBox(openFileDialog_TestPackage, textBox_TestPackage_2);
     }
   }
 

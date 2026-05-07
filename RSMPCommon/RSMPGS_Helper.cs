@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using RSMP_Messages;
 using System.Drawing.Printing;
 using nsRSMPGS.Properties;
+using System.Net.NetworkInformation;
 
 namespace nsRSMPGS
 {
@@ -3076,6 +3077,23 @@ namespace nsRSMPGS
           sBase64 = null;
         }
         combobox.Text = sBase64;
+      }
+    }
+
+    public static void browseFileToLoadInTextBox( OpenFileDialog openFileDialog, TextBox textBoxToLoad )
+    {
+      if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      {
+        try
+        {
+          textBoxToLoad.Clear();
+          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog.FileName));
+          textBoxToLoad.Text = swTestPackageFile.ReadToEnd();
+          swTestPackageFile.Close();
+        }
+        catch
+        {
+        }
       }
     }
   }
