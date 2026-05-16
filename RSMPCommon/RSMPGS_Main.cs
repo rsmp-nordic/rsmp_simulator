@@ -1065,6 +1065,8 @@ namespace nsRSMPGS
               break;
           }
         }
+        button_SendTestPackage_1.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
+        button_SendTestPackage_2.Enabled = button_SendTestPackage_1.Enabled;
         this.Refresh();
       }
 

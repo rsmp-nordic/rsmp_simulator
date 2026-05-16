@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using RSMP_Messages;
 using System.Drawing.Printing;
 using nsRSMPGS.Properties;
+using System.Net.NetworkInformation;
 
 namespace nsRSMPGS
 {
