@@ -121,8 +121,9 @@ namespace nsRSMPGS
 
       try
       {
-
-        string sValue = StatusReturnValue.Value.GetValue().ToString();
+        string sValue = "";
+        if (StatusReturnValue.Value.GetValue() != null)
+          sValue = StatusReturnValue.Value.GetValue().ToString();
         List<Dictionary<string, object>> array = StatusReturnValue.Value.GetArray();
         if (cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, StatusReturnValue.Value, StatusReturnValue.sComment, true, false) == DialogResult.OK)
         {
