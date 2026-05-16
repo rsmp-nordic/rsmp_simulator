@@ -875,7 +875,7 @@ namespace nsRSMPGS
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Client RSMP version '{0}' is unknown", Version_RSMP.vers.Trim());
           }
         }
-        if(rsVersion != null)
+        if(rsVersion.SXL != null)
           bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
 
 #if _RSMPGS1
