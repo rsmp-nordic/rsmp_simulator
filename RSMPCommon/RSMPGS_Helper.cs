@@ -3078,6 +3078,23 @@ namespace nsRSMPGS
         combobox.Text = sBase64;
       }
     }
+
+    public static void browseFileToLoadInTextBox( OpenFileDialog openFileDialog, TextBox textBoxToLoad )
+    {
+      if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      {
+        try
+        {
+          textBoxToLoad.Clear();
+          StreamReader swTestPackageFile = new StreamReader((System.IO.Stream)File.OpenRead(openFileDialog.FileName));
+          textBoxToLoad.Text = swTestPackageFile.ReadToEnd();
+          swTestPackageFile.Close();
+        }
+        catch
+        {
+        }
+      }
+    }
   }
   public class cInputBoxValue
   {
