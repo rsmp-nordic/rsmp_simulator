@@ -679,6 +679,12 @@ namespace nsRSMPGS
 
           break;
         case eValueType._number:
+          double dValue;
+          if (double.TryParse(sValue, out dValue))
+            this.oValue = dValue;
+          else
+            this.oValue = null;
+          break;
         case eValueType._long:
           long lValue;
           if (long.TryParse(sValue, out lValue))
