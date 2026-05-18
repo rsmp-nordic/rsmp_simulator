@@ -98,6 +98,12 @@ using System.Security.Authentication;
 //                           / RSMPGS1: When setting values, treat integers as string if it fails parsing #151
 //                           / Validate legacy type integer_list_as_string #152
 //                           / Validate legacy type boolean_list_as_string #153
+// 26.05.18 / DO / 1.0.14    / Add missing parsing of 'number' JSON type
+//                           / Avoid crash when displaying lists if empty field type in YAML + double-click it (marcgarba)
+//                           / Disable send test JSON buttons if not connected
+//                           / RSMP 3.3.0: Support "Step" in version message
+//                           / RSMPGS2: Provide supported RSMP version in "rea" in MessageNotAck
+//                           / Rename "Object" to "Components"
 //
 //
 //
