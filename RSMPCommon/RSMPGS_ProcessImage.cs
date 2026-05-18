@@ -336,11 +336,6 @@ namespace nsRSMPGS
 
             RoadSideObject.bIsComponentGroup = YAMLSiteObjectType.YAMLMappings.ContainsKey("aggregated_status");
 
-            if (RoadSideObject.sComponentId.Length == 0 && RoadSideObject.sNTSObjectId.Length == 0)
-            {
-              continue;
-            }
-
             string sKey = RoadSideObject.sNTSObjectId + "\t" + RoadSideObject.sComponentId;
 
             if (RoadSideObjects.ContainsKey(sKey))
