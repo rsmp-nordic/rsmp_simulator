@@ -177,9 +177,16 @@ namespace nsRSMPGS
             case "version":
 
               // Only validate using the required fields or the version message
+
+              // RSMPGS1: Only validate using rsVersion_Base since "SXL" doesn't
+              // exist in the response from RSMPGS2 when using 3.3.0
+#if _RSMPGS1
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_Base), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "Version", ref sError);
+#else
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_Until_3_3_0), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "Version", ref sError);
-
+#endif
               break;
 
             case "messageack":
@@ -760,7 +767,12 @@ namespace nsRSMPGS
     public cJSonMessageIdAndTimeStamp CreateAndSendVersionMessage_From_3_3_0()
     {
 
-      RSMP_Messages.rsVersion_From_3_3_0 rsVersion = new RSMP_Messages.rsVersion_From_3_3_0();
+#if _RSMPGS1
+      RSMP_Messages.rsVersionRequest_From_3_3_0 rsVersion = new RSMP_Messages.rsVersionRequest_From_3_3_0();
+#endif
+#if _RSMPGS2
+      RSMP_Messages.rsVersionResponse_From_3_3_0 rsVersion = new RSMP_Messages.rsVersionResponse_From_3_3_0();
+#endif
 
       int iIndex;
 
@@ -793,7 +805,10 @@ namespace nsRSMPGS
       rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions.Last()));
 #endif
 
+#if _RSMPGS1
       rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
+#endif
+
       foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
       {
         RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
@@ -848,8 +863,7 @@ namespace nsRSMPGS
 
       try
       {
-        RSMP_Messages.rsVersion_From_3_3_0 rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersion_From_3_3_0>(sJSon);
-
+        RSMP_Messages.rsVersionResponse_Generic rsVersion = JSonSerializer.Deserialize<RSMP_Messages.rsVersionResponse_Generic>(sJSon);
         cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
         foreach (RSMP_Messages.Version_RSMP Version_RSMP in rsVersion.RSMP)
@@ -871,9 +885,16 @@ namespace nsRSMPGS
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Client RSMP version '{0}' is unknown", Version_RSMP.vers.Trim());
           }
         }
-        bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
+        if(rsVersion.SXL != null)
+          bSXLVersionIsOk = (rsVersion.SXL.Trim() == RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text.Trim());
 
 #if _RSMPGS1
+        if (HighestRSMPVersion == RSMPVersion.RSMP_3_3_0)
+        {
+          // If 3.3.0. RSMPGS1 doesn't care 
+          bSXLVersionIsOk = true;
+        }
+
         SendAlarms = rsVersion.receiveAlarms;
 
         if(!SendAlarms)
