@@ -97,7 +97,10 @@ using System.Security.Authentication;
 //                           / RSMP 3.3.0: Support "Step" in version message
 //                           / RSMPGS2: Provide supported RSMP version in "rea" in MessageNotAck
 //                           / Rename "Object" to "Components"
-//
+// 26.05.27 / DO / 1.0.15    / RSMP 3.3.0: Add initial support for SXLS in the version message
+//                           / RSMP 3.3.0: Do Not send SXL in version response
+//                           / RSMPGS2: Only send the negotiated RSMP version in the version response
+//                           / Add ability to use empty "cId" for main component
 //
 //
 // ---------------------------------------------------------------------------------------------------
