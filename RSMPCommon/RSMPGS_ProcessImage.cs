@@ -49,6 +49,7 @@ namespace nsRSMPGS
     public int MaxAlarmReturnValues = 0;
 
     public string sSXLRevision = "";
+    public string sSXLName = "";
     public int ObjectFilesTimeStamp = 0;
 
 #if _RSMPGS1
@@ -79,6 +80,7 @@ namespace nsRSMPGS
       AggregatedStatusObjects.Clear();
       MaxAlarmReturnValues = 0;
       sSXLRevision = "";
+      sSXLName = "";
       ObjectFilesTimeStamp = 0;
       ValueTypeObjects.Clear();
 
@@ -131,6 +133,7 @@ namespace nsRSMPGS
       // ProcessImage.sId = YAML.GetScalar("id");
 
       sSXLRevision = YAML.GetScalar("version");
+      sSXLName = YAML.GetScalar("name");
 
       //ProcessImage.sDescription = YAML.GetScalar("description");
       //ProcessImage.sConstructor = YAML.GetScalar("constructor");
@@ -1018,6 +1021,7 @@ namespace nsRSMPGS
               // ;;;;1.3;;;
               // Just take the last line...
               sSXLRevision = cHelper.Item(sLine, 1, ';').Trim();
+              // sSXLName doesn't exist in CSV files
               break;
           }
 

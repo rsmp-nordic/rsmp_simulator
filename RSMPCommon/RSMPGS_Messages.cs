@@ -320,19 +320,27 @@ namespace RSMP_Messages
   {
     public bool receiveAlarms = true;
     public string step;
-    public string SXL;
+    public string SXL; // Empty, kept for backwards compatibility
+    public List<Version_SXL> SXLS;
   }
 
   public class rsVersionResponse_From_3_3_0 : rsVersion_Base
   {
     public bool receiveAlarms = true;
     public string step;
+    public List<Version_SXL> SXLS;
   }
 
   // Needed for validation
   public class rsVersionResponse_Generic : rsVersionResponse_From_3_3_0
   {
     public string SXL;
+  }
+
+  public class Version_SXL
+  {
+    public string version;
+    public string name;
   }
 
   public class Version_RSMP
