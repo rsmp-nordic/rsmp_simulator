@@ -731,18 +731,19 @@ namespace nsRSMPGS
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
-# if _RSMPGS1
+
       for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
       {
         if (setting.GetActualValue((RSMPVersion)iIndex))
         {
+          // RSMPGS2: Only send the highest supported version,
+          // which will be the negotiated version
+          if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
+            rsVersion.RSMP.Clear();
+
           rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
         }
       }
-#else
-      // Only send the highest supported version, which will be the negotiated version
-      rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions.Last()));
-#endif
 
       rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
       foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
@@ -800,18 +801,19 @@ namespace nsRSMPGS
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
-# if _RSMPGS1
+
       for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
       {
         if (setting.GetActualValue((RSMPVersion)iIndex))
         {
+          // RSMPGS2: Only send the highest supported version,
+          // which will be the negotiated version
+          if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
+            rsVersion.RSMP.Clear();
+
           rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
         }
       }
-#else
-      // Only send the highest supported version, which will be the negotiated version
-      rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions.Last()));
-#endif
 
 #if _RSMPGS1
       rsVersion.SXL = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
