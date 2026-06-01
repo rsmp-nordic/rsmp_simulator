@@ -68,6 +68,7 @@ namespace nsRSMPGS
       ToolStripMenuItem_PacketTypes_All.Enabled = (ToolStripMenuItem_PacketTypes_Raw.Checked == false);
 
       ToolStripMenuItem_PacketTypes_Version.Enabled = bDifferentPacketsEnabled;
+      ToolStripMenuItem_PacketTypes_ComponentList.Enabled = bDifferentPacketsEnabled;
       ToolStripMenuItem_PacketTypes_Alarm.Enabled = bDifferentPacketsEnabled;
       ToolStripMenuItem_PacketTypes_AggStatus.Enabled = bDifferentPacketsEnabled;
       ToolStripMenuItem_PacketTypes_Status.Enabled = bDifferentPacketsEnabled;
@@ -105,6 +106,7 @@ namespace nsRSMPGS
         else
         {
           if (ToolStripMenuItem_PacketTypes_Version.Checked) sDebugItems += "Version, ";
+          if (ToolStripMenuItem_PacketTypes_ComponentList.Checked) sDebugItems += "ComponentList, ";
           if (ToolStripMenuItem_PacketTypes_Alarm.Checked) sDebugItems += "Alarms, ";
           if (ToolStripMenuItem_PacketTypes_AggStatus.Checked) sDebugItems += "AggStatus, ";
           if (ToolStripMenuItem_PacketTypes_Status.Checked) sDebugItems += "Status, ";
@@ -240,6 +242,9 @@ namespace nsRSMPGS
         {
           case "version":
             if (ToolStripMenuItem_PacketTypes_Version.Checked == false) return;
+            break;
+          case "componentlist":
+            if (ToolStripMenuItem_PacketTypes_ComponentList.Checked == false) return;
             break;
           case "alarm":
             if (ToolStripMenuItem_PacketTypes_Alarm.Checked == false) return;

@@ -38,6 +38,7 @@
       this.ToolStripMenuItem_PacketTypes_All = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_PacketTypes_Delimiter_1 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_PacketTypes_Version = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_PacketTypes_ComponentList = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_PacketTypes_Alarm = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_PacketTypes_AggStatus = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_PacketTypes_Status = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +105,7 @@
             this.ToolStripMenuItem_PacketTypes_All,
             this.ToolStripMenuItem_PacketTypes_Delimiter_1,
             this.ToolStripMenuItem_PacketTypes_Version,
+            this.ToolStripMenuItem_PacketTypes_ComponentList,
             this.ToolStripMenuItem_PacketTypes_Alarm,
             this.ToolStripMenuItem_PacketTypes_AggStatus,
             this.ToolStripMenuItem_PacketTypes_Status,
@@ -155,6 +157,16 @@
       this.ToolStripMenuItem_PacketTypes_Version.Size = new System.Drawing.Size(284, 26);
       this.ToolStripMenuItem_PacketTypes_Version.Text = "&Version packets";
       this.ToolStripMenuItem_PacketTypes_Version.CheckedChanged += new System.EventHandler(this.ToolStripMenuItem_PacketTypes_CheckChanged);
+      // 
+      // ToolStripMenuItem_PacketTypes_ComponentList
+      // 
+      this.ToolStripMenuItem_PacketTypes_ComponentList.Checked = true;
+      this.ToolStripMenuItem_PacketTypes_ComponentList.CheckOnClick = true;
+      this.ToolStripMenuItem_PacketTypes_ComponentList.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.ToolStripMenuItem_PacketTypes_ComponentList.Name = "ToolStripMenuItem_PacketTypes_ComponentList";
+      this.ToolStripMenuItem_PacketTypes_ComponentList.Size = new System.Drawing.Size(284, 26);
+      this.ToolStripMenuItem_PacketTypes_ComponentList.Text = "&ComponentList packets";
+      this.ToolStripMenuItem_PacketTypes_ComponentList.CheckedChanged += new System.EventHandler(this.ToolStripMenuItem_PacketTypes_CheckChanged);
       // 
       // ToolStripMenuItem_PacketTypes_Alarm
       // 
@@ -406,6 +418,7 @@
     public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PacketTypes_AggStatus;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_PacketTypes_Delimiter_3;
     public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PacketTypes_Version;
+    public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PacketTypes_ComponentList;
     public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_SaveContinousToFile;
     public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DecodedTimes;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_CopyOnlyTextToClipboard;

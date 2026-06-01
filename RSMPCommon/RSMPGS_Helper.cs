@@ -479,6 +479,7 @@ namespace nsRSMPGS
           DebugForm.ToolStripMenuItem_PacketTypes_Raw.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Raw", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_All.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "All", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_Version.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Version", 0) != 0;
+          DebugForm.ToolStripMenuItem_PacketTypes_ComponentList.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "ComponentList", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_Alarm.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Alarm", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_AggStatus.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "AggStatus", 0) != 0;
           DebugForm.ToolStripMenuItem_PacketTypes_Status.Checked = cPrivateProfile.GetIniFileInt("Debug", sPrefix + "Status", 0) != 0;
@@ -521,6 +522,7 @@ namespace nsRSMPGS
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "All", DebugForm.ToolStripMenuItem_PacketTypes_All.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Raw", DebugForm.ToolStripMenuItem_PacketTypes_Raw.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Version", DebugForm.ToolStripMenuItem_PacketTypes_Version.Checked == true ? 1 : 0);
+        cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "ComponentList", DebugForm.ToolStripMenuItem_PacketTypes_ComponentList.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Alarm", DebugForm.ToolStripMenuItem_PacketTypes_Alarm.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "AggStatus", DebugForm.ToolStripMenuItem_PacketTypes_AggStatus.Checked == true ? 1 : 0);
         cPrivateProfile.WriteIniFileInt("Debug", sPrefix + "Status", DebugForm.ToolStripMenuItem_PacketTypes_Status.Checked == true ? 1 : 0);

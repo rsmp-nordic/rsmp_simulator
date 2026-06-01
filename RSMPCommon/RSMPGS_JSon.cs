@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+using static nsRSMPGS.cJSon;
 
 namespace nsRSMPGS
 {
@@ -82,6 +83,7 @@ namespace nsRSMPGS
     private bool bHaveGotVersionPacket = false;
     private bool bHaveGotVersionPacketAck = false;
     private bool bHaveGotWatchdogPacket = false;
+    private bool bHaveGotComponentListPacket = false;
     // 2019-05-22/TR Removed as watchdog packet ack it should not be expected ni the initial sequence
     //private bool bHaveGotWatchdogPacketAck = false;
 
@@ -187,6 +189,13 @@ namespace nsRSMPGS
               bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.rsVersion_Until_3_3_0), sJSon, ref sError) &&
                 ValidatePropertiesString(Header.type, "Version", ref sError);
 #endif
+              break;
+
+            case "componentlist":
+
+              bSuccess = ValidateJSONProperties(typeof(RSMP_Messages.ComponentList), sJSon, ref sError) &&
+                ValidatePropertiesString(Header.type, "ComponentList", ref sError);
+
               break;
 
             case "messageack":
@@ -475,6 +484,29 @@ namespace nsRSMPGS
                     bHaveGotWatchdogPacket = true;
                   }
                 }
+#if _RSMPGS2
+                if(NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+                {
+                  RSMPGS.JSon.CreateAndSendComponentListMessage();
+                }
+#endif
+                FindOutIfWeAreFinishedWithNegotiation();
+                return true;
+              }
+              break;
+            case "componentlist":
+              if (bHaveGotComponentListPacket == false)
+              {
+
+                if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+                {
+                  RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got Component List packet, Type: {0}, mId: {1}", Header.type, Header.mId);
+                }
+
+                SendPacketAck(true, Header.mId, "");
+
+                bHaveGotComponentListPacket = true;
+
                 FindOutIfWeAreFinishedWithNegotiation();
                 return true;
               }
@@ -570,6 +602,7 @@ namespace nsRSMPGS
       bHaveGotVersionPacketAck = false;
       bHaveGotWatchdogPacket = false;
       //bHaveGotWatchdogPacketAck = false;
+      bHaveGotComponentListPacket = false;
 
       bInitialNegotiationIsFinished = false;
 
@@ -615,6 +648,9 @@ namespace nsRSMPGS
         bHaveGotWatchdogPacket == true)
         //bHaveGotWatchdogPacketAck == true)
       {
+        if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1 && NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          if (!bHaveGotComponentListPacket)
+            return;
 
         bInitialNegotiationIsFinished = true;
         SocketIsConnectedAndInitSequenceIsNegotiated();
@@ -645,6 +681,7 @@ namespace nsRSMPGS
       bHaveGotVersionPacketAck = false;
       bHaveGotWatchdogPacket = false;
       //bHaveGotWatchdogPacketAck = false;
+      bHaveGotComponentListPacket = false;
 
       bInitialNegotiationIsFinished = false;
 
@@ -853,7 +890,6 @@ namespace nsRSMPGS
       {
         return null;
       }
-
     }
 
     private string SupportedRSMPVersions()

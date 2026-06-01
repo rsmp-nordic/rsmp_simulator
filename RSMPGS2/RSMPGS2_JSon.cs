@@ -366,6 +366,43 @@ namespace nsRSMPGS
 
     }
 
+    public RSMP_Messages.ComponentList CreateAndSendComponentListMessage()
+    {
+      RSMP_Messages.ComponentList rsComponentList = new RSMP_Messages.ComponentList();
+
+      rsComponentList.mType = "rSMsg";
+      rsComponentList.type = "ComponentList";
+      rsComponentList.mId = System.Guid.NewGuid().ToString();
+
+      rsComponentList.components = new List<ComponentList_Component>();
+
+      foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
+      {
+        RSMP_Messages.ComponentList_Component component = new RSMP_Messages.ComponentList_Component();
+        component.id = RoadSideObject.sComponentId;
+        component.type = RoadSideObject.sObjectType;
+        component.name = RoadSideObject.sObject;
+        rsComponentList.components.Add(component);
+      }
+
+      string sSendBuffer = JSonSerializer.SerializeObject(rsComponentList);
+
+      cJSonMessageIdAndTimeStamp JSonMessageIdAndTimeStamp = new cJSonMessageIdAndTimeStamp(rsComponentList.type, rsComponentList.mId, sSendBuffer, RSMPGS.RSMPConnection.PacketTimeout, false);
+
+      if (RSMPGS.JSon.SendJSonPacket(rsComponentList.type, rsComponentList.mId, sSendBuffer, false))
+      {
+        if (RSMPGS.MainForm.checkBox_ViewOnlyFailedPackets.Checked == false)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Sent ComponentList packet, MsgId: {0}", rsComponentList.mId);
+        }
+        return rsComponentList;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
     private bool DecodeAndParseCommandMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
     {
 

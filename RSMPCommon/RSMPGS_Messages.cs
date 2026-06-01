@@ -25,6 +25,21 @@ namespace RSMP_Messages
     public string rea;
   }
 
+  public class ComponentList
+  {
+    public string mType;
+    public string type;
+    public string mId;
+    public List<ComponentList_Component> components;
+  }
+
+  public class ComponentList_Component
+  {
+    public string id;
+    public string type;
+    public string name;
+  }
+
   public class AlarmHeader
   {
     public string mType;
