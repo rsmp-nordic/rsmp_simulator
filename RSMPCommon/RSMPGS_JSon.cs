@@ -731,17 +731,19 @@ namespace nsRSMPGS
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
-
-      for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      // RSMPGS2: Only send the the negotiated version
+      if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
       {
-        if (setting.GetActualValue((RSMPVersion)iIndex))
+        rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[(int)NegotiatedRSMPVersion]));
+      }
+      else
+      {
+        for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
         {
-          // RSMPGS2: Only send the highest supported version,
-          // which will be the negotiated version
-          if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
-            rsVersion.RSMP.Clear();
-
-          rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+          if (setting.GetActualValue((RSMPVersion)iIndex))
+          {
+            rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+          }
         }
       }
 
@@ -801,17 +803,19 @@ namespace nsRSMPGS
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];
 
-
-      for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
+      // RSMPGS2: Only send the the negotiated version
+      if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
       {
-        if (setting.GetActualValue((RSMPVersion)iIndex))
+        rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[(int)NegotiatedRSMPVersion]));
+      }
+      else
+      {
+        for (iIndex = 1; iIndex < sRSMPVersions.GetLength(0); iIndex++)
         {
-          // RSMPGS2: Only send the highest supported version,
-          // which will be the negotiated version
-          if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2)
-            rsVersion.RSMP.Clear();
-
-          rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+          if (setting.GetActualValue((RSMPVersion)iIndex))
+          {
+            rsVersion.RSMP.Add(new RSMP_Messages.Version_RSMP(sRSMPVersions[iIndex]));
+          }
         }
       }
 
