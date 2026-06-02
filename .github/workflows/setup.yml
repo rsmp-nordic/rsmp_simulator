@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.10'
 
@@ -44,16 +44,16 @@ jobs:
         run: gem install rubyXL
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout sxl-tools
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: rsmp-nordic/sxl-tools
           path: sxl-tools
 
       - name: Checkout rsmp_schema
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: rsmp-nordic/rsmp_schema
           path: rsmp_schema
@@ -97,13 +97,13 @@ jobs:
           ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (XLSX)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SXL XLSX
           path: SXL-example.xlsx
 
       - name: Upload artifacts (YAML)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SXL YAML
           path: |
@@ -114,7 +114,7 @@ jobs:
             TLC_SXL_1_0_7.yaml
 
       - name: Upload artifacts (CSV)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SXL CSV
           path: Objects/
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install rst2pdf
         run: pip install rst2pdf
@@ -135,13 +135,13 @@ jobs:
           rst2pdf Documents/Manual_RSMPGS2.rst
 
       - name: Upload Manual RSMPGS1
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Manual RSMPGS1
           path: Documents/Manual_RSMPGS1.pdf
 
       - name: Upload Manual RSMPGS2
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Manual RSMPGS2
           path: Documents/Manual_RSMPGS2.pdf
@@ -152,10 +152,10 @@ jobs:
     needs: [create_sxl, create_manual ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build RSMPGS1 (Release)
         run: msbuild /p:Configuration=Release RSMPGS1/RSMPGS1.sln
@@ -166,31 +166,31 @@ jobs:
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
 
       - name: Download SXL CSV
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: SXL CSV
           path: Objects
 
       - name: Download SXL YAML
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: SXL YAML
           path: YAML
 
       - name: Download SXL Excel
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: SXL XLSX
           path: YAML
 
       - name: Download Manual RSMPGS1
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: Manual RSMPGS1
           path: Documents
 
       - name: Download Manual RSMPGS2
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: Manual RSMPGS2
           path: Documents
@@ -211,13 +211,13 @@ jobs:
         shell: cmd
 
       - name: Upload setup files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Setup
           path: Output/*.exe
 
       - name: Upload setup zip file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Setup zip
           path: |
