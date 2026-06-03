@@ -9,7 +9,6 @@ on:
 
 env:
   SXL: rsmp_sxl_traffic_lights/schema/sxl.yaml
-  SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
   SITE_1_2_1: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
   SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
@@ -24,11 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.0.7
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -39,12 +39,12 @@ jobs:
       # Remove any trailing _list because it is only used for comma
       # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: sed -i 's/_list$//g' $SXL_1_0_7
+        run: sed -i 's/_list$//g' $SXL
 
       - name: Create YAML file
         run: |-
           ruby sxl-tools/merge_yaml.rb \
-          --sxl $SXL_1_0_7 \
+          --sxl $SXL \
           --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload SXLs in YAML format
