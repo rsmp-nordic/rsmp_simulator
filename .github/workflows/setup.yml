@@ -8,10 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  SXL_1_2_1: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
-  SXL_1_2: rsmp_schema/schemas/tlc/1.2.0/sxl.yaml
-  SXL_1_1: rsmp_schema/schemas/tlc/1.1.0/sxl.yaml
-  SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
+  SXL: rsmp_sxl_traffic_lights/schema/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
   SITE_1_2_1: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
   SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
@@ -63,11 +60,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.0.15
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -78,12 +76,12 @@ jobs:
       # Remove any trailing _list because it is only used for comma
       # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: sed -i 's/_list$//g' $SXL_1_0_15
+        run: sed -i 's/_list$//g' $SXL
 
       - name: Create YAML file
         run: |-
           ruby sxl-tools/merge_yaml.rb \
-          --sxl $SXL_1_0_15 \
+          --sxl $SXL \
           --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
 
       - name: Upload SXLs in YAML format
@@ -92,18 +90,19 @@ jobs:
           name: SXL YAML 1.0.15
           path: TLC_SXL_1_0_15.yaml
 
-  yaml_sxl_1_1:
-    name: Create YAML SXL 1.1
+  yaml_sxl_1_1_0:
+    name: Create YAML SXL 1.1.0
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.1.0
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -114,12 +113,12 @@ jobs:
       # Remove any trailing _list because it is only used for comma
       # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: sed -i 's/_list$//g' $SXL_1_1
+        run: sed -i 's/_list$//g' $SXL
 
       - name: Create YAML file
         run: |-
           ruby sxl-tools/merge_yaml.rb \
-          --sxl $SXL_1_1 \
+          --sxl $SXL \
           --site $SITE_1_1 > TLC_SXL_1_1.yaml
 
       - name: Upload SXLs in YAML format
@@ -128,18 +127,19 @@ jobs:
           name: SXL YAML 1.1
           path: TLC_SXL_1_1.yaml
 
-  yaml_sxl_1_2:
-    name: Create YAML SXL 1.2
+  yaml_sxl_1_2_0:
+    name: Create YAML SXL 1.2.0
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.2.0
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -150,12 +150,12 @@ jobs:
       # Remove any trailing _list because it is only used for comma
       # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: sed -i 's/_list$//g' $SXL_1_2
+        run: sed -i 's/_list$//g' $SXL
 
       - name: Create YAML file
         run: |-
           ruby sxl-tools/merge_yaml.rb \
-          --sxl $SXL_1_2 \
+          --sxl $SXL \
           --site $SITE_1_2 > TLC_SXL_1_2.yaml
 
       - name: Upload SXLs in YAML format
@@ -171,11 +171,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.2.1
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -186,12 +187,12 @@ jobs:
       # Remove any trailing _list because it is only used for comma
       # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: sed -i 's/_list$//g' $SXL_1_2_1
+        run: sed -i 's/_list$//g' $SXL
 
       - name: Create YAML file
         run: |-
           ruby sxl-tools/merge_yaml.rb \
-          --sxl $SXL_1_2_1 \
+          --sxl $SXL \
           --site $SITE_1_2_1 > TLC_SXL_1_2_1.yaml
 
       - name: Upload SXLs in YAML format
@@ -226,11 +227,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Checkout rsmp_schema
+      - name: Checkout rsmp_sxl_traffic_lights
         uses: actions/checkout@v6
         with:
-          repository: rsmp-nordic/rsmp_schema
-          path: rsmp_schema
+          repository: rsmp-nordic/rsmp_sxl_traffic_lights
+          path: rsmp_sxl_traffic_lights
+          ref: 1.2.1
 
       - name: Checkout sxl-tools
         uses: actions/checkout@v6
@@ -245,7 +247,7 @@ jobs:
         run: |-
           ruby sxl-tools/yaml2xlsx.rb \
             --template RSMP_Template_SignalExchangeList.xlsx \
-            --sxl $SXL_1_2_1 \
+            --sxl $SXL \
             --site $SITE_1_2_1 --stdout > SXL-example.xlsx
 
       - name: Create CSV files
@@ -293,7 +295,7 @@ jobs:
   setup:
     name: Create Installer
     runs-on: windows-2022
-    needs: [excel_sxl, yaml_sxl_1_0_7, yaml_sxl_1_0_15, yaml_sxl_1_1, yaml_sxl_1_2, yaml_sxl_1_2_1, manual ]
+    needs: [excel_sxl, yaml_sxl_1_0_7, yaml_sxl_1_0_15, yaml_sxl_1_1_0, yaml_sxl_1_2_0, yaml_sxl_1_2_1, manual ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
