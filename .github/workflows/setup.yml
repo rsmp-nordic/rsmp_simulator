@@ -8,20 +8,20 @@ on:
   workflow_dispatch:
 
 env:
-  SXL: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
+  SXL_1_2_1: rsmp_schema/schemas/tlc/1.2.1/sxl.yaml
   SXL_1_2: rsmp_schema/schemas/tlc/1.2.0/sxl.yaml
   SXL_1_1: rsmp_schema/schemas/tlc/1.1.0/sxl.yaml
   SXL_1_0_15: rsmp_schema/schemas/tlc/1.0.15/sxl.yaml
   SXL_1_0_7: rsmp_schema/schemas/tlc/1.0.7/sxl.yaml
-  SITE: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
+  SITE_1_2_1: YAML/SXL_Traffic_Controller_ver_1_2_1-site.yaml
   SITE_1_2: YAML/SXL_Traffic_Controller_ver_1_2-site.yaml
   SITE_1_1: YAML/SXL_Traffic_Controller_ver_1_1-site.yaml
   SITE_1_0_15: YAML/SXL_Traffic_Controller_ver_1_0_15-site.yaml
   SITE_1_0_7: YAML/SXL_Traffic_Controller_ver_1_0_7-site.yaml
 
 jobs:
-  create_yaml_sxl:
-    name: Create YAML SXL
+  yaml_sxl_1_0_7:
+    name: Create YAML SXL 1.0.7
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -39,44 +39,169 @@ jobs:
           repository: rsmp-nordic/sxl-tools
           path: sxl-tools
 
+      # Remove any trailing _list because it is only used for comma
+      # separated values during schema validation
       - name: Adapt data types for Core 3.2
-        run: |-
-          # Remove any trailing _list because it is only used for comma
-          # separated values during schema validation
-          sed -i 's/_list$//g' $SXL
-          sed -i 's/_list$//g' $SXL_1_2
-          sed -i 's/_list$//g' $SXL_1_1
-          sed -i 's/_list$//g' $SXL_1_0_15
-          sed -i 's/_list$//g' $SXL_1_0_7
+        run: sed -i 's/_list$//g' $SXL_1_0_7
 
       - name: Create YAML file
-        run: |
-          # - Merges the alarms/statuses/commands from the rsmp_schema repo
-          #   with the example objects into an YAML SXL.
-          # - Converts JSON arrays from this format: [ value1, value2 ] to:
-          #   - value1
-          #   - value2
-          #   The first format is not supported by the simulator.
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2_1.yaml
-          # Also include older SXL files
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL --site $SITE > TLC_SXL_1_2.yaml
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_1 --site $SITE_1_1 > TLC_SXL_1_1.yaml
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_15 --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
-          ruby sxl-tools/merge_yaml.rb --sxl $SXL_1_0_7 --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
+        run: |-
+          ruby sxl-tools/merge_yaml.rb \
+          --sxl $SXL_1_0_7 \
+          --site $SITE_1_0_7 > TLC_SXL_1_0_7.yaml
 
       - name: Upload SXLs in YAML format
         uses: actions/upload-artifact@v7
         with:
-          name: SXL YAML
-          path: |
-            TLC_SXL_1_2_1.yaml
-            TLC_SXL_1_2.yaml
-            TLC_SXL_1_1.yaml
-            TLC_SXL_1_0_15.yaml
-            TLC_SXL_1_0_7.yaml
+          name: SXL YAML 1.0.7
+          path: TLC_SXL_1_0_7.yaml
 
-  create_excel_sxl:
-    name: Create Excel SXL (1.2.1)
+  yaml_sxl_1_0_15:
+    name: Create YAML SXL 1.0.15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      # Remove any trailing _list because it is only used for comma
+      # separated values during schema validation
+      - name: Adapt data types for Core 3.2
+        run: sed -i 's/_list$//g' $SXL_1_0_15
+
+      - name: Create YAML file
+        run: |-
+          ruby sxl-tools/merge_yaml.rb \
+          --sxl $SXL_1_0_15 \
+          --site $SITE_1_0_15 > TLC_SXL_1_0_15.yaml
+
+      - name: Upload SXLs in YAML format
+        uses: actions/upload-artifact@v7
+        with:
+          name: SXL YAML 1.0.15
+          path: TLC_SXL_1_0_15.yaml
+
+  yaml_sxl_1_1:
+    name: Create YAML SXL 1.1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      # Remove any trailing _list because it is only used for comma
+      # separated values during schema validation
+      - name: Adapt data types for Core 3.2
+        run: sed -i 's/_list$//g' $SXL_1_1
+
+      - name: Create YAML file
+        run: |-
+          ruby sxl-tools/merge_yaml.rb \
+          --sxl $SXL_1_1 \
+          --site $SITE_1_1 > TLC_SXL_1_1.yaml
+
+      - name: Upload SXLs in YAML format
+        uses: actions/upload-artifact@v7
+        with:
+          name: SXL YAML 1.1
+          path: TLC_SXL_1_1.yaml
+
+  yaml_sxl_1_2:
+    name: Create YAML SXL 1.2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      # Remove any trailing _list because it is only used for comma
+      # separated values during schema validation
+      - name: Adapt data types for Core 3.2
+        run: sed -i 's/_list$//g' $SXL_1_2
+
+      - name: Create YAML file
+        run: |-
+          ruby sxl-tools/merge_yaml.rb \
+          --sxl $SXL_1_2 \
+          --site $SITE_1_2 > TLC_SXL_1_2.yaml
+
+      - name: Upload SXLs in YAML format
+        uses: actions/upload-artifact@v7
+        with:
+          name: SXL YAML 1.2
+          path: TLC_SXL_1_2.yaml
+
+  yaml_sxl_1_2_1:
+    name: Create YAML SXL 1.2.1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout rsmp_schema
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/rsmp_schema
+          path: rsmp_schema
+
+      - name: Checkout sxl-tools
+        uses: actions/checkout@v6
+        with:
+          repository: rsmp-nordic/sxl-tools
+          path: sxl-tools
+
+      # Remove any trailing _list because it is only used for comma
+      # separated values during schema validation
+      - name: Adapt data types for Core 3.2
+        run: sed -i 's/_list$//g' $SXL_1_2_1
+
+      - name: Create YAML file
+        run: |-
+          ruby sxl-tools/merge_yaml.rb \
+          --sxl $SXL_1_2_1 \
+          --site $SITE_1_2_1 > TLC_SXL_1_2_1.yaml
+
+      - name: Upload SXLs in YAML format
+        uses: actions/upload-artifact@v7
+        with:
+          name: SXL YAML 1.2.1
+          path: TLC_SXL_1_2_1.yaml
+
+  excel_sxl:
+    name: Create Excel SXL 1.2.1
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -117,11 +242,11 @@ jobs:
         run: python sxl-tools/create_template.py
 
       - name: Create XLSX file
-        run: |
+        run: |-
           ruby sxl-tools/yaml2xlsx.rb \
             --template RSMP_Template_SignalExchangeList.xlsx \
-            --sxl $SXL \
-            --site $SITE --stdout > SXL-example.xlsx
+            --sxl $SXL_1_2_1 \
+            --site $SITE_1_2_1 --stdout > SXL-example.xlsx
 
       - name: Create CSV files
         run: ruby sxl-tools/xlsx2csv.rb SXL-example.xlsx
@@ -138,7 +263,7 @@ jobs:
           name: SXL CSV
           path: Objects/
 
-  create_manual:
+  manual:
     name: Create manual
     runs-on: ubuntu-latest
     steps:
@@ -168,7 +293,7 @@ jobs:
   setup:
     name: Create Installer
     runs-on: windows-2022
-    needs: [create_excel_sxl, create_yaml_sxl, create_manual ]
+    needs: [excel_sxl, yaml_sxl_1_0_7, yaml_sxl_1_0_15, yaml_sxl_1_1, yaml_sxl_1_2, yaml_sxl_1_2_1, manual ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -190,10 +315,34 @@ jobs:
           name: SXL CSV
           path: Objects
 
-      - name: Download SXL YAML
+      - name: Download SXL YAML 1.0.7
         uses: actions/download-artifact@v8
         with:
-          name: SXL YAML
+          name: SXL YAML 1.0.7
+          path: YAML
+
+      - name: Download SXL YAML 1.0.15
+        uses: actions/download-artifact@v8
+        with:
+          name: SXL YAML 1.0.15
+          path: YAML
+
+      - name: Download SXL YAML 1.1
+        uses: actions/download-artifact@v8
+        with:
+          name: SXL YAML 1.1
+          path: YAML
+
+      - name: Download SXL YAML 1.2
+        uses: actions/download-artifact@v8
+        with:
+          name: SXL YAML 1.2
+          path: YAML
+
+      - name: Download SXL YAML 1.2.1
+        uses: actions/download-artifact@v8
+        with:
+          name: SXL YAML 1.2.1
           path: YAML
 
       - name: Download SXL Excel
