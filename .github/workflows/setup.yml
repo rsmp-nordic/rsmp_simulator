@@ -230,13 +230,13 @@ jobs:
         run: |-
           ruby sxl-tools/merge_yaml.rb \
           --sxl $SXL \
-          --site $SITE_1_2_1 > TLC_SXL_1_2_1.yaml
+          --site $SITE_1_2_1 > TLC_SXL_1_3_0.yaml
 
       - name: Upload SXLs in YAML format
         uses: actions/upload-artifact@v7
         with:
           name: SXL YAML 1.2.1
-          path: TLC_SXL_1_2_1.yaml
+          path: TLC_SXL_1_3_0.yaml
 
   excel_sxl:
     name: Create Excel SXL 1.2.1
@@ -382,6 +382,12 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: SXL YAML 1.2.1
+          path: YAML
+
+      - name: Download SXL YAML 1.3.0
+        uses: actions/download-artifact@v8
+        with:
+          name: SXL YAML 1.3.0
           path: YAML
 
       - name: Download SXL Excel
