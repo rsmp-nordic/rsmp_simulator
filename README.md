@@ -14,6 +14,12 @@ RSMP implementations.
 Full documentation is included in the installation package and can be downloaded
 on the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases).
 
+Note about RSMP 3.3.0
+---------------------
+Recent versions of the simulator contains partial support from RSMP 3.3.0.
+RSMP 3.3.0 is still in draft and may change at any time. It is disabled
+by default.
+
 Installation
 ------------
 Run `RSMPGS1_1_0_16_Setup.exe` (for road side equipment) or
