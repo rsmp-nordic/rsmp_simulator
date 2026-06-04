@@ -344,6 +344,7 @@ namespace RSMP_Messages
     public bool receiveAlarms = true;
     public string step;
     public List<Version_SXL> SXLS;
+    public string supervisorId;
   }
 
   // Needed for validation

@@ -836,6 +836,7 @@ namespace nsRSMPGS
 #if _RSMPGS2
       rsVersion.step = "Response";
       rsVersion.receiveAlarms = RSMPGS.Settings["ReceiveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+      rsVersion.supervisorId = RSMPGS.MainForm.textBox_supervisorId.Text;
 #endif
 
       cSetting setting = RSMPGS.Settings["AllowUseRSMPVersion"];

@@ -261,6 +261,9 @@
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
+      this.groupBox_supervisorId = new System.Windows.Forms.GroupBox();
+      this.textBox_supervisorId = new System.Windows.Forms.TextBox();
+      this.label_supervisorId = new System.Windows.Forms.Label();
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -965,6 +968,7 @@
       // 
       this.tabPage_Generic.Controls.Add(this.groupBox_Encryption);
       this.tabPage_Generic.Controls.Add(this.groupBox_SXL_Version);
+      this.tabPage_Generic.Controls.Add(this.groupBox_supervisorId);
       this.tabPage_Generic.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Generic.Name = "tabPage_Generic";
       this.tabPage_Generic.Padding = new System.Windows.Forms.Padding(3);
@@ -2486,6 +2490,38 @@
       // 
       this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
       // 
+      // groupBox_supervisorId
+      // 
+      this.groupBox_supervisorId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_supervisorId.Controls.Add(this.textBox_supervisorId);
+      this.groupBox_supervisorId.Controls.Add(this.label_supervisorId);
+      this.groupBox_supervisorId.Location = new System.Drawing.Point(4, 340);
+      this.groupBox_supervisorId.Margin = new System.Windows.Forms.Padding(2);
+      this.groupBox_supervisorId.Name = "groupBox_supervisorId";
+      this.groupBox_supervisorId.Padding = new System.Windows.Forms.Padding(2);
+      this.groupBox_supervisorId.Size = new System.Drawing.Size(669, 60);
+      this.groupBox_supervisorId.TabIndex = 5;
+      this.groupBox_supervisorId.TabStop = false;
+      this.groupBox_supervisorId.Text = "Supervisor ID (RSMP >= 3.3.0)";
+      //
+      // textBox_supervisorId
+      // 
+      this.textBox_supervisorId.Enabled = true;
+      this.textBox_supervisorId.Location = new System.Drawing.Point(210, 27);
+      this.textBox_supervisorId.Name = "textBox_supervisorId";
+      this.textBox_supervisorId.Size = new System.Drawing.Size(424, 50);
+      this.textBox_supervisorId.TabIndex = 6;
+      // 
+      // label_supervisorId
+      // 
+      this.label_supervisorId.AutoSize = true;
+      this.label_supervisorId.Location = new System.Drawing.Point(17, 27);
+      this.label_supervisorId.Name = "label_supervisorId";
+      this.label_supervisorId.Size = new System.Drawing.Size(143, 13);
+      this.label_supervisorId.Text = "Supervisor ID to use when connecting:";
+      this.label_supervisorId.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
       // RSMPGS_Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2814,6 +2850,9 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_StatusEvents;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_CommandEvents;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+    private System.Windows.Forms.GroupBox groupBox_supervisorId;
+    public System.Windows.Forms.TextBox textBox_supervisorId;
+    private System.Windows.Forms.Label label_supervisorId;
   }
 }
 
