@@ -141,6 +141,8 @@ namespace nsRSMPGS
 
     static public cEncryptionSettings EncryptionSettings = new cEncryptionSettings();
 
+    static public string SupervisorId = "";
+
     static public RSMPGS_Main MainForm;
 
     static public List<ListViewItem> SysLogItems = new List<ListViewItem>();
