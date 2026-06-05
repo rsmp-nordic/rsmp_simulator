@@ -562,6 +562,7 @@ namespace nsRSMPGS
 
       List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
       AddSetting("ReceiveAlarms", "Request to receive alarms", lAffectedRSMPVersions, true);
+      AddSetting("SendComponentListAtConnect", "Send component list when connecting", lAffectedRSMPVersions, true);
 #endif
 
 

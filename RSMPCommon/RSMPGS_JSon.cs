@@ -487,7 +487,8 @@ namespace nsRSMPGS
 #if _RSMPGS2
                 if(NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
                 {
-                  RSMPGS.JSon.CreateAndSendComponentListMessage();
+                  if (cHelper.IsSettingChecked("SendComponentListAtConnect"))
+                    RSMPGS.JSon.CreateAndSendComponentListMessage();
                 }
 #endif
                 FindOutIfWeAreFinishedWithNegotiation();
