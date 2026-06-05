@@ -29,6 +29,8 @@ namespace nsRSMPGS
       ToolStripMenuItem_EventFiles_SaveCont.Checked = cPrivateProfile.GetIniFileInt("Main", "SaveEventsContinousToFile", 0) != 0;
       bWriteEventsContinous = ToolStripMenuItem_EventFiles_SaveCont.Checked;
 
+      textBox_supervisorId.Text = RSMPGS.SupervisorId;
+
       try
       {
         saveFileDialog_SXL.InitialDirectory = cPrivateProfile.GetIniFileString("Main", "SaveAsInitialDirectory", cPrivateProfile.ApplicationPath());
@@ -75,6 +77,11 @@ namespace nsRSMPGS
       cPrivateProfile.GetIniFileInt("RSMP", "PacketTimeout", 5000),
       cTcpHelper.WrapMethod_FormFeed);
 
+    }
+
+    private void textBox_supervisorId_TextChanged(object sender, EventArgs e)
+    {
+      RSMPGS.SupervisorId = textBox_supervisorId.Text;
     }
 
     //

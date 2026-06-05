@@ -138,6 +138,8 @@ namespace nsRSMPGS
 
     static public cEncryptionSettings EncryptionSettings = new cEncryptionSettings();
 
+    static public string SupervisorId = "";
+
     /// <summary>
     /// The main entry point for the application.
     /// </summary>

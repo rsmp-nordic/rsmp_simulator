@@ -2512,6 +2512,8 @@
       this.textBox_supervisorId.Name = "textBox_supervisorId";
       this.textBox_supervisorId.Size = new System.Drawing.Size(424, 50);
       this.textBox_supervisorId.TabIndex = 6;
+      this.textBox_supervisorId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.textBox_supervisorId.TextChanged += new System.EventHandler(this.textBox_supervisorId_TextChanged);
       // 
       // label_supervisorId
       // 

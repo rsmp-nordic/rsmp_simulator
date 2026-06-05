@@ -204,6 +204,8 @@ namespace nsRSMPGS
       checkBox_Encryption_Protocol_TLS12.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS12", 0) != 0;
       checkBox_Encryption_Protocol_TLS13.Checked = cPrivateProfile.GetIniFileInt("Encryption", "Protocols.TLS13", 0) != 0;
 
+      RSMPGS.SupervisorId = cPrivateProfile.GetIniFileString("Main", "SupervisorId", "");
+
       // Do some calc
       checkBox_Encryption_Protocol_CheckedChanged();
 
@@ -311,6 +313,7 @@ namespace nsRSMPGS
       cPrivateProfile.WriteIniFileString("Encryption", "ServerCertificateFilePassword", cPrivateProfile.Base64Encode(RSMPGS.EncryptionSettings.ServerCertificateFilePassword));
       cPrivateProfile.WriteIniFileString("Encryption", "ClientCertificateFilePassword", cPrivateProfile.Base64Encode(RSMPGS.EncryptionSettings.ClientCertificateFilePassword));
 
+      cPrivateProfile.WriteIniFileString("Main", "SupervisorId", RSMPGS.SupervisorId);
 
       //
       // Disconnect
