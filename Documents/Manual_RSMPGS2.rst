@@ -472,6 +472,10 @@ Select a certificate for the server using the Browse button. If it is a pfx-file
 the simulator will also ask for a password. Be aware of that the password is
 stored Base-64 encoded in the INI-file.
 
+**Supervisor ID (RSMP >= 3.3.0)**
+
+Supervisor Id which is sent via the protocol when connection is made.
+
 RSMP
 ^^^^
 RSMP protocol specific settings have an own tab. The simulator could be used
