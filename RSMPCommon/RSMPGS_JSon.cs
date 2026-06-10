@@ -970,6 +970,18 @@ namespace nsRSMPGS
             RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "supervisorId missing from version message, closing connection");
             return false;
           }
+
+          // Check that SXLS exists
+          if (rsVersion.SXLS != null)
+          {
+            foreach(Version_SXL SXL in rsVersion.SXLS)
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got SXL '{0}' with version '{1}'", SXL.name, SXL.version);
+          }
+          else
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "SXLS missing from version message, closing connection");
+            return false;
+          }
         }
 #endif
       }
