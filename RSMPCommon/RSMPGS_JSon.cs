@@ -959,6 +959,18 @@ namespace nsRSMPGS
         {
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "receiveAlarms = false. We will not send alarms unless requested");
         }
+
+        if (HighestRSMPVersion == RSMPVersion.RSMP_3_3_0)
+        {
+          // Check that supervisorId exists
+          if (rsVersion.supervisorId != null)
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Got supervisorId. set to '{0}'", rsVersion.supervisorId);
+          else
+          {
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "supervisorId missing from version message, closing connection");
+            return false;
+          }
+        }
 #endif
       }
       catch (Exception e)
