@@ -96,7 +96,8 @@ namespace nsRSMPGS
 
     }
 
-    public int LoadYAMLFile(string sFileName)
+    // Read SXL and components from YAML files
+    public int LoadYAMLFile(string sSXLFileName, string sComponentsFileName)
     {
 
       int iLoadedAlarms = 0;
@@ -110,36 +111,34 @@ namespace nsRSMPGS
 
       List<string> sFileLines;
 
+      // Read SXL file
       try
       {
-        sFileLines = File.ReadAllLines(sFileName).ToList<string>();
+        sFileLines = File.ReadAllLines(sSXLFileName).ToList<string>();
       }
       catch (Exception e)
       {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sFileName, e.Message);
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sSXLFileName, e.Message);
         return 0;
       }
 
       DateTime dtStartTime = new DateTime(1970, 1, 1);
       UInt32 uObjectFilesTimeStamp = 0;
 
-      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetCreationTime(sFileName) - dtStartTime).TotalSeconds));
-      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetLastWriteTime(sFileName) - dtStartTime).TotalSeconds));
+      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetCreationTime(sSXLFileName) - dtStartTime).TotalSeconds));
+      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetLastWriteTime(sSXLFileName) - dtStartTime).TotalSeconds));
 
       int iReadFiles = 1;
 
       cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sFileLines);
 
-      // ProcessImage.sId = YAML.GetScalar("id");
-
-      sSXLRevision = YAML.GetScalar("version");
-      sSXLName = YAML.GetScalar("name");
-
-      //ProcessImage.sDescription = YAML.GetScalar("description");
-      //ProcessImage.sConstructor = YAML.GetScalar("constructor");
-      //ProcessImage.sCreatedDate = YAML.GetScalar("created-date");
-      //ProcessImage.sDate = YAML.GetScalar("date");
-      //ProcessImage.sRSMPVersion = YAML.GetScalar("rsmp-version");
+      cYAMLMapping YAMLMeta;
+      YAML.YAMLMappings.TryGetValue("meta", out YAMLMeta);
+      if(YAMLMeta != null)
+      { 
+        sSXLRevision = YAMLMeta.GetScalar("version");
+        sSXLName = YAMLMeta.GetScalar("name");
+      }
 
       cYAMLMapping YAMLObjectTypes;
       cYAMLMapping YAMLSites;
@@ -280,6 +279,18 @@ namespace nsRSMPGS
         }
       }
 
+      // Read components file
+      try
+      {
+        sFileLines = File.ReadAllLines(sComponentsFileName).ToList<string>();
+      }
+      catch (Exception e)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read Components (YAML) file '{0}', reason: {1}", sComponentsFileName, e.Message);
+        return 0;
+      }
+
+      YAML = cYAMLParser.GetYAMLMappings(sFileLines);
       if (YAML.YAMLMappings.TryGetValue("sites", out YAMLSites) == false)
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not find 'sites' section !");
@@ -344,7 +355,7 @@ namespace nsRSMPGS
             if (RoadSideObjects.ContainsKey(sKey))
             {
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RoadSideObject ntsOId: {0}, cId: {1} in SXL (YAML) file '{2}' already exists",
-                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sFileName);
+                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sSXLFileName);
               continue;
             }
 
@@ -598,7 +609,7 @@ namespace nsRSMPGS
       }
 
       RSMPGS.SysLog.SysLog( (iLoadedObjects==0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
-      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sFileName);
+      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sSXLFileName);
 
       return iReadFiles;
 

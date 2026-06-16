@@ -1,12 +1,4 @@
 ---
-id: Plant id
-version: '1.0.7'
-date: '2012-10-04'
-description: Plant name
-constructor: RSMP Nordic
-created-date: '2010-04-20'
-rsmp-version: '3.1.2'
-objects:
 sites:
   AA+BBCC:
     description: Anl. ??

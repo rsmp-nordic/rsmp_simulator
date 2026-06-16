@@ -52,7 +52,8 @@ namespace nsRSMPGS
     static bool bLoadFailed = false;
 
     static string sCSVObjectFilesPath;
-    static string sYAMLFileName;
+    static string sYAMLSXLFileName;
+    static string sYAMLComponentsFileName;
 
     static string sProcessImageDefaultName = "";
 
@@ -60,6 +61,9 @@ namespace nsRSMPGS
 
     static List<string> MostRecentObjectFilesAndPaths = new List<string>();
     static List<ToolStripMenuItem> MostRecentObjectFilesAndPathsMenuItem = new List<ToolStripMenuItem>();
+
+    static List<string> MostRecentComponentFiles = new List<string>();
+    static List<ToolStripMenuItem> MostRecentComponentFilesMenuItem = new List<ToolStripMenuItem>();
 
     public bool bIsLoading;
 
@@ -228,13 +232,28 @@ namespace nsRSMPGS
         MostRecentObjectFilesAndPathsMenuItem.Add(tsItem);
       }
 
+      for (int iIndex = 0; iIndex < 10; iIndex++)
+      {
+        string sFile = cPrivateProfile.GetIniFileString("MostRecentComponentFiles", iIndex.ToString(), "");
+        if (sFile != "")
+        {
+          MostRecentComponentFiles.Add(sFile);
+        }
+        ToolStripMenuItem tsItem = new ToolStripMenuItem();
+        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadComponents_MRU_Click);
+        ToolStripMenuItem_File_LoadComponents.DropDownItems.Add(tsItem);
+        MostRecentComponentFilesMenuItem.Add(tsItem);
+      }
+
       RefillMostRecentObjectFilesAndPathsMenu();
+      RefillMostRecentComponentFilesMenu();
 
       // Defaults to load at startup and will point out the old objects folder
       checkBox_AutomaticallyLoadObjects.Checked = cPrivateProfile.GetIniFileInt("Main", "AutomaticallyLoadObjects", 1) != 0;
 
       sCSVObjectFilesPath = cPrivateProfile.GetIniFileString("Main", "CSVObjectFilesPath", cPrivateProfile.DefaultObjectFilesPath() + "\\");
-      sYAMLFileName = cPrivateProfile.GetIniFileString("Main", "YAMLFileName", cPrivateProfile.DefaultObjectFilesPath());
+      sYAMLSXLFileName = cPrivateProfile.GetIniFileString("Main", "YAMLSXLFileName", cPrivateProfile.DefaultObjectFilesPath());
+      sYAMLComponentsFileName = cPrivateProfile.GetIniFileString("Main", "YAMLComponentsFileName", cPrivateProfile.DefaultObjectFilesPath());
 
       try
       {
@@ -349,7 +368,8 @@ namespace nsRSMPGS
       cPrivateProfile.WriteIniFileInt("Main", "ViewOnlyFailedPackets", checkBox_ViewOnlyFailedPackets.Checked == true ? 1 : 0);
 
       cPrivateProfile.WriteIniFileString("Main", "CSVObjectFilesPath", sCSVObjectFilesPath);
-      cPrivateProfile.WriteIniFileString("Main", "YAMLFileName", sYAMLFileName);
+      cPrivateProfile.WriteIniFileString("Main", "YAMLSXLFileName", sYAMLSXLFileName);
+      cPrivateProfile.WriteIniFileString("Main", "YAMLComponentsFileName", sYAMLComponentsFileName);
 
       cPrivateProfile.WriteIniFileInt("Main", "SelectedObjectFileType", (int)SelectedObjectFileType);
 
@@ -357,7 +377,12 @@ namespace nsRSMPGS
       {
         cPrivateProfile.WriteIniFileString("MostRecentObjectFiles", iIndex.ToString(), MostRecentObjectFilesAndPaths[iIndex]);
       }
-      
+
+      for (int iIndex = 0; iIndex < MostRecentComponentFiles.Count; iIndex++)
+      {
+        cPrivateProfile.WriteIniFileString("MostRecentComponentFiles", iIndex.ToString(), MostRecentComponentFiles[iIndex]);
+      }
+
 
       try
       {
@@ -412,6 +437,22 @@ namespace nsRSMPGS
       }
     }
 
+    private void RefillMostRecentComponentFilesMenu()
+    {
+      for (int iIndex = 0; iIndex < 10; iIndex++)
+      {
+        if (iIndex < MostRecentComponentFiles.Count)
+        {
+          MostRecentComponentFilesMenuItem[iIndex].Text = MostRecentComponentFiles[iIndex]; // + "\t" + "(YAML-file)";
+          MostRecentComponentFilesMenuItem[iIndex].Visible = true;
+        }
+        else
+        {
+          MostRecentComponentFilesMenuItem[iIndex].Visible = false;
+        }
+      }
+    }
+
     private void LoadProcessImageObjects()
     {
 
@@ -420,6 +461,7 @@ namespace nsRSMPGS
       // int iReadFiles = RSMPGS.ProcessImage.LoadSXLCSVFiles();
 
       string sFileOrPath = "";
+      string sComponentsFile = "";
 
       try
       {
@@ -475,11 +517,13 @@ namespace nsRSMPGS
           break;
 
         case cProcessImage.ObjectFileType.YAMLfile:
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading YAML file: {0}", sYAMLFileName);
-          iReadFiles = RSMPGS.ProcessImage.LoadYAMLFile(sYAMLFileName);
-          sFileOrPath = sYAMLFileName;
-          sProcessImageDefaultName = Path.ChangeExtension(sYAMLFileName, ".dat");
-          textBox_SignalExchangeListPath.Text = sYAMLFileName;
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading YAML SXL and components file: {0} {1}", sYAMLSXLFileName, sYAMLComponentsFileName);
+          iReadFiles = RSMPGS.ProcessImage.LoadYAMLFile(sYAMLSXLFileName, sYAMLComponentsFileName);
+          sFileOrPath = sYAMLSXLFileName;
+          sComponentsFile = sYAMLComponentsFileName;
+          sProcessImageDefaultName = Path.ChangeExtension(sYAMLSXLFileName, ".dat");
+          textBox_SignalExchangeListPath.Text = sYAMLSXLFileName;
+          textBox_Components_FilePath.Text = sYAMLComponentsFileName;
           break;
       }
 
@@ -489,7 +533,6 @@ namespace nsRSMPGS
       }
 
       int iMenuIndex = MostRecentObjectFilesAndPaths.FindIndex(x => x.Equals(sFileOrPath, StringComparison.OrdinalIgnoreCase));
-
       if (iMenuIndex >= 0)
       {
         MostRecentObjectFilesAndPaths.RemoveAt(iMenuIndex);
@@ -501,6 +544,18 @@ namespace nsRSMPGS
       }
 
       RefillMostRecentObjectFilesAndPathsMenu();
+
+      iMenuIndex = MostRecentComponentFiles.FindIndex(x => x.Equals(sComponentsFile, StringComparison.OrdinalIgnoreCase));
+      if (iMenuIndex >= 0)
+      {
+        MostRecentComponentFiles.RemoveAt(iMenuIndex);
+      }
+      MostRecentComponentFiles.Insert(0, sComponentsFile);
+      while (MostRecentComponentFiles.Count > 10)
+      {
+        MostRecentComponentFiles.RemoveAt(MostRecentComponentFiles.Count - 1);
+      }
+      RefillMostRecentComponentFilesMenu();
 
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
@@ -1112,7 +1167,7 @@ namespace nsRSMPGS
 
       try
       {
-        openFileDialog.InitialDirectory = sYAMLFileName;
+        openFileDialog.InitialDirectory = sYAMLSXLFileName;
       }
       catch
       {
@@ -1125,7 +1180,38 @@ namespace nsRSMPGS
       if (openFileDialog.ShowDialog() == DialogResult.OK)
       {
 
-        sYAMLFileName = openFileDialog.FileName;
+        sYAMLSXLFileName = openFileDialog.FileName;
+
+        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
+
+        LoadProcessImageObjects();
+
+      }
+    }
+
+    private void ToolStripMenuItem_File_LoadComponents_YAML_Click(object sender, EventArgs e)
+    {
+
+      OpenFileDialog openFileDialog = new OpenFileDialog();
+
+      openFileDialog.Title = "Select YAML components file";
+
+      try
+      {
+        openFileDialog.InitialDirectory = sYAMLSXLFileName;
+      }
+      catch
+      {
+      }
+
+      openFileDialog.Filter = "YAML-files (*.yml;*.yaml)|*.yml;*.yaml|All files (*.*)|*.*";
+
+      openFileDialog.RestoreDirectory = true;
+
+      if (openFileDialog.ShowDialog() == DialogResult.OK)
+      {
+
+        sYAMLComponentsFileName = openFileDialog.FileName;
 
         SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
 
@@ -1147,12 +1233,22 @@ namespace nsRSMPGS
       }
       else
       {
-        sYAMLFileName = sFileOrPath;
+        sYAMLSXLFileName = sFileOrPath;
         SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
       }
 
       LoadProcessImageObjects();
+    }
 
+    private void toolStripMenuItem_LoadComponents_MRU_Click(object sender, EventArgs e)
+    {
+      ToolStripMenuItem tsItem = (ToolStripMenuItem)sender;
+
+      string sFile = cHelper.Item(tsItem.Text, 0, '\t');
+
+      sYAMLComponentsFileName = sFile;
+
+      LoadProcessImageObjects();
     }
 
     private void ToolStripMenuItem_File_DropDownOpening(object sender, EventArgs e)

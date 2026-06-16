@@ -408,6 +408,5 @@ namespace nsRSMPGS
         RSMPGS.JSon.CreateAndSendAggregatedStatusRequestMessage(SelectedRoadSideObject);
       }
     }
-
   }
 }

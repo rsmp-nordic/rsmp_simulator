@@ -816,7 +816,6 @@ namespace nsRSMPGS
       Cursor.Current = Cursors.Default;
 
     }
-
   }
 }
 

@@ -37,6 +37,9 @@
       this.ToolStripMenuItem_File_LoadObjects_CSV = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadObjects_YAML = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadObjects_Delimiter = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_File_LoadComponents = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadComponents_YAML = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadComponents_Delimiter = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_Delimiter_0 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_Debug = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_Debug_CreateNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,6 +99,9 @@
       this.imageList_Severity = new System.Windows.Forms.ImageList(this.components);
       this.tabControl_Object = new System.Windows.Forms.TabControl();
       this.tabPage_Generic = new System.Windows.Forms.TabPage();
+      this.groupBox_Components = new System.Windows.Forms.GroupBox();
+      this.textBox_Components_FilePath = new System.Windows.Forms.TextBox();
+      this.label_Components_FilePath = new System.Windows.Forms.Label();
       this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
       this.button_Encryption_CheckRevocation = new System.Windows.Forms.CheckBox();
       this.checkBox_Encryption_AuthenticateAsClientUsingCertificate = new System.Windows.Forms.CheckBox();
@@ -251,6 +257,7 @@
       this.groupBox_SystemLog.SuspendLayout();
       this.tabControl_Object.SuspendLayout();
       this.tabPage_Generic.SuspendLayout();
+      this.groupBox_Components.SuspendLayout();
       this.groupBox_Encryption.SuspendLayout();
       this.groupBox_EncryptionProtocols.SuspendLayout();
       this.groupBox_ProcessImage.SuspendLayout();
@@ -316,6 +323,7 @@
       // 
       this.ToolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File_LoadObjects,
+            this.ToolStripMenuItem_File_LoadComponents,
             this.ToolStripMenuItem_Delimiter_0,
             this.ToolStripMenuItem_File_Debug,
             this.ToolStripMenuItem_Delimiter_5,
@@ -332,7 +340,7 @@
             this.ToolStripMenuItem_File_LoadObjects_YAML,
             this.ToolStripMenuItem_File_LoadObjects_Delimiter});
       this.ToolStripMenuItem_File_LoadObjects.Name = "ToolStripMenuItem_File_LoadObjects";
-      this.ToolStripMenuItem_File_LoadObjects.Size = new System.Drawing.Size(170, 22);
+      this.ToolStripMenuItem_File_LoadObjects.Size = new System.Drawing.Size(199, 22);
       this.ToolStripMenuItem_File_LoadObjects.Text = "Load objects from";
       // 
       // ToolStripMenuItem_File_LoadObjects_CSV
@@ -354,10 +362,31 @@
       this.ToolStripMenuItem_File_LoadObjects_Delimiter.Name = "ToolStripMenuItem_File_LoadObjects_Delimiter";
       this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(132, 6);
       // 
+      // ToolStripMenuItem_File_LoadComponents
+      // 
+      this.ToolStripMenuItem_File_LoadComponents.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_File_LoadComponents_YAML,
+            this.ToolStripMenuItem_File_LoadComponents_Delimiter});
+      this.ToolStripMenuItem_File_LoadComponents.Name = "ToolStripMenuItem_File_LoadComponents";
+      this.ToolStripMenuItem_File_LoadComponents.Size = new System.Drawing.Size(199, 22);
+      this.ToolStripMenuItem_File_LoadComponents.Text = "Load components from";
+      // 
+      // ToolStripMenuItem_File_LoadComponents_YAML
+      // 
+      this.ToolStripMenuItem_File_LoadComponents_YAML.Name = "ToolStripMenuItem_File_LoadComponents_YAML";
+      this.ToolStripMenuItem_File_LoadComponents_YAML.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadComponents_YAML.Text = "YAML-file...";
+      this.ToolStripMenuItem_File_LoadComponents_YAML.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadComponents_YAML_Click);
+      // 
+      // ToolStripMenuItem_File_LoadComponents_Delimiter
+      // 
+      this.ToolStripMenuItem_File_LoadComponents_Delimiter.Name = "ToolStripMenuItem_File_LoadComponents_Delimiter";
+      this.ToolStripMenuItem_File_LoadComponents_Delimiter.Size = new System.Drawing.Size(132, 6);
+      // 
       // ToolStripMenuItem_Delimiter_0
       // 
       this.ToolStripMenuItem_Delimiter_0.Name = "ToolStripMenuItem_Delimiter_0";
-      this.ToolStripMenuItem_Delimiter_0.Size = new System.Drawing.Size(167, 6);
+      this.ToolStripMenuItem_Delimiter_0.Size = new System.Drawing.Size(196, 6);
       // 
       // ToolStripMenuItem_File_Debug
       // 
@@ -373,83 +402,83 @@
             this.toolStripMenuItem1,
             this.ToolStripMenuItem_StoreBase64Updates});
       this.ToolStripMenuItem_File_Debug.Name = "ToolStripMenuItem_File_Debug";
-      this.ToolStripMenuItem_File_Debug.Size = new System.Drawing.Size(170, 22);
+      this.ToolStripMenuItem_File_Debug.Size = new System.Drawing.Size(199, 22);
       this.ToolStripMenuItem_File_Debug.Text = "&Debug";
       // 
       // ToolStripMenuItem_File_Debug_CreateNew
       // 
       this.ToolStripMenuItem_File_Debug_CreateNew.Name = "ToolStripMenuItem_File_Debug_CreateNew";
-      this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_CreateNew.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_CreateNew.Text = "Create &new debug window";
       this.ToolStripMenuItem_File_Debug_CreateNew.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CreateNew_Click);
       // 
       // toolStripSeparator2
       // 
       this.toolStripSeparator2.Name = "toolStripSeparator2";
-      this.toolStripSeparator2.Size = new System.Drawing.Size(256, 6);
+      this.toolStripSeparator2.Size = new System.Drawing.Size(257, 6);
       // 
       // ToolStripMenuItem_File_Debug_Show
       // 
       this.ToolStripMenuItem_File_Debug_Show.Name = "ToolStripMenuItem_File_Debug_Show";
-      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_Show.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_Show.Text = "Show all debug windows in &front";
       this.ToolStripMenuItem_File_Debug_Show.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Show_Click);
       // 
       // ToolStripMenuItem_File_Debug_Cascade
       // 
       this.ToolStripMenuItem_File_Debug_Cascade.Name = "ToolStripMenuItem_File_Debug_Cascade";
-      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_Cascade.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_Cascade.Text = "&Cascade all debug windows";
       this.ToolStripMenuItem_File_Debug_Cascade.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Cascade_Click);
       // 
       // ToolStripMenuItem_File_Debug_TileH
       // 
       this.ToolStripMenuItem_File_Debug_TileH.Name = "ToolStripMenuItem_File_Debug_TileH";
-      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_TileH.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_TileH.Text = "Tile &horizontally all debug windows";
       this.ToolStripMenuItem_File_Debug_TileH.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_TileH_Click);
       // 
       // ToolStripMenuItem_File_Debug_TileV
       // 
       this.ToolStripMenuItem_File_Debug_TileV.Name = "ToolStripMenuItem_File_Debug_TileV";
-      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_TileV.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_TileV.Text = "Tile &vertically all debug windows";
       this.ToolStripMenuItem_File_Debug_TileV.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_Tile_Click);
       // 
       // toolStripSeparator3
       // 
       this.toolStripSeparator3.Name = "toolStripSeparator3";
-      this.toolStripSeparator3.Size = new System.Drawing.Size(256, 6);
+      this.toolStripSeparator3.Size = new System.Drawing.Size(257, 6);
       // 
       // ToolStripMenuItem_File_Debug_CloseAll
       // 
       this.ToolStripMenuItem_File_Debug_CloseAll.Name = "ToolStripMenuItem_File_Debug_CloseAll";
-      this.ToolStripMenuItem_File_Debug_CloseAll.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_File_Debug_CloseAll.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_File_Debug_CloseAll.Text = "Close all debug &windows";
       this.ToolStripMenuItem_File_Debug_CloseAll.Click += new System.EventHandler(this.ToolStripMenuItem_File_Debug_CloseAll_Click);
       // 
       // toolStripMenuItem1
       // 
       this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-      this.toolStripMenuItem1.Size = new System.Drawing.Size(256, 6);
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(257, 6);
       // 
       // ToolStripMenuItem_StoreBase64Updates
       // 
       this.ToolStripMenuItem_StoreBase64Updates.CheckOnClick = true;
       this.ToolStripMenuItem_StoreBase64Updates.Name = "ToolStripMenuItem_StoreBase64Updates";
-      this.ToolStripMenuItem_StoreBase64Updates.Size = new System.Drawing.Size(259, 22);
+      this.ToolStripMenuItem_StoreBase64Updates.Size = new System.Drawing.Size(260, 22);
       this.ToolStripMenuItem_StoreBase64Updates.Text = "&Store base64 updates";
       // 
       // ToolStripMenuItem_Delimiter_5
       // 
       this.ToolStripMenuItem_Delimiter_5.Name = "ToolStripMenuItem_Delimiter_5";
-      this.ToolStripMenuItem_Delimiter_5.Size = new System.Drawing.Size(167, 6);
+      this.ToolStripMenuItem_Delimiter_5.Size = new System.Drawing.Size(196, 6);
       // 
       // ToolStripMenuItem_File_Close
       // 
       this.ToolStripMenuItem_File_Close.Name = "ToolStripMenuItem_File_Close";
       this.ToolStripMenuItem_File_Close.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-      this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(170, 22);
+      this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(199, 22);
       this.ToolStripMenuItem_File_Close.Text = "&Exit";
       this.ToolStripMenuItem_File_Close.Click += new System.EventHandler(this.ToolStripMenuItem_File_Close_Click);
       // 
@@ -681,7 +710,7 @@
       // splitContainer_Main.Panel2
       // 
       this.splitContainer_Main.Panel2.Controls.Add(this.tabControl_Object);
-      this.splitContainer_Main.Size = new System.Drawing.Size(1070, 552);
+      this.splitContainer_Main.Size = new System.Drawing.Size(1070, 582);
       this.splitContainer_Main.SplitterDistance = 351;
       this.splitContainer_Main.TabIndex = 4;
       // 
@@ -699,8 +728,8 @@
       // splitContainer_ObjectsAndSyslog.Panel2
       // 
       this.splitContainer_ObjectsAndSyslog.Panel2.Controls.Add(this.groupBox_SystemLog);
-      this.splitContainer_ObjectsAndSyslog.Size = new System.Drawing.Size(351, 552);
-      this.splitContainer_ObjectsAndSyslog.SplitterDistance = 327;
+      this.splitContainer_ObjectsAndSyslog.Size = new System.Drawing.Size(351, 582);
+      this.splitContainer_ObjectsAndSyslog.SplitterDistance = 344;
       this.splitContainer_ObjectsAndSyslog.TabIndex = 0;
       // 
       // groupBox_SitesAndObjects
@@ -710,7 +739,7 @@
       this.groupBox_SitesAndObjects.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_SitesAndObjects.Location = new System.Drawing.Point(0, 0);
       this.groupBox_SitesAndObjects.Name = "groupBox_SitesAndObjects";
-      this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(351, 327);
+      this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(351, 344);
       this.groupBox_SitesAndObjects.TabIndex = 1;
       this.groupBox_SitesAndObjects.TabStop = false;
       this.groupBox_SitesAndObjects.Text = "&Sites and Components";
@@ -719,7 +748,7 @@
       // 
       this.checkBox_ShowTooltip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBox_ShowTooltip.AutoSize = true;
-      this.checkBox_ShowTooltip.Location = new System.Drawing.Point(9, 305);
+      this.checkBox_ShowTooltip.Location = new System.Drawing.Point(9, 322);
       this.checkBox_ShowTooltip.Name = "checkBox_ShowTooltip";
       this.checkBox_ShowTooltip.Size = new System.Drawing.Size(159, 17);
       this.checkBox_ShowTooltip.TabIndex = 2;
@@ -738,7 +767,7 @@
       this.treeView_SitesAndObjects.Location = new System.Drawing.Point(6, 19);
       this.treeView_SitesAndObjects.Name = "treeView_SitesAndObjects";
       this.treeView_SitesAndObjects.SelectedImageIndex = 0;
-      this.treeView_SitesAndObjects.Size = new System.Drawing.Size(339, 279);
+      this.treeView_SitesAndObjects.Size = new System.Drawing.Size(339, 296);
       this.treeView_SitesAndObjects.TabIndex = 0;
       this.treeView_SitesAndObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_SitesAndObjects_AfterSelect);
       // 
@@ -761,7 +790,7 @@
       this.groupBox_SystemLog.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_SystemLog.Location = new System.Drawing.Point(0, 0);
       this.groupBox_SystemLog.Name = "groupBox_SystemLog";
-      this.groupBox_SystemLog.Size = new System.Drawing.Size(351, 221);
+      this.groupBox_SystemLog.Size = new System.Drawing.Size(351, 234);
       this.groupBox_SystemLog.TabIndex = 1;
       this.groupBox_SystemLog.TabStop = false;
       this.groupBox_SystemLog.Text = "System &Log";
@@ -772,7 +801,7 @@
       this.checkBox_AutoScrollSysLog.AutoSize = true;
       this.checkBox_AutoScrollSysLog.Checked = true;
       this.checkBox_AutoScrollSysLog.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(188, 200);
+      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(188, 213);
       this.checkBox_AutoScrollSysLog.Name = "checkBox_AutoScrollSysLog";
       this.checkBox_AutoScrollSysLog.Size = new System.Drawing.Size(75, 17);
       this.checkBox_AutoScrollSysLog.TabIndex = 5;
@@ -782,7 +811,7 @@
       // button_ClearSystemLog
       // 
       this.button_ClearSystemLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ClearSystemLog.Location = new System.Drawing.Point(283, 197);
+      this.button_ClearSystemLog.Location = new System.Drawing.Point(283, 210);
       this.button_ClearSystemLog.Name = "button_ClearSystemLog";
       this.button_ClearSystemLog.Size = new System.Drawing.Size(62, 20);
       this.button_ClearSystemLog.TabIndex = 4;
@@ -794,7 +823,7 @@
       // 
       this.checkBox_ViewOnlyFailedPackets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBox_ViewOnlyFailedPackets.AutoSize = true;
-      this.checkBox_ViewOnlyFailedPackets.Location = new System.Drawing.Point(9, 200);
+      this.checkBox_ViewOnlyFailedPackets.Location = new System.Drawing.Point(9, 213);
       this.checkBox_ViewOnlyFailedPackets.Name = "checkBox_ViewOnlyFailedPackets";
       this.checkBox_ViewOnlyFailedPackets.Size = new System.Drawing.Size(140, 17);
       this.checkBox_ViewOnlyFailedPackets.TabIndex = 3;
@@ -819,7 +848,7 @@
       this.listView_SysLog.MultiSelect = false;
       this.listView_SysLog.Name = "listView_SysLog";
       this.listView_SysLog.ShowItemToolTips = true;
-      this.listView_SysLog.Size = new System.Drawing.Size(339, 175);
+      this.listView_SysLog.Size = new System.Drawing.Size(339, 188);
       this.listView_SysLog.SmallImageList = this.imageList_Severity;
       this.listView_SysLog.TabIndex = 1;
       this.listView_SysLog.UseCompatibleStateImageBehavior = false;
@@ -862,21 +891,55 @@
       this.tabControl_Object.Multiline = true;
       this.tabControl_Object.Name = "tabControl_Object";
       this.tabControl_Object.SelectedIndex = 0;
-      this.tabControl_Object.Size = new System.Drawing.Size(715, 552);
+      this.tabControl_Object.Size = new System.Drawing.Size(715, 582);
       this.tabControl_Object.TabIndex = 1;
       // 
       // tabPage_Generic
       // 
+      this.tabPage_Generic.Controls.Add(this.groupBox_Components);
       this.tabPage_Generic.Controls.Add(this.groupBox_Encryption);
       this.tabPage_Generic.Controls.Add(this.groupBox_ProcessImage);
       this.tabPage_Generic.Controls.Add(this.groupBox_SXL_Version);
       this.tabPage_Generic.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Generic.Name = "tabPage_Generic";
       this.tabPage_Generic.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Generic.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_Generic.Size = new System.Drawing.Size(707, 556);
       this.tabPage_Generic.TabIndex = 0;
       this.tabPage_Generic.Text = "Generic";
       this.tabPage_Generic.UseVisualStyleBackColor = true;
+      // 
+      // groupBox_Components
+      // 
+      this.groupBox_Components.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_Components.Controls.Add(this.textBox_Components_FilePath);
+      this.groupBox_Components.Controls.Add(this.label_Components_FilePath);
+      this.groupBox_Components.Location = new System.Drawing.Point(3, 156);
+      this.groupBox_Components.Name = "groupBox_Components";
+      this.groupBox_Components.Size = new System.Drawing.Size(700, 52);
+      this.groupBox_Components.TabIndex = 4;
+      this.groupBox_Components.TabStop = false;
+      this.groupBox_Components.Text = "Components (Only when using YAML SXL)";
+      // 
+      // textBox_Components_FilePath
+      // 
+      this.textBox_Components_FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.textBox_Components_FilePath.Location = new System.Drawing.Point(127, 20);
+      this.textBox_Components_FilePath.Name = "textBox_Components_FilePath";
+      this.textBox_Components_FilePath.ReadOnly = true;
+      this.textBox_Components_FilePath.Size = new System.Drawing.Size(552, 20);
+      this.textBox_Components_FilePath.TabIndex = 11;
+      // 
+      // label_Components_FilePath
+      // 
+      this.label_Components_FilePath.AutoSize = true;
+      this.label_Components_FilePath.Location = new System.Drawing.Point(27, 23);
+      this.label_Components_FilePath.Name = "label_Components_FilePath";
+      this.label_Components_FilePath.Size = new System.Drawing.Size(90, 13);
+      this.label_Components_FilePath.TabIndex = 10;
+      this.label_Components_FilePath.Text = "Components path";
+      this.label_Components_FilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
       // 
       // groupBox_Encryption
       // 
@@ -890,7 +953,7 @@
       this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
       this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
       this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
-      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 327);
+      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 374);
       this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_Encryption.Name = "groupBox_Encryption";
       this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
@@ -1066,7 +1129,7 @@
       this.groupBox_ProcessImage.Controls.Add(this.groupBox_ProcessImage_Load);
       this.groupBox_ProcessImage.Controls.Add(this.checkbox_AutomaticallyLoadProcessData);
       this.groupBox_ProcessImage.Controls.Add(this.checkBox_AutomaticallySaveProcessData);
-      this.groupBox_ProcessImage.Location = new System.Drawing.Point(3, 161);
+      this.groupBox_ProcessImage.Location = new System.Drawing.Point(3, 208);
       this.groupBox_ProcessImage.Name = "groupBox_ProcessImage";
       this.groupBox_ProcessImage.Size = new System.Drawing.Size(700, 161);
       this.groupBox_ProcessImage.TabIndex = 2;
@@ -1278,7 +1341,7 @@
       this.tabPage_RSMP.Margin = new System.Windows.Forms.Padding(2);
       this.tabPage_RSMP.Name = "tabPage_RSMP";
       this.tabPage_RSMP.Padding = new System.Windows.Forms.Padding(2);
-      this.tabPage_RSMP.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_RSMP.Size = new System.Drawing.Size(707, 556);
       this.tabPage_RSMP.TabIndex = 7;
       this.tabPage_RSMP.Text = "RSMP";
       this.tabPage_RSMP.UseVisualStyleBackColor = true;
@@ -1298,8 +1361,8 @@
       // splitContainer_RSMP.Panel2
       // 
       this.splitContainer_RSMP.Panel2.Controls.Add(this.groupBox_Statistics);
-      this.splitContainer_RSMP.Size = new System.Drawing.Size(703, 522);
-      this.splitContainer_RSMP.SplitterDistance = 312;
+      this.splitContainer_RSMP.Size = new System.Drawing.Size(703, 552);
+      this.splitContainer_RSMP.SplitterDistance = 329;
       this.splitContainer_RSMP.SplitterWidth = 3;
       this.splitContainer_RSMP.TabIndex = 10;
       // 
@@ -1312,7 +1375,7 @@
       this.groupBox_ProtocolSettings.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_ProtocolSettings.Name = "groupBox_ProtocolSettings";
       this.groupBox_ProtocolSettings.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_ProtocolSettings.Size = new System.Drawing.Size(703, 312);
+      this.groupBox_ProtocolSettings.Size = new System.Drawing.Size(703, 329);
       this.groupBox_ProtocolSettings.TabIndex = 9;
       this.groupBox_ProtocolSettings.TabStop = false;
       this.groupBox_ProtocolSettings.Text = "&Behaviour";
@@ -1320,7 +1383,7 @@
       // button_ResetRSMPSettingToDefault
       // 
       this.button_ResetRSMPSettingToDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ResetRSMPSettingToDefault.Location = new System.Drawing.Point(471, 286);
+      this.button_ResetRSMPSettingToDefault.Location = new System.Drawing.Point(471, 303);
       this.button_ResetRSMPSettingToDefault.Name = "button_ResetRSMPSettingToDefault";
       this.button_ResetRSMPSettingToDefault.Size = new System.Drawing.Size(226, 20);
       this.button_ResetRSMPSettingToDefault.TabIndex = 9;
@@ -1357,7 +1420,7 @@
       this.dataGridView_Behaviour.Name = "dataGridView_Behaviour";
       this.dataGridView_Behaviour.RowHeadersVisible = false;
       this.dataGridView_Behaviour.RowTemplate.Height = 24;
-      this.dataGridView_Behaviour.Size = new System.Drawing.Size(694, 267);
+      this.dataGridView_Behaviour.Size = new System.Drawing.Size(694, 284);
       this.dataGridView_Behaviour.TabIndex = 17;
       this.dataGridView_Behaviour.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Behaviour_CellContentClick);
       this.dataGridView_Behaviour.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Behaviour_CellValueChanged);
@@ -1440,7 +1503,7 @@
       this.groupBox_Statistics.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_Statistics.Name = "groupBox_Statistics";
       this.groupBox_Statistics.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_Statistics.Size = new System.Drawing.Size(703, 207);
+      this.groupBox_Statistics.Size = new System.Drawing.Size(703, 220);
       this.groupBox_Statistics.TabIndex = 7;
       this.groupBox_Statistics.TabStop = false;
       this.groupBox_Statistics.Text = "&Connection statistics";
@@ -1448,7 +1511,7 @@
       // button_ClearStatistics
       // 
       this.button_ClearStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ClearStatistics.Location = new System.Drawing.Point(634, 181);
+      this.button_ClearStatistics.Location = new System.Drawing.Point(634, 194);
       this.button_ClearStatistics.Name = "button_ClearStatistics";
       this.button_ClearStatistics.Size = new System.Drawing.Size(62, 20);
       this.button_ClearStatistics.TabIndex = 10;
@@ -1471,7 +1534,7 @@
       this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
       this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2);
       this.listView_Statistics.Name = "listView_Statistics";
-      this.listView_Statistics.Size = new System.Drawing.Size(697, 162);
+      this.listView_Statistics.Size = new System.Drawing.Size(697, 175);
       this.listView_Statistics.TabIndex = 0;
       this.listView_Statistics.UseCompatibleStateImageBehavior = false;
       this.listView_Statistics.View = System.Windows.Forms.View.Details;
@@ -1498,7 +1561,7 @@
       this.tabPage_Alarms.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Alarms.Name = "tabPage_Alarms";
       this.tabPage_Alarms.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Alarms.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_Alarms.Size = new System.Drawing.Size(707, 556);
       this.tabPage_Alarms.TabIndex = 1;
       this.tabPage_Alarms.Text = "Alarms";
       this.tabPage_Alarms.UseVisualStyleBackColor = true;
@@ -1517,8 +1580,8 @@
       // splitContainer_Alarms.Panel2
       // 
       this.splitContainer_Alarms.Panel2.Controls.Add(this.groupBox_AlarmEvents);
-      this.splitContainer_Alarms.Size = new System.Drawing.Size(701, 520);
-      this.splitContainer_Alarms.SplitterDistance = 346;
+      this.splitContainer_Alarms.Size = new System.Drawing.Size(701, 550);
+      this.splitContainer_Alarms.SplitterDistance = 365;
       this.splitContainer_Alarms.TabIndex = 0;
       // 
       // listView_Alarms
@@ -1540,7 +1603,7 @@
       this.listView_Alarms.Location = new System.Drawing.Point(0, 0);
       this.listView_Alarms.MultiSelect = false;
       this.listView_Alarms.Name = "listView_Alarms";
-      this.listView_Alarms.Size = new System.Drawing.Size(701, 346);
+      this.listView_Alarms.Size = new System.Drawing.Size(701, 365);
       this.listView_Alarms.TabIndex = 1;
       this.listView_Alarms.UseCompatibleStateImageBehavior = false;
       this.listView_Alarms.View = System.Windows.Forms.View.Details;
@@ -1640,7 +1703,7 @@
       this.groupBox_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_AlarmEvents.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AlarmEvents.Name = "groupBox_AlarmEvents";
-      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(701, 170);
+      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(701, 181);
       this.groupBox_AlarmEvents.TabIndex = 0;
       this.groupBox_AlarmEvents.TabStop = false;
       this.groupBox_AlarmEvents.Text = "Alarm &Events";
@@ -1661,7 +1724,7 @@
       this.listView_AlarmEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_AlarmEvents.MultiSelect = false;
       this.listView_AlarmEvents.Name = "listView_AlarmEvents";
-      this.listView_AlarmEvents.Size = new System.Drawing.Size(695, 151);
+      this.listView_AlarmEvents.Size = new System.Drawing.Size(695, 162);
       this.listView_AlarmEvents.TabIndex = 3;
       this.listView_AlarmEvents.UseCompatibleStateImageBehavior = false;
       this.listView_AlarmEvents.View = System.Windows.Forms.View.Details;
@@ -1714,7 +1777,7 @@
       this.tabPage_AggregatedStatus.Location = new System.Drawing.Point(4, 22);
       this.tabPage_AggregatedStatus.Name = "tabPage_AggregatedStatus";
       this.tabPage_AggregatedStatus.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(707, 556);
       this.tabPage_AggregatedStatus.TabIndex = 3;
       this.tabPage_AggregatedStatus.Text = "Aggregated Status";
       this.tabPage_AggregatedStatus.UseVisualStyleBackColor = true;
@@ -1838,7 +1901,7 @@
       this.tabPage_Status.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Status.Name = "tabPage_Status";
       this.tabPage_Status.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Status.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_Status.Size = new System.Drawing.Size(707, 556);
       this.tabPage_Status.TabIndex = 4;
       this.tabPage_Status.Text = "Status";
       this.tabPage_Status.UseVisualStyleBackColor = true;
@@ -1849,7 +1912,7 @@
       this.groupBox_Status.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_Status.Location = new System.Drawing.Point(3, 3);
       this.groupBox_Status.Name = "groupBox_Status";
-      this.groupBox_Status.Size = new System.Drawing.Size(701, 520);
+      this.groupBox_Status.Size = new System.Drawing.Size(701, 550);
       this.groupBox_Status.TabIndex = 1;
       this.groupBox_Status.TabStop = false;
       this.groupBox_Status.Text = "Status";
@@ -1870,7 +1933,7 @@
       this.listView_Status.Location = new System.Drawing.Point(3, 16);
       this.listView_Status.MultiSelect = false;
       this.listView_Status.Name = "listView_Status";
-      this.listView_Status.Size = new System.Drawing.Size(695, 501);
+      this.listView_Status.Size = new System.Drawing.Size(695, 531);
       this.listView_Status.TabIndex = 8;
       this.listView_Status.UseCompatibleStateImageBehavior = false;
       this.listView_Status.View = System.Windows.Forms.View.Details;
@@ -1918,7 +1981,7 @@
       this.tabPage_Commands.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Commands.Name = "tabPage_Commands";
       this.tabPage_Commands.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Commands.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_Commands.Size = new System.Drawing.Size(707, 556);
       this.tabPage_Commands.TabIndex = 5;
       this.tabPage_Commands.Text = "Commands";
       this.tabPage_Commands.UseVisualStyleBackColor = true;
@@ -1929,7 +1992,7 @@
       this.groupBox_Commands.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_Commands.Location = new System.Drawing.Point(3, 3);
       this.groupBox_Commands.Name = "groupBox_Commands";
-      this.groupBox_Commands.Size = new System.Drawing.Size(701, 520);
+      this.groupBox_Commands.Size = new System.Drawing.Size(701, 550);
       this.groupBox_Commands.TabIndex = 0;
       this.groupBox_Commands.TabStop = false;
       this.groupBox_Commands.Text = "Commands (received updates)";
@@ -1952,7 +2015,7 @@
       this.listView_Commands.Location = new System.Drawing.Point(3, 16);
       this.listView_Commands.MultiSelect = false;
       this.listView_Commands.Name = "listView_Commands";
-      this.listView_Commands.Size = new System.Drawing.Size(695, 501);
+      this.listView_Commands.Size = new System.Drawing.Size(695, 531);
       this.listView_Commands.TabIndex = 8;
       this.listView_Commands.UseCompatibleStateImageBehavior = false;
       this.listView_Commands.View = System.Windows.Forms.View.Details;
@@ -2002,7 +2065,7 @@
       this.tabPage_TestSend.Controls.Add(this.splitContainer_TestSend);
       this.tabPage_TestSend.Location = new System.Drawing.Point(4, 22);
       this.tabPage_TestSend.Name = "tabPage_TestSend";
-      this.tabPage_TestSend.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_TestSend.Size = new System.Drawing.Size(707, 556);
       this.tabPage_TestSend.TabIndex = 6;
       this.tabPage_TestSend.Text = "Test send";
       this.tabPage_TestSend.UseVisualStyleBackColor = true;
@@ -2022,14 +2085,14 @@
       // splitContainer_TestSend.Panel2
       // 
       this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
-      this.splitContainer_TestSend.Size = new System.Drawing.Size(707, 526);
+      this.splitContainer_TestSend.Size = new System.Drawing.Size(707, 556);
       this.splitContainer_TestSend.SplitterDistance = 348;
       this.splitContainer_TestSend.TabIndex = 7;
       // 
       // button_TestPackage_1_Browse
       // 
       this.button_TestPackage_1_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(162, 497);
+      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(162, 527);
       this.button_TestPackage_1_Browse.Name = "button_TestPackage_1_Browse";
       this.button_TestPackage_1_Browse.Size = new System.Drawing.Size(130, 23);
       this.button_TestPackage_1_Browse.TabIndex = 5;
@@ -2040,7 +2103,7 @@
       // button_SendTestPackage_1
       // 
       this.button_SendTestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 497);
+      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 527);
       this.button_SendTestPackage_1.Name = "button_SendTestPackage_1";
       this.button_SendTestPackage_1.Size = new System.Drawing.Size(130, 23);
       this.button_SendTestPackage_1.TabIndex = 2;
@@ -2056,7 +2119,7 @@
       this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
       this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend1.Name = "groupBox_TestSend1";
-      this.groupBox_TestSend1.Size = new System.Drawing.Size(345, 526);
+      this.groupBox_TestSend1.Size = new System.Drawing.Size(345, 556);
       this.groupBox_TestSend1.TabIndex = 0;
       this.groupBox_TestSend1.TabStop = false;
       this.groupBox_TestSend1.Text = "JSon package 1";
@@ -2070,7 +2133,7 @@
       this.textBox_TestPackage_1.Multiline = true;
       this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
       this.textBox_TestPackage_1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_1.Size = new System.Drawing.Size(336, 472);
+      this.textBox_TestPackage_1.Size = new System.Drawing.Size(336, 502);
       this.textBox_TestPackage_1.TabIndex = 0;
       // 
       // groupBox_TestSend2
@@ -2083,7 +2146,7 @@
       this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
       this.groupBox_TestSend2.Location = new System.Drawing.Point(3, 0);
       this.groupBox_TestSend2.Name = "groupBox_TestSend2";
-      this.groupBox_TestSend2.Size = new System.Drawing.Size(347, 526);
+      this.groupBox_TestSend2.Size = new System.Drawing.Size(347, 556);
       this.groupBox_TestSend2.TabIndex = 7;
       this.groupBox_TestSend2.TabStop = false;
       this.groupBox_TestSend2.Text = "JSon package 2";
@@ -2091,7 +2154,7 @@
       // button_SendTestPackage_2
       // 
       this.button_SendTestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_2.Location = new System.Drawing.Point(20, 497);
+      this.button_SendTestPackage_2.Location = new System.Drawing.Point(20, 527);
       this.button_SendTestPackage_2.Name = "button_SendTestPackage_2";
       this.button_SendTestPackage_2.Size = new System.Drawing.Size(130, 23);
       this.button_SendTestPackage_2.TabIndex = 4;
@@ -2102,7 +2165,7 @@
       // button_TestPackage_2_Browse
       // 
       this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(167, 497);
+      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(167, 527);
       this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
       this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
       this.button_TestPackage_2_Browse.TabIndex = 6;
@@ -2119,7 +2182,7 @@
       this.textBox_TestPackage_2.Multiline = true;
       this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
       this.textBox_TestPackage_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_2.Size = new System.Drawing.Size(335, 472);
+      this.textBox_TestPackage_2.Size = new System.Drawing.Size(335, 502);
       this.textBox_TestPackage_2.TabIndex = 3;
       // 
       // tabPage_BufferedMessages
@@ -2128,7 +2191,7 @@
       this.tabPage_BufferedMessages.Location = new System.Drawing.Point(4, 22);
       this.tabPage_BufferedMessages.Name = "tabPage_BufferedMessages";
       this.tabPage_BufferedMessages.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_BufferedMessages.Size = new System.Drawing.Size(707, 526);
+      this.tabPage_BufferedMessages.Size = new System.Drawing.Size(707, 556);
       this.tabPage_BufferedMessages.TabIndex = 8;
       this.tabPage_BufferedMessages.Text = "Buffered messages";
       this.tabPage_BufferedMessages.UseVisualStyleBackColor = true;
@@ -2144,7 +2207,7 @@
       this.groupBox_BufferedMessages.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_BufferedMessages.Location = new System.Drawing.Point(3, 3);
       this.groupBox_BufferedMessages.Name = "groupBox_BufferedMessages";
-      this.groupBox_BufferedMessages.Size = new System.Drawing.Size(701, 520);
+      this.groupBox_BufferedMessages.Size = new System.Drawing.Size(701, 550);
       this.groupBox_BufferedMessages.TabIndex = 0;
       this.groupBox_BufferedMessages.TabStop = false;
       this.groupBox_BufferedMessages.Text = "Buffered messages";
@@ -2152,7 +2215,7 @@
       // textBox_BufferedMessages
       // 
       this.textBox_BufferedMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.textBox_BufferedMessages.Location = new System.Drawing.Point(454, 495);
+      this.textBox_BufferedMessages.Location = new System.Drawing.Point(454, 525);
       this.textBox_BufferedMessages.Name = "textBox_BufferedMessages";
       this.textBox_BufferedMessages.Size = new System.Drawing.Size(84, 20);
       this.textBox_BufferedMessages.TabIndex = 13;
@@ -2163,7 +2226,7 @@
       // 
       this.label_CreateRandomMessages_Total.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label_CreateRandomMessages_Total.AutoSize = true;
-      this.label_CreateRandomMessages_Total.Location = new System.Drawing.Point(368, 498);
+      this.label_CreateRandomMessages_Total.Location = new System.Drawing.Point(368, 528);
       this.label_CreateRandomMessages_Total.Name = "label_CreateRandomMessages_Total";
       this.label_CreateRandomMessages_Total.Size = new System.Drawing.Size(80, 13);
       this.label_CreateRandomMessages_Total.TabIndex = 12;
@@ -2177,7 +2240,7 @@
       this.groupBox_BufferedMessages_CreateRandom.Controls.Add(this.label_CreateRandomMessages_SelectType);
       this.groupBox_BufferedMessages_CreateRandom.Controls.Add(this.button_BufferedMessages_CreateRandom);
       this.groupBox_BufferedMessages_CreateRandom.Controls.Add(this.comboBox_BufferedMessages_CreateRandom_Type);
-      this.groupBox_BufferedMessages_CreateRandom.Location = new System.Drawing.Point(7, 399);
+      this.groupBox_BufferedMessages_CreateRandom.Location = new System.Drawing.Point(7, 429);
       this.groupBox_BufferedMessages_CreateRandom.Name = "groupBox_BufferedMessages_CreateRandom";
       this.groupBox_BufferedMessages_CreateRandom.Size = new System.Drawing.Size(537, 92);
       this.groupBox_BufferedMessages_CreateRandom.TabIndex = 11;
@@ -2242,7 +2305,7 @@
       this.groupBox_BufferedMessages_Clear.Controls.Add(this.button_ClearAlarmMessages);
       this.groupBox_BufferedMessages_Clear.Controls.Add(this.button_ClearStatusMessages);
       this.groupBox_BufferedMessages_Clear.Controls.Add(this.button_ClearAggStatusMessages);
-      this.groupBox_BufferedMessages_Clear.Location = new System.Drawing.Point(549, 400);
+      this.groupBox_BufferedMessages_Clear.Location = new System.Drawing.Point(549, 430);
       this.groupBox_BufferedMessages_Clear.Name = "groupBox_BufferedMessages_Clear";
       this.groupBox_BufferedMessages_Clear.Size = new System.Drawing.Size(146, 115);
       this.groupBox_BufferedMessages_Clear.TabIndex = 10;
@@ -2286,7 +2349,7 @@
       // 
       this.checkBox_ShowMax10BufferedMessagesInSysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBox_ShowMax10BufferedMessagesInSysLog.AutoSize = true;
-      this.checkBox_ShowMax10BufferedMessagesInSysLog.Location = new System.Drawing.Point(7, 497);
+      this.checkBox_ShowMax10BufferedMessagesInSysLog.Location = new System.Drawing.Point(7, 527);
       this.checkBox_ShowMax10BufferedMessagesInSysLog.Name = "checkBox_ShowMax10BufferedMessagesInSysLog";
       this.checkBox_ShowMax10BufferedMessagesInSysLog.Size = new System.Drawing.Size(326, 17);
       this.checkBox_ShowMax10BufferedMessagesInSysLog.TabIndex = 1;
@@ -2307,7 +2370,7 @@
       this.ListView_BufferedMessages.HideSelection = false;
       this.ListView_BufferedMessages.Location = new System.Drawing.Point(6, 19);
       this.ListView_BufferedMessages.Name = "ListView_BufferedMessages";
-      this.ListView_BufferedMessages.Size = new System.Drawing.Size(689, 374);
+      this.ListView_BufferedMessages.Size = new System.Drawing.Size(689, 404);
       this.ListView_BufferedMessages.TabIndex = 0;
       this.ListView_BufferedMessages.UseCompatibleStateImageBehavior = false;
       this.ListView_BufferedMessages.View = System.Windows.Forms.View.Details;
@@ -2352,7 +2415,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1070, 579);
+      this.ClientSize = new System.Drawing.Size(1070, 609);
       this.Controls.Add(this.splitContainer_Main);
       this.Controls.Add(this.menuStrip_Main);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2377,6 +2440,8 @@
       this.groupBox_SystemLog.PerformLayout();
       this.tabControl_Object.ResumeLayout(false);
       this.tabPage_Generic.ResumeLayout(false);
+      this.groupBox_Components.ResumeLayout(false);
+      this.groupBox_Components.PerformLayout();
       this.groupBox_Encryption.ResumeLayout(false);
       this.groupBox_Encryption.PerformLayout();
       this.groupBox_EncryptionProtocols.ResumeLayout(false);
@@ -2609,6 +2674,9 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_CSV;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_YAML;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadComponents;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadComponents_YAML;
+    private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadComponents_Delimiter;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_Delimiter_5;
     public System.Windows.Forms.CheckBox checkBox_AutomaticallyLoadObjects;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadObjects_Delimiter;
@@ -2642,6 +2710,9 @@
     private System.Windows.Forms.GroupBox groupBox_TestSend2;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_AutoScroll_AlarmEvents;
+    private System.Windows.Forms.GroupBox groupBox_Components;
+    public System.Windows.Forms.TextBox textBox_Components_FilePath;
+    private System.Windows.Forms.Label label_Components_FilePath;
   }
 }
 
