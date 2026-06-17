@@ -1613,6 +1613,7 @@ namespace nsRSMPGS
       {
         case "timestamp":
         case "string":
+        case "string_list_as_string":
         case "array":
           bValueIsValid = true;
           break;
