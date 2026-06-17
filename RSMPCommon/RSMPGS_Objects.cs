@@ -916,6 +916,7 @@ namespace nsRSMPGS
 
         case eValueType._integer:
         case eValueType._integer_as_string:
+        case eValueType._integer_list_as_string:
 
           Int32 iValue;
           if (Int32.TryParse(sValue, out iValue))
