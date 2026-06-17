@@ -835,6 +835,7 @@ namespace nsRSMPGS
       {
 
         case eValueType._string:
+        case eValueType._string_list_as_string:
 
           if (SelectableValues == null || SelectableValues.Count == 0)
           {
@@ -842,21 +843,26 @@ namespace nsRSMPGS
           }
           else
           {
-            foreach (string sScanValue in SelectableValues.Keys)
-            {
-              bool bUseCaseSensitiveValue = cHelper.IsSettingChecked("UseCaseSensitiveValue");
-              var comparisonType = StringComparison.Ordinal;
-              if (!bUseCaseSensitiveValue) {
-                comparisonType = StringComparison.OrdinalIgnoreCase;
-              }
+            bool bUseCaseSensitiveValue = true; // cHelper.IsSettingChecked("UseCaseSensitiveValue");
+            StringComparison comparisonType;
+            if (!bUseCaseSensitiveValue)
+              comparisonType = StringComparison.OrdinalIgnoreCase;
+            else
+              comparisonType = StringComparison.Ordinal;
 
-              if (sScanValue.Equals(sValue, comparisonType))
+            foreach (string str in sValue.Split(','))
+            {
+              bool bFound = false;
+              foreach (string sScanValue in SelectableValues.Keys)
               {
-                return true;
+                if (sScanValue.Equals(str, comparisonType))
+                  bFound = true;
               }
+              if (!bFound)
+                return false;
             }
+            return true;
           }
-          return false;
 
         case eValueType._raw:
         case eValueType._scale:
