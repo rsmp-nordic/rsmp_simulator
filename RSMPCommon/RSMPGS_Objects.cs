@@ -896,6 +896,7 @@ namespace nsRSMPGS
 
         case eValueType._boolean:
         case eValueType._boolean_as_string:
+        case eValueType._boolean_list_as_string:
 
           // Handle comma separated lists needed for backwards compatibility.
           foreach (string cValue in sValue.Split(','))
