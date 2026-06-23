@@ -1,24 +1,25 @@
+using nsRSMPGS.Properties;
+using RSMP_Messages;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.IO;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net.Sockets;
-using System.Windows.Forms;
-using System.Reflection;
-using System.Drawing;
-using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
-using System.Linq;
-using System.Collections;
-using System.Diagnostics;
+using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
-using System.Runtime.CompilerServices;
-using RSMP_Messages;
-using System.Drawing.Printing;
-using nsRSMPGS.Properties;
-using System.Net.NetworkInformation;
 
 namespace nsRSMPGS
 {
@@ -1203,17 +1204,21 @@ namespace nsRSMPGS
     {
       StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-      cRoadSideObject RoadSideObject = null;
+      // Ignore ntsOId
+      Regex regex = new Regex(@".*\t" + Regex.Escape(cId));
+      var matchingPair = RSMPGS.ProcessImage.RoadSideObjects.FirstOrDefault(kvp => regex.IsMatch(kvp.Key));
 
-      if (RSMPGS.ProcessImage.RoadSideObjects.TryGetValue("\t" + cId, out RoadSideObject))
+      if (matchingPair.Key == null)
+        return null;
+
+      cRoadSideObject RoadSideObject = matchingPair.Value;
+
+      // The collection is case insensitive, ensure it has correct case if that is what we want
+      if (bUseCaseSensitiveIds)
       {
-        // The collection is case insensitive, ensure it has correct case if that is what we want
-        if (bUseCaseSensitiveIds)
+        if (RoadSideObject.sComponentId != cId)
         {
-          if (RoadSideObject.sComponentId != cId)
-          {
-            RoadSideObject = null;
-          }
+          RoadSideObject = null;
         }
       }
 
