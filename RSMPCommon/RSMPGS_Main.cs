@@ -1253,8 +1253,16 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_File_DropDownOpening(object sender, EventArgs e)
     {
-
-      ToolStripMenuItem_File_LoadObjects.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected ? false : true;
+      if (RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected)
+      {
+        ToolStripMenuItem_File_LoadObjects.Enabled = false;
+        ToolStripMenuItem_File_LoadComponents.Enabled = false;
+      }
+      else
+      {
+        ToolStripMenuItem_File_LoadObjects.Enabled = true;
+        ToolStripMenuItem_File_LoadComponents.Enabled = true;
+      }
     }
 
     public enum RearrangeWindows_Mode
