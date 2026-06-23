@@ -118,8 +118,17 @@ namespace nsRSMPGS
         AlarmHeaderAndBody.mType = "rSMsg";
         AlarmHeaderAndBody.type = "Alarm";
         AlarmHeaderAndBody.mId = System.Guid.NewGuid().ToString();
-        AlarmHeaderAndBody.ntsOId = AlarmObject.RoadSideObject.sNTSObjectId;
-        AlarmHeaderAndBody.xNId = AlarmObject.RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          AlarmHeaderAndBody.ntsOId = AlarmObject.RoadSideObject.sNTSObjectId;
+          AlarmHeaderAndBody.xNId = AlarmObject.RoadSideObject.sExternalNTSId;
+        }
+        else if(NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          AlarmHeaderAndBody.ntsOId = "";
+          AlarmHeaderAndBody.xNId = "";
+        }
         AlarmHeaderAndBody.cId = AlarmObject.RoadSideObject.sComponentId;
         AlarmHeaderAndBody.aCId = AlarmObject.sAlarmCodeId;
         AlarmHeaderAndBody.xACId = AlarmObject.sExternalAlarmCodeId;
@@ -244,8 +253,18 @@ namespace nsRSMPGS
       AggregatedStatusMessage.mType = "rSMsg";
       AggregatedStatusMessage.type = "AggregatedStatus";
       AggregatedStatusMessage.mId = System.Guid.NewGuid().ToString();
-      AggregatedStatusMessage.ntsOId = RoadSideObject.sNTSObjectId;
-      AggregatedStatusMessage.xNId = RoadSideObject.sExternalNTSId;
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+      {
+        AggregatedStatusMessage.ntsOId = RoadSideObject.sNTSObjectId;
+        AggregatedStatusMessage.xNId = RoadSideObject.sExternalNTSId;
+      }
+      else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+      {
+        // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+        AggregatedStatusMessage.ntsOId = "";
+        AggregatedStatusMessage.xNId = "";
+
+      }
       AggregatedStatusMessage.cId = RoadSideObject.sComponentId;
 
       if (RoadSideObject.dtLastChangedAggregatedStatus == DateTime.MinValue)
@@ -335,7 +354,11 @@ namespace nsRSMPGS
 
         RSMP_Messages.AggregatedStatusRequest AggregatedStatusRequest = JSonSerializer.Deserialize<RSMP_Messages.AggregatedStatusRequest>(sJSon);
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId, bUseStrictProtocolAnalysis);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatusRequest.cId, bUseStrictProtocolAnalysis);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId, bUseStrictProtocolAnalysis);
 
         if (RoadSideObject != null)
         {
@@ -378,7 +401,11 @@ namespace nsRSMPGS
       {
         RSMP_Messages.AlarmHeader AlarmHeader = JSonSerializer.Deserialize<RSMP_Messages.AlarmHeader>(sJSon);
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseStrictProtocolAnalysis);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.cId, bUseStrictProtocolAnalysis);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseStrictProtocolAnalysis);
 
         if (RoadSideObject != null)
         {
@@ -496,7 +523,12 @@ namespace nsRSMPGS
 
         // Check for unknown command code id (cCI) and unknown name (n) in arguments
         // Only MessageNotAck should be sent in such case
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.cId, bUseStrictProtocolAnalysis);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
+
         foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
         {
           if (RoadSideObject == null)
@@ -699,7 +731,12 @@ namespace nsRSMPGS
 
         // Check for unknown status code id (sCI) and unknown name (n) in arguments
         // Only MessageNotAck should be sent in such case
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.cId, bUseCaseSensitiveIds);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
+
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {
           if (RoadSideObject == null)
@@ -873,9 +910,17 @@ namespace nsRSMPGS
       StatusUpdateMessage.mType = "rSMsg";
       StatusUpdateMessage.type = "StatusUpdate";
       StatusUpdateMessage.mId = System.Guid.NewGuid().ToString();
-
-      StatusUpdateMessage.ntsOId = RoadSideObject.sNTSObjectId;
-      StatusUpdateMessage.xNId = RoadSideObject.sExternalNTSId;
+      if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+      {
+        StatusUpdateMessage.ntsOId = RoadSideObject.sNTSObjectId;
+        StatusUpdateMessage.xNId = RoadSideObject.sExternalNTSId;
+      }
+      else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+      {
+        // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+        StatusUpdateMessage.ntsOId = "";
+        StatusUpdateMessage.xNId = "";
+      }
       StatusUpdateMessage.cId = RoadSideObject.sComponentId;
 
       StatusUpdateMessage.sTs = CreateISO8601UTCTimeStamp();

@@ -1198,6 +1198,29 @@ namespace nsRSMPGS
       return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
     }
 
+    // Find road side objects, ignoring ntsOId. For RSMP >=3.3.0
+    public static cRoadSideObject FindRoadSideObject(string cId, bool bUseCaseSensitiveIds)
+    {
+      StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+
+      cRoadSideObject RoadSideObject = null;
+
+      if (RSMPGS.ProcessImage.RoadSideObjects.TryGetValue("\t" + cId, out RoadSideObject))
+      {
+        // The collection is case insensitive, ensure it has correct case if that is what we want
+        if (bUseCaseSensitiveIds)
+        {
+          if (RoadSideObject.sComponentId != cId)
+          {
+            RoadSideObject = null;
+          }
+        }
+      }
+
+      return RoadSideObject;
+    }
+
+    // Find road side objects,  For RSMP <3.3.0
     public static cRoadSideObject FindRoadSideObject(string ntsOId, string cId, bool bUseCaseSensitiveIds)
     {
 
