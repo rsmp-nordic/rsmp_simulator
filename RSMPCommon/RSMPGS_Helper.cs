@@ -2696,7 +2696,8 @@ namespace nsRSMPGS
             }
             break;
           default:
-            break;
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Type '{0}' not supported", schemaScalarType);
+            return;
         }
         y = y + 23;
       }
