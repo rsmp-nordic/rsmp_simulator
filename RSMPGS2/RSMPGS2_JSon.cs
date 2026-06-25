@@ -1098,9 +1098,17 @@ namespace nsRSMPGS
         StatusSubscribe.type = "StatusSubscribe";
         StatusSubscribe.mId = System.Guid.NewGuid().ToString();
 
-        StatusSubscribe.ntsOId = RoadSideObject.sNTSObjectId;
-        StatusSubscribe.xNId = RoadSideObject.sExternalNTSId;
-        StatusSubscribe.cId = RoadSideObject.sComponentId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusSubscribe.ntsOId = RoadSideObject.sNTSObjectId;
+          StatusSubscribe.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusSubscribe.ntsOId = "";
+          StatusSubscribe.xNId = "";
+        }
+          StatusSubscribe.cId = RoadSideObject.sComponentId;
         StatusSubscribe.sS = StatusSubscribeValues;
 
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscriptionValue in StatusSubscribeValues)
