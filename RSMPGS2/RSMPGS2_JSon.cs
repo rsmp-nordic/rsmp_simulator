@@ -928,8 +928,17 @@ namespace nsRSMPGS
         StatusRequest.type = statusType;
         StatusRequest.mId = System.Guid.NewGuid().ToString();
 
-        StatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
-        StatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
+          StatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOiD and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          StatusRequest.ntsOId = "";
+          StatusRequest.xNId = "";
+        }
         StatusRequest.cId = RoadSideObject.sComponentId;
         StatusRequest.sS = new List<RSMP_Messages.StatusRequest_Status>();
 
