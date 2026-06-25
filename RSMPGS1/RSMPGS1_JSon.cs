@@ -360,6 +360,15 @@ namespace nsRSMPGS
         else
           RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatusRequest.ntsOId, AggregatedStatusRequest.cId, bUseStrictProtocolAnalysis);
 
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AggregatedStatusRequest.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AggregatedStatusRequest.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject != null)
         {
           if (cHelper.IsSettingChecked("AllowRequestsOfAlarmsAndAggStatus"))
@@ -406,6 +415,15 @@ namespace nsRSMPGS
           RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.cId, bUseStrictProtocolAnalysis);
         else
           RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseStrictProtocolAnalysis);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AlarmHeader.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AlarmHeader.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         if (RoadSideObject != null)
         {
@@ -528,6 +546,15 @@ namespace nsRSMPGS
           RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.cId, bUseStrictProtocolAnalysis);
         else
           RoadSideObject = cHelper.FindRoadSideObject(CommandRequest.ntsOId, CommandRequest.cId, bUseStrictProtocolAnalysis);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (CommandRequest.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (CommandRequest.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         foreach (RSMP_Messages.CommandRequest_Value CommandRequest_Value in CommandRequest.arg)
         {
@@ -689,8 +716,19 @@ namespace nsRSMPGS
         CommandResponse.mType = "rSMsg";
         CommandResponse.type = "CommandResponse";
         CommandResponse.mId = System.Guid.NewGuid().ToString();
-        CommandResponse.ntsOId = CommandRequest.ntsOId;
-        CommandResponse.xNId = CommandRequest.xNId;
+
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          CommandResponse.ntsOId = CommandRequest.ntsOId;
+          CommandResponse.xNId = CommandRequest.xNId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          CommandResponse.ntsOId = "";
+          CommandResponse.xNId = "";
+        }
+
         CommandResponse.cId = CommandRequest.cId;
         CommandResponse.cTS = CreateISO8601UTCTimeStamp();
         CommandResponse.rvs = rvs;
@@ -736,6 +774,15 @@ namespace nsRSMPGS
           RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.cId, bUseCaseSensitiveIds);
         else
           RoadSideObject = cHelper.FindRoadSideObject(StatusSubscribe.ntsOId, StatusSubscribe.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (StatusSubscribe.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (StatusSubscribe.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscribe_Status in StatusSubscribe.sS)
         {

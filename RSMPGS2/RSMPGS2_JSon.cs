@@ -103,6 +103,15 @@ namespace nsRSMPGS
         else
           RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
 
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AlarmHeader.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AlarmHeader.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject == null)
         {
           sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´";
@@ -332,6 +341,15 @@ namespace nsRSMPGS
         else
           RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatus.ntsOId, AggregatedStatus.cId, bUseCaseSensitiveIds);
 
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AggregatedStatus.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AggregatedStatus.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject != null)
         {
           RoadSideObject.bBitStatus = AggregatedStatus.se;
@@ -432,6 +450,15 @@ namespace nsRSMPGS
           RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.cId, bUseCaseSensitiveIds);
         else
           RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (CommandResponse.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (CommandResponse.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         if (RoadSideObject == null)
         {
@@ -536,6 +563,15 @@ namespace nsRSMPGS
           RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.cId, bUseCaseSensitiveIds);
         else
           RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.ntsOId, StatusResponse.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (StatusResponse.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (StatusResponse.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         if (RoadSideObject == null)
         {
@@ -728,7 +764,6 @@ namespace nsRSMPGS
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create AggregatedStatusRequest message: {0}", e.Message);
       }
-
     }
 
     public void CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation)
@@ -792,7 +827,6 @@ namespace nsRSMPGS
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create alarm message: {0}", e.Message);
       }
-
     }
 
     public void CreateAndSendCommandMessage(cRoadSideObject RoadSideObject, List<cCommandReturnValue> ReturnValues, bool bUseCaseSensitiveIds)
