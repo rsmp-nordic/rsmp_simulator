@@ -865,8 +865,17 @@ namespace nsRSMPGS
           StatusResponse.mType = "rSMsg";
           StatusResponse.type = (statusMsgType == StatusMsgType.Subscribe) ? "StatusUpdate" : "StatusResponse";
           StatusResponse.mId = System.Guid.NewGuid().ToString();
-          StatusResponse.ntsOId = StatusSubscribe.ntsOId;
-          StatusResponse.xNId = StatusSubscribe.xNId;
+          if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+          {
+            StatusResponse.ntsOId = StatusSubscribe.ntsOId;
+            StatusResponse.xNId = StatusSubscribe.xNId;
+          }
+          else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          {
+            // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+            StatusResponse.ntsOId = "";
+            StatusResponse.xNId = "";
+          }
           StatusResponse.cId = StatusSubscribe.cId;
           StatusResponse.sTs = CreateISO8601UTCTimeStamp();
           StatusResponse.sS = sS;
