@@ -2671,6 +2671,7 @@ namespace nsRSMPGS
         {
           case "base64":
           case "boolean":
+          case "boolean_as_string":
           case "timestamp":
           case "string":
             if (isCombo)
@@ -2725,6 +2726,7 @@ namespace nsRSMPGS
             break;
           case "number":
           case "integer":
+          case "integer_as_string":
             numericUpDown = new NumericUpDown();
             numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional + "#" + iKeyIndex;
             numericUpDown.TextChanged += new System.EventHandler(arrayValue_TextChanged);
