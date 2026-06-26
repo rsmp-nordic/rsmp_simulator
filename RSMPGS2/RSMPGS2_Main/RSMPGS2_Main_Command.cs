@@ -198,13 +198,5 @@ namespace nsRSMPGS
         }
       }
     }
-    private void listView_Commands_MouseDoubleClick(object sender, MouseEventArgs e)
-    {
-      ListView listview = (ListView)sender;
-      ListViewItem lvItem;
-
-      if (listview.SelectedItems.Count == 0)
-        return;
-    }
   }
 }
