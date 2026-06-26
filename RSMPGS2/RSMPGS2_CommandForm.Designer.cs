@@ -163,6 +163,7 @@
       this.Name = "RSMPGS2_CommandForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "RSMPGS2 - Send Commands";
+      this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Commands_MouseDoubleClick);
       this.groupBox_Commands.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Commands)).EndInit();
       this.ResumeLayout(false);
