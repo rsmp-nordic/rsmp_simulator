@@ -2092,11 +2092,14 @@ namespace nsRSMPGS
       CheckBox checkBoxUpdatedEvenIfValueNotChanged = new CheckBox( );
       checkBoxUpdatedEvenIfValueNotChanged.Checked = !bReturnCancelIfValueHasNotChanged;
 
+      // Update form title
       form.Text = title + " (" + Value.GetValueType() + ")";
 
       if (Value.ValueTypeObject.GetValueMax() > 0)
       {
-        form.Text += " / [" + Value.ValueTypeObject.GetValueMin().ToString() + "-" + Value.ValueTypeObject.GetValueMax().ToString() + "]";
+        String sMin = Value.ValueTypeObject.GetValueMin().ToString();
+        String sMax = Value.ValueTypeObject.GetValueMax().ToString();
+        form.Text += " / [" + sMin + "-" + sMax + "]";
       }
 
       //label.Text = promptText;
@@ -2990,7 +2993,6 @@ namespace nsRSMPGS
         value = textBox.Text;
         return dialogResult;
       }
-
     }
 
     private static void buttonBrowse_Click(object sender, EventArgs e)
@@ -3096,7 +3098,6 @@ namespace nsRSMPGS
     {
 
       return StringMid(sInString, iStartPos, sInString.Length - iStartPos);
-
     }
 
     public static string StringMid(string sInString, int iStartPos, int iLength)
@@ -3116,7 +3117,6 @@ namespace nsRSMPGS
         return sInString.Substring(iStartPos);
       }
       return sInString.Substring(iStartPos, iLength);
-
     }
 
     public static string StringRight(string sInString, int iLength)
@@ -3133,7 +3133,6 @@ namespace nsRSMPGS
       }
 
       return sInString.Substring(sInString.Length - iLength);
-
     }
 
     public static string ItemWithQuote(string InString, int iIndex, char cSplitter)
@@ -3150,6 +3149,5 @@ namespace nsRSMPGS
         return sStringArray[iIndex];
       }
     }
-
   }
 }
