@@ -195,12 +195,13 @@ namespace nsRSMPGS
       }
 
     }
+    private void dataGridView_Commands_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      DataGridView datagridview = (DataGridView)sender;
+      DataGridView dgItem;
 
-    /*
-  public List<cCommandReturnValue> GetSelectedCommands()
-  {
-      return selectedCommands;
-  }
-*/
+      if (datagridview.SelectedRows.Count == 0)
+        return;
+    }
   }
 }

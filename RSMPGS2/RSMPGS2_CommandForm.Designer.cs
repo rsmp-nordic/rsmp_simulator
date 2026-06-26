@@ -85,6 +85,7 @@
       this.dataGridView_Commands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Commands_CellContentClick);
       this.dataGridView_Commands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseClick);
       this.dataGridView_Commands.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_Commands_CurrentCellDirtyStateChanged);
+      this.dataGridView_Commands.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView_Commands_MouseDoubleClick);
       // 
       // button_Commands_Send
       // 
@@ -163,7 +164,6 @@
       this.Name = "RSMPGS2_CommandForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "RSMPGS2 - Send Commands";
-      this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Commands_MouseDoubleClick);
       this.groupBox_Commands.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Commands)).EndInit();
       this.ResumeLayout(false);
