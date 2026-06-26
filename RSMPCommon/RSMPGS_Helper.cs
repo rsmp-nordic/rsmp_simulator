@@ -1,24 +1,25 @@
+using nsRSMPGS.Properties;
+using RSMP_Messages;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.IO;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net.Sockets;
-using System.Windows.Forms;
-using System.Reflection;
-using System.Drawing;
-using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
-using System.Linq;
-using System.Collections;
-using System.Diagnostics;
+using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
-using System.Runtime.CompilerServices;
-using RSMP_Messages;
-using System.Drawing.Printing;
-using nsRSMPGS.Properties;
-using System.Net.NetworkInformation;
 
 namespace nsRSMPGS
 {
@@ -286,8 +287,6 @@ namespace nsRSMPGS
       {
         return RSMPGS.SpecifiedPath;
       }
-
-
     }
 
     public static string SettingsPath()
@@ -750,11 +749,9 @@ namespace nsRSMPGS
         }
 
         HideSettingCell(iRowIndex, Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported));
-
       }
       else
       {
-
         int iColumnIndex;
 
         iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported);
@@ -862,7 +859,6 @@ namespace nsRSMPGS
       {
         return setting.GetActualValue(cJSon.RSMPVersion.NotSupported);
       }
-
     }
 
     public static void SettingCheckChanged(DataGridViewCellEventArgs e)
@@ -952,7 +948,6 @@ namespace nsRSMPGS
         }
 
       }
-
     }
 
     public static void ResetRSMPSettingToDefault()
@@ -974,7 +969,6 @@ namespace nsRSMPGS
           iColumnIndex = Setting.GetColumnIndex(cJSon.RSMPVersion.NotSupported);
           RSMPGS.MainForm.dataGridView_Behaviour.Rows[Setting.RowIndex].Cells[iColumnIndex].Value = Setting.GetDefaultValue(iColumnIndex);
         }
-
       }
     }
 
@@ -992,8 +986,6 @@ namespace nsRSMPGS
       // Used as memory variable for calc
       RSMPGS.Statistics.Add("TxRTTimeNoOfPackets", 0);
       RSMPGS.Statistics.Add("TxRTTimeTotalTimeInMsec", 0);
-
-
     }
 
     public static void AddStatistic(string sKey, string sDescription, string sUnit)
@@ -1005,7 +997,6 @@ namespace nsRSMPGS
       lvItem.SubItems.Add(sUnit);
 
       RSMPGS.Statistics.Add(sKey, 0);
-
     }
 
     public static void ClearStatistics()
@@ -1016,7 +1007,6 @@ namespace nsRSMPGS
         RSMPGS.Statistics[sKey] = 0;
         UpdateStatisticsRow(sKey, "");
       }
-
     }
 
     public static void UpdateStatistics(int iInterval)
@@ -1061,9 +1051,7 @@ namespace nsRSMPGS
 
         RSMPGS.DebugConnection.SendPacket(sStatisticPacket);
         RSMPGS.DebugConnection.DebugConnectionStatisticsTimer = 0;
-
       }
-
     }
 
     public static void UpdateStatisticsRow(string sColumnKey, string sNewValue)
@@ -1144,7 +1132,6 @@ namespace nsRSMPGS
       OutString = OutString.Replace("\xf8", "°");
 
       return OutString;
-
     }
 
     public static bool IsGuid(string guidString)
@@ -1198,6 +1185,33 @@ namespace nsRSMPGS
       return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
     }
 
+    // Find road side objects, ignoring ntsOId. For RSMP >=3.3.0
+    public static cRoadSideObject FindRoadSideObject(string cId, bool bUseCaseSensitiveIds)
+    {
+      StringComparison sc = bUseCaseSensitiveIds ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+
+      // Ignore ntsOId
+      Regex regex = new Regex(@".*\t" + Regex.Escape(cId));
+      var matchingPair = RSMPGS.ProcessImage.RoadSideObjects.FirstOrDefault(kvp => regex.IsMatch(kvp.Key));
+
+      if (matchingPair.Key == null)
+        return null;
+
+      cRoadSideObject RoadSideObject = matchingPair.Value;
+
+      // The collection is case insensitive, ensure it has correct case if that is what we want
+      if (bUseCaseSensitiveIds)
+      {
+        if (RoadSideObject.sComponentId != cId)
+        {
+          RoadSideObject = null;
+        }
+      }
+
+      return RoadSideObject;
+    }
+
+    // Find road side objects,  For RSMP <3.3.0
     public static cRoadSideObject FindRoadSideObject(string ntsOId, string cId, bool bUseCaseSensitiveIds)
     {
 
@@ -1216,20 +1230,8 @@ namespace nsRSMPGS
           }
         }
       }
-      /*
-
-      foreach (cSiteIdObject siteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
-      {
-        cRoadSideObject RoadSideObject = siteIdObject.RoadSideObjects.Find(x => x.sNTSObjectId.Equals(ntsOId, sc) && x.sComponentId.Equals(cId, sc));
-        if (RoadSideObject != null)
-        {
-          break;
-        }
-      }
-      */
 
       return RoadSideObject;
-
     }
 
 
@@ -1242,34 +1244,6 @@ namespace nsRSMPGS
       //
       // This function removes any quotes and commas and replaces them with semicolon. If semicolon is used somewhere it is replaced with comma
       // It is also right trimmed from semicolons
-      //
-      //
-      // Rev. Datum:;2012-10-17;;;;;;;"Obs! ""-"" ska ej finnas med i fält";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      // Rev. Datum:;2012-10-17;;;;;;;Obs! "-" ska ej finnas med i fält
-      //
-      // Rev. Datum:;1900-1-0;"Obs! ""-"" ska ej finnas med i fält";
-      // Rev. Datum:;1900-1-0;Obs! "-" ska ej finnas med i fält
-      //
-      // Styrskåp,Styrskåp,O+20431=881CG001,O+20431=881CG001,,"Styrskåp, 111",,,
-      // Styrskåp;Styrskåp;O+20431=881CG001;O+20431=881CG001;;Styrskåp, 111
-      //
-      // Kombinerad Sändare och Mottagare,Kombinerad Sändare och Mottagare DH111,O+20431=881DH111,O+20431=881CG003,,,se02x111mr011,,
-      // Kombinerad Sändare och Mottagare;Kombinerad Sändare och Mottagare DH111;O+20431=881DH111;O+20431=881CG003;;;se02x111mr011
-      //
-      // Anläggning,Utfart,O+13133=881CG002,O+13133=881CG002,,"Utfart, CPID 082",se02x082mlc010,,
-      // Anläggning;Utfart;O+13133=881CG002;O+13133=881CG002;;Utfart, CPID 082;se02x082mlc010
-      //
-      // col1;col2;"col3a;col3b;col3c";col4
-      // col1;col2;col3a,col3b,col3c;col4
-      //
-      // \ncol1;col2;"col3a;col3b;col3c";col4;"col5rad1\ncol5rad2\ncol5rad3\n\n\n";col6
-      // col1;col2;col3a,col3b,col3c;col4;col5rad1\ncol5rad2\ncol5rad3\n\n\n;col6
-      //
-      // "Obs! ""-"" ska ej finnas med i fält"
-      // Obs! "-" ska ej finnas med i fält
-      //
-      // "test med "" bara"
-      // test med " bara
 
       for (int iLineIndex = 0; iLineIndex < sLines.GetLength(0); iLineIndex++)
       {
@@ -1355,20 +1329,13 @@ namespace nsRSMPGS
         sResult = sResult.TrimEnd(';');
         sResultLines[iLineIndex] = sResult;
 
-        //Debug.WriteLine(sLine.Replace("\n", "\\n"));
-        //Debug.WriteLine(sResult.Replace("\n", "\\n"));
-
       }
 
       return sResultLines;
-
     }
 
     public static string[] SplitFields(string sInString, char cSplitter)
     {
-
-      // "Utebel Tänd",,58e0e01d-950b-4c57-ba46-0f26b0a5eff0,AlarmEvent,Default_AlarmItem0,AlarmItem0,Normal,1,,"2016-12-05 08:11:17","2016-12-05 08:11:17","2016-12-04 15:40:41"
-
       bool bLastFieldWasEmpty = false;
 
       string sItem;
@@ -1425,9 +1392,7 @@ namespace nsRSMPGS
       }
 
       return sItems.ToArray();
-
     }
-
   }
 
   public class cDebugConnection
@@ -1490,7 +1455,6 @@ namespace nsRSMPGS
         ThreadIsRunning = true;
         new Thread(new ThreadStart(RunThread)).Start();
       }
-
     }
 
     public void Shutdown()
@@ -1503,7 +1467,6 @@ namespace nsRSMPGS
         cTcpHelper.CloseAndDeleteStreamAndSocket(ref DebugConnectionNetworkStream, ref DebugConnectionTcpClient);
         Thread.Sleep(100);
       }
-
     }
 
     public void SendPacket(string sPacket)
@@ -1526,7 +1489,6 @@ namespace nsRSMPGS
       {
         cTcpHelper.CloseAndDeleteStreamAndSocket(ref DebugConnectionNetworkStream, ref DebugConnectionTcpClient);
       }
-
     }
 
     public void RunThread()
@@ -1589,8 +1551,6 @@ namespace nsRSMPGS
               sBuffer = sBuffer.Substring(sBuffer.IndexOf('\n') + 1);
 
             }
-
-
           }
 
         }
@@ -1606,9 +1566,7 @@ namespace nsRSMPGS
 
       cTcpHelper.CloseAndDeleteStreamAndSocket(ref DebugConnectionNetworkStream, ref DebugConnectionTcpClient);
       ThreadIsRunning = false;
-
     }
-
   }
 
   public class cTcpHelper
@@ -1684,7 +1642,6 @@ namespace nsRSMPGS
       return bDidCloseSomething;
 
     }
-
   }
 
   public class cJSonMessageIdAndTimeStamp
@@ -1717,7 +1674,6 @@ namespace nsRSMPGS
         return (TimeStamp.AddMilliseconds(TimeToWaitForAck) < DateTime.Now) ? true : false;
       }
     }
-
   }
 
 
@@ -1823,7 +1779,6 @@ namespace nsRSMPGS
         return OrderOfSort;
       }
     }
-
   }
 
   internal static class ListViewExtensions
@@ -1975,7 +1930,6 @@ namespace nsRSMPGS
     }
   }
 
-
   public class cFormsHelper
   {
 
@@ -2123,7 +2077,6 @@ namespace nsRSMPGS
         value = comboBox.Text;
         return dialogResult;
       }
-
     }
 
     public static DialogResult InputStatusBoxValueType(string title, ref string value, ref List<Dictionary<string, object>> list, cValue Value, string sComment, bool bReturnCancelIfValueHasNotChanged, bool bReadOnly)
@@ -2139,11 +2092,14 @@ namespace nsRSMPGS
       CheckBox checkBoxUpdatedEvenIfValueNotChanged = new CheckBox( );
       checkBoxUpdatedEvenIfValueNotChanged.Checked = !bReturnCancelIfValueHasNotChanged;
 
+      // Update form title
       form.Text = title + " (" + Value.GetValueType() + ")";
 
       if (Value.ValueTypeObject.GetValueMax() > 0)
       {
-        form.Text += " / [" + Value.ValueTypeObject.GetValueMin().ToString() + "-" + Value.ValueTypeObject.GetValueMax().ToString() + "]";
+        String sMin = Value.ValueTypeObject.GetValueMin().ToString();
+        String sMax = Value.ValueTypeObject.GetValueMax().ToString();
+        form.Text += " / [" + sMin + "-" + sMax + "]";
       }
 
       //label.Text = promptText;
@@ -2616,7 +2572,6 @@ namespace nsRSMPGS
           comboBox.Items.Add("false");
         }
 
-
         label = new Label();
         label.Text = item.Key;
         toolTipInputArray.SetToolTip(label, schemaDescription);
@@ -2643,6 +2598,7 @@ namespace nsRSMPGS
         {
           case "base64":
           case "boolean":
+          case "boolean_as_string":
           case "timestamp":
           case "string":
             if (isCombo)
@@ -2697,6 +2653,7 @@ namespace nsRSMPGS
             break;
           case "number":
           case "integer":
+          case "integer_as_string":
             numericUpDown = new NumericUpDown();
             numericUpDown.Tag = schemaScalarType + "#" + schemaScalarOptional + "#" + iKeyIndex;
             numericUpDown.TextChanged += new System.EventHandler(arrayValue_TextChanged);
@@ -2742,7 +2699,8 @@ namespace nsRSMPGS
             }
             break;
           default:
-            break;
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Type '{0}' not supported", schemaScalarType);
+            return;
         }
         y = y + 23;
       }
@@ -2912,7 +2870,6 @@ namespace nsRSMPGS
 
     }
 
-
     private static void InputStatusBoxComboBox_SelectionChanged(object sender, EventArgs e)
     {
       InputStatusBoxComboBox_ValidateValue((ComboBox)sender);
@@ -2944,7 +2901,6 @@ namespace nsRSMPGS
         comboBox.ForeColor = Color.White;
         comboBox.BackColor = Color.Red;
       }
-
     }
 
     public static DialogResult InputBox(string title, string promptText, ref string value, bool bAllowFileBrowse, bool bReturnCancelIfValueHasNotChanged)
@@ -3037,7 +2993,6 @@ namespace nsRSMPGS
         value = textBox.Text;
         return dialogResult;
       }
-
     }
 
     private static void buttonBrowse_Click(object sender, EventArgs e)
@@ -3111,7 +3066,6 @@ namespace nsRSMPGS
     }
   }
 
-
   public class UseFul
   {
 
@@ -3122,7 +3076,6 @@ namespace nsRSMPGS
       int.TryParse(sInString, out iValue);
 
       return iValue;
-
     }
 
     public static string StringLeft(string sInString, int iLength)
@@ -3139,14 +3092,12 @@ namespace nsRSMPGS
       }
 
       return sInString.Substring(0, iLength);
-
     }
 
     public static string StringMid(string sInString, int iStartPos)
     {
 
       return StringMid(sInString, iStartPos, sInString.Length - iStartPos);
-
     }
 
     public static string StringMid(string sInString, int iStartPos, int iLength)
@@ -3166,7 +3117,6 @@ namespace nsRSMPGS
         return sInString.Substring(iStartPos);
       }
       return sInString.Substring(iStartPos, iLength);
-
     }
 
     public static string StringRight(string sInString, int iLength)
@@ -3183,7 +3133,6 @@ namespace nsRSMPGS
       }
 
       return sInString.Substring(sInString.Length - iLength);
-
     }
 
     public static string ItemWithQuote(string InString, int iIndex, char cSplitter)
@@ -3200,8 +3149,5 @@ namespace nsRSMPGS
         return sStringArray[iIndex];
       }
     }
-
   }
-
-
 }

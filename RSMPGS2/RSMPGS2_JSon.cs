@@ -97,7 +97,21 @@ namespace nsRSMPGS
           return false;
         }
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.cId, bUseCaseSensitiveIds);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(AlarmHeader.ntsOId, AlarmHeader.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AlarmHeader.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AlarmHeader.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject == null)
         {
           sError = "Failed to handle Alarm message, could not find object, ntsOId: `" + AlarmHeader.ntsOId + "´, cId: `" + AlarmHeader.cId + "´";
@@ -321,7 +335,20 @@ namespace nsRSMPGS
       {
         RSMP_Messages.AggregatedStatus AggregatedStatus = JSonSerializer.Deserialize<RSMP_Messages.AggregatedStatus>(sJSon);
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatus.ntsOId, AggregatedStatus.cId, bUseCaseSensitiveIds);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatus.cId, bUseCaseSensitiveIds);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(AggregatedStatus.ntsOId, AggregatedStatus.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (AggregatedStatus.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (AggregatedStatus.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
 
         if (RoadSideObject != null)
         {
@@ -418,7 +445,21 @@ namespace nsRSMPGS
           return true;
         }
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.cId, bUseCaseSensitiveIds);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(CommandResponse.ntsOId, CommandResponse.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (CommandResponse.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (CommandResponse.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject == null)
         {
           sError = "Failed to handle Command message, could not find object, ntsOId: `" + CommandResponse.ntsOId + "´, cId: `" + CommandResponse.cId + "´";
@@ -517,7 +558,21 @@ namespace nsRSMPGS
       {
         RSMP_Messages.StatusResponse StatusResponse = JSonSerializer.Deserialize<RSMP_Messages.StatusResponse>(sJSon);
 
-        cRoadSideObject RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.ntsOId, StatusResponse.cId, bUseCaseSensitiveIds);
+        cRoadSideObject RoadSideObject;
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+          RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.cId, bUseCaseSensitiveIds);
+        else
+          RoadSideObject = cHelper.FindRoadSideObject(StatusResponse.ntsOId, StatusResponse.cId, bUseCaseSensitiveIds);
+
+        // Check that ntsOId and xNId are empty strings in RSMP 3.3.0
+        if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          if (StatusResponse.ntsOId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: ntsOId should be set empty string. Ignoring");
+          if (StatusResponse.xNId != "")
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RSMP 3.3.0: xNId should be set empty string. Ignoring");
+        }
+
         if (RoadSideObject == null)
         {
           sError = "Failed to handle Status message, could not find object, ntsOId: `" + StatusResponse.ntsOId + "´, cId: `" + StatusResponse.cId + "´";
@@ -683,9 +738,17 @@ namespace nsRSMPGS
         AggregatedStatusRequest.mType = "rSMsg";
         AggregatedStatusRequest.type = "AggregatedStatusRequest";
         AggregatedStatusRequest.mId = System.Guid.NewGuid().ToString();
-
-        AggregatedStatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
-        AggregatedStatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          AggregatedStatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
+          AggregatedStatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOiD and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          AggregatedStatusRequest.ntsOId = "";
+          AggregatedStatusRequest.xNId = "";
+        }
         AggregatedStatusRequest.cId = RoadSideObject.sComponentId;
 
         sSendBuffer = JSonSerializer.SerializeObject(AggregatedStatusRequest);
@@ -701,7 +764,6 @@ namespace nsRSMPGS
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create AggregatedStatusRequest message: {0}", e.Message);
       }
-
     }
 
     public void CreateAndSendAlarmMessage(cAlarmObject AlarmObject, AlarmSpecialisation alarmSpecialisation)
@@ -718,9 +780,17 @@ namespace nsRSMPGS
         AlarmHeader.mType = "rSMsg";
         AlarmHeader.type = "Alarm";
         AlarmHeader.mId = System.Guid.NewGuid().ToString();
-
-        AlarmHeader.ntsOId = AlarmObject.RoadSideObject.sNTSObjectId;
-        AlarmHeader.xNId = AlarmObject.RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          AlarmHeader.ntsOId = AlarmObject.RoadSideObject.sNTSObjectId;
+          AlarmHeader.xNId = AlarmObject.RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOId and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          AlarmHeader.ntsOId = "";
+          AlarmHeader.xNId = "";
+        }
         AlarmHeader.cId = AlarmObject.RoadSideObject.sComponentId;
         AlarmHeader.aCId = AlarmObject.sAlarmCodeId;
         AlarmHeader.xACId = AlarmObject.sExternalAlarmCodeId;
@@ -757,7 +827,6 @@ namespace nsRSMPGS
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to create alarm message: {0}", e.Message);
       }
-
     }
 
     public void CreateAndSendCommandMessage(cRoadSideObject RoadSideObject, List<cCommandReturnValue> ReturnValues, bool bUseCaseSensitiveIds)
@@ -777,8 +846,17 @@ namespace nsRSMPGS
         CommandRequest.type = "CommandRequest";
         CommandRequest.mId = System.Guid.NewGuid().ToString();
 
-        CommandRequest.ntsOId = RoadSideObject.sNTSObjectId;
-        CommandRequest.xNId = RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          CommandRequest.ntsOId = RoadSideObject.sNTSObjectId;
+          CommandRequest.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOiD and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          CommandRequest.ntsOId = "";
+          CommandRequest.xNId = "";
+        }
         CommandRequest.cId = RoadSideObject.sComponentId;
         CommandRequest.arg = new List<RSMP_Messages.CommandRequest_Value>();
         foreach (cCommandReturnValue CommandReturnValue in ReturnValues)
@@ -884,8 +962,17 @@ namespace nsRSMPGS
         StatusRequest.type = statusType;
         StatusRequest.mId = System.Guid.NewGuid().ToString();
 
-        StatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
-        StatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusRequest.ntsOId = RoadSideObject.sNTSObjectId;
+          StatusRequest.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        {
+          // ntsOiD and xNId are deprecated and set to empty strings in RSMP 3.3.0
+          StatusRequest.ntsOId = "";
+          StatusRequest.xNId = "";
+        }
         StatusRequest.cId = RoadSideObject.sComponentId;
         StatusRequest.sS = new List<RSMP_Messages.StatusRequest_Status>();
 
@@ -1011,9 +1098,17 @@ namespace nsRSMPGS
         StatusSubscribe.type = "StatusSubscribe";
         StatusSubscribe.mId = System.Guid.NewGuid().ToString();
 
-        StatusSubscribe.ntsOId = RoadSideObject.sNTSObjectId;
-        StatusSubscribe.xNId = RoadSideObject.sExternalNTSId;
-        StatusSubscribe.cId = RoadSideObject.sComponentId;
+        if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusSubscribe.ntsOId = RoadSideObject.sNTSObjectId;
+          StatusSubscribe.xNId = RoadSideObject.sExternalNTSId;
+        }
+        else if (NegotiatedRSMPVersion < RSMPVersion.RSMP_3_3_0)
+        {
+          StatusSubscribe.ntsOId = "";
+          StatusSubscribe.xNId = "";
+        }
+          StatusSubscribe.cId = RoadSideObject.sComponentId;
         StatusSubscribe.sS = StatusSubscribeValues;
 
         foreach (RSMP_Messages.StatusSubscribe_Status_Over_3_1_4 StatusSubscriptionValue in StatusSubscribeValues)

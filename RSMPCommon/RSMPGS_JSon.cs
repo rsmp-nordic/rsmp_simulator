@@ -1481,6 +1481,7 @@ namespace nsRSMPGS
               switch (schemaScalarType.ToLower())
               {
                 case "integer":
+                case "integer_as_string":
                   try
                   {
                     Int32 iValue = Int32.Parse(statusValue.ToString());
@@ -1524,6 +1525,7 @@ namespace nsRSMPGS
                   }
                   break;
                 case "boolean":
+                case "boolean_as_string":
                   // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
                   // preserve backwards compability we need to treat this as case
                   // insensitive for now
