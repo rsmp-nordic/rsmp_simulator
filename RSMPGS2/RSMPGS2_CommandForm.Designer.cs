@@ -82,9 +82,7 @@
       this.dataGridView_Commands.Size = new System.Drawing.Size(529, 335);
       this.dataGridView_Commands.TabIndex = 0;
       this.dataGridView_Commands.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Commands_CellClick);
-      this.dataGridView_Commands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Commands_CellContentClick);
       this.dataGridView_Commands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseClick);
-      this.dataGridView_Commands.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_Commands_CurrentCellDirtyStateChanged);
       // 
       // button_Commands_Send
       // 

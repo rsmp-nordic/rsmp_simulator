@@ -11,7 +11,6 @@ namespace nsRSMPGS
 {
   public partial class RSMPGS2_CommandForm : Form
   {
-    //private List<cCommandReturnValue> selectedCommands;
     private cRoadSideObject RoadSideObject;
     private List<int> iRows = new List<int>();
 
@@ -61,7 +60,6 @@ namespace nsRSMPGS
             }
 
             this.dataGridView_Commands.Rows[i].Cells[4].Value = CommandArguments.Value.GetValue();
-            //this.dataGridView_Commands.Rows[i].Cells[4].ReadOnly = CommandArguments.sValue == "" || CommandArguments.sValue.EndsWith("]") ? false : true;
           }
           else
           {
@@ -122,7 +120,6 @@ namespace nsRSMPGS
               (bool)this.dataGridView_Commands.Rows[i].Cells[0].Value == true)
           {
             cCommandReturnValue CommandReturnValue = new cCommandReturnValue(CommandArguments.CommandObject);
-            //CommandReturnValue.sCommandCodeId = CommandArguments.sCommandCodeId;
             CommandReturnValue.sName = CommandArguments.sName;
             CommandReturnValue.sCommand = CommandArguments.sCommand;
             CommandReturnValue.Value = new cValue(CommandArguments.Value.ValueTypeObject, false);
@@ -135,8 +132,6 @@ namespace nsRSMPGS
               return;
             }
 
-            //if (CommandArguments.sValue.Length == 0)
-            //{
             CommandReturnValue.Value.SetValue(this.dataGridView_Commands.Rows[i].Cells[4].Value.ToString().Trim());
 
             lSelectedCommands.Add(CommandReturnValue);
@@ -152,32 +147,11 @@ namespace nsRSMPGS
         {
           RSMPGS.JSon.CreateAndSendCommandMessage(RoadSideObject, lSelectedCommands, bUseCaseSensitiveIds);
         }
-        //Close();
       }
       else
       {
         MessageBox.Show(this, "No command is selected!");
       }
-    }
-
-    private void dataGridView_Commands_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-      /*
-      if (e.ColumnIndex == 0)
-      {
-        dataGridView_Commands.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1;
-      }
-      */
-    }
-
-    private void dataGridView_Commands_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-    {
-      /*
-      if (dataGridView_Commands.IsCurrentCellDirty)
-      {
-        dataGridView_Commands.CommitEdit(DataGridViewDataErrorContexts.Commit);
-      }
-      */
     }
 
     private void dataGridView_Commands_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -191,16 +165,7 @@ namespace nsRSMPGS
         bValue = bValue ? false : true;
         dataGridView_Commands.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = bValue;
         dataGridView_Commands.EndEdit();
-        //dataGridView_Commands.CommitEdit(DataGridViewDataErrorContexts.Commit);
       }
-
     }
-
-    /*
-  public List<cCommandReturnValue> GetSelectedCommands()
-  {
-      return selectedCommands;
-  }
-*/
   }
 }
