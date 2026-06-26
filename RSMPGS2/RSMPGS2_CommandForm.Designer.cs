@@ -85,7 +85,7 @@
       this.dataGridView_Commands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Commands_CellContentClick);
       this.dataGridView_Commands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseClick);
       this.dataGridView_Commands.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_Commands_CurrentCellDirtyStateChanged);
-      this.dataGridView_Commands.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView_Commands_MouseDoubleClick);
+      this.dataGridView_Commands.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseDoubleClick);
       // 
       // button_Commands_Send
       // 

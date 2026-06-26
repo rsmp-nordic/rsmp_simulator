@@ -59,10 +59,14 @@ namespace nsRSMPGS
           else
           {
             this.dataGridView_Commands.Rows.Add(bWasSelected, CommandObject.sCommandCodeId, CommandArguments.sName, CommandArguments.sCommand);
+
             DataGridViewComboBoxCell combocell = (DataGridViewComboBoxCell)dataGridView_Commands.Rows[iRow].Cells[4];
             combocell.Items.AddRange(aCommands);
             this.dataGridView_Commands.Rows[iRow].Cells[4].Value = aCommands[0];
           }
+
+          dataGridView_Commands.Rows[iRow].Cells[4].Tag = CommandArguments;
+
           if (iFirstRowSelectedVisible==-1 && bWasSelected)
             iFirstRowSelectedVisible = iRow;
 
@@ -187,13 +191,33 @@ namespace nsRSMPGS
       }
 
     }
-    private void dataGridView_Commands_MouseDoubleClick(object sender, MouseEventArgs e)
+    private void dataGridView_Commands_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-      DataGridView datagridview = (DataGridView)sender;
-      DataGridView dgItem;
+      DataGridViewCell dgCell = (DataGridViewCell) dataGridView_Commands.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-      if (datagridview.SelectedRows.Count == 0)
+      cCommandReturnValue CommandReturnValue = (cCommandReturnValue)dgCell.Tag;
+      if(CommandReturnValue == null)
         return;
+
+      if (CommandReturnValue.Value.ValueTypeObject != null)
+      {
+        cCommandObject CommandObject = CommandReturnValue.CommandObject;
+
+        try
+        {
+          string sValue = "";
+          if (CommandReturnValue.Value.GetValue() != null)
+            sValue = CommandReturnValue.Value.GetValue().ToString();
+          List<Dictionary<string, object>> array = CommandReturnValue.Value.GetArray();
+          if(cFormsHelper.InputStatusBoxValueType("Enter new value", ref sValue, ref array, CommandReturnValue.Value, CommandReturnValue.sComment, true, false) == DialogResult.OK)
+          {
+            CommandReturnValue.Value.SetValue(sValue);
+            CommandReturnValue.Value.SetArray(array);
+            //dgCell.SubItems[4].Text = sValue;
+          }
+        }
+        catch { }
+      }
     }
   }
 }
