@@ -48,6 +48,7 @@ namespace nsRSMPGS
 
       ToolStripMenuItem_ConnectAutomatically.Enabled = (RSMPGS.ConnectionType == cTcpSocket.ConnectionMethod_SocketClient) ? true : false;
       ToolStripMenuItem_ConnectNow.Enabled = (RSMPGS.ConnectionType == cTcpSocket.ConnectionMethod_SocketClient) ? true : false;
+      ToolStripMenuItem_ConnectTo.Enabled = (RSMPGS.ConnectionType == cTcpSocket.ConnectionMethod_SocketClient) ? true : false;
 
       checkBox_Encryption_AuthenticateAsClientUsingCertificate.Checked = RSMPGS.EncryptionSettings.AuthenticateAsClientUsingCertificate;
       textBox_EncryptionFile.Text = RSMPGS.EncryptionSettings.ClientCertificateFile;
@@ -413,6 +414,7 @@ namespace nsRSMPGS
     {
 
       ToolStripMenuItem_ConnectNow.Enabled = (RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected && RSMPGS.ConnectionType == cTcpSocket.ConnectionMethod_SocketClient);
+      ToolStripMenuItem_ConnectTo.Enabled = ToolStripMenuItem_ConnectNow.Enabled;
       ToolStripMenuItem_Disconnect.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
 
       ToolStripMenuItem_SendSomeRandomCrap.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
@@ -422,8 +424,24 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_ConnectNow_Click(object sender, EventArgs e)
     {
-      RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Connecting to server...");
-      RSMPGS.RSMPConnection.Connect();
+      if (RSMPGS.RSMPConnection.TestValidityServerAddressAndPort())
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Connecting to server...");
+        RSMPGS.RSMPConnection.Connect();
+      }
+    }
+
+    private void ToolStripMenuItem_ConnectTo_Click(object sender, EventArgs e)
+    {
+      string ValServerAdrPort = "";
+      if (cFormsHelper.InputBox("Connect to TCP server", "IP server address [ : port ]", ref ValServerAdrPort, false, true) == DialogResult.OK)
+      {
+        if (RSMPGS.RSMPConnection.SetServerAddressAndPort(ValServerAdrPort) && RSMPGS.RSMPConnection.TestValidityServerAddressAndPort())
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Connecting to server...");
+          RSMPGS.RSMPConnection.Connect();
+        }
+      }
     }
 
     private void ToolStripMenuItem_Disconnect_Click(object sender, EventArgs e)
@@ -816,6 +834,7 @@ namespace nsRSMPGS
       Cursor.Current = Cursors.Default;
 
     }
+
   }
 }
 

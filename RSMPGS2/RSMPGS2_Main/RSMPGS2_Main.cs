@@ -65,6 +65,7 @@ namespace nsRSMPGS
       ToolStripMenuItem_ConnectAutomatically.Visible = RSMPGS.bConnectAsSocketClient;
       ToolStripMenuItem_Delimiter_Connect.Visible = RSMPGS.bConnectAsSocketClient;
       ToolStripMenuItem_ConnectNow.Visible = RSMPGS.bConnectAsSocketClient;
+      ToolStripMenuItem_ConnectTo.Visible = RSMPGS.bConnectAsSocketClient;
 
       checkBox_Encryption_RequireClientCertificate.Checked = RSMPGS.EncryptionSettings.RequireClientCertificate;
       textBox_EncryptionFile.Text = RSMPGS.EncryptionSettings.ServerCertificateFile;
@@ -218,6 +219,7 @@ namespace nsRSMPGS
     private void ToolStripMenuItem_Connection_DropDownOpening(object sender, EventArgs e)
     {
       ToolStripMenuItem_ConnectNow.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() != cTcpSocket.ConnectionStatus_Connected && RSMPGS.bConnectAsSocketClient == true;
+      ToolStripMenuItem_ConnectTo.Enabled = ToolStripMenuItem_ConnectNow.Enabled;
       ToolStripMenuItem_Disconnect.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
 
       ToolStripMenuItem_SendSomeRandomCrap.Enabled = RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected;
@@ -226,7 +228,24 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_ConnectNow_Click(object sender, EventArgs e)
     {
-      RSMPGS.RSMPConnection.Connect();
+      if (RSMPGS.RSMPConnection.TestValidityServerAddressAndPort())
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Connecting to server...");
+        RSMPGS.RSMPConnection.Connect();
+      }
+    }
+
+    private void ToolStripMenuItem_ConnectTo_Click(object sender, EventArgs e)
+    {
+      string ValServerAdrPort = "";
+      if (cFormsHelper.InputBox("Connect to TCP server", "IP server address [ : port ]", ref ValServerAdrPort, false, true) == DialogResult.OK)
+      {
+        if (RSMPGS.RSMPConnection.SetServerAddressAndPort(ValServerAdrPort) && RSMPGS.RSMPConnection.TestValidityServerAddressAndPort())
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Connecting to server...");
+          RSMPGS.RSMPConnection.Connect();
+        }
+      }
     }
 
     private void ToolStripMenuItem_Disconnect_Click(object sender, EventArgs e)
@@ -408,5 +427,6 @@ namespace nsRSMPGS
         RSMPGS.JSon.CreateAndSendAggregatedStatusRequestMessage(SelectedRoadSideObject);
       }
     }
+
   }
 }

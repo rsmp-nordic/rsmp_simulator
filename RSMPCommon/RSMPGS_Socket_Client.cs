@@ -31,56 +31,27 @@ namespace nsRSMPGS
 
     public bool ThreadIsRunning = false;
 
-    public cTcpSocketClient(cTcpSocket tcpSocket, string sServerAddress, int iReconnectInterval, bool bConnectAutomatically)
+    public cTcpSocketClient(cTcpSocket tcpSocket, string sServerAddressAndPort, int iReconnectInterval, bool bConnectAutomatically)
     {
 
       TcpSocket = tcpSocket;
       ReconnectInterval = iReconnectInterval;
       ConnectAutomatically = bConnectAutomatically;
 
+      SetServerAddressAndPort(sServerAddressAndPort);
       try
       {
 
-        IPAddress[] ips;
-        ips = Dns.GetHostAddresses(cHelper.Item(sServerAddress, 0, ':'));
-
-        // Lookup some IPv4 address (fails in Windows 7 otherwise)
-        foreach (IPAddress ip in ips)
-        {
-          if (ip.AddressFamily == AddressFamily.InterNetwork)
-          {
-            ServerAddress = ip;
-            break;
-          }
-        }
-
-        /*
-            IPHostEntry host = Dns.GetHostEntry(cHelper.Item(sServerAddress, 0, ':'));
-
-            // Lookup some IPv4 address (fails in Windows 7 otherwise)
-            foreach (IPAddress ip in host.AddressList)
-            {
-              if (ip.AddressFamily == AddressFamily.InterNetwork)
-              {
-                ServerAddress = ip;
-          break;
-              }
-            }
-        */
-
-        ServerPort = Int32.Parse(cHelper.Item(sServerAddress, 1, ':'));
-        if (ServerPort > 0 && ServerPort < 65536 && ServerAddress != null)
-        {
-          ThreadIsRunning = true;
-          ClientThread = new cTcpSocketClientThread(this);
+        ThreadIsRunning = true;
+        ClientThread = new cTcpSocketClientThread(this);
+        new Thread(new ThreadStart(ClientThread.RunThread)).Start();
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Created our TCP client thread");
+        if (TestValidityServerAddressAndPort())
           PleaseTryToConnect = ConnectAutomatically;
-          new Thread(new ThreadStart(ClientThread.RunThread)).Start();
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Created connection thread for server " + sServerAddress);
-        }
       }
       catch (SocketException se)
       {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not create client thread: " + se.Message);
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not create our TCP client thread: " + se.Message);
       }
 
     }
@@ -111,6 +82,56 @@ namespace nsRSMPGS
       ConnectAutomatically = bConnectAutomatically;
     }
 
+    public bool SetServerAddressAndPort(string sServerAddressAndPort)
+    {
+      try
+      {
+
+        IPAddress[] ips;
+        ips = Dns.GetHostAddresses(cHelper.Item(sServerAddressAndPort, 0, ':'));
+
+        // Lookup some IPv4 address (fails in Windows 7 otherwise)
+        foreach (IPAddress ip in ips)
+        {
+          if (ip.AddressFamily == AddressFamily.InterNetwork)
+          {
+            ServerAddress = ip;
+            break;
+          }
+        }
+
+        /*
+            IPHostEntry host = Dns.GetHostEntry(cHelper.Item(sServerAddressAndPort, 0, ':'));
+
+            // Lookup some IPv4 address (fails in Windows 7 otherwise)
+            foreach (IPAddress ip in host.AddressList)
+            {
+              if (ip.AddressFamily == AddressFamily.InterNetwork)
+              {
+                ServerAddress = ip;
+          break;
+              }
+            }
+        */
+
+        string StrServerPort = cHelper.Item(sServerAddressAndPort, 1, ':');
+        if( StrServerPort != "" )
+          ServerPort = Int32.Parse(StrServerPort );
+        return true;
+      }
+      catch (SocketException se)
+      {
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to decode server address[:port] string : " + se.Message);
+        return false;
+      }
+
+    }
+
+    public bool TestValidityServerAddressAndPort( )
+    {
+      return ServerPort > 0 && ServerPort < 65536 && ServerAddress != null;
+    }
+
     public void NagleAlgorithm(bool bDisable)
     {
       lock (this)
@@ -136,7 +157,7 @@ namespace nsRSMPGS
         if (cTcpHelper.CloseAndDeleteStreamAndSocket(ref ClientThread.socketStream, ref ClientThread.tcpClient))
         {
           RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasClosed);
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from RSMP client");
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from TCP server");
         }
       }
     }
@@ -372,12 +393,11 @@ namespace nsRSMPGS
     public void RunThread()
     {
 
-      sClientIP = SocketClient.ServerAddress.ToString() + ":" + SocketClient.ServerPort.ToString();
-
       while (SocketClient.TcpSocket.ThreadShouldRun)
       {
         if (SocketClient.PleaseTryToConnect)
         {
+          sClientIP = SocketClient.ServerAddress.ToString() + ":" + SocketClient.ServerPort.ToString();
           ConnectToServerAndMaintainStream();
           SocketClient.PleaseTryToConnect = false;
         }
@@ -433,7 +453,7 @@ namespace nsRSMPGS
         if (socketStream.InitializeAsClientAndGetStream(tcpClient, RSMPGS.EncryptionSettings))
         {
 
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We connected to RSMP client " + sClientIP);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We connected to TCP server " + sClientIP);
 
           tcpClient.NoDelay = RSMPGS.MainForm.ToolStripMenuItem_DisableNagleAlgorithm.Checked;
 
