@@ -136,7 +136,7 @@ namespace nsRSMPGS
         if (cTcpHelper.CloseAndDeleteStreamAndSocket(ref ClientThread.socketStream, ref ClientThread.tcpClient))
         {
           RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasClosed);
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from RSMP client");
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from TCP server");
         }
       }
     }
@@ -433,7 +433,7 @@ namespace nsRSMPGS
         if (socketStream.InitializeAsClientAndGetStream(tcpClient, RSMPGS.EncryptionSettings))
         {
 
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We connected to RSMP client " + sClientIP);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "We connected to TCP server " + sClientIP);
 
           tcpClient.NoDelay = RSMPGS.MainForm.ToolStripMenuItem_DisableNagleAlgorithm.Checked;
 
