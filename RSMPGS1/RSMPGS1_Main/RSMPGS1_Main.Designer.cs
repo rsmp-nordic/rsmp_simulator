@@ -244,6 +244,7 @@
       this.openFileDialog_ProcessImage = new System.Windows.Forms.OpenFileDialog();
       this.saveFileDialog_ProcessImage = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+      this.ToolStripMenuItem_ConnectTo = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -562,6 +563,7 @@
             this.ToolStripMenuItem_ConnectAutomatically,
             this.ToolStripMenuItem_Delimiter_3,
             this.ToolStripMenuItem_ConnectNow,
+            this.ToolStripMenuItem_ConnectTo,
             this.ToolStripMenuItem_Disconnect,
             this.ToolStripMenuItem_Delimiter_4,
             this.ToolStripMenuItem_SendOptions});
@@ -2411,6 +2413,13 @@
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
+      // ToolStripMenuItem_ConnectTo
+      // 
+      this.ToolStripMenuItem_ConnectTo.Name = "ToolStripMenuItem_ConnectTo";
+      this.ToolStripMenuItem_ConnectTo.Size = new System.Drawing.Size(194, 22);
+      this.ToolStripMenuItem_ConnectTo.Text = "Connect &to ...";
+      this.ToolStripMenuItem_ConnectTo.Click += new System.EventHandler(this.ToolStripMenuItem_ConnectTo_Click);
+      // 
       // RSMPGS_Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2713,6 +2722,7 @@
     private System.Windows.Forms.GroupBox groupBox_Components;
     public System.Windows.Forms.TextBox textBox_Components_FilePath;
     private System.Windows.Forms.Label label_Components_FilePath;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
   }
 }
 
