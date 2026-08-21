@@ -21,6 +21,8 @@ namespace nsRSMPGS
     static int LastMouseX = 0;
     static int LastMouseY = 0;
 
+    static string ValServerAdrPort = cPrivateProfile.GetIniFileString("RSMP", "IPAddress", "");
+
     static bool bProcessDataWasLoadedAtStartup = false;
 
     //
@@ -433,8 +435,7 @@ namespace nsRSMPGS
 
     private void ToolStripMenuItem_ConnectTo_Click(object sender, EventArgs e)
     {
-      string ValServerAdrPort = "";
-      if (cFormsHelper.InputBox("Connect to TCP server", "IP server address [ : port ]", ref ValServerAdrPort, false, true) == DialogResult.OK)
+      if (cFormsHelper.InputBox("Connect to TCP server", "IP server address [ : port ]", ref ValServerAdrPort, false, false) == DialogResult.OK)
       {
         if (RSMPGS.RSMPConnection.SetServerAddressAndPort(ValServerAdrPort) && RSMPGS.RSMPConnection.TestValidityServerAddressAndPort())
         {
