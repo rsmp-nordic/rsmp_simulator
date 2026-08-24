@@ -2945,8 +2945,7 @@ namespace nsRSMPGS
       }
       else
       {
-        textBox.SetBounds(131, 17, 270, 22);
-        //textBox.SetBounds(12, 36, 372, 20);
+        textBox.SetBounds(145, 17, 270, 22);
         buttonBrowse.Visible = false;
         buttonCancel.SetBounds(209, 59, 93, 31);
         buttonOk.SetBounds(308, 59, 93, 31);

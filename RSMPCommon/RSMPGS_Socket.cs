@@ -37,7 +37,7 @@ namespace nsRSMPGS
 		public const int ConnectionStatus_Connected = 2;
 		public const int ConnectionStatus_ServerListenBindError = 3;
 
-		public cTcpSocket(int iConnectionType, string sServerAddress, int iReconnectInterval,
+		public cTcpSocket(int iConnectionType, string sServerAddressAndPort, int iReconnectInterval,
 			bool bConnectAutomatically, int iPortNumber, int iPacketTimeout, int iWrapMethod)
 		{
 
@@ -51,7 +51,7 @@ namespace nsRSMPGS
 					TcpSocketServer = new cTcpSocketServer(this, iPortNumber);
 					break;
 				case ConnectionMethod_SocketClient:
-					TcpSocketClient = new cTcpSocketClient(this, sServerAddress, iReconnectInterval, bConnectAutomatically);
+					TcpSocketClient = new cTcpSocketClient(this, sServerAddressAndPort, iReconnectInterval, bConnectAutomatically);
 					break;
 				default:
 					break;
@@ -93,6 +93,26 @@ namespace nsRSMPGS
 					break;
 			}
 		}
+
+    public bool SetServerAddressAndPort(string sServerAddressAndPort)
+    {
+      switch (ConnectionMethod)
+      {
+        case ConnectionMethod_SocketClient:
+          return TcpSocketClient.SetServerAddressAndPort(sServerAddressAndPort );
+      }
+      return false;
+    }
+
+    public bool TestValidityServerAddressAndPort()
+    {
+      switch (ConnectionMethod)
+      {
+        case ConnectionMethod_SocketClient:
+          return TcpSocketClient.TestValidityServerAddressAndPort();
+      }
+      return false;
+    }
 
 		public void NagleAlgorithm(bool bDisable)
 		{
