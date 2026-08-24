@@ -2022,6 +2022,7 @@
       this.listView_Commands.UseCompatibleStateImageBehavior = false;
       this.listView_Commands.View = System.Windows.Forms.View.Details;
       this.listView_Commands.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+      this.listView_Commands.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_Command_MouseDoubleClick);
       // 
       // columnHeader_Commands_CommandCodeId
       // 
