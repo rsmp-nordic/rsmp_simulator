@@ -83,6 +83,7 @@
       this.dataGridView_Commands.TabIndex = 0;
       this.dataGridView_Commands.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Commands_CellClick);
       this.dataGridView_Commands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseClick);
+      this.dataGridView_Commands.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Commands_CellMouseDoubleClick);
       // 
       // button_Commands_Send
       // 
