@@ -102,5 +102,32 @@ namespace nsRSMPGS
         }
       }
     }
+
+    private void listView_Command_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      ListView listview = (ListView)sender;
+      ListViewItem lvItem;
+
+      if (listview.SelectedItems.Count == 0)
+      {
+        return;
+      }
+
+      lvItem = listview.SelectedItems[0];
+      cCommandReturnValue CommandReturnValue = (cCommandReturnValue)lvItem.Tag;
+      if (CommandReturnValue.Value.ValueTypeObject != null)
+      {
+        cCommandObject CommandObject = CommandReturnValue.CommandObject;
+
+        try
+        {
+          string sValue = CommandReturnValue.Value.GetValue().ToString();
+          List<Dictionary<string, object>> array = CommandReturnValue.Value.GetArray();
+          cFormsHelper.InputStatusBoxValueType("View status", ref sValue, ref array, CommandReturnValue.Value, CommandReturnValue.sComment, true, true);
+        }
+        catch
+        { }
+      }
+    }
   }
 }

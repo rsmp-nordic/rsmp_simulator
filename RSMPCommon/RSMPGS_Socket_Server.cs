@@ -137,7 +137,7 @@ namespace nsRSMPGS
           if (cTcpHelper.CloseAndDeleteStreamAndSocket(ref SocketServerThread.socketStream, ref SocketServerThread.tcpClient))
           {
             RSMPGS.MainForm.BeginInvoke(RSMPGS.MainForm.DelegateSocketWasClosed);
-            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from RSMP client");
+            RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "We disconnected from TCP client");
           }
         }
       }
@@ -369,7 +369,7 @@ namespace nsRSMPGS
 
           sClientIP = ((IPEndPoint)(tcpClient.Client.RemoteEndPoint)).Address.ToString() + ":" + ((IPEndPoint)(tcpClient.Client.RemoteEndPoint)).Port.ToString();
 
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Client connection was accepted " + sClientIP);
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "TCP client connection was accepted " + sClientIP);
 
           tcpClient.NoDelay = RSMPGS.MainForm.ToolStripMenuItem_DisableNagleAlgorithm.Checked;
 
@@ -398,7 +398,7 @@ namespace nsRSMPGS
 
       if (sClientIP.Length > 0)
       {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Client connection " + sClientIP + " was closed");
+        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "TCP client connection " + sClientIP + " was closed");
       }
 
       lock (SocketServer)

@@ -201,6 +201,12 @@ namespace nsRSMPGS
 
                     Dictionary<string, cYAMLMapping> items = null;
 
+                    // TODO: As a temporary workaround, treat 'object' as 'array
+                    if (sType == "object")
+                    {
+                      sType = "array";
+                    }
+
                     if (sType == "array") {
                         Dictionary<string, cYAMLMapping> dictionary = YAMLArgument.YAMLMappings;
                         cYAMLMapping Items;
