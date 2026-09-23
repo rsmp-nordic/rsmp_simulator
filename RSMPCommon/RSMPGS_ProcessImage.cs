@@ -97,7 +97,7 @@ namespace nsRSMPGS
     }
 
     // Read SXL and components from YAML files
-    public int LoadYAMLFile(string sSXLFileName, string sComponentsFileName)
+    public int LoadYAMLFile(List<string> sSXLFileNames, string sComponentsFileName)
     {
 
       int iLoadedAlarms = 0;
@@ -109,24 +109,27 @@ namespace nsRSMPGS
       //Dictionary<string, string> YAMLScalars = new Dictionary<string, string>();
       //Dictionary<string, cYAMLMapping> YAMLMappings = new Dictionary<string, cYAMLMapping>();
 
-      List<string> sFileLines;
+      List<string> sFileLines = new List<string>();
 
-      // Read SXL file
-      try
+      // Read SXL file(s)
+      foreach(string sSXLFile in sSXLFileNames)
       {
-        sFileLines = File.ReadAllLines(sSXLFileName).ToList<string>();
-      }
-      catch (Exception e)
-      {
-        RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sSXLFileName, e.Message);
-        return 0;
+        try
+        {
+          sFileLines.AddRange(File.ReadAllLines(sSXLFile));
+        }
+        catch (Exception e)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sSXLFile, e.Message);
+          return 0;
+        }
       }
 
       DateTime dtStartTime = new DateTime(1970, 1, 1);
-      UInt32 uObjectFilesTimeStamp = 0;
+      //UInt32 uObjectFilesTimeStamp = 0;
 
-      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetCreationTime(sSXLFileName) - dtStartTime).TotalSeconds));
-      uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetLastWriteTime(sSXLFileName) - dtStartTime).TotalSeconds));
+      //uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetCreationTime(sSXLFileName) - dtStartTime).TotalSeconds));
+      //uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetLastWriteTime(sSXLFileName) - dtStartTime).TotalSeconds));
 
       int iReadFiles = 1;
 
@@ -361,7 +364,7 @@ namespace nsRSMPGS
             if (RoadSideObjects.ContainsKey(sKey))
             {
               RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RoadSideObject ntsOId: {0}, cId: {1} in SXL (YAML) file '{2}' already exists",
-                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sSXLFileName);
+                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sSXLFileNames);
               continue;
             }
 
@@ -615,7 +618,7 @@ namespace nsRSMPGS
       }
 
       RSMPGS.SysLog.SysLog( (iLoadedObjects==0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
-      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sSXLFileName);
+      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sSXLFileNames);
 
       return iReadFiles;
 
