@@ -836,7 +836,7 @@ namespace nsRSMPGS
 #endif
 #if _RSMPGS2
       rsVersion.step = "Response";
-      rsVersion.receiveAlarms = RSMPGS.Settings["ReceiveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+      rsVersion.useAlarms = RSMPGS.Settings["UseAlarms"].GetActualValue(NegotiatedRSMPVersion);
       rsVersion.supervisorId = RSMPGS.SupervisorId;
 #endif
 
@@ -953,11 +953,11 @@ namespace nsRSMPGS
           bSXLVersionIsOk = true;
         }
 
-        SendAlarms = rsVersion.receiveAlarms;
+        SendAlarms = rsVersion.useAlarms;
 
         if(!SendAlarms)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "receiveAlarms = false. We will not send alarms unless requested");
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "useAlarms = false. We will not send alarms unless requested");
         }
 
         if (HighestRSMPVersion == RSMPVersion.RSMP_3_3_0)
@@ -1481,6 +1481,7 @@ namespace nsRSMPGS
               switch (schemaScalarType.ToLower())
               {
                 case "integer":
+                case "integer_as_string":
                   try
                   {
                     Int32 iValue = Int32.Parse(statusValue.ToString());
@@ -1524,6 +1525,7 @@ namespace nsRSMPGS
                   }
                   break;
                 case "boolean":
+                case "boolean_as_string":
                   // Boolean is treated as an enum in Excel/CSV, but not in YAML. To
                   // preserve backwards compability we need to treat this as case
                   // insensitive for now

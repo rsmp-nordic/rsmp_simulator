@@ -333,7 +333,7 @@ namespace RSMP_Messages
 
   public class rsVersionRequest_From_3_3_0 : rsVersion_Base 
   {
-    public bool receiveAlarms = true;
+    public bool useAlarms = true;
     public string step;
     public string SXL; // Empty, kept for backwards compatibility
     public List<Version_SXL> SXLS;
@@ -341,7 +341,7 @@ namespace RSMP_Messages
 
   public class rsVersionResponse_From_3_3_0 : rsVersion_Base
   {
-    public bool receiveAlarms = true;
+    public bool useAlarms = true;
     public string step;
     public List<Version_SXL> SXLS;
     public string supervisorId;
