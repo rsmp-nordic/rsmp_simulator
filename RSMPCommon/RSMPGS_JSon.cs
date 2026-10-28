@@ -167,7 +167,11 @@ namespace nsRSMPGS
         {
           if (Header.type.ToLower() != "messageack" && Header.type.ToLower() != "messagenotack")
           {
-            bSuccess = ValidateGUID(Header.mId, ref sError);
+            if(!ValidateGUID(Header.mId, ref sError))
+            {
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, sError);
+              return false;
+            }
           }
         }
 
