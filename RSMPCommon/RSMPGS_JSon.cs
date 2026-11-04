@@ -836,7 +836,7 @@ namespace nsRSMPGS
 #endif
 #if _RSMPGS2
       rsVersion.step = "Response";
-      rsVersion.receiveAlarms = RSMPGS.Settings["ReceiveAlarms"].GetActualValue(NegotiatedRSMPVersion);
+      rsVersion.useAlarms = RSMPGS.Settings["UseAlarms"].GetActualValue(NegotiatedRSMPVersion);
       rsVersion.supervisorId = RSMPGS.SupervisorId;
 #endif
 
@@ -953,11 +953,11 @@ namespace nsRSMPGS
           bSXLVersionIsOk = true;
         }
 
-        SendAlarms = rsVersion.receiveAlarms;
+        SendAlarms = rsVersion.useAlarms;
 
         if(!SendAlarms)
         {
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "receiveAlarms = false. We will not send alarms unless requested");
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "useAlarms = false. We will not send alarms unless requested");
         }
 
         if (HighestRSMPVersion == RSMPVersion.RSMP_3_3_0)

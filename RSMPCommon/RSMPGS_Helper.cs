@@ -560,7 +560,7 @@ namespace nsRSMPGS
       //AddSetting("SendInitialRequestsOfAggStatus", "Send initial aggregated status Request messages when connected", false, false, false, false, true);
 
       List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
-      AddSetting("ReceiveAlarms", "Request to receive alarms", lAffectedRSMPVersions, true);
+      AddSetting("UseAlarms", "Request to receive alarms", lAffectedRSMPVersions, true);
       AddSetting("SendComponentListAtConnect", "Send component list when connecting", lAffectedRSMPVersions, true);
 #endif
 
