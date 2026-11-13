@@ -52,7 +52,7 @@ namespace nsRSMPGS
     static bool bLoadFailed = false;
 
     static string sCSVObjectFilesPath;
-    static string sYAMLSXLFileName;
+    static string sYAMLSXLFilesPath;
     static string sYAMLComponentsFileName;
 
     static string sProcessImageDefaultName = "";
@@ -252,7 +252,7 @@ namespace nsRSMPGS
       checkBox_AutomaticallyLoadObjects.Checked = cPrivateProfile.GetIniFileInt("Main", "AutomaticallyLoadObjects", 1) != 0;
 
       sCSVObjectFilesPath = cPrivateProfile.GetIniFileString("Main", "CSVObjectFilesPath", cPrivateProfile.DefaultObjectFilesPath() + "\\");
-      sYAMLSXLFileName = cPrivateProfile.GetIniFileString("Main", "YAMLSXLFileName", cPrivateProfile.DefaultObjectFilesPath());
+      sYAMLSXLFilesPath = cPrivateProfile.GetIniFileString("Main", "YAMLSXLFilesPath", cPrivateProfile.DefaultObjectFilesPath() + "\\");
       sYAMLComponentsFileName = cPrivateProfile.GetIniFileString("Main", "YAMLComponentsFileName", cPrivateProfile.DefaultObjectFilesPath());
 
       try
@@ -368,7 +368,7 @@ namespace nsRSMPGS
       cPrivateProfile.WriteIniFileInt("Main", "ViewOnlyFailedPackets", checkBox_ViewOnlyFailedPackets.Checked == true ? 1 : 0);
 
       cPrivateProfile.WriteIniFileString("Main", "CSVObjectFilesPath", sCSVObjectFilesPath);
-      cPrivateProfile.WriteIniFileString("Main", "YAMLSXLFileName", sYAMLSXLFileName);
+      cPrivateProfile.WriteIniFileString("Main", "YAMLSXLFilesPath", sYAMLSXLFilesPath);
       cPrivateProfile.WriteIniFileString("Main", "YAMLComponentsFileName", sYAMLComponentsFileName);
 
       cPrivateProfile.WriteIniFileInt("Main", "SelectedObjectFileType", (int)SelectedObjectFileType);
@@ -516,13 +516,13 @@ namespace nsRSMPGS
           textBox_SignalExchangeListPath.Text = sCSVObjectFilesPath;
           break;
 
-        case cProcessImage.ObjectFileType.YAMLfile:
-          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading YAML SXL and components file: {0} {1}", sYAMLSXLFileName, sYAMLComponentsFileName);
-          iReadFiles = RSMPGS.ProcessImage.LoadYAMLFile(sYAMLSXLFileName, sYAMLComponentsFileName);
-          sFileOrPath = sYAMLSXLFileName;
+        case cProcessImage.ObjectFileType.YAMLfiles:
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading YAML SXL and components file: {0} {1}", sYAMLSXLFilesPath, sYAMLComponentsFileName);
+          iReadFiles = RSMPGS.ProcessImage.LoadYAMLFiles(sYAMLSXLFilesPath, sYAMLComponentsFileName);
+          sFileOrPath = sYAMLSXLFilesPath;
           sComponentsFile = sYAMLComponentsFileName;
-          sProcessImageDefaultName = Path.ChangeExtension(sYAMLSXLFileName, ".dat");
-          textBox_SignalExchangeListPath.Text = sYAMLSXLFileName;
+          sProcessImageDefaultName = Path.ChangeExtension(sYAMLSXLFilesPath, ".dat");
+          textBox_SignalExchangeListPath.Text = sYAMLSXLFilesPath;
           textBox_Components_FilePath.Text = sYAMLComponentsFileName;
           break;
       }
@@ -1161,28 +1161,25 @@ namespace nsRSMPGS
     private void ToolStripMenuItem_File_LoadObjects_YAML_Click(object sender, EventArgs e)
     {
 
-      OpenFileDialog openFileDialog = new OpenFileDialog();
-
-      openFileDialog.Title = "Select YAML objects file";
+      FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
       try
       {
-        openFileDialog.InitialDirectory = sYAMLSXLFileName;
+        folderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
+        folderBrowserDialog.SelectedPath = sYAMLSXLFilesPath;
       }
       catch
       {
       }
 
-      openFileDialog.Filter = "YAML-files (*.yml;*.yaml)|*.yml;*.yaml|All files (*.*)|*.*";
+      folderBrowserDialog.Description = "Select YAML objects folder";
 
-      openFileDialog.RestoreDirectory = true;
-
-      if (openFileDialog.ShowDialog() == DialogResult.OK)
+      if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
       {
 
-        sYAMLSXLFileName = openFileDialog.FileName;
+        sYAMLSXLFilesPath = folderBrowserDialog.SelectedPath + "\\";
 
-        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
+        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfiles;
 
         LoadProcessImageObjects();
 
@@ -1198,7 +1195,7 @@ namespace nsRSMPGS
 
       try
       {
-        openFileDialog.InitialDirectory = sYAMLSXLFileName;
+        openFileDialog.InitialDirectory = sYAMLSXLFilesPath;
       }
       catch
       {
@@ -1213,7 +1210,7 @@ namespace nsRSMPGS
 
         sYAMLComponentsFileName = openFileDialog.FileName;
 
-        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
+        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfiles;
 
         LoadProcessImageObjects();
 
@@ -1233,8 +1230,8 @@ namespace nsRSMPGS
       }
       else
       {
-        sYAMLSXLFileName = sFileOrPath;
-        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfile;
+        sYAMLSXLFilesPath = sFileOrPath;
+        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfiles;
       }
 
       LoadProcessImageObjects();
