@@ -98,16 +98,14 @@ namespace nsRSMPGS
 
     public int LoadYAMLFiles(string sSXLFilePath, string sComponentsFileName)
     {
-      bool bLoadFailed = false;
       int iReadFiles = 0;
-      string[] ReferenceFiles;
 
       DateTime dtStartTime = new DateTime(1970, 1, 1);
       UInt32 uObjectFilesTimeStamp = 0;
 
       try
       {
-        ReferenceFiles = Directory.GetFiles(sSXLFilePath, "*.yaml");
+        string[] ReferenceFiles = Directory.GetFiles(sSXLFilePath, "*.yaml");
         foreach (string ReferenceFile in ReferenceFiles)
         {
           if (LoadYAMLFile(ReferenceFile, sComponentsFileName))
@@ -118,7 +116,6 @@ namespace nsRSMPGS
           }
           else
           {
-            bLoadFailed = true;
             break;
           }
         }
@@ -140,25 +137,18 @@ namespace nsRSMPGS
       int iLoadedAggregatedStatus = 0;
       int iLoadedObjects = 0;
 
-      //Dictionary<string, string> YAMLScalars = new Dictionary<string, string>();
-      //Dictionary<string, cYAMLMapping> YAMLMappings = new Dictionary<string, cYAMLMapping>();
-
-      List<string> sFileLines = new List<string>();
+      List<string> sFileLines;
 
       // Read SXL file
       try
       {
-        sFileLines.AddRange(File.ReadAllLines(sSXLFileName));
+        sFileLines = File.ReadAllLines(sSXLFileName).ToList();
       }
       catch (Exception e)
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sSXLFileName, e.Message);
         return false;
       }
-
-      DateTime dtStartTime = new DateTime(1970, 1, 1);
-
-      int iReadFiles = 1;
 
       cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sFileLines);
 
