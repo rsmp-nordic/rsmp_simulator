@@ -88,10 +88,6 @@ namespace nsRSMPGS
 
       BufferedMessages.Clear();
       RSMPGS.MainForm.ListView_BufferedMessages.Items.Clear();
-      //BufferedAlarms.Clear();
-      //BufferedAggregatedStatus.Clear();
-      //BufferedStatusUpdates.Clear();
-
 #endif
 
     }
@@ -102,13 +98,15 @@ namespace nsRSMPGS
 
       DateTime dtStartTime = new DateTime(1970, 1, 1);
       UInt32 uObjectFilesTimeStamp = 0;
+      cYAMLMapping YAMLObjectTypes = null;
 
       try
       {
         string[] ReferenceFiles = Directory.GetFiles(sSXLFilePath, "*.yaml");
         foreach (string ReferenceFile in ReferenceFiles)
         {
-          if (LoadYAMLFile(ReferenceFile, sComponentsFileName))
+          
+          if (LoadYAMLFile(ReferenceFile, out YAMLObjectTypes))
           {
             uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetCreationTime(ReferenceFile) - dtStartTime).TotalSeconds));
             uObjectFilesTimeStamp += Convert.ToUInt32(Math.Abs((File.GetLastWriteTime(ReferenceFile) - dtStartTime).TotalSeconds));
@@ -124,19 +122,16 @@ namespace nsRSMPGS
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Failed to load YAML object files: {0}", exc.Message);
       }
+
+      // Reload components YAML file
+      LoadYAMLComponentsFile(sComponentsFileName, YAMLObjectTypes);
+
       return iReadFiles;
     }
 
     // Read SXL and components from YAML file
-    public bool LoadYAMLFile(string sSXLFileName, string sComponentsFileName)
+    public bool LoadYAMLFile(string sSXLFileName, out cYAMLMapping YAMLObjectTypes)
     {
-
-      int iLoadedAlarms = 0;
-      int iLoadedCommands = 0;
-      int iLoadedStatus = 0;
-      int iLoadedAggregatedStatus = 0;
-      int iLoadedObjects = 0;
-
       List<string> sFileLines;
 
       // Read SXL file
@@ -147,6 +142,7 @@ namespace nsRSMPGS
       catch (Exception e)
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Error, "Could not read SXL (YAML) file '{0}', reason: {1}", sSXLFileName, e.Message);
+        YAMLObjectTypes = null;
         return false;
       }
 
@@ -155,13 +151,10 @@ namespace nsRSMPGS
       cYAMLMapping YAMLMeta;
       YAML.YAMLMappings.TryGetValue("meta", out YAMLMeta);
       if(YAMLMeta != null)
-      { 
+      {
         sSXLRevision = YAMLMeta.GetScalar("version");
         sSXLName = YAMLMeta.GetScalar("name");
       }
-
-      cYAMLMapping YAMLObjectTypes;
-      cYAMLMapping YAMLSites;
 
       YAML.YAMLMappings.TryGetValue("components", out YAMLObjectTypes);
 
@@ -305,6 +298,20 @@ namespace nsRSMPGS
         }
       }
 
+ 
+      return true;
+    }
+
+    public bool LoadYAMLComponentsFile(string sComponentsFileName, cYAMLMapping YAMLObjectTypes)
+    {
+      List<string> sFileLines;
+
+      int iLoadedAlarms = 0;
+      int iLoadedCommands = 0;
+      int iLoadedStatus = 0;
+      int iLoadedAggregatedStatus = 0;
+      int iLoadedObjects = 0;
+
       // Read components file
       try
       {
@@ -316,7 +323,8 @@ namespace nsRSMPGS
         return false;
       }
 
-      YAML = cYAMLParser.GetYAMLMappings(sFileLines);
+      cYAMLMapping YAML = cYAMLParser.GetYAMLMappings(sFileLines);
+      cYAMLMapping YAMLSites;
       if (YAML.YAMLMappings.TryGetValue("sites", out YAMLSites) == false)
       {
         RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Could not find 'sites' section !");
@@ -367,11 +375,6 @@ namespace nsRSMPGS
 
             RoadSideObject.sObject = YAMLSiteObjectObject.sMappingName;
             RoadSideObject.sObjectType = YAMLSiteObject.sMappingName;
-
-            // Not existing ??? Yes, but what is the name ??
-            //RoadSideObject.sExternalNTSId = cHelper.Item(sLine, 4, ';').Trim();
-
-            // Not existing ?
             RoadSideObject.sDescription = YAMLSiteObjectObject.GetScalar("description");
 
             RoadSideObject.bIsComponentGroup = YAMLSiteObjectType.YAMLMappings.ContainsKey("aggregated_status");
@@ -380,8 +383,8 @@ namespace nsRSMPGS
 
             if (RoadSideObjects.ContainsKey(sKey))
             {
-              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RoadSideObject ntsOId: {0}, cId: {1} in SXL (YAML) file '{2}' already exists",
-                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sSXLFileName);
+              RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "RoadSideObject ntsOId: {0}, cId: {1} in Components file (YAML) file '{2}' already exists",
+                RoadSideObject.sNTSObjectId, RoadSideObject.sComponentId, sComponentsFileName);
               continue;
             }
 
@@ -441,11 +444,10 @@ namespace nsRSMPGS
                 if (YAMLAlarm.YAMLMappings.TryGetValue("arguments", out YAMLArguments))
                 {
                   foreach (cYAMLMapping YAMLArgument in YAMLArguments.YAMLMappings.Values)
-                  {                    
+                  {
                     cAlarmReturnValue AlarmReturnValue = new cAlarmReturnValue();
 
                     AlarmReturnValue.sName = YAMLArgument.sMappingName;
-                    //AlarmReturnValue.sType = YAMLArgument.GetScalar("type");
                     AlarmReturnValue.sComment = YAMLArgument.GetScalar("description");
 
                     // Additional description can be found in "values"
@@ -454,7 +456,7 @@ namespace nsRSMPGS
                     {
                       foreach (KeyValuePair<string, string> key in Values.YAMLScalars)
                       {
-                        AlarmReturnValue.sComment += "\n" + key.Key + ": " +  key.Value;
+                        AlarmReturnValue.sComment += "\n" + key.Key + ": " + key.Value;
                       }
                     }
 
@@ -462,28 +464,20 @@ namespace nsRSMPGS
 
                     AlarmReturnValue.Value = new cValue(sValueTypeKey, true);
 
-                    //AlarmReturnValue.sValues = YAMLArgument.GetScalar("range");
-
-                    //      AlarmObject.Value = CreateValueAndType("alarms", AlarmObject.sObjectType, sSpecificObject, AlarmObject.sAlarmCodeId,
-                    //        YAMLArgument.sMappingName, YAMLArgument.GetScalar("type"), YAMLArgument.GetScalar("description"));
-
                     if (AlarmReturnValue.sName != "")
                     {
                       AlarmObject.AlarmReturnValues.Add(AlarmReturnValue);
                     }
                   }
                 }
-                // 2020-11-27/TR Load anyway warn only
-                if (AlarmObject.sCategory != "D" && AlarmObject.sCategory != "T")
 
-                  {
+                if (AlarmObject.sCategory != "D" && AlarmObject.sCategory != "T")
+                {
                   RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Alarm to Object Type {0}, Alarm Code Id {1} has an invalid Category '{2}', it will be ignored", AlarmObject.sObjectType, AlarmObject.sAlarmCodeId, AlarmObject.sCategory);
                 }
-                //else
-                //{
-                  RoadSideObject.AlarmObjects.Add(AlarmObject);
-                  iLoadedAlarms++;
-                //}
+
+                RoadSideObject.AlarmObjects.Add(AlarmObject);
+                iLoadedAlarms++;
 
               }
             }
@@ -523,7 +517,6 @@ namespace nsRSMPGS
                     cStatusReturnValue StatusReturnValue = new cStatusReturnValue(StatusObject);
 
                     StatusReturnValue.sName = YAMLArgument.sMappingName;
-                    //StatusReturnValue.sType = YAMLArgument.GetScalar("type");
                     StatusReturnValue.sComment = YAMLArgument.GetScalar("description");
 
                     // Additional description can be found in "values"
@@ -537,7 +530,6 @@ namespace nsRSMPGS
                     }
 
                     string sValueTypeKey = YAMLSiteObjectType.sMappingName + "\t" + YAMLStatuses.sMappingName + "\t" + YAMLStatus.sMappingName + "\t" + sSpecificObject + "\t" + YAMLArgument.sMappingName;
-
                     StatusReturnValue.Value = new cValue(sValueTypeKey, true);
 
                     if (StatusReturnValue.sName != "")
@@ -548,20 +540,15 @@ namespace nsRSMPGS
                 }
                 RoadSideObject.StatusObjects.Add(StatusObject);
                 iLoadedStatus++;
-
               }
             }
 
             if (YAMLSiteObjectType.YAMLMappings.TryGetValue("commands", out YAMLCommands))
             {
-
               foreach (cYAMLMapping YAMLCommand in YAMLCommands.YAMLMappings.Values)
               {
-
                 cCommandObject CommandObject = new cCommandObject();
-
                 CommandObject.RoadSideObject = RoadSideObject;
-
                 CommandObject.sObjectType = YAMLSiteObjectType.sMappingName;
 
                 // What is the exported name, check David's code ??
@@ -576,7 +563,6 @@ namespace nsRSMPGS
                 }
 
                 CommandObject.sCommandCodeId = YAMLCommand.sMappingName;
-
                 CommandObject.sDescription = YAMLCommand.GetScalar("description").Split('\n')[0];
 
                 cYAMLMapping YAMLArguments;
@@ -590,8 +576,6 @@ namespace nsRSMPGS
                     CommandReturnValue.sName = YAMLArgument.sMappingName;
                     // Actually in the level above...
                     CommandReturnValue.sCommand = YAMLCommand.GetScalar("command");
-                    //CommandReturnValue.sType = YAMLArgument.GetScalar("type");
-                    //CommandReturnValue.sValue = YAMLArgument.GetScalar("values");
                     CommandReturnValue.sComment = YAMLArgument.GetScalar("description");
                     CommandReturnValue.bOptional = YAMLArgument.GetScalar("optional").ToLower().Equals("true");
 
@@ -619,24 +603,13 @@ namespace nsRSMPGS
                 iLoadedCommands++;
 
               }
-
             }
-
           }
-
         }
-        /*
-    public List<cAlarmObject> AlarmObjects = new List<cAlarmObject>();
-    public List<cCommandObject> CommandObjects = new List<cCommandObject>();
-    public List<cStatusObject> StatusObjects = new List<cStatusObject>();
-    public List<cAggregatedStatusObject> AggregatedStatusObjects = new List<cAggregatedStatusObject>();
-    */
-
       }
 
-      RSMPGS.SysLog.SysLog( (iLoadedObjects==0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from SXL (YAML) file '{5}'",
-      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sSXLFileName);
-
+      RSMPGS.SysLog.SysLog((iLoadedObjects == 0) ? cSysLogAndDebug.Severity.Warning : cSysLogAndDebug.Severity.Info, "Loaded {0} objects, {1} alarms, {2} commands, {3} status and {4} agg.status from components file (YAML) file '{5}'",
+      iLoadedObjects, iLoadedAlarms, iLoadedCommands, iLoadedStatus, iLoadedAggregatedStatus, sComponentsFileName);
       return true;
     }
 
