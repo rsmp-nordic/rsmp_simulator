@@ -17,13 +17,12 @@ on the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases).
 Note about RSMP 3.3.0
 ---------------------
 Recent versions of the simulator contains partial support from RSMP 3.3.0.
-RSMP 3.3.0 is still in draft and may change at any time. It is disabled
-by default.
+RSMP 3.3.0 is still in draft and may change at any time.
 
 Installation
 ------------
-Run `RSMPGS1_1_0_17_Setup.exe` (for road side equipment) or
-`RSMPGS2_1_0_17_Setup.exe` (for supervision system) from
+Run `RSMPGS1_1_0_18_Setup.exe` (for road side equipment) or
+`RSMPGS2_1_0_18_Setup.exe` (for supervision system) from
 the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases)
 
 Report issues
