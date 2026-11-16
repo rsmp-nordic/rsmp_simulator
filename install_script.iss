@@ -37,11 +37,11 @@ Source: "Objects\Status.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Fla
 Source: "Objects\Version.csv"; DestDir: "{app}\Objects"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\SXL-example.xlsx"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\TLC_SXL_1_3_0.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "YAML\TLC_SXL_1_2_1.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "YAML\TLC_SXL_1_2.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "YAML\TLC_SXL_1_1.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "YAML\TLC_SXL_1_0_15.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
-Source: "YAML\TLC_SXL_1_0_7.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_2_1.yaml"; DestDir: "{app}\YAML\Older"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_2.yaml"; DestDir: "{app}\YAML\Older"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_1.yaml"; DestDir: "{app}\YAML\Older"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_0_15.yaml"; DestDir: "{app}\YAML\Older"; MinVersion: 0.0,6.0; Flags: ignoreversion 
+Source: "YAML\TLC_SXL_1_0_7.yaml"; DestDir: "{app}\YAML\Older"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "YAML\example_components.yaml"; DestDir: "{app}\YAML"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\RSMP_Template_SignalExchangeList-20120117.xlsx"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
 Source: "Documents\Manual_{#Name}.pdf"; DestDir: "{app}\Documents"; MinVersion: 0.0,6.0; Flags: ignoreversion 
@@ -56,6 +56,7 @@ Name: "{app}\LogFiles\SysLogFiles"; Permissions: users-modify
 Name: "{app}\LogFiles\EventFiles"; Permissions: users-modify
 Name: "{app}\Settings"; Permissions: users-modify
 Name: "{app}\YAML"; Permissions: users-modify
+Name: "{app}\YAML\Older"; Permissions: users-modify
 Name: "{app}\Objects"; Permissions: users-modify
 Name: "{app}\Tools"; Permissions: users-modify
 Name: "{app}\Tools\Certificates"; Permissions: users-modify
