@@ -564,41 +564,48 @@ namespace nsRSMPGS
         return;
       }
 
-      int iMenuIndex = MostRecentCSVFilesAndPaths.FindIndex(x => x.Equals(sCSVFileOrPath, StringComparison.OrdinalIgnoreCase));
-      if (iMenuIndex >= 0)
+      switch (SelectedObjectFileType)
       {
-        MostRecentCSVFilesAndPaths.RemoveAt(iMenuIndex);
-      }
-      MostRecentCSVFilesAndPaths.Insert(0, sCSVFileOrPath);
-      while (MostRecentCSVFilesAndPaths.Count > 10)
-      {
-        MostRecentCSVFilesAndPaths.RemoveAt(MostRecentCSVFilesAndPaths.Count - 1);
-      }
-      RefillMostRecentCSVFilesAndPathsMenu();
+        case cProcessImage.ObjectFileType.CSVfiles:
+          int iMenuIndex = MostRecentCSVFilesAndPaths.FindIndex(x => x.Equals(sCSVFileOrPath, StringComparison.OrdinalIgnoreCase));
+          if (iMenuIndex >= 0)
+          {
+            MostRecentCSVFilesAndPaths.RemoveAt(iMenuIndex);
+          }
+          MostRecentCSVFilesAndPaths.Insert(0, sCSVFileOrPath);
+          while (MostRecentCSVFilesAndPaths.Count > 10)
+          {
+            MostRecentCSVFilesAndPaths.RemoveAt(MostRecentCSVFilesAndPaths.Count - 1);
+          }
+          RefillMostRecentCSVFilesAndPathsMenu();
+          break;
+        case cProcessImage.ObjectFileType.YAMLfiles:
 
-      iMenuIndex = MostRecentYAMLFilesAndPaths.FindIndex(x => x.Equals(sYAMLFileOrPath, StringComparison.OrdinalIgnoreCase));
-      if (iMenuIndex >= 0)
-      {
-        MostRecentYAMLFilesAndPaths.RemoveAt(iMenuIndex);
-      }
-      MostRecentYAMLFilesAndPaths.Insert(0, sYAMLFileOrPath);
-      while (MostRecentYAMLFilesAndPaths.Count > 10)
-      {
-        MostRecentYAMLFilesAndPaths.RemoveAt(MostRecentYAMLFilesAndPaths.Count - 1);
-      }
-      RefillMostRecentYAMLFilesAndPathsMenu();
+          iMenuIndex = MostRecentYAMLFilesAndPaths.FindIndex(x => x.Equals(sYAMLFileOrPath, StringComparison.OrdinalIgnoreCase));
+          if (iMenuIndex >= 0)
+          {
+            MostRecentYAMLFilesAndPaths.RemoveAt(iMenuIndex);
+          }
+          MostRecentYAMLFilesAndPaths.Insert(0, sYAMLFileOrPath);
+          while (MostRecentYAMLFilesAndPaths.Count > 10)
+          {
+            MostRecentYAMLFilesAndPaths.RemoveAt(MostRecentYAMLFilesAndPaths.Count - 1);
+          }
+          RefillMostRecentYAMLFilesAndPathsMenu();
 
-      iMenuIndex = MostRecentComponentFiles.FindIndex(x => x.Equals(sComponentsFile, StringComparison.OrdinalIgnoreCase));
-      if (iMenuIndex >= 0)
-      {
-        MostRecentComponentFiles.RemoveAt(iMenuIndex);
+          iMenuIndex = MostRecentComponentFiles.FindIndex(x => x.Equals(sComponentsFile, StringComparison.OrdinalIgnoreCase));
+          if (iMenuIndex >= 0)
+          {
+            MostRecentComponentFiles.RemoveAt(iMenuIndex);
+          }
+          MostRecentComponentFiles.Insert(0, sComponentsFile);
+          while (MostRecentComponentFiles.Count > 10)
+          {
+            MostRecentComponentFiles.RemoveAt(MostRecentComponentFiles.Count - 1);
+          }
+          RefillMostRecentComponentFilesMenu();
+          break;
       }
-      MostRecentComponentFiles.Insert(0, sComponentsFile);
-      while (MostRecentComponentFiles.Count > 10)
-      {
-        MostRecentComponentFiles.RemoveAt(MostRecentComponentFiles.Count - 1);
-      }
-      RefillMostRecentComponentFilesMenu();
 
       foreach (cRoadSideObject RoadSideObject in RSMPGS.ProcessImage.RoadSideObjects.Values)
       {
