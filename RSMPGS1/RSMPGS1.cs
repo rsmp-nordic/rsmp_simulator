@@ -114,6 +114,12 @@ using System.Security.Authentication;
 //                           / Fix issue with "Only send negotiated version" introduced in 1.0.15.
 //                           / Include SXL 1.3.0
 //                           / Keep SXL YAML and site configuration separate                 
+// 26.11.16 / DO / 1.0.17    / Make sure ntsOId and xNId are set to empty strings when using RSMP 3.3.0
+//                           / Added new "Connect to ..." menu option (marcgarba)
+//                           / Added support for "array" in commands
+//                           / Treat "object" as "array" until proper support is added
+//                           / Rename recieveAlarms to wantAlarms
+//                           / Initial support for SXL modules
 //
 //
 // ---------------------------------------------------------------------------------------------------
