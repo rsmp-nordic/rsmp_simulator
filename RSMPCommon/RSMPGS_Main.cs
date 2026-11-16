@@ -230,7 +230,7 @@ namespace nsRSMPGS
           MostRecentCSVFilesAndPaths.Add(sFileOrPath);
         }
         ToolStripMenuItem tsItem = new ToolStripMenuItem();
-        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadObjects_MRU_Click);
+        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadCSV_MRU_Click);
         ToolStripMenuItem_File_LoadCSV.DropDownItems.Add(tsItem);
         MostRecentCSVFilesAndPathsMenuItem.Add(tsItem);
       }
@@ -243,7 +243,7 @@ namespace nsRSMPGS
           MostRecentYAMLFilesAndPaths.Add(sFileOrPath);
         }
         ToolStripMenuItem tsItem = new ToolStripMenuItem();
-        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadObjects_MRU_Click);
+        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadYAML_MRU_Click);
         ToolStripMenuItem_File_LoadYAML.DropDownItems.Add(tsItem);
         MostRecentYAMLFilesAndPathsMenuItem.Add(tsItem);
       }
@@ -1260,25 +1260,30 @@ namespace nsRSMPGS
       }
     }
 
-    private void toolStripMenuItem_LoadObjects_MRU_Click(object sender, EventArgs e)
+    private void toolStripMenuItem_LoadCSV_MRU_Click(object sender, EventArgs e)
     {
       ToolStripMenuItem tsItem = (ToolStripMenuItem)sender;
 
       string sFileOrPath = cHelper.Item(tsItem.Text, 0, '\t');
 
-      if (sFileOrPath.EndsWith("\\"))
-      {
-        sCSVObjectFilesPath = sFileOrPath;
-        SelectedObjectFileType = cProcessImage.ObjectFileType.CSVfiles;
-      }
-      else
-      {
-        sYAMLSXLFilesPath = sFileOrPath;
-        SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfiles;
-      }
+      sCSVObjectFilesPath = sFileOrPath;
+      SelectedObjectFileType = cProcessImage.ObjectFileType.CSVfiles;
 
       LoadProcessImageObjects();
     }
+
+    private void toolStripMenuItem_LoadYAML_MRU_Click(object sender, EventArgs e)
+    {
+      ToolStripMenuItem tsItem = (ToolStripMenuItem)sender;
+
+      string sFileOrPath = cHelper.Item(tsItem.Text, 0, '\t');
+
+      sYAMLSXLFilesPath = sFileOrPath;
+      SelectedObjectFileType = cProcessImage.ObjectFileType.YAMLfiles;
+
+      LoadProcessImageObjects();
+    }
+
 
     private void toolStripMenuItem_LoadComponents_MRU_Click(object sender, EventArgs e)
     {
