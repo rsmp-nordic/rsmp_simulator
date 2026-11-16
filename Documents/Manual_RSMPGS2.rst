@@ -479,7 +479,10 @@ Supervisor Id which is sent via the protocol when connection is made.
 RSMP
 ^^^^
 RSMP protocol specific settings have an own tab. The simulator could be used
-with RSMP protocol versions 3.1.1..3.1.5
+with RSMP protocol versions 3.1.1..3.3.0
+
+.. note::
+   Please note that support for RSMP 3.3.0 is incomplete
 
 .. image:: img/rsmp.png
    :align: left
