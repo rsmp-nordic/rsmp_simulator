@@ -5,8 +5,8 @@
 #define Name "RSMPGS2"
 #define Description "SCADA Interface simulator"
 #endif
-#define Version "1.0.17"
-#define Version_ "1_0_17"
+#define Version "1.0.18"
+#define Version_ "1_0_18"
 
 [Setup]
 AppName={#Name} ({#Description})
