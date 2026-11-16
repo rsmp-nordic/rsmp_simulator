@@ -33,10 +33,12 @@
       this.timer_System = new System.Windows.Forms.Timer(this.components);
       this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
       this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_LoadObjects = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_LoadObjects_CSV = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_LoadObjects_YAML = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_LoadObjects_Delimiter = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_File_LoadCSV = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter = new System.Windows.Forms.ToolStripSeparator();
+      this.ToolStripMenuItem_File_LoadYAML = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadYAML_Delimiter = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_LoadComponents = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadComponents_YAML = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadComponents_Delimiter = new System.Windows.Forms.ToolStripSeparator();
@@ -323,7 +325,8 @@
       // ToolStripMenuItem_File
       // 
       this.ToolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_File_LoadObjects,
+            this.ToolStripMenuItem_File_LoadCSV,
+            this.ToolStripMenuItem_File_LoadYAML,
             this.ToolStripMenuItem_File_LoadComponents,
             this.ToolStripMenuItem_Delimiter_0,
             this.ToolStripMenuItem_File_Debug,
@@ -334,34 +337,47 @@
       this.ToolStripMenuItem_File.Text = "&File";
       this.ToolStripMenuItem_File.DropDownOpening += new System.EventHandler(this.ToolStripMenuItem_File_DropDownOpening);
       // 
-      // ToolStripMenuItem_File_LoadObjects
+      // ToolStripMenuItem_File_LoadCSV
       // 
-      this.ToolStripMenuItem_File_LoadObjects.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_File_LoadObjects_CSV,
-            this.ToolStripMenuItem_File_LoadObjects_YAML,
-            this.ToolStripMenuItem_File_LoadObjects_Delimiter});
-      this.ToolStripMenuItem_File_LoadObjects.Name = "ToolStripMenuItem_File_LoadObjects";
-      this.ToolStripMenuItem_File_LoadObjects.Size = new System.Drawing.Size(199, 22);
-      this.ToolStripMenuItem_File_LoadObjects.Text = "Load objects from";
+      this.ToolStripMenuItem_File_LoadCSV.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_File_LoadCSV_SelectFolder,
+            this.ToolStripMenuItem_File_LoadCSV_Delimiter});
+      this.ToolStripMenuItem_File_LoadCSV.Name = "ToolStripMenuItem_File_LoadCSV";
+      this.ToolStripMenuItem_File_LoadCSV.Size = new System.Drawing.Size(199, 22);
+      this.ToolStripMenuItem_File_LoadCSV.Text = "Load SXL from (CSV)";
       // 
-      // ToolStripMenuItem_File_LoadObjects_CSV
+      // ToolStripMenuItem_File_LoadCSV_SelectFolder
       // 
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Name = "ToolStripMenuItem_File_LoadObjects_CSV";
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Size = new System.Drawing.Size(135, 22);
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Text = "CSV-files...";
-      this.ToolStripMenuItem_File_LoadObjects_CSV.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_CSV_Click);
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Name = "ToolStripMenuItem_File_LoadCSV_SelectFolder";
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Text = "CSV-files...";
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadCSV_SelectFolder_Click);
       // 
-      // ToolStripMenuItem_File_LoadObjects_YAML
+      // ToolStripMenuItem_File_LoadCSV_Delimiter
       // 
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Name = "ToolStripMenuItem_File_LoadObjects_YAML";
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Size = new System.Drawing.Size(135, 22);
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Text = "YAML-file...";
-      this.ToolStripMenuItem_File_LoadObjects_YAML.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadObjects_YAML_Click);
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Name = "ToolStripMenuItem_File_LoadCSV_Delimiter";
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Size = new System.Drawing.Size(132, 6);
       // 
-      // ToolStripMenuItem_File_LoadObjects_Delimiter
+      // ToolStripMenuItem_File_LoadYAML
       // 
-      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Name = "ToolStripMenuItem_File_LoadObjects_Delimiter";
-      this.ToolStripMenuItem_File_LoadObjects_Delimiter.Size = new System.Drawing.Size(132, 6);
+      this.ToolStripMenuItem_File_LoadYAML.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_File_LoadYAML_SelectFolder,
+            this.ToolStripMenuItem_File_LoadYAML_Delimiter});
+      this.ToolStripMenuItem_File_LoadYAML.Name = "ToolStripMenuItem_File_LoadYAML";
+      this.ToolStripMenuItem_File_LoadYAML.Size = new System.Drawing.Size(199, 22);
+      this.ToolStripMenuItem_File_LoadYAML.Text = "Load SXL from (YAML)";
+      // 
+      // ToolStripMenuItem_File_LoadYAML_SelectFolder
+      // 
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Name = "ToolStripMenuItem_File_LoadYAML_SelectFolder";
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Text = "YAML-files...";
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadYAML_SelectFolder_Click);
+      // 
+      // ToolStripMenuItem_File_LoadYAML_Delimiter
+      // 
+      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Name = "ToolStripMenuItem_File_LoadYAML_Delimiter";
+      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Size = new System.Drawing.Size(132, 6);
       // 
       // ToolStripMenuItem_File_LoadComponents
       // 
@@ -2681,15 +2697,17 @@
     private System.Windows.Forms.CheckBox button_Encryption_IgnoreCertErrors;
     private System.Windows.Forms.CheckBox checkBox_Encryption_AuthenticateAsClientUsingCertificate;
     private System.Windows.Forms.CheckBox button_Encryption_CheckRevocation;
-    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects;
-    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_CSV;
-    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadObjects_YAML;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadCSV;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadCSV_SelectFolder;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadYAML;
+    private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadYAML_SelectFolder;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadComponents;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadComponents_YAML;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadComponents_Delimiter;
     private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_Delimiter_5;
     public System.Windows.Forms.CheckBox checkBox_AutomaticallyLoadObjects;
-    private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadObjects_Delimiter;
+    private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadCSV_Delimiter;
+    private System.Windows.Forms.ToolStripSeparator ToolStripMenuItem_File_LoadYAML_Delimiter;
     private System.Windows.Forms.TabPage tabPage_BufferedMessages;
     private System.Windows.Forms.GroupBox groupBox_BufferedMessages;
     public ListViewDoubleBuffered ListView_BufferedMessages;

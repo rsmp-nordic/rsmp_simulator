@@ -59,8 +59,11 @@ namespace nsRSMPGS
 
     static cProcessImage.ObjectFileType SelectedObjectFileType;
 
-    static List<string> MostRecentObjectFilesAndPaths = new List<string>();
-    static List<ToolStripMenuItem> MostRecentObjectFilesAndPathsMenuItem = new List<ToolStripMenuItem>();
+    static List<string> MostRecentCSVFilesAndPaths = new List<string>();
+    static List<ToolStripMenuItem> MostRecentCSVFilesAndPathsMenuItem = new List<ToolStripMenuItem>();
+
+    static List<string> MostRecentYAMLFilesAndPaths = new List<string>();
+    static List<ToolStripMenuItem> MostRecentYAMLFilesAndPathsMenuItem = new List<ToolStripMenuItem>();
 
     static List<string> MostRecentComponentFiles = new List<string>();
     static List<ToolStripMenuItem> MostRecentComponentFilesMenuItem = new List<ToolStripMenuItem>();
@@ -221,15 +224,28 @@ namespace nsRSMPGS
 
       for (int iIndex = 0; iIndex < 10; iIndex++)
       {
-        string sFileOrPath = cPrivateProfile.GetIniFileString("MostRecentObjectFiles", iIndex.ToString(), "");
+        string sFileOrPath = cPrivateProfile.GetIniFileString("MostRecentCSVFiles", iIndex.ToString(), "");
         if (sFileOrPath != "")
         {
-          MostRecentObjectFilesAndPaths.Add(sFileOrPath);
+          MostRecentCSVFilesAndPaths.Add(sFileOrPath);
         }
         ToolStripMenuItem tsItem = new ToolStripMenuItem();
         tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadObjects_MRU_Click);
-        ToolStripMenuItem_File_LoadObjects.DropDownItems.Add(tsItem);
-        MostRecentObjectFilesAndPathsMenuItem.Add(tsItem);
+        ToolStripMenuItem_File_LoadCSV.DropDownItems.Add(tsItem);
+        MostRecentCSVFilesAndPathsMenuItem.Add(tsItem);
+      }
+
+      for (int iIndex = 0; iIndex < 10; iIndex++)
+      {
+        string sFileOrPath = cPrivateProfile.GetIniFileString("MostRecentYAMLFiles", iIndex.ToString(), "");
+        if (sFileOrPath != "")
+        {
+          MostRecentYAMLFilesAndPaths.Add(sFileOrPath);
+        }
+        ToolStripMenuItem tsItem = new ToolStripMenuItem();
+        tsItem.Click += new System.EventHandler(toolStripMenuItem_LoadObjects_MRU_Click);
+        ToolStripMenuItem_File_LoadYAML.DropDownItems.Add(tsItem);
+        MostRecentYAMLFilesAndPathsMenuItem.Add(tsItem);
       }
 
       for (int iIndex = 0; iIndex < 10; iIndex++)
@@ -245,7 +261,8 @@ namespace nsRSMPGS
         MostRecentComponentFilesMenuItem.Add(tsItem);
       }
 
-      RefillMostRecentObjectFilesAndPathsMenu();
+      RefillMostRecentCSVFilesAndPathsMenu();
+      RefillMostRecentYAMLFilesAndPathsMenu();
       RefillMostRecentComponentFilesMenu();
 
       // Defaults to load at startup and will point out the old objects folder
@@ -373,9 +390,14 @@ namespace nsRSMPGS
 
       cPrivateProfile.WriteIniFileInt("Main", "SelectedObjectFileType", (int)SelectedObjectFileType);
 
-      for (int iIndex = 0; iIndex < MostRecentObjectFilesAndPaths.Count; iIndex++)
+      for (int iIndex = 0; iIndex < MostRecentCSVFilesAndPaths.Count; iIndex++)
       {
-        cPrivateProfile.WriteIniFileString("MostRecentObjectFiles", iIndex.ToString(), MostRecentObjectFilesAndPaths[iIndex]);
+        cPrivateProfile.WriteIniFileString("MostRecentCSVFiles", iIndex.ToString(), MostRecentCSVFilesAndPaths[iIndex]);
+      }
+
+      for (int iIndex = 0; iIndex < MostRecentYAMLFilesAndPaths.Count; iIndex++)
+      {
+        cPrivateProfile.WriteIniFileString("MostRecentYAMLFiles", iIndex.ToString(), MostRecentYAMLFilesAndPaths[iIndex]);
       }
 
       for (int iIndex = 0; iIndex < MostRecentComponentFiles.Count; iIndex++)
@@ -414,25 +436,34 @@ namespace nsRSMPGS
 
     }
 
-    private void RefillMostRecentObjectFilesAndPathsMenu()
+    private void RefillMostRecentCSVFilesAndPathsMenu()
     {
       for (int iIndex = 0; iIndex < 10; iIndex++)
       {
-        if (iIndex < MostRecentObjectFilesAndPaths.Count)
+        if (iIndex < MostRecentCSVFilesAndPaths.Count)
         {
-          if (MostRecentObjectFilesAndPaths[iIndex].EndsWith("\\"))
-          {
-            MostRecentObjectFilesAndPathsMenuItem[iIndex].Text = MostRecentObjectFilesAndPaths[iIndex]; // + "\t" + "(CSV-files object folder)";
-          }
-          else
-          {
-            MostRecentObjectFilesAndPathsMenuItem[iIndex].Text = MostRecentObjectFilesAndPaths[iIndex]; // + "\t" + "(YAML-file)";
-          }
-          MostRecentObjectFilesAndPathsMenuItem[iIndex].Visible = true;
+          MostRecentCSVFilesAndPathsMenuItem[iIndex].Text = MostRecentCSVFilesAndPaths[iIndex]; // + "\t" + "(CSV-files SXL folder)";
+          MostRecentCSVFilesAndPathsMenuItem[iIndex].Visible = true;
         }
         else
         {
-          MostRecentObjectFilesAndPathsMenuItem[iIndex].Visible = false;
+          MostRecentCSVFilesAndPathsMenuItem[iIndex].Visible = false;
+        }
+      }
+    }
+
+    private void RefillMostRecentYAMLFilesAndPathsMenu()
+    {
+      for (int iIndex = 0; iIndex < 10; iIndex++)
+      {
+        if (iIndex < MostRecentYAMLFilesAndPaths.Count)
+        {
+          MostRecentYAMLFilesAndPathsMenuItem[iIndex].Text = MostRecentYAMLFilesAndPaths[iIndex]; // + "\t" + "(YAML-files SXL folder)";
+          MostRecentYAMLFilesAndPathsMenuItem[iIndex].Visible = true;
+        }
+        else
+        {
+          MostRecentYAMLFilesAndPathsMenuItem[iIndex].Visible = false;
         }
       }
     }
@@ -460,7 +491,8 @@ namespace nsRSMPGS
 
       // int iReadFiles = RSMPGS.ProcessImage.LoadSXLCSVFiles();
 
-      string sFileOrPath = "";
+      string sCSVFileOrPath = "";
+      string sYAMLFileOrPath = "";
       string sComponentsFile = "";
 
       try
@@ -511,7 +543,7 @@ namespace nsRSMPGS
         case cProcessImage.ObjectFileType.CSVfiles:
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading object files from: {0}", sCSVObjectFilesPath);
           iReadFiles = RSMPGS.ProcessImage.LoadSXLCSVFiles(sCSVObjectFilesPath);
-          sFileOrPath = sCSVObjectFilesPath;
+          sCSVFileOrPath = sCSVObjectFilesPath;
           sProcessImageDefaultName = sCSVObjectFilesPath + "ProcessImage.dat";
           textBox_SignalExchangeListPath.Text = sCSVObjectFilesPath;
           break;
@@ -519,7 +551,7 @@ namespace nsRSMPGS
         case cProcessImage.ObjectFileType.YAMLfiles:
           RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Info, "Loading YAML SXL and components file: {0} {1}", sYAMLSXLFilesPath, sYAMLComponentsFileName);
           iReadFiles = RSMPGS.ProcessImage.LoadYAMLFiles(sYAMLSXLFilesPath, sYAMLComponentsFileName);
-          sFileOrPath = sYAMLSXLFilesPath;
+          sYAMLFileOrPath = sYAMLSXLFilesPath;
           sComponentsFile = sYAMLComponentsFileName;
           sProcessImageDefaultName = Path.ChangeExtension(sYAMLSXLFilesPath, ".dat");
           textBox_SignalExchangeListPath.Text = sYAMLSXLFilesPath;
@@ -532,18 +564,29 @@ namespace nsRSMPGS
         return;
       }
 
-      int iMenuIndex = MostRecentObjectFilesAndPaths.FindIndex(x => x.Equals(sFileOrPath, StringComparison.OrdinalIgnoreCase));
+      int iMenuIndex = MostRecentCSVFilesAndPaths.FindIndex(x => x.Equals(sCSVFileOrPath, StringComparison.OrdinalIgnoreCase));
       if (iMenuIndex >= 0)
       {
-        MostRecentObjectFilesAndPaths.RemoveAt(iMenuIndex);
+        MostRecentCSVFilesAndPaths.RemoveAt(iMenuIndex);
       }
-      MostRecentObjectFilesAndPaths.Insert(0, sFileOrPath);
-      while (MostRecentObjectFilesAndPaths.Count > 10)
+      MostRecentCSVFilesAndPaths.Insert(0, sCSVFileOrPath);
+      while (MostRecentCSVFilesAndPaths.Count > 10)
       {
-        MostRecentObjectFilesAndPaths.RemoveAt(MostRecentObjectFilesAndPaths.Count - 1);
+        MostRecentCSVFilesAndPaths.RemoveAt(MostRecentCSVFilesAndPaths.Count - 1);
       }
+      RefillMostRecentCSVFilesAndPathsMenu();
 
-      RefillMostRecentObjectFilesAndPathsMenu();
+      iMenuIndex = MostRecentYAMLFilesAndPaths.FindIndex(x => x.Equals(sYAMLFileOrPath, StringComparison.OrdinalIgnoreCase));
+      if (iMenuIndex >= 0)
+      {
+        MostRecentYAMLFilesAndPaths.RemoveAt(iMenuIndex);
+      }
+      MostRecentYAMLFilesAndPaths.Insert(0, sYAMLFileOrPath);
+      while (MostRecentYAMLFilesAndPaths.Count > 10)
+      {
+        MostRecentYAMLFilesAndPaths.RemoveAt(MostRecentYAMLFilesAndPaths.Count - 1);
+      }
+      RefillMostRecentYAMLFilesAndPathsMenu();
 
       iMenuIndex = MostRecentComponentFiles.FindIndex(x => x.Equals(sComponentsFile, StringComparison.OrdinalIgnoreCase));
       if (iMenuIndex >= 0)
@@ -1130,7 +1173,7 @@ namespace nsRSMPGS
 
     }
 
-    private void ToolStripMenuItem_File_LoadObjects_CSV_Click(object sender, EventArgs e)
+    private void ToolStripMenuItem_File_LoadCSV_SelectFolder_Click(object sender, EventArgs e)
     {
 
       FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -1158,7 +1201,7 @@ namespace nsRSMPGS
       }
     }
 
-    private void ToolStripMenuItem_File_LoadObjects_YAML_Click(object sender, EventArgs e)
+    private void ToolStripMenuItem_File_LoadYAML_SelectFolder_Click(object sender, EventArgs e)
     {
 
       FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -1252,12 +1295,14 @@ namespace nsRSMPGS
     {
       if (RSMPGS.RSMPConnection.ConnectionStatus() == cTcpSocket.ConnectionStatus_Connected)
       {
-        ToolStripMenuItem_File_LoadObjects.Enabled = false;
+        ToolStripMenuItem_File_LoadCSV.Enabled = false;
+        ToolStripMenuItem_File_LoadYAML.Enabled = false;
         ToolStripMenuItem_File_LoadComponents.Enabled = false;
       }
       else
       {
-        ToolStripMenuItem_File_LoadObjects.Enabled = true;
+        ToolStripMenuItem_File_LoadCSV.Enabled = true;
+        ToolStripMenuItem_File_LoadYAML.Enabled = true;
         ToolStripMenuItem_File_LoadComponents.Enabled = true;
       }
     }
