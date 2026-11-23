@@ -492,13 +492,13 @@ namespace nsRSMPGS
 
     private void checkBox_AlwaysUseSXLFromFile_CheckedChanged(object sender, EventArgs e)
     {
-      if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSXLRevision.Count > 0)
+      if (checkBox_AlwaysUseSXLFromFile.Checked == true && RSMPGS.ProcessImage.sSXLRevision.Length > 0)
       {
-        //if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSXLRevision, StringComparison.OrdinalIgnoreCase) == false)
-        //{
-        //RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSXLRevision, textBox_SignalExchangeListVersion.Text);
-        //textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSXLRevision;
-        //}
+        if (textBox_SignalExchangeListVersion.Text.Equals(RSMPGS.ProcessImage.sSXLRevision, StringComparison.OrdinalIgnoreCase) == false)
+        {
+          RSMPGS.SysLog.SysLog(cSysLogAndDebug.Severity.Warning, "Signal Exchange List revision number was set to the file version '{0}'", RSMPGS.ProcessImage.sSXLRevision, textBox_SignalExchangeListVersion.Text);
+          textBox_SignalExchangeListVersion.Text = RSMPGS.ProcessImage.sSXLRevision;
+        }
         textBox_SignalExchangeListVersion.Enabled = false;
       }
       else
@@ -833,36 +833,6 @@ namespace nsRSMPGS
       ListView_BufferedMessages.ResumeSorting();
 
       Cursor.Current = Cursors.Default;
-
-    }
-
-    private void listView_Alarms_MouseClick(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void listView_Alarms_MouseDoubleClick(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void listView_AggregatedStatus_StatusBits_DoubleClick(object sender, EventArgs e)
-    {
-
-    }
-
-    private void listView_Status_MouseClick(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void listView_Status_MouseDoubleClick(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void listView_Command_MouseDoubleClick(object sender, MouseEventArgs e)
-    {
 
     }
   }
