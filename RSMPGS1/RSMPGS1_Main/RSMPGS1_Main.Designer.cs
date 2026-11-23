@@ -70,6 +70,7 @@
       this.ToolStripMenuItem_ConnectAutomatically = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_Delimiter_3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_ConnectNow = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_ConnectTo = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_Disconnect = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_Delimiter_4 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_SendOptions = new System.Windows.Forms.ToolStripMenuItem();
@@ -246,7 +247,7 @@
       this.openFileDialog_ProcessImage = new System.Windows.Forms.OpenFileDialog();
       this.saveFileDialog_ProcessImage = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-      this.ToolStripMenuItem_ConnectTo = new System.Windows.Forms.ToolStripMenuItem();
+      this.tabPage1 = new System.Windows.Forms.TabPage();
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -349,14 +350,14 @@
       // ToolStripMenuItem_File_LoadCSV_SelectFolder
       // 
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Name = "ToolStripMenuItem_File_LoadCSV_SelectFolder";
-      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Size = new System.Drawing.Size(130, 22);
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Text = "CSV-files...";
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadCSV_SelectFolder_Click);
       // 
       // ToolStripMenuItem_File_LoadCSV_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadCSV_Delimiter.Name = "ToolStripMenuItem_File_LoadCSV_Delimiter";
-      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Size = new System.Drawing.Size(132, 6);
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Size = new System.Drawing.Size(127, 6);
       // 
       // ToolStripMenuItem_File_LoadYAML
       // 
@@ -370,14 +371,14 @@
       // ToolStripMenuItem_File_LoadYAML_SelectFolder
       // 
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Name = "ToolStripMenuItem_File_LoadYAML_SelectFolder";
-      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Size = new System.Drawing.Size(140, 22);
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Text = "YAML-files...";
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadYAML_SelectFolder_Click);
       // 
       // ToolStripMenuItem_File_LoadYAML_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadYAML_Delimiter.Name = "ToolStripMenuItem_File_LoadYAML_Delimiter";
-      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Size = new System.Drawing.Size(132, 6);
+      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Size = new System.Drawing.Size(137, 6);
       // 
       // ToolStripMenuItem_File_LoadComponents
       // 
@@ -607,6 +608,13 @@
       this.ToolStripMenuItem_ConnectNow.Size = new System.Drawing.Size(194, 22);
       this.ToolStripMenuItem_ConnectNow.Text = "Connect &now";
       this.ToolStripMenuItem_ConnectNow.Click += new System.EventHandler(this.ToolStripMenuItem_ConnectNow_Click);
+      // 
+      // ToolStripMenuItem_ConnectTo
+      // 
+      this.ToolStripMenuItem_ConnectTo.Name = "ToolStripMenuItem_ConnectTo";
+      this.ToolStripMenuItem_ConnectTo.Size = new System.Drawing.Size(194, 22);
+      this.ToolStripMenuItem_ConnectTo.Text = "Connect &to ...";
+      this.ToolStripMenuItem_ConnectTo.Click += new System.EventHandler(this.ToolStripMenuItem_ConnectTo_Click);
       // 
       // ToolStripMenuItem_Disconnect
       // 
@@ -904,6 +912,7 @@
       this.tabControl_Object.Controls.Add(this.tabPage_Commands);
       this.tabControl_Object.Controls.Add(this.tabPage_TestSend);
       this.tabControl_Object.Controls.Add(this.tabPage_BufferedMessages);
+      this.tabControl_Object.Controls.Add(this.tabPage1);
       this.tabControl_Object.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabControl_Object.Location = new System.Drawing.Point(0, 0);
       this.tabControl_Object.Multiline = true;
@@ -2430,12 +2439,15 @@
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
-      // ToolStripMenuItem_ConnectTo
+      // tabPage1
       // 
-      this.ToolStripMenuItem_ConnectTo.Name = "ToolStripMenuItem_ConnectTo";
-      this.ToolStripMenuItem_ConnectTo.Size = new System.Drawing.Size(194, 22);
-      this.ToolStripMenuItem_ConnectTo.Text = "Connect &to ...";
-      this.ToolStripMenuItem_ConnectTo.Click += new System.EventHandler(this.ToolStripMenuItem_ConnectTo_Click);
+      this.tabPage1.Location = new System.Drawing.Point(4, 22);
+      this.tabPage1.Name = "tabPage1";
+      this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage1.Size = new System.Drawing.Size(707, 556);
+      this.tabPage1.TabIndex = 9;
+      this.tabPage1.Text = "tabPage1";
+      this.tabPage1.UseVisualStyleBackColor = true;
       // 
       // RSMPGS_Main
       // 
@@ -2742,6 +2754,7 @@
     public System.Windows.Forms.TextBox textBox_Components_FilePath;
     private System.Windows.Forms.Label label_Components_FilePath;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
+    private System.Windows.Forms.TabPage tabPage1;
   }
 }
 
