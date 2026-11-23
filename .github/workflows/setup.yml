@@ -235,20 +235,11 @@ jobs:
             --site YAML/example_components.yaml \
             --stdout > SXL-example.xlsx
 
-      - name: Create CSV files
-        run: ruby sxl-tools/xlsx2csv.rb SXL-example.xlsx
-
-      - name: Upload artifacts (XLSX)
+      - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
           name: SXL XLSX
           path: SXL-example.xlsx
-
-      - name: Upload artifacts (CSV)
-        uses: actions/upload-artifact@v7
-        with:
-          name: SXL CSV
-          path: Objects/
 
   manual:
     name: Create manual
@@ -295,12 +286,6 @@ jobs:
       - name: Build RSMPGS2 (Release)
         run: msbuild /p:Configuration=Release RSMPGS2/RSMPGS2.sln
         # path: RSMPGS2/bin/Release/RSMPGS2.exe
-
-      - name: Download SXL CSV
-        uses: actions/download-artifact@v8
-        with:
-          name: SXL CSV
-          path: Objects
 
       - name: Download SXL YAML 1.0.7
         uses: actions/download-artifact@v8
