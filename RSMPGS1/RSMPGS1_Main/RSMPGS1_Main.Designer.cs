@@ -247,7 +247,7 @@
       this.openFileDialog_ProcessImage = new System.Windows.Forms.OpenFileDialog();
       this.saveFileDialog_ProcessImage = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-      this.tabPage1 = new System.Windows.Forms.TabPage();
+      this.tabPage_Encryption = new System.Windows.Forms.TabPage();
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -912,7 +912,7 @@
       this.tabControl_Object.Controls.Add(this.tabPage_Commands);
       this.tabControl_Object.Controls.Add(this.tabPage_TestSend);
       this.tabControl_Object.Controls.Add(this.tabPage_BufferedMessages);
-      this.tabControl_Object.Controls.Add(this.tabPage1);
+      this.tabControl_Object.Controls.Add(this.tabPage_Encryption);
       this.tabControl_Object.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabControl_Object.Location = new System.Drawing.Point(0, 0);
       this.tabControl_Object.Multiline = true;
@@ -2439,15 +2439,15 @@
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
-      // tabPage1
+      // tabPage_Encryption
       // 
-      this.tabPage1.Location = new System.Drawing.Point(4, 22);
-      this.tabPage1.Name = "tabPage1";
-      this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(707, 556);
-      this.tabPage1.TabIndex = 9;
-      this.tabPage1.Text = "tabPage1";
-      this.tabPage1.UseVisualStyleBackColor = true;
+      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Encryption.Name = "tabPage_Encryption";
+      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Encryption.Size = new System.Drawing.Size(707, 556);
+      this.tabPage_Encryption.TabIndex = 9;
+      this.tabPage_Encryption.Text = "Encryption";
+      this.tabPage_Encryption.UseVisualStyleBackColor = true;
       // 
       // RSMPGS_Main
       // 
@@ -2754,7 +2754,7 @@
     public System.Windows.Forms.TextBox textBox_Components_FilePath;
     private System.Windows.Forms.Label label_Components_FilePath;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
-    private System.Windows.Forms.TabPage tabPage1;
+    private System.Windows.Forms.TabPage tabPage_Encryption;
   }
 }
 
