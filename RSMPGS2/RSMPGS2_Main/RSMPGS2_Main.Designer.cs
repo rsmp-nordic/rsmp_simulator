@@ -270,6 +270,7 @@
       this.groupBox_TestSend2 = new System.Windows.Forms.GroupBox();
       this.textBox_TestPackage_2 = new System.Windows.Forms.TextBox();
       this.openFileDialog_TestPackage = new System.Windows.Forms.OpenFileDialog();
+      this.tabPage_Encryption = new System.Windows.Form.TabPage();
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
@@ -1011,6 +1012,7 @@
       this.tabControl_Object.Controls.Add(this.tabPage_Status);
       this.tabControl_Object.Controls.Add(this.tabPage_Commands);
       this.tabControl_Object.Controls.Add(this.tabPage_TestSend);
+      this.tabControl_Object.Controls.Add(this.tabPage_Encryption);
       this.tabControl_Object.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabControl_Object.Location = new System.Drawing.Point(0, 0);
       this.tabControl_Object.Multiline = true;
@@ -2613,6 +2615,16 @@
       // 
       this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
       // 
+      // tabPage_Encryption
+      // 
+      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Encryption.Name = "tabPage_Encryption";
+      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Encryption.Size = new System.Drawing.Size.(707, 556);
+      this.tabPage_Encryption.TabIndex = 9;
+      this.tabPage_Encryption.Text = "Encryption";
+      this.tabPage_Encryption.UseVisualStyleBackColor = true;
+      // 
       // RSMPGS_Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2957,6 +2969,7 @@
     private System.Windows.Forms.Label label_ComponentsFilePath;
     public System.Windows.Forms.TextBox textBox_Components_FilePath;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
+    private System.Windows.Forms.TabPage tabPage_Encryption;
   }
 }
 
