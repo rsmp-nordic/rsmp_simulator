@@ -270,7 +270,7 @@
       this.groupBox_TestSend2 = new System.Windows.Forms.GroupBox();
       this.textBox_TestPackage_2 = new System.Windows.Forms.TextBox();
       this.openFileDialog_TestPackage = new System.Windows.Forms.OpenFileDialog();
-      this.tabPage_Encryption = new System.Windows.Form.TabPage();
+      this.tabPage_Encryption = new System.Windows.Forms.TabPage();
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
@@ -2620,7 +2620,7 @@
       this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Encryption.Name = "tabPage_Encryption";
       this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Encryption.Size = new System.Drawing.Size.(707, 556);
+      this.tabPage_Encryption.Size = new System.Drawing.Size(707, 556);
       this.tabPage_Encryption.TabIndex = 9;
       this.tabPage_Encryption.Text = "Encryption";
       this.tabPage_Encryption.UseVisualStyleBackColor = true;
