@@ -35,9 +35,9 @@
       this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadCSV = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_LoadYAML = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolStripMenuItem_File_LoadCSV_Delimiter = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_LoadYAML_Delimiter = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripMenuItem_File_LoadComponents = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolStripMenuItem_File_LoadComponents_YAML = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,19 +111,6 @@
       this.groupBox_Components = new System.Windows.Forms.GroupBox();
       this.textBox_Components_FilePath = new System.Windows.Forms.TextBox();
       this.label_ComponentsFilePath = new System.Windows.Forms.Label();
-      this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
-      this.button_Encryption_CheckRevocation = new System.Windows.Forms.CheckBox();
-      this.label_Encryption_CertificateFile = new System.Windows.Forms.Label();
-      this.checkBox_Encryption_RequireClientCertificate = new System.Windows.Forms.CheckBox();
-      this.button_Encryption_IgnoreCertErrors = new System.Windows.Forms.CheckBox();
-      this.button_EncryptionFile_Browse = new System.Windows.Forms.Button();
-      this.textBox_EncryptionFile = new System.Windows.Forms.TextBox();
-      this.groupBox_EncryptionProtocols = new System.Windows.Forms.GroupBox();
-      this.checkBox_Encryption_Protocol_TLS13 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS12 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS11 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS10 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_Default = new System.Windows.Forms.CheckBox();
       this.groupBox_SXL_Version = new System.Windows.Forms.GroupBox();
       this.checkBox_AutomaticallyLoadObjects = new System.Windows.Forms.CheckBox();
       this.label_SXL_FilePath = new System.Windows.Forms.Label();
@@ -269,8 +256,21 @@
       this.button_TestPackage_2_Browse = new System.Windows.Forms.Button();
       this.groupBox_TestSend2 = new System.Windows.Forms.GroupBox();
       this.textBox_TestPackage_2 = new System.Windows.Forms.TextBox();
-      this.openFileDialog_TestPackage = new System.Windows.Forms.OpenFileDialog();
       this.tabPage_Encryption = new System.Windows.Forms.TabPage();
+      this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
+      this.button_Encryption_CheckRevocation = new System.Windows.Forms.CheckBox();
+      this.label_Encryption_CertificateFile = new System.Windows.Forms.Label();
+      this.checkBox_Encryption_RequireClientCertificate = new System.Windows.Forms.CheckBox();
+      this.button_Encryption_IgnoreCertErrors = new System.Windows.Forms.CheckBox();
+      this.button_EncryptionFile_Browse = new System.Windows.Forms.Button();
+      this.textBox_EncryptionFile = new System.Windows.Forms.TextBox();
+      this.groupBox_EncryptionProtocols = new System.Windows.Forms.GroupBox();
+      this.checkBox_Encryption_Protocol_TLS13 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS12 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS11 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS10 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_Default = new System.Windows.Forms.CheckBox();
+      this.openFileDialog_TestPackage = new System.Windows.Forms.OpenFileDialog();
       this.label1 = new System.Windows.Forms.Label();
       this.saveFileDialog_SXL = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog_Sequence = new System.Windows.Forms.OpenFileDialog();
@@ -288,8 +288,6 @@
       this.tabControl_Object.SuspendLayout();
       this.tabPage_Generic.SuspendLayout();
       this.groupBox_Components.SuspendLayout();
-      this.groupBox_Encryption.SuspendLayout();
-      this.groupBox_EncryptionProtocols.SuspendLayout();
       this.groupBox_SXL_Version.SuspendLayout();
       this.groupBox_supervisorId.SuspendLayout();
       this.tabPage_RSMP.SuspendLayout();
@@ -345,6 +343,9 @@
       this.splitContainer_TestSend.SuspendLayout();
       this.groupBox_TestSend1.SuspendLayout();
       this.groupBox_TestSend2.SuspendLayout();
+      this.tabPage_Encryption.SuspendLayout();
+      this.groupBox_Encryption.SuspendLayout();
+      this.groupBox_EncryptionProtocols.SuspendLayout();
       this.SuspendLayout();
       // 
       // timer_System
@@ -396,14 +397,14 @@
       // ToolStripMenuItem_File_LoadCSV_SelectFolder
       // 
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Name = "ToolStripMenuItem_File_LoadCSV_SelectFolder";
-      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Size = new System.Drawing.Size(130, 22);
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Text = "CSV-files...";
       this.ToolStripMenuItem_File_LoadCSV_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadCSV_SelectFolder_Click);
       // 
       // ToolStripMenuItem_File_LoadCSV_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadCSV_Delimiter.Name = "ToolStripMenuItem_File_LoadCSV_Delimiter";
-      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Size = new System.Drawing.Size(132, 6);
+      this.ToolStripMenuItem_File_LoadCSV_Delimiter.Size = new System.Drawing.Size(127, 6);
       // 
       // ToolStripMenuItem_File_LoadYAML
       // 
@@ -417,14 +418,14 @@
       // ToolStripMenuItem_File_LoadYAML_SelectFolder
       // 
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Name = "ToolStripMenuItem_File_LoadYAML_SelectFolder";
-      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Size = new System.Drawing.Size(135, 22);
+      this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Size = new System.Drawing.Size(140, 22);
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Text = "YAML-files...";
       this.ToolStripMenuItem_File_LoadYAML_SelectFolder.Click += new System.EventHandler(this.ToolStripMenuItem_File_LoadYAML_SelectFolder_Click);
       // 
       // ToolStripMenuItem_File_LoadYAML_Delimiter
       // 
       this.ToolStripMenuItem_File_LoadYAML_Delimiter.Name = "ToolStripMenuItem_File_LoadYAML_Delimiter";
-      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Size = new System.Drawing.Size(132, 6);
+      this.ToolStripMenuItem_File_LoadYAML_Delimiter.Size = new System.Drawing.Size(137, 6);
       // 
       // ToolStripMenuItem_File_LoadComponents
       // 
@@ -837,7 +838,7 @@
       // splitContainer_Main.Panel2
       // 
       this.splitContainer_Main.Panel2.Controls.Add(this.tabControl_Object);
-      this.splitContainer_Main.Size = new System.Drawing.Size(997, 751);
+      this.splitContainer_Main.Size = new System.Drawing.Size(997, 604);
       this.splitContainer_Main.SplitterDistance = 313;
       this.splitContainer_Main.TabIndex = 4;
       // 
@@ -855,8 +856,8 @@
       // splitContainer_ObjectsAndSyslog.Panel2
       // 
       this.splitContainer_ObjectsAndSyslog.Panel2.Controls.Add(this.groupBox_SystemLog);
-      this.splitContainer_ObjectsAndSyslog.Size = new System.Drawing.Size(313, 751);
-      this.splitContainer_ObjectsAndSyslog.SplitterDistance = 440;
+      this.splitContainer_ObjectsAndSyslog.Size = new System.Drawing.Size(313, 604);
+      this.splitContainer_ObjectsAndSyslog.SplitterDistance = 353;
       this.splitContainer_ObjectsAndSyslog.TabIndex = 0;
       // 
       // groupBox_SitesAndObjects
@@ -866,7 +867,7 @@
       this.groupBox_SitesAndObjects.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_SitesAndObjects.Location = new System.Drawing.Point(0, 0);
       this.groupBox_SitesAndObjects.Name = "groupBox_SitesAndObjects";
-      this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(313, 440);
+      this.groupBox_SitesAndObjects.Size = new System.Drawing.Size(313, 353);
       this.groupBox_SitesAndObjects.TabIndex = 1;
       this.groupBox_SitesAndObjects.TabStop = false;
       this.groupBox_SitesAndObjects.Text = "&Sites and Components";
@@ -875,7 +876,7 @@
       // 
       this.checkBox_ShowTooltip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBox_ShowTooltip.AutoSize = true;
-      this.checkBox_ShowTooltip.Location = new System.Drawing.Point(9, 418);
+      this.checkBox_ShowTooltip.Location = new System.Drawing.Point(9, 331);
       this.checkBox_ShowTooltip.Name = "checkBox_ShowTooltip";
       this.checkBox_ShowTooltip.Size = new System.Drawing.Size(159, 17);
       this.checkBox_ShowTooltip.TabIndex = 2;
@@ -894,7 +895,7 @@
       this.treeView_SitesAndObjects.Location = new System.Drawing.Point(6, 19);
       this.treeView_SitesAndObjects.Name = "treeView_SitesAndObjects";
       this.treeView_SitesAndObjects.SelectedImageIndex = 0;
-      this.treeView_SitesAndObjects.Size = new System.Drawing.Size(301, 393);
+      this.treeView_SitesAndObjects.Size = new System.Drawing.Size(301, 306);
       this.treeView_SitesAndObjects.TabIndex = 0;
       this.treeView_SitesAndObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_SitesAndObjects_AfterSelect);
       // 
@@ -917,7 +918,7 @@
       this.groupBox_SystemLog.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_SystemLog.Location = new System.Drawing.Point(0, 0);
       this.groupBox_SystemLog.Name = "groupBox_SystemLog";
-      this.groupBox_SystemLog.Size = new System.Drawing.Size(313, 307);
+      this.groupBox_SystemLog.Size = new System.Drawing.Size(313, 247);
       this.groupBox_SystemLog.TabIndex = 1;
       this.groupBox_SystemLog.TabStop = false;
       this.groupBox_SystemLog.Text = "System &Log";
@@ -928,7 +929,7 @@
       this.checkBox_AutoScrollSysLog.AutoSize = true;
       this.checkBox_AutoScrollSysLog.Checked = true;
       this.checkBox_AutoScrollSysLog.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(155, 286);
+      this.checkBox_AutoScrollSysLog.Location = new System.Drawing.Point(155, 226);
       this.checkBox_AutoScrollSysLog.Name = "checkBox_AutoScrollSysLog";
       this.checkBox_AutoScrollSysLog.Size = new System.Drawing.Size(75, 17);
       this.checkBox_AutoScrollSysLog.TabIndex = 6;
@@ -938,7 +939,7 @@
       // button_ClearSystemLog
       // 
       this.button_ClearSystemLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ClearSystemLog.Location = new System.Drawing.Point(245, 281);
+      this.button_ClearSystemLog.Location = new System.Drawing.Point(245, 221);
       this.button_ClearSystemLog.Name = "button_ClearSystemLog";
       this.button_ClearSystemLog.Size = new System.Drawing.Size(62, 20);
       this.button_ClearSystemLog.TabIndex = 5;
@@ -950,7 +951,7 @@
       // 
       this.checkBox_ViewOnlyFailedPackets.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBox_ViewOnlyFailedPackets.AutoSize = true;
-      this.checkBox_ViewOnlyFailedPackets.Location = new System.Drawing.Point(9, 286);
+      this.checkBox_ViewOnlyFailedPackets.Location = new System.Drawing.Point(9, 226);
       this.checkBox_ViewOnlyFailedPackets.Name = "checkBox_ViewOnlyFailedPackets";
       this.checkBox_ViewOnlyFailedPackets.Size = new System.Drawing.Size(140, 17);
       this.checkBox_ViewOnlyFailedPackets.TabIndex = 4;
@@ -975,7 +976,7 @@
       this.listView_SysLog.MultiSelect = false;
       this.listView_SysLog.Name = "listView_SysLog";
       this.listView_SysLog.ShowItemToolTips = true;
-      this.listView_SysLog.Size = new System.Drawing.Size(301, 258);
+      this.listView_SysLog.Size = new System.Drawing.Size(301, 198);
       this.listView_SysLog.SmallImageList = this.imageList_Severity;
       this.listView_SysLog.TabIndex = 0;
       this.listView_SysLog.UseCompatibleStateImageBehavior = false;
@@ -1018,19 +1019,18 @@
       this.tabControl_Object.Multiline = true;
       this.tabControl_Object.Name = "tabControl_Object";
       this.tabControl_Object.SelectedIndex = 0;
-      this.tabControl_Object.Size = new System.Drawing.Size(680, 751);
+      this.tabControl_Object.Size = new System.Drawing.Size(680, 604);
       this.tabControl_Object.TabIndex = 2;
       // 
       // tabPage_Generic
       // 
       this.tabPage_Generic.Controls.Add(this.groupBox_Components);
-      this.tabPage_Generic.Controls.Add(this.groupBox_Encryption);
       this.tabPage_Generic.Controls.Add(this.groupBox_SXL_Version);
       this.tabPage_Generic.Controls.Add(this.groupBox_supervisorId);
       this.tabPage_Generic.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Generic.Name = "tabPage_Generic";
       this.tabPage_Generic.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Generic.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Generic.Size = new System.Drawing.Size(672, 578);
       this.tabPage_Generic.TabIndex = 0;
       this.tabPage_Generic.Text = "Generic";
       this.tabPage_Generic.UseVisualStyleBackColor = true;
@@ -1067,175 +1067,6 @@
       this.label_ComponentsFilePath.TabIndex = 12;
       this.label_ComponentsFilePath.Text = "Components path";
       this.label_ComponentsFilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-      // 
-      // groupBox_Encryption
-      // 
-      this.groupBox_Encryption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.groupBox_Encryption.Controls.Add(this.button_Encryption_CheckRevocation);
-      this.groupBox_Encryption.Controls.Add(this.label_Encryption_CertificateFile);
-      this.groupBox_Encryption.Controls.Add(this.checkBox_Encryption_RequireClientCertificate);
-      this.groupBox_Encryption.Controls.Add(this.button_Encryption_IgnoreCertErrors);
-      this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
-      this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
-      this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
-      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 243);
-      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
-      this.groupBox_Encryption.Name = "groupBox_Encryption";
-      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_Encryption.Size = new System.Drawing.Size(669, 162);
-      this.groupBox_Encryption.TabIndex = 4;
-      this.groupBox_Encryption.TabStop = false;
-      this.groupBox_Encryption.Text = "&Encryption settings";
-      // 
-      // button_Encryption_CheckRevocation
-      // 
-      this.button_Encryption_CheckRevocation.AutoSize = true;
-      this.button_Encryption_CheckRevocation.Checked = true;
-      this.button_Encryption_CheckRevocation.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.button_Encryption_CheckRevocation.Location = new System.Drawing.Point(328, 93);
-      this.button_Encryption_CheckRevocation.Name = "button_Encryption_CheckRevocation";
-      this.button_Encryption_CheckRevocation.Size = new System.Drawing.Size(260, 17);
-      this.button_Encryption_CheckRevocation.TabIndex = 17;
-      this.button_Encryption_CheckRevocation.Text = "Check certificate against certificate revocation list";
-      this.button_Encryption_CheckRevocation.UseVisualStyleBackColor = true;
-      this.button_Encryption_CheckRevocation.CheckedChanged += new System.EventHandler(this.button_Encryption_CheckRevocation_CheckedChanged);
-      // 
-      // label_Encryption_CertificateFile
-      // 
-      this.label_Encryption_CertificateFile.AutoSize = true;
-      this.label_Encryption_CertificateFile.Location = new System.Drawing.Point(18, 135);
-      this.label_Encryption_CertificateFile.Name = "label_Encryption_CertificateFile";
-      this.label_Encryption_CertificateFile.Size = new System.Drawing.Size(106, 13);
-      this.label_Encryption_CertificateFile.TabIndex = 16;
-      this.label_Encryption_CertificateFile.Text = "Server certificate file:";
-      this.label_Encryption_CertificateFile.TextAlign = System.Drawing.ContentAlignment.TopRight;
-      // 
-      // checkBox_Encryption_RequireClientCertificate
-      // 
-      this.checkBox_Encryption_RequireClientCertificate.AutoSize = true;
-      this.checkBox_Encryption_RequireClientCertificate.Checked = true;
-      this.checkBox_Encryption_RequireClientCertificate.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_RequireClientCertificate.Location = new System.Drawing.Point(328, 46);
-      this.checkBox_Encryption_RequireClientCertificate.Name = "checkBox_Encryption_RequireClientCertificate";
-      this.checkBox_Encryption_RequireClientCertificate.Size = new System.Drawing.Size(213, 17);
-      this.checkBox_Encryption_RequireClientCertificate.TabIndex = 15;
-      this.checkBox_Encryption_RequireClientCertificate.Text = "Require client certificate authentication ";
-      this.checkBox_Encryption_RequireClientCertificate.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_RequireClientCertificate.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_RequireClientCertificate_CheckedChanged);
-      // 
-      // button_Encryption_IgnoreCertErrors
-      // 
-      this.button_Encryption_IgnoreCertErrors.AutoSize = true;
-      this.button_Encryption_IgnoreCertErrors.Checked = true;
-      this.button_Encryption_IgnoreCertErrors.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.button_Encryption_IgnoreCertErrors.Location = new System.Drawing.Point(328, 70);
-      this.button_Encryption_IgnoreCertErrors.Name = "button_Encryption_IgnoreCertErrors";
-      this.button_Encryption_IgnoreCertErrors.Size = new System.Drawing.Size(134, 17);
-      this.button_Encryption_IgnoreCertErrors.TabIndex = 12;
-      this.button_Encryption_IgnoreCertErrors.Text = "Ignore certificate errors";
-      this.button_Encryption_IgnoreCertErrors.UseVisualStyleBackColor = true;
-      this.button_Encryption_IgnoreCertErrors.CheckedChanged += new System.EventHandler(this.button_Encryption_IgnoreCertErrors_CheckedChanged);
-      // 
-      // button_EncryptionFile_Browse
-      // 
-      this.button_EncryptionFile_Browse.Location = new System.Drawing.Point(589, 132);
-      this.button_EncryptionFile_Browse.Name = "button_EncryptionFile_Browse";
-      this.button_EncryptionFile_Browse.Size = new System.Drawing.Size(62, 20);
-      this.button_EncryptionFile_Browse.TabIndex = 11;
-      this.button_EncryptionFile_Browse.Text = "Browse";
-      this.button_EncryptionFile_Browse.UseVisualStyleBackColor = true;
-      this.button_EncryptionFile_Browse.Click += new System.EventHandler(this.button_EncryptionFile_Browse_Click);
-      // 
-      // textBox_EncryptionFile
-      // 
-      this.textBox_EncryptionFile.Enabled = false;
-      this.textBox_EncryptionFile.Location = new System.Drawing.Point(130, 132);
-      this.textBox_EncryptionFile.Name = "textBox_EncryptionFile";
-      this.textBox_EncryptionFile.Size = new System.Drawing.Size(454, 20);
-      this.textBox_EncryptionFile.TabIndex = 7;
-      this.textBox_EncryptionFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.textBox_EncryptionFile.TextChanged += new System.EventHandler(this.textBox_EncryptionFile_TextChanged);
-      // 
-      // groupBox_EncryptionProtocols
-      // 
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS13);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS12);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS11);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS10);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_Default);
-      this.groupBox_EncryptionProtocols.Location = new System.Drawing.Point(16, 28);
-      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2);
-      this.groupBox_EncryptionProtocols.Name = "groupBox_EncryptionProtocols";
-      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_EncryptionProtocols.Size = new System.Drawing.Size(285, 93);
-      this.groupBox_EncryptionProtocols.TabIndex = 6;
-      this.groupBox_EncryptionProtocols.TabStop = false;
-      this.groupBox_EncryptionProtocols.Text = "&Encryption protocols";
-      // 
-      // checkBox_Encryption_Protocol_TLS13
-      // 
-      this.checkBox_Encryption_Protocol_TLS13.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS13.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS13.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS13.Location = new System.Drawing.Point(94, 65);
-      this.checkBox_Encryption_Protocol_TLS13.Name = "checkBox_Encryption_Protocol_TLS13";
-      this.checkBox_Encryption_Protocol_TLS13.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS13.TabIndex = 12;
-      this.checkBox_Encryption_Protocol_TLS13.Text = "TLS 1.3";
-      this.checkBox_Encryption_Protocol_TLS13.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS13.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS12
-      // 
-      this.checkBox_Encryption_Protocol_TLS12.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS12.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS12.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS12.Location = new System.Drawing.Point(94, 41);
-      this.checkBox_Encryption_Protocol_TLS12.Name = "checkBox_Encryption_Protocol_TLS12";
-      this.checkBox_Encryption_Protocol_TLS12.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS12.TabIndex = 11;
-      this.checkBox_Encryption_Protocol_TLS12.Text = "TLS 1.2";
-      this.checkBox_Encryption_Protocol_TLS12.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS12.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS11
-      // 
-      this.checkBox_Encryption_Protocol_TLS11.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS11.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS11.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS11.Location = new System.Drawing.Point(16, 65);
-      this.checkBox_Encryption_Protocol_TLS11.Name = "checkBox_Encryption_Protocol_TLS11";
-      this.checkBox_Encryption_Protocol_TLS11.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS11.TabIndex = 10;
-      this.checkBox_Encryption_Protocol_TLS11.Text = "TLS 1.1";
-      this.checkBox_Encryption_Protocol_TLS11.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS11.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS10
-      // 
-      this.checkBox_Encryption_Protocol_TLS10.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS10.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS10.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS10.Location = new System.Drawing.Point(16, 41);
-      this.checkBox_Encryption_Protocol_TLS10.Name = "checkBox_Encryption_Protocol_TLS10";
-      this.checkBox_Encryption_Protocol_TLS10.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS10.TabIndex = 9;
-      this.checkBox_Encryption_Protocol_TLS10.Text = "TLS 1.0";
-      this.checkBox_Encryption_Protocol_TLS10.UseVisualStyleBackColor = true;
-      // 
-      // checkBox_Encryption_Protocol_Default
-      // 
-      this.checkBox_Encryption_Protocol_Default.AutoSize = true;
-      this.checkBox_Encryption_Protocol_Default.Checked = true;
-      this.checkBox_Encryption_Protocol_Default.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_Default.Location = new System.Drawing.Point(16, 18);
-      this.checkBox_Encryption_Protocol_Default.Name = "checkBox_Encryption_Protocol_Default";
-      this.checkBox_Encryption_Protocol_Default.Size = new System.Drawing.Size(252, 17);
-      this.checkBox_Encryption_Protocol_Default.TabIndex = 7;
-      this.checkBox_Encryption_Protocol_Default.Text = "Default (let OS automatically select the protocol)";
-      this.checkBox_Encryption_Protocol_Default.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_Default.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
       // 
       // groupBox_SXL_Version
       // 
@@ -1343,11 +1174,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.groupBox_supervisorId.Controls.Add(this.textBox_supervisorId);
       this.groupBox_supervisorId.Controls.Add(this.label_supervisorId);
-      this.groupBox_supervisorId.Location = new System.Drawing.Point(4, 414);
+      this.groupBox_supervisorId.Location = new System.Drawing.Point(4, 248);
       this.groupBox_supervisorId.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_supervisorId.Name = "groupBox_supervisorId";
       this.groupBox_supervisorId.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_supervisorId.Size = new System.Drawing.Size(669, 60);
+      this.groupBox_supervisorId.Size = new System.Drawing.Size(669, 67);
       this.groupBox_supervisorId.TabIndex = 5;
       this.groupBox_supervisorId.TabStop = false;
       this.groupBox_supervisorId.Text = "Supervisor ID (RSMP >= 3.3.0)";
@@ -1378,7 +1209,7 @@
       this.tabPage_RSMP.Margin = new System.Windows.Forms.Padding(2);
       this.tabPage_RSMP.Name = "tabPage_RSMP";
       this.tabPage_RSMP.Padding = new System.Windows.Forms.Padding(2);
-      this.tabPage_RSMP.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_RSMP.Size = new System.Drawing.Size(672, 578);
       this.tabPage_RSMP.TabIndex = 7;
       this.tabPage_RSMP.Text = "RSMP";
       this.tabPage_RSMP.UseVisualStyleBackColor = true;
@@ -1398,8 +1229,8 @@
       // splitContainer_RSMP.Panel2
       // 
       this.splitContainer_RSMP.Panel2.Controls.Add(this.groupBox_Statistics);
-      this.splitContainer_RSMP.Size = new System.Drawing.Size(668, 721);
-      this.splitContainer_RSMP.SplitterDistance = 364;
+      this.splitContainer_RSMP.Size = new System.Drawing.Size(668, 574);
+      this.splitContainer_RSMP.SplitterDistance = 289;
       this.splitContainer_RSMP.SplitterWidth = 3;
       this.splitContainer_RSMP.TabIndex = 11;
       // 
@@ -1412,7 +1243,7 @@
       this.groupBox_ProtocolSettings.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_ProtocolSettings.Name = "groupBox_ProtocolSettings";
       this.groupBox_ProtocolSettings.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_ProtocolSettings.Size = new System.Drawing.Size(668, 364);
+      this.groupBox_ProtocolSettings.Size = new System.Drawing.Size(668, 289);
       this.groupBox_ProtocolSettings.TabIndex = 10;
       this.groupBox_ProtocolSettings.TabStop = false;
       this.groupBox_ProtocolSettings.Text = "&Behaviour";
@@ -1446,7 +1277,7 @@
       this.dataGridView_Behaviour.Name = "dataGridView_Behaviour";
       this.dataGridView_Behaviour.RowHeadersVisible = false;
       this.dataGridView_Behaviour.RowTemplate.Height = 24;
-      this.dataGridView_Behaviour.Size = new System.Drawing.Size(663, 320);
+      this.dataGridView_Behaviour.Size = new System.Drawing.Size(663, 245);
       this.dataGridView_Behaviour.TabIndex = 18;
       this.dataGridView_Behaviour.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Behaviour_CellContentClick);
       this.dataGridView_Behaviour.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Behaviour_CellValueChanged);
@@ -1523,7 +1354,7 @@
       // button_ResetRSMPSettingToDefault
       // 
       this.button_ResetRSMPSettingToDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ResetRSMPSettingToDefault.Location = new System.Drawing.Point(439, 338);
+      this.button_ResetRSMPSettingToDefault.Location = new System.Drawing.Point(439, 263);
       this.button_ResetRSMPSettingToDefault.Name = "button_ResetRSMPSettingToDefault";
       this.button_ResetRSMPSettingToDefault.Size = new System.Drawing.Size(226, 20);
       this.button_ResetRSMPSettingToDefault.TabIndex = 11;
@@ -1540,7 +1371,7 @@
       this.groupBox_Statistics.Margin = new System.Windows.Forms.Padding(2);
       this.groupBox_Statistics.Name = "groupBox_Statistics";
       this.groupBox_Statistics.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_Statistics.Size = new System.Drawing.Size(668, 354);
+      this.groupBox_Statistics.Size = new System.Drawing.Size(668, 282);
       this.groupBox_Statistics.TabIndex = 6;
       this.groupBox_Statistics.TabStop = false;
       this.groupBox_Statistics.Text = "&Connection statistics";
@@ -1548,7 +1379,7 @@
       // button_ClearStatistics
       // 
       this.button_ClearStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button_ClearStatistics.Location = new System.Drawing.Point(601, 329);
+      this.button_ClearStatistics.Location = new System.Drawing.Point(601, 257);
       this.button_ClearStatistics.Name = "button_ClearStatistics";
       this.button_ClearStatistics.Size = new System.Drawing.Size(62, 20);
       this.button_ClearStatistics.TabIndex = 11;
@@ -1571,7 +1402,7 @@
       this.listView_Statistics.Location = new System.Drawing.Point(2, 15);
       this.listView_Statistics.Margin = new System.Windows.Forms.Padding(2);
       this.listView_Statistics.Name = "listView_Statistics";
-      this.listView_Statistics.Size = new System.Drawing.Size(665, 310);
+      this.listView_Statistics.Size = new System.Drawing.Size(665, 238);
       this.listView_Statistics.TabIndex = 0;
       this.listView_Statistics.UseCompatibleStateImageBehavior = false;
       this.listView_Statistics.View = System.Windows.Forms.View.Details;
@@ -1598,7 +1429,7 @@
       this.tabPage_Alarms.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Alarms.Name = "tabPage_Alarms";
       this.tabPage_Alarms.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Alarms.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Alarms.Size = new System.Drawing.Size(672, 578);
       this.tabPage_Alarms.TabIndex = 1;
       this.tabPage_Alarms.Text = "Alarms";
       this.tabPage_Alarms.UseVisualStyleBackColor = true;
@@ -1617,8 +1448,8 @@
       // splitContainer_Alarms.Panel2
       // 
       this.splitContainer_Alarms.Panel2.Controls.Add(this.groupBox_AlarmEvents);
-      this.splitContainer_Alarms.Size = new System.Drawing.Size(666, 719);
-      this.splitContainer_Alarms.SplitterDistance = 370;
+      this.splitContainer_Alarms.Size = new System.Drawing.Size(666, 572);
+      this.splitContainer_Alarms.SplitterDistance = 294;
       this.splitContainer_Alarms.TabIndex = 0;
       // 
       // listView_Alarms
@@ -1639,7 +1470,7 @@
       this.listView_Alarms.HideSelection = false;
       this.listView_Alarms.Location = new System.Drawing.Point(0, 0);
       this.listView_Alarms.Name = "listView_Alarms";
-      this.listView_Alarms.Size = new System.Drawing.Size(666, 370);
+      this.listView_Alarms.Size = new System.Drawing.Size(666, 294);
       this.listView_Alarms.TabIndex = 1;
       this.listView_Alarms.UseCompatibleStateImageBehavior = false;
       this.listView_Alarms.View = System.Windows.Forms.View.Details;
@@ -1742,7 +1573,7 @@
       this.groupBox_AlarmEvents.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_AlarmEvents.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AlarmEvents.Name = "groupBox_AlarmEvents";
-      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_AlarmEvents.Size = new System.Drawing.Size(666, 274);
       this.groupBox_AlarmEvents.TabIndex = 0;
       this.groupBox_AlarmEvents.TabStop = false;
       this.groupBox_AlarmEvents.Text = "Alarm &Events";
@@ -1763,7 +1594,7 @@
       this.listView_AlarmEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_AlarmEvents.MultiSelect = false;
       this.listView_AlarmEvents.Name = "listView_AlarmEvents";
-      this.listView_AlarmEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_AlarmEvents.Size = new System.Drawing.Size(660, 255);
       this.listView_AlarmEvents.TabIndex = 3;
       this.listView_AlarmEvents.UseCompatibleStateImageBehavior = false;
       this.listView_AlarmEvents.View = System.Windows.Forms.View.Details;
@@ -1811,7 +1642,7 @@
       this.tabPage_AggregatedStatus.Location = new System.Drawing.Point(4, 22);
       this.tabPage_AggregatedStatus.Name = "tabPage_AggregatedStatus";
       this.tabPage_AggregatedStatus.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_AggregatedStatus.Size = new System.Drawing.Size(672, 578);
       this.tabPage_AggregatedStatus.TabIndex = 3;
       this.tabPage_AggregatedStatus.Text = "Aggregated Status";
       this.tabPage_AggregatedStatus.UseVisualStyleBackColor = true;
@@ -1830,8 +1661,8 @@
       // splitContainer_AggregatedStatus.Panel2
       // 
       this.splitContainer_AggregatedStatus.Panel2.Controls.Add(this.splitContainer_AggregatedStatus_FunctionalStatPos_Events);
-      this.splitContainer_AggregatedStatus.Size = new System.Drawing.Size(666, 719);
-      this.splitContainer_AggregatedStatus.SplitterDistance = 215;
+      this.splitContainer_AggregatedStatus.Size = new System.Drawing.Size(666, 572);
+      this.splitContainer_AggregatedStatus.SplitterDistance = 171;
       this.splitContainer_AggregatedStatus.TabIndex = 0;
       // 
       // groupBox_AggregatedStatus_StatusBits
@@ -1840,7 +1671,7 @@
       this.groupBox_AggregatedStatus_StatusBits.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AggregatedStatus_StatusBits.Name = "groupBox_AggregatedStatus_StatusBits";
-      this.groupBox_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(666, 215);
+      this.groupBox_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(666, 171);
       this.groupBox_AggregatedStatus_StatusBits.TabIndex = 12;
       this.groupBox_AggregatedStatus_StatusBits.TabStop = false;
       this.groupBox_AggregatedStatus_StatusBits.Text = "StatusBits";
@@ -1857,7 +1688,7 @@
       this.listView_AggregatedStatus_StatusBits.Location = new System.Drawing.Point(3, 16);
       this.listView_AggregatedStatus_StatusBits.MultiSelect = false;
       this.listView_AggregatedStatus_StatusBits.Name = "listView_AggregatedStatus_StatusBits";
-      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 196);
+      this.listView_AggregatedStatus_StatusBits.Size = new System.Drawing.Size(660, 152);
       this.listView_AggregatedStatus_StatusBits.SmallImageList = this.imageList_ListView;
       this.listView_AggregatedStatus_StatusBits.TabIndex = 7;
       this.listView_AggregatedStatus_StatusBits.UseCompatibleStateImageBehavior = false;
@@ -1893,8 +1724,8 @@
       // 
       this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2.Controls.Add(this.button_AggregatedStatus_Request);
       this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Panel2.Controls.Add(this.groupBox_AggregatedStatusEvents);
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Size = new System.Drawing.Size(666, 500);
-      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.SplitterDistance = 135;
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.Size = new System.Drawing.Size(666, 397);
+      this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.SplitterDistance = 107;
       this.splitContainer_AggregatedStatus_FunctionalStatPos_Events.TabIndex = 0;
       // 
       // splitContainer_FunctionalStatPos
@@ -1910,7 +1741,7 @@
       // splitContainer_FunctionalStatPos.Panel2
       // 
       this.splitContainer_FunctionalStatPos.Panel2.Controls.Add(this.groupBox_AggregatedStatus_FunctionalState);
-      this.splitContainer_FunctionalStatPos.Size = new System.Drawing.Size(666, 135);
+      this.splitContainer_FunctionalStatPos.Size = new System.Drawing.Size(666, 107);
       this.splitContainer_FunctionalStatPos.SplitterDistance = 306;
       this.splitContainer_FunctionalStatPos.TabIndex = 0;
       // 
@@ -1920,7 +1751,7 @@
       this.groupBox_AggregatedStatus_FunctionalPosition.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AggregatedStatus_FunctionalPosition.Name = "groupBox_AggregatedStatus_FunctionalPosition";
-      this.groupBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(306, 135);
+      this.groupBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(306, 107);
       this.groupBox_AggregatedStatus_FunctionalPosition.TabIndex = 15;
       this.groupBox_AggregatedStatus_FunctionalPosition.TabStop = false;
       this.groupBox_AggregatedStatus_FunctionalPosition.Text = "&FunctionalPosition";
@@ -1932,7 +1763,7 @@
       this.listBox_AggregatedStatus_FunctionalPosition.Location = new System.Drawing.Point(3, 16);
       this.listBox_AggregatedStatus_FunctionalPosition.Name = "listBox_AggregatedStatus_FunctionalPosition";
       this.listBox_AggregatedStatus_FunctionalPosition.SelectionMode = System.Windows.Forms.SelectionMode.None;
-      this.listBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(300, 116);
+      this.listBox_AggregatedStatus_FunctionalPosition.Size = new System.Drawing.Size(300, 88);
       this.listBox_AggregatedStatus_FunctionalPosition.TabIndex = 0;
       // 
       // groupBox_AggregatedStatus_FunctionalState
@@ -1941,7 +1772,7 @@
       this.groupBox_AggregatedStatus_FunctionalState.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AggregatedStatus_FunctionalState.Name = "groupBox_AggregatedStatus_FunctionalState";
-      this.groupBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(356, 135);
+      this.groupBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(356, 107);
       this.groupBox_AggregatedStatus_FunctionalState.TabIndex = 16;
       this.groupBox_AggregatedStatus_FunctionalState.TabStop = false;
       this.groupBox_AggregatedStatus_FunctionalState.Text = "&FunctionalState";
@@ -1953,13 +1784,13 @@
       this.listBox_AggregatedStatus_FunctionalState.Location = new System.Drawing.Point(3, 16);
       this.listBox_AggregatedStatus_FunctionalState.Name = "listBox_AggregatedStatus_FunctionalState";
       this.listBox_AggregatedStatus_FunctionalState.SelectionMode = System.Windows.Forms.SelectionMode.None;
-      this.listBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(350, 116);
+      this.listBox_AggregatedStatus_FunctionalState.Size = new System.Drawing.Size(350, 88);
       this.listBox_AggregatedStatus_FunctionalState.TabIndex = 0;
       // 
       // button_AggregatedStatus_Request
       // 
       this.button_AggregatedStatus_Request.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_AggregatedStatus_Request.Location = new System.Drawing.Point(29, 333);
+      this.button_AggregatedStatus_Request.Location = new System.Drawing.Point(29, 258);
       this.button_AggregatedStatus_Request.Name = "button_AggregatedStatus_Request";
       this.button_AggregatedStatus_Request.Size = new System.Drawing.Size(226, 23);
       this.button_AggregatedStatus_Request.TabIndex = 9;
@@ -1975,7 +1806,7 @@
       this.groupBox_AggregatedStatusEvents.Controls.Add(this.listView_AggregatedStatusEvents);
       this.groupBox_AggregatedStatusEvents.Location = new System.Drawing.Point(0, 0);
       this.groupBox_AggregatedStatusEvents.Name = "groupBox_AggregatedStatusEvents";
-      this.groupBox_AggregatedStatusEvents.Size = new System.Drawing.Size(666, 327);
+      this.groupBox_AggregatedStatusEvents.Size = new System.Drawing.Size(666, 252);
       this.groupBox_AggregatedStatusEvents.TabIndex = 1;
       this.groupBox_AggregatedStatusEvents.TabStop = false;
       this.groupBox_AggregatedStatusEvents.Text = "Aggregated Status &Events";
@@ -1995,7 +1826,7 @@
       this.listView_AggregatedStatusEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_AggregatedStatusEvents.MultiSelect = false;
       this.listView_AggregatedStatusEvents.Name = "listView_AggregatedStatusEvents";
-      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 308);
+      this.listView_AggregatedStatusEvents.Size = new System.Drawing.Size(660, 233);
       this.listView_AggregatedStatusEvents.TabIndex = 3;
       this.listView_AggregatedStatusEvents.UseCompatibleStateImageBehavior = false;
       this.listView_AggregatedStatusEvents.View = System.Windows.Forms.View.Details;
@@ -2036,7 +1867,7 @@
       this.tabPage_Status.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Status.Name = "tabPage_Status";
       this.tabPage_Status.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Status.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Status.Size = new System.Drawing.Size(672, 578);
       this.tabPage_Status.TabIndex = 4;
       this.tabPage_Status.Text = "Status";
       this.tabPage_Status.UseVisualStyleBackColor = true;
@@ -2055,8 +1886,8 @@
       // splitContainer_Status.Panel2
       // 
       this.splitContainer_Status.Panel2.Controls.Add(this.groupBox_StatusEvents);
-      this.splitContainer_Status.Size = new System.Drawing.Size(666, 719);
-      this.splitContainer_Status.SplitterDistance = 370;
+      this.splitContainer_Status.Size = new System.Drawing.Size(666, 572);
+      this.splitContainer_Status.SplitterDistance = 294;
       this.splitContainer_Status.TabIndex = 2;
       // 
       // listView_Status
@@ -2078,7 +1909,7 @@
       this.listView_Status.HideSelection = false;
       this.listView_Status.Location = new System.Drawing.Point(0, 0);
       this.listView_Status.Name = "listView_Status";
-      this.listView_Status.Size = new System.Drawing.Size(666, 370);
+      this.listView_Status.Size = new System.Drawing.Size(666, 294);
       this.listView_Status.TabIndex = 1;
       this.listView_Status.UseCompatibleStateImageBehavior = false;
       this.listView_Status.View = System.Windows.Forms.View.Details;
@@ -2218,7 +2049,7 @@
       this.groupBox_StatusEvents.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_StatusEvents.Location = new System.Drawing.Point(0, 0);
       this.groupBox_StatusEvents.Name = "groupBox_StatusEvents";
-      this.groupBox_StatusEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_StatusEvents.Size = new System.Drawing.Size(666, 274);
       this.groupBox_StatusEvents.TabIndex = 0;
       this.groupBox_StatusEvents.TabStop = false;
       this.groupBox_StatusEvents.Text = "Status &Events";
@@ -2241,7 +2072,7 @@
       this.listView_StatusEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_StatusEvents.MultiSelect = false;
       this.listView_StatusEvents.Name = "listView_StatusEvents";
-      this.listView_StatusEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_StatusEvents.Size = new System.Drawing.Size(660, 255);
       this.listView_StatusEvents.TabIndex = 3;
       this.listView_StatusEvents.UseCompatibleStateImageBehavior = false;
       this.listView_StatusEvents.View = System.Windows.Forms.View.Details;
@@ -2293,7 +2124,7 @@
       this.tabPage_Commands.Location = new System.Drawing.Point(4, 22);
       this.tabPage_Commands.Name = "tabPage_Commands";
       this.tabPage_Commands.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Commands.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_Commands.Size = new System.Drawing.Size(672, 578);
       this.tabPage_Commands.TabIndex = 5;
       this.tabPage_Commands.Text = "Commands";
       this.tabPage_Commands.UseVisualStyleBackColor = true;
@@ -2312,8 +2143,8 @@
       // splitContainer_Commands.Panel2
       // 
       this.splitContainer_Commands.Panel2.Controls.Add(this.groupBox_CommandEvents);
-      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 719);
-      this.splitContainer_Commands.SplitterDistance = 370;
+      this.splitContainer_Commands.Size = new System.Drawing.Size(666, 572);
+      this.splitContainer_Commands.SplitterDistance = 294;
       this.splitContainer_Commands.TabIndex = 1;
       // 
       // listView_Commands
@@ -2334,7 +2165,7 @@
       this.listView_Commands.HideSelection = false;
       this.listView_Commands.Location = new System.Drawing.Point(0, 0);
       this.listView_Commands.Name = "listView_Commands";
-      this.listView_Commands.Size = new System.Drawing.Size(666, 370);
+      this.listView_Commands.Size = new System.Drawing.Size(666, 294);
       this.listView_Commands.TabIndex = 1;
       this.listView_Commands.UseCompatibleStateImageBehavior = false;
       this.listView_Commands.View = System.Windows.Forms.View.Details;
@@ -2402,7 +2233,7 @@
       this.groupBox_CommandEvents.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox_CommandEvents.Location = new System.Drawing.Point(0, 0);
       this.groupBox_CommandEvents.Name = "groupBox_CommandEvents";
-      this.groupBox_CommandEvents.Size = new System.Drawing.Size(666, 345);
+      this.groupBox_CommandEvents.Size = new System.Drawing.Size(666, 274);
       this.groupBox_CommandEvents.TabIndex = 0;
       this.groupBox_CommandEvents.TabStop = false;
       this.groupBox_CommandEvents.Text = "Command &Events";
@@ -2425,7 +2256,7 @@
       this.listView_CommandEvents.Location = new System.Drawing.Point(3, 16);
       this.listView_CommandEvents.MultiSelect = false;
       this.listView_CommandEvents.Name = "listView_CommandEvents";
-      this.listView_CommandEvents.Size = new System.Drawing.Size(660, 326);
+      this.listView_CommandEvents.Size = new System.Drawing.Size(660, 255);
       this.listView_CommandEvents.TabIndex = 3;
       this.listView_CommandEvents.UseCompatibleStateImageBehavior = false;
       this.listView_CommandEvents.View = System.Windows.Forms.View.Details;
@@ -2475,7 +2306,7 @@
       this.tabPage_TestSend.Controls.Add(this.splitContainer_TestSend);
       this.tabPage_TestSend.Location = new System.Drawing.Point(4, 22);
       this.tabPage_TestSend.Name = "tabPage_TestSend";
-      this.tabPage_TestSend.Size = new System.Drawing.Size(672, 725);
+      this.tabPage_TestSend.Size = new System.Drawing.Size(672, 578);
       this.tabPage_TestSend.TabIndex = 6;
       this.tabPage_TestSend.Text = "Test send";
       this.tabPage_TestSend.UseVisualStyleBackColor = true;
@@ -2497,14 +2328,14 @@
       this.splitContainer_TestSend.Panel2.Controls.Add(this.button_SendTestPackage_2);
       this.splitContainer_TestSend.Panel2.Controls.Add(this.button_TestPackage_2_Browse);
       this.splitContainer_TestSend.Panel2.Controls.Add(this.groupBox_TestSend2);
-      this.splitContainer_TestSend.Size = new System.Drawing.Size(672, 725);
+      this.splitContainer_TestSend.Size = new System.Drawing.Size(672, 578);
       this.splitContainer_TestSend.SplitterDistance = 328;
       this.splitContainer_TestSend.TabIndex = 0;
       // 
       // button_TestPackage_1_Browse
       // 
       this.button_TestPackage_1_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(160, 695);
+      this.button_TestPackage_1_Browse.Location = new System.Drawing.Point(160, 548);
       this.button_TestPackage_1_Browse.Name = "button_TestPackage_1_Browse";
       this.button_TestPackage_1_Browse.Size = new System.Drawing.Size(130, 23);
       this.button_TestPackage_1_Browse.TabIndex = 6;
@@ -2515,7 +2346,7 @@
       // button_SendTestPackage_1
       // 
       this.button_SendTestPackage_1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 695);
+      this.button_SendTestPackage_1.Location = new System.Drawing.Point(16, 548);
       this.button_SendTestPackage_1.Name = "button_SendTestPackage_1";
       this.button_SendTestPackage_1.Size = new System.Drawing.Size(130, 23);
       this.button_SendTestPackage_1.TabIndex = 3;
@@ -2531,7 +2362,7 @@
       this.groupBox_TestSend1.Controls.Add(this.textBox_TestPackage_1);
       this.groupBox_TestSend1.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend1.Name = "groupBox_TestSend1";
-      this.groupBox_TestSend1.Size = new System.Drawing.Size(328, 687);
+      this.groupBox_TestSend1.Size = new System.Drawing.Size(328, 540);
       this.groupBox_TestSend1.TabIndex = 0;
       this.groupBox_TestSend1.TabStop = false;
       this.groupBox_TestSend1.Text = "JSon package 1";
@@ -2545,13 +2376,13 @@
       this.textBox_TestPackage_1.Multiline = true;
       this.textBox_TestPackage_1.Name = "textBox_TestPackage_1";
       this.textBox_TestPackage_1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_1.Size = new System.Drawing.Size(320, 664);
+      this.textBox_TestPackage_1.Size = new System.Drawing.Size(320, 517);
       this.textBox_TestPackage_1.TabIndex = 1;
       // 
       // button_SendTestPackage_2
       // 
       this.button_SendTestPackage_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_SendTestPackage_2.Location = new System.Drawing.Point(16, 695);
+      this.button_SendTestPackage_2.Location = new System.Drawing.Point(16, 548);
       this.button_SendTestPackage_2.Name = "button_SendTestPackage_2";
       this.button_SendTestPackage_2.Size = new System.Drawing.Size(130, 23);
       this.button_SendTestPackage_2.TabIndex = 8;
@@ -2562,7 +2393,7 @@
       // button_TestPackage_2_Browse
       // 
       this.button_TestPackage_2_Browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(159, 695);
+      this.button_TestPackage_2_Browse.Location = new System.Drawing.Point(159, 548);
       this.button_TestPackage_2_Browse.Name = "button_TestPackage_2_Browse";
       this.button_TestPackage_2_Browse.Size = new System.Drawing.Size(130, 23);
       this.button_TestPackage_2_Browse.TabIndex = 7;
@@ -2578,7 +2409,7 @@
       this.groupBox_TestSend2.Controls.Add(this.textBox_TestPackage_2);
       this.groupBox_TestSend2.Location = new System.Drawing.Point(0, 0);
       this.groupBox_TestSend2.Name = "groupBox_TestSend2";
-      this.groupBox_TestSend2.Size = new System.Drawing.Size(328, 687);
+      this.groupBox_TestSend2.Size = new System.Drawing.Size(328, 540);
       this.groupBox_TestSend2.TabIndex = 1;
       this.groupBox_TestSend2.TabStop = false;
       this.groupBox_TestSend2.Text = "JSon package 2";
@@ -2592,8 +2423,179 @@
       this.textBox_TestPackage_2.Multiline = true;
       this.textBox_TestPackage_2.Name = "textBox_TestPackage_2";
       this.textBox_TestPackage_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox_TestPackage_2.Size = new System.Drawing.Size(316, 664);
+      this.textBox_TestPackage_2.Size = new System.Drawing.Size(316, 517);
       this.textBox_TestPackage_2.TabIndex = 4;
+      // 
+      // tabPage_Encryption
+      // 
+      this.tabPage_Encryption.Controls.Add(this.groupBox_Encryption);
+      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Encryption.Name = "tabPage_Encryption";
+      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Encryption.Size = new System.Drawing.Size(672, 578);
+      this.tabPage_Encryption.TabIndex = 9;
+      this.tabPage_Encryption.Text = "Encryption";
+      this.tabPage_Encryption.UseVisualStyleBackColor = true;
+      // 
+      // groupBox_Encryption
+      // 
+      this.groupBox_Encryption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_Encryption.Controls.Add(this.button_Encryption_CheckRevocation);
+      this.groupBox_Encryption.Controls.Add(this.label_Encryption_CertificateFile);
+      this.groupBox_Encryption.Controls.Add(this.checkBox_Encryption_RequireClientCertificate);
+      this.groupBox_Encryption.Controls.Add(this.button_Encryption_IgnoreCertErrors);
+      this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
+      this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
+      this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
+      this.groupBox_Encryption.Location = new System.Drawing.Point(2, 5);
+      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
+      this.groupBox_Encryption.Name = "groupBox_Encryption";
+      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
+      this.groupBox_Encryption.Size = new System.Drawing.Size(669, 178);
+      this.groupBox_Encryption.TabIndex = 5;
+      this.groupBox_Encryption.TabStop = false;
+      this.groupBox_Encryption.Text = "&Encryption settings";
+      // 
+      // button_Encryption_CheckRevocation
+      // 
+      this.button_Encryption_CheckRevocation.AutoSize = true;
+      this.button_Encryption_CheckRevocation.Checked = true;
+      this.button_Encryption_CheckRevocation.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.button_Encryption_CheckRevocation.Location = new System.Drawing.Point(328, 93);
+      this.button_Encryption_CheckRevocation.Name = "button_Encryption_CheckRevocation";
+      this.button_Encryption_CheckRevocation.Size = new System.Drawing.Size(260, 17);
+      this.button_Encryption_CheckRevocation.TabIndex = 17;
+      this.button_Encryption_CheckRevocation.Text = "Check certificate against certificate revocation list";
+      this.button_Encryption_CheckRevocation.UseVisualStyleBackColor = true;
+      // 
+      // label_Encryption_CertificateFile
+      // 
+      this.label_Encryption_CertificateFile.AutoSize = true;
+      this.label_Encryption_CertificateFile.Location = new System.Drawing.Point(18, 135);
+      this.label_Encryption_CertificateFile.Name = "label_Encryption_CertificateFile";
+      this.label_Encryption_CertificateFile.Size = new System.Drawing.Size(106, 13);
+      this.label_Encryption_CertificateFile.TabIndex = 16;
+      this.label_Encryption_CertificateFile.Text = "Server certificate file:";
+      this.label_Encryption_CertificateFile.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // checkBox_Encryption_RequireClientCertificate
+      // 
+      this.checkBox_Encryption_RequireClientCertificate.AutoSize = true;
+      this.checkBox_Encryption_RequireClientCertificate.Checked = true;
+      this.checkBox_Encryption_RequireClientCertificate.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_RequireClientCertificate.Location = new System.Drawing.Point(328, 46);
+      this.checkBox_Encryption_RequireClientCertificate.Name = "checkBox_Encryption_RequireClientCertificate";
+      this.checkBox_Encryption_RequireClientCertificate.Size = new System.Drawing.Size(213, 17);
+      this.checkBox_Encryption_RequireClientCertificate.TabIndex = 15;
+      this.checkBox_Encryption_RequireClientCertificate.Text = "Require client certificate authentication ";
+      this.checkBox_Encryption_RequireClientCertificate.UseVisualStyleBackColor = true;
+      // 
+      // button_Encryption_IgnoreCertErrors
+      // 
+      this.button_Encryption_IgnoreCertErrors.AutoSize = true;
+      this.button_Encryption_IgnoreCertErrors.Checked = true;
+      this.button_Encryption_IgnoreCertErrors.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.button_Encryption_IgnoreCertErrors.Location = new System.Drawing.Point(328, 70);
+      this.button_Encryption_IgnoreCertErrors.Name = "button_Encryption_IgnoreCertErrors";
+      this.button_Encryption_IgnoreCertErrors.Size = new System.Drawing.Size(134, 17);
+      this.button_Encryption_IgnoreCertErrors.TabIndex = 12;
+      this.button_Encryption_IgnoreCertErrors.Text = "Ignore certificate errors";
+      this.button_Encryption_IgnoreCertErrors.UseVisualStyleBackColor = true;
+      // 
+      // button_EncryptionFile_Browse
+      // 
+      this.button_EncryptionFile_Browse.Location = new System.Drawing.Point(589, 132);
+      this.button_EncryptionFile_Browse.Name = "button_EncryptionFile_Browse";
+      this.button_EncryptionFile_Browse.Size = new System.Drawing.Size(62, 20);
+      this.button_EncryptionFile_Browse.TabIndex = 11;
+      this.button_EncryptionFile_Browse.Text = "Browse";
+      this.button_EncryptionFile_Browse.UseVisualStyleBackColor = true;
+      // 
+      // textBox_EncryptionFile
+      // 
+      this.textBox_EncryptionFile.Enabled = false;
+      this.textBox_EncryptionFile.Location = new System.Drawing.Point(130, 132);
+      this.textBox_EncryptionFile.Name = "textBox_EncryptionFile";
+      this.textBox_EncryptionFile.Size = new System.Drawing.Size(454, 20);
+      this.textBox_EncryptionFile.TabIndex = 7;
+      this.textBox_EncryptionFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // groupBox_EncryptionProtocols
+      // 
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS13);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS12);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS11);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS10);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_Default);
+      this.groupBox_EncryptionProtocols.Location = new System.Drawing.Point(16, 28);
+      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2);
+      this.groupBox_EncryptionProtocols.Name = "groupBox_EncryptionProtocols";
+      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2);
+      this.groupBox_EncryptionProtocols.Size = new System.Drawing.Size(285, 93);
+      this.groupBox_EncryptionProtocols.TabIndex = 6;
+      this.groupBox_EncryptionProtocols.TabStop = false;
+      this.groupBox_EncryptionProtocols.Text = "&Encryption protocols";
+      // 
+      // checkBox_Encryption_Protocol_TLS13
+      // 
+      this.checkBox_Encryption_Protocol_TLS13.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS13.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS13.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS13.Location = new System.Drawing.Point(94, 65);
+      this.checkBox_Encryption_Protocol_TLS13.Name = "checkBox_Encryption_Protocol_TLS13";
+      this.checkBox_Encryption_Protocol_TLS13.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS13.TabIndex = 12;
+      this.checkBox_Encryption_Protocol_TLS13.Text = "TLS 1.3";
+      this.checkBox_Encryption_Protocol_TLS13.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS12
+      // 
+      this.checkBox_Encryption_Protocol_TLS12.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS12.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS12.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS12.Location = new System.Drawing.Point(94, 41);
+      this.checkBox_Encryption_Protocol_TLS12.Name = "checkBox_Encryption_Protocol_TLS12";
+      this.checkBox_Encryption_Protocol_TLS12.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS12.TabIndex = 11;
+      this.checkBox_Encryption_Protocol_TLS12.Text = "TLS 1.2";
+      this.checkBox_Encryption_Protocol_TLS12.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS11
+      // 
+      this.checkBox_Encryption_Protocol_TLS11.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS11.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS11.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS11.Location = new System.Drawing.Point(16, 65);
+      this.checkBox_Encryption_Protocol_TLS11.Name = "checkBox_Encryption_Protocol_TLS11";
+      this.checkBox_Encryption_Protocol_TLS11.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS11.TabIndex = 10;
+      this.checkBox_Encryption_Protocol_TLS11.Text = "TLS 1.1";
+      this.checkBox_Encryption_Protocol_TLS11.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS10
+      // 
+      this.checkBox_Encryption_Protocol_TLS10.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS10.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS10.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS10.Location = new System.Drawing.Point(16, 41);
+      this.checkBox_Encryption_Protocol_TLS10.Name = "checkBox_Encryption_Protocol_TLS10";
+      this.checkBox_Encryption_Protocol_TLS10.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS10.TabIndex = 9;
+      this.checkBox_Encryption_Protocol_TLS10.Text = "TLS 1.0";
+      this.checkBox_Encryption_Protocol_TLS10.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_Default
+      // 
+      this.checkBox_Encryption_Protocol_Default.AutoSize = true;
+      this.checkBox_Encryption_Protocol_Default.Checked = true;
+      this.checkBox_Encryption_Protocol_Default.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_Default.Location = new System.Drawing.Point(16, 18);
+      this.checkBox_Encryption_Protocol_Default.Name = "checkBox_Encryption_Protocol_Default";
+      this.checkBox_Encryption_Protocol_Default.Size = new System.Drawing.Size(252, 17);
+      this.checkBox_Encryption_Protocol_Default.TabIndex = 7;
+      this.checkBox_Encryption_Protocol_Default.Text = "Default (let OS automatically select the protocol)";
+      this.checkBox_Encryption_Protocol_Default.UseVisualStyleBackColor = true;
       // 
       // openFileDialog_TestPackage
       // 
@@ -2615,21 +2617,11 @@
       // 
       this.openFileDialog_Sequence.Filter = "Sequence files|*.seq|All files|*.*";
       // 
-      // tabPage_Encryption
-      // 
-      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_Encryption.Name = "tabPage_Encryption";
-      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Encryption.Size = new System.Drawing.Size(707, 556);
-      this.tabPage_Encryption.TabIndex = 9;
-      this.tabPage_Encryption.Text = "Encryption";
-      this.tabPage_Encryption.UseVisualStyleBackColor = true;
-      // 
       // RSMPGS_Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(997, 778);
+      this.ClientSize = new System.Drawing.Size(997, 631);
       this.Controls.Add(this.splitContainer_Main);
       this.Controls.Add(this.menuStrip_Main);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2656,10 +2648,6 @@
       this.tabPage_Generic.ResumeLayout(false);
       this.groupBox_Components.ResumeLayout(false);
       this.groupBox_Components.PerformLayout();
-      this.groupBox_Encryption.ResumeLayout(false);
-      this.groupBox_Encryption.PerformLayout();
-      this.groupBox_EncryptionProtocols.ResumeLayout(false);
-      this.groupBox_EncryptionProtocols.PerformLayout();
       this.groupBox_SXL_Version.ResumeLayout(false);
       this.groupBox_SXL_Version.PerformLayout();
       this.groupBox_supervisorId.ResumeLayout(false);
@@ -2719,6 +2707,11 @@
       this.groupBox_TestSend1.PerformLayout();
       this.groupBox_TestSend2.ResumeLayout(false);
       this.groupBox_TestSend2.PerformLayout();
+      this.tabPage_Encryption.ResumeLayout(false);
+      this.groupBox_Encryption.ResumeLayout(false);
+      this.groupBox_Encryption.PerformLayout();
+      this.groupBox_EncryptionProtocols.ResumeLayout(false);
+      this.groupBox_EncryptionProtocols.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -2917,19 +2910,6 @@
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_Clear_StatusEvents;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_Clear_CommandEvents;
     private System.Windows.Forms.ToolStripTextBox ToolStripMenuItem_ConnectionStatus;
-    private System.Windows.Forms.GroupBox groupBox_Encryption;
-    private System.Windows.Forms.Label label_Encryption_CertificateFile;
-    private System.Windows.Forms.Button button_EncryptionFile_Browse;
-    private System.Windows.Forms.GroupBox groupBox_EncryptionProtocols;
-    private System.Windows.Forms.CheckBox button_Encryption_CheckRevocation;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_RequireClientCertificate;
-    private System.Windows.Forms.CheckBox button_Encryption_IgnoreCertErrors;
-    private System.Windows.Forms.TextBox textBox_EncryptionFile;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS13;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS12;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS11;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS10;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_Default;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator_2;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Alarm_RequestCurrentState;
     public System.Windows.Forms.Button button_AggregatedStatus_Request;
@@ -2970,6 +2950,19 @@
     public System.Windows.Forms.TextBox textBox_Components_FilePath;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
     private System.Windows.Forms.TabPage tabPage_Encryption;
+    private System.Windows.Forms.GroupBox groupBox_Encryption;
+    private System.Windows.Forms.CheckBox button_Encryption_CheckRevocation;
+    private System.Windows.Forms.Label label_Encryption_CertificateFile;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_RequireClientCertificate;
+    private System.Windows.Forms.CheckBox button_Encryption_IgnoreCertErrors;
+    private System.Windows.Forms.Button button_EncryptionFile_Browse;
+    private System.Windows.Forms.TextBox textBox_EncryptionFile;
+    private System.Windows.Forms.GroupBox groupBox_EncryptionProtocols;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS13;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS12;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS11;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS10;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_Default;
   }
 }
 

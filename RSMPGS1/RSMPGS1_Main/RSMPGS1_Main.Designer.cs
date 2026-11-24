@@ -105,20 +105,6 @@
       this.groupBox_Components = new System.Windows.Forms.GroupBox();
       this.textBox_Components_FilePath = new System.Windows.Forms.TextBox();
       this.label_Components_FilePath = new System.Windows.Forms.Label();
-      this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
-      this.button_Encryption_CheckRevocation = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate = new System.Windows.Forms.CheckBox();
-      this.label_Encryption_ServerName = new System.Windows.Forms.Label();
-      this.textBox_Encryption_ServerName = new System.Windows.Forms.TextBox();
-      this.button_Encryption_IgnoreCertErrors = new System.Windows.Forms.CheckBox();
-      this.button_EncryptionFile_Browse = new System.Windows.Forms.Button();
-      this.textBox_EncryptionFile = new System.Windows.Forms.TextBox();
-      this.groupBox_EncryptionProtocols = new System.Windows.Forms.GroupBox();
-      this.checkBox_Encryption_Protocol_TLS13 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS12 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS11 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_TLS10 = new System.Windows.Forms.CheckBox();
-      this.checkBox_Encryption_Protocol_Default = new System.Windows.Forms.CheckBox();
       this.groupBox_ProcessImage = new System.Windows.Forms.GroupBox();
       this.label_ProcessImage_Info_1 = new System.Windows.Forms.Label();
       this.groupBox_ProcessImage_Load = new System.Windows.Forms.GroupBox();
@@ -243,11 +229,25 @@
       this.columnHeader_BufferedMessages_MessageType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_BufferedMessages_MessageId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_BufferedMessages_SendString = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.tabPage_Encryption = new System.Windows.Forms.TabPage();
       this.openFileDialog_TestPackage = new System.Windows.Forms.OpenFileDialog();
       this.openFileDialog_ProcessImage = new System.Windows.Forms.OpenFileDialog();
       this.saveFileDialog_ProcessImage = new System.Windows.Forms.SaveFileDialog();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-      this.tabPage_Encryption = new System.Windows.Forms.TabPage();
+      this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
+      this.button_Encryption_CheckRevocation = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate = new System.Windows.Forms.CheckBox();
+      this.label_Encryption_ServerName = new System.Windows.Forms.Label();
+      this.textBox_Encryption_ServerName = new System.Windows.Forms.TextBox();
+      this.button_Encryption_IgnoreCertErrors = new System.Windows.Forms.CheckBox();
+      this.button_EncryptionFile_Browse = new System.Windows.Forms.Button();
+      this.textBox_EncryptionFile = new System.Windows.Forms.TextBox();
+      this.groupBox_EncryptionProtocols = new System.Windows.Forms.GroupBox();
+      this.checkBox_Encryption_Protocol_TLS13 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS12 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS11 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_TLS10 = new System.Windows.Forms.CheckBox();
+      this.checkBox_Encryption_Protocol_Default = new System.Windows.Forms.CheckBox();
       this.menuStrip_Main.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
       this.splitContainer_Main.Panel1.SuspendLayout();
@@ -262,8 +262,6 @@
       this.tabControl_Object.SuspendLayout();
       this.tabPage_Generic.SuspendLayout();
       this.groupBox_Components.SuspendLayout();
-      this.groupBox_Encryption.SuspendLayout();
-      this.groupBox_EncryptionProtocols.SuspendLayout();
       this.groupBox_ProcessImage.SuspendLayout();
       this.groupBox_ProcessImage_Load.SuspendLayout();
       this.groupBox_SXL_Version.SuspendLayout();
@@ -301,6 +299,9 @@
       this.groupBox_BufferedMessages.SuspendLayout();
       this.groupBox_BufferedMessages_CreateRandom.SuspendLayout();
       this.groupBox_BufferedMessages_Clear.SuspendLayout();
+      this.tabPage_Encryption.SuspendLayout();
+      this.groupBox_Encryption.SuspendLayout();
+      this.groupBox_EncryptionProtocols.SuspendLayout();
       this.SuspendLayout();
       // 
       // timer_System
@@ -924,7 +925,6 @@
       // tabPage_Generic
       // 
       this.tabPage_Generic.Controls.Add(this.groupBox_Components);
-      this.tabPage_Generic.Controls.Add(this.groupBox_Encryption);
       this.tabPage_Generic.Controls.Add(this.groupBox_ProcessImage);
       this.tabPage_Generic.Controls.Add(this.groupBox_SXL_Version);
       this.tabPage_Generic.Location = new System.Drawing.Point(4, 22);
@@ -967,186 +967,6 @@
       this.label_Components_FilePath.TabIndex = 10;
       this.label_Components_FilePath.Text = "Components path";
       this.label_Components_FilePath.TextAlign = System.Drawing.ContentAlignment.TopRight;
-      // 
-      // groupBox_Encryption
-      // 
-      this.groupBox_Encryption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.groupBox_Encryption.Controls.Add(this.button_Encryption_CheckRevocation);
-      this.groupBox_Encryption.Controls.Add(this.checkBox_Encryption_AuthenticateAsClientUsingCertificate);
-      this.groupBox_Encryption.Controls.Add(this.label_Encryption_ServerName);
-      this.groupBox_Encryption.Controls.Add(this.textBox_Encryption_ServerName);
-      this.groupBox_Encryption.Controls.Add(this.button_Encryption_IgnoreCertErrors);
-      this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
-      this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
-      this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
-      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 374);
-      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
-      this.groupBox_Encryption.Name = "groupBox_Encryption";
-      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_Encryption.Size = new System.Drawing.Size(700, 180);
-      this.groupBox_Encryption.TabIndex = 3;
-      this.groupBox_Encryption.TabStop = false;
-      this.groupBox_Encryption.Text = "&Encryption settings";
-      // 
-      // button_Encryption_CheckRevocation
-      // 
-      this.button_Encryption_CheckRevocation.AutoSize = true;
-      this.button_Encryption_CheckRevocation.Checked = true;
-      this.button_Encryption_CheckRevocation.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.button_Encryption_CheckRevocation.Location = new System.Drawing.Point(322, 93);
-      this.button_Encryption_CheckRevocation.Name = "button_Encryption_CheckRevocation";
-      this.button_Encryption_CheckRevocation.Size = new System.Drawing.Size(260, 17);
-      this.button_Encryption_CheckRevocation.TabIndex = 18;
-      this.button_Encryption_CheckRevocation.Text = "Check certificate against certificate revocation list";
-      this.button_Encryption_CheckRevocation.UseVisualStyleBackColor = true;
-      this.button_Encryption_CheckRevocation.CheckedChanged += new System.EventHandler(this.button_Encryption_CheckRevocation_CheckedChanged);
-      // 
-      // checkBox_Encryption_AuthenticateAsClientUsingCertificate
-      // 
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.AutoSize = true;
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Checked = true;
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Location = new System.Drawing.Point(16, 127);
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Name = "checkBox_Encryption_AuthenticateAsClientUsingCertificate";
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Size = new System.Drawing.Size(243, 17);
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.TabIndex = 15;
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Text = "Authenticate as client using this certificate file:";
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_AuthenticateClient_CheckedChanged);
-      // 
-      // label_Encryption_ServerName
-      // 
-      this.label_Encryption_ServerName.AutoSize = true;
-      this.label_Encryption_ServerName.Location = new System.Drawing.Point(320, 46);
-      this.label_Encryption_ServerName.Name = "label_Encryption_ServerName";
-      this.label_Encryption_ServerName.Size = new System.Drawing.Size(67, 13);
-      this.label_Encryption_ServerName.TabIndex = 14;
-      this.label_Encryption_ServerName.Text = "Server name";
-      this.label_Encryption_ServerName.TextAlign = System.Drawing.ContentAlignment.TopRight;
-      // 
-      // textBox_Encryption_ServerName
-      // 
-      this.textBox_Encryption_ServerName.Location = new System.Drawing.Point(392, 45);
-      this.textBox_Encryption_ServerName.Name = "textBox_Encryption_ServerName";
-      this.textBox_Encryption_ServerName.Size = new System.Drawing.Size(193, 20);
-      this.textBox_Encryption_ServerName.TabIndex = 13;
-      this.textBox_Encryption_ServerName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.textBox_Encryption_ServerName.TextChanged += new System.EventHandler(this.textBox_Encryption_ServerName_TextChanged);
-      // 
-      // button_Encryption_IgnoreCertErrors
-      // 
-      this.button_Encryption_IgnoreCertErrors.AutoSize = true;
-      this.button_Encryption_IgnoreCertErrors.Checked = true;
-      this.button_Encryption_IgnoreCertErrors.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.button_Encryption_IgnoreCertErrors.Location = new System.Drawing.Point(322, 69);
-      this.button_Encryption_IgnoreCertErrors.Name = "button_Encryption_IgnoreCertErrors";
-      this.button_Encryption_IgnoreCertErrors.Size = new System.Drawing.Size(134, 17);
-      this.button_Encryption_IgnoreCertErrors.TabIndex = 12;
-      this.button_Encryption_IgnoreCertErrors.Text = "Ignore certificate errors";
-      this.button_Encryption_IgnoreCertErrors.UseVisualStyleBackColor = true;
-      this.button_Encryption_IgnoreCertErrors.CheckedChanged += new System.EventHandler(this.button_Encryption_IgnoreCertErrors_CheckedChanged);
-      // 
-      // button_EncryptionFile_Browse
-      // 
-      this.button_EncryptionFile_Browse.Location = new System.Drawing.Point(614, 148);
-      this.button_EncryptionFile_Browse.Name = "button_EncryptionFile_Browse";
-      this.button_EncryptionFile_Browse.Size = new System.Drawing.Size(62, 20);
-      this.button_EncryptionFile_Browse.TabIndex = 11;
-      this.button_EncryptionFile_Browse.Text = "Browse";
-      this.button_EncryptionFile_Browse.UseVisualStyleBackColor = true;
-      this.button_EncryptionFile_Browse.Click += new System.EventHandler(this.button_EncryptionFile_Browse_Click);
-      // 
-      // textBox_EncryptionFile
-      // 
-      this.textBox_EncryptionFile.Enabled = false;
-      this.textBox_EncryptionFile.Location = new System.Drawing.Point(29, 150);
-      this.textBox_EncryptionFile.Name = "textBox_EncryptionFile";
-      this.textBox_EncryptionFile.Size = new System.Drawing.Size(580, 20);
-      this.textBox_EncryptionFile.TabIndex = 7;
-      this.textBox_EncryptionFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-      this.textBox_EncryptionFile.TextChanged += new System.EventHandler(this.textBox_EncryptionFile_TextChanged);
-      // 
-      // groupBox_EncryptionProtocols
-      // 
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS13);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS12);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS11);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS10);
-      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_Default);
-      this.groupBox_EncryptionProtocols.Location = new System.Drawing.Point(16, 28);
-      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2);
-      this.groupBox_EncryptionProtocols.Name = "groupBox_EncryptionProtocols";
-      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2);
-      this.groupBox_EncryptionProtocols.Size = new System.Drawing.Size(285, 93);
-      this.groupBox_EncryptionProtocols.TabIndex = 6;
-      this.groupBox_EncryptionProtocols.TabStop = false;
-      this.groupBox_EncryptionProtocols.Text = "&Encryption protocols";
-      // 
-      // checkBox_Encryption_Protocol_TLS13
-      // 
-      this.checkBox_Encryption_Protocol_TLS13.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS13.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS13.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS13.Location = new System.Drawing.Point(94, 65);
-      this.checkBox_Encryption_Protocol_TLS13.Name = "checkBox_Encryption_Protocol_TLS13";
-      this.checkBox_Encryption_Protocol_TLS13.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS13.TabIndex = 12;
-      this.checkBox_Encryption_Protocol_TLS13.Text = "TLS 1.3";
-      this.checkBox_Encryption_Protocol_TLS13.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS13.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS12
-      // 
-      this.checkBox_Encryption_Protocol_TLS12.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS12.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS12.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS12.Location = new System.Drawing.Point(94, 41);
-      this.checkBox_Encryption_Protocol_TLS12.Name = "checkBox_Encryption_Protocol_TLS12";
-      this.checkBox_Encryption_Protocol_TLS12.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS12.TabIndex = 11;
-      this.checkBox_Encryption_Protocol_TLS12.Text = "TLS 1.2";
-      this.checkBox_Encryption_Protocol_TLS12.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS12.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS11
-      // 
-      this.checkBox_Encryption_Protocol_TLS11.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS11.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS11.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS11.Location = new System.Drawing.Point(16, 65);
-      this.checkBox_Encryption_Protocol_TLS11.Name = "checkBox_Encryption_Protocol_TLS11";
-      this.checkBox_Encryption_Protocol_TLS11.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS11.TabIndex = 10;
-      this.checkBox_Encryption_Protocol_TLS11.Text = "TLS 1.1";
-      this.checkBox_Encryption_Protocol_TLS11.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS11.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_TLS10
-      // 
-      this.checkBox_Encryption_Protocol_TLS10.AutoSize = true;
-      this.checkBox_Encryption_Protocol_TLS10.Checked = true;
-      this.checkBox_Encryption_Protocol_TLS10.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_TLS10.Location = new System.Drawing.Point(16, 41);
-      this.checkBox_Encryption_Protocol_TLS10.Name = "checkBox_Encryption_Protocol_TLS10";
-      this.checkBox_Encryption_Protocol_TLS10.Size = new System.Drawing.Size(64, 17);
-      this.checkBox_Encryption_Protocol_TLS10.TabIndex = 9;
-      this.checkBox_Encryption_Protocol_TLS10.Text = "TLS 1.0";
-      this.checkBox_Encryption_Protocol_TLS10.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_TLS10.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
-      // 
-      // checkBox_Encryption_Protocol_Default
-      // 
-      this.checkBox_Encryption_Protocol_Default.AutoSize = true;
-      this.checkBox_Encryption_Protocol_Default.Checked = true;
-      this.checkBox_Encryption_Protocol_Default.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox_Encryption_Protocol_Default.Location = new System.Drawing.Point(16, 18);
-      this.checkBox_Encryption_Protocol_Default.Name = "checkBox_Encryption_Protocol_Default";
-      this.checkBox_Encryption_Protocol_Default.Size = new System.Drawing.Size(252, 17);
-      this.checkBox_Encryption_Protocol_Default.TabIndex = 7;
-      this.checkBox_Encryption_Protocol_Default.Text = "Default (let OS automatically select the protocol)";
-      this.checkBox_Encryption_Protocol_Default.UseVisualStyleBackColor = true;
-      this.checkBox_Encryption_Protocol_Default.CheckedChanged += new System.EventHandler(this.checkBox_Encryption_Protocol_CheckedChanged);
       // 
       // groupBox_ProcessImage
       // 
@@ -2419,6 +2239,17 @@
       this.columnHeader_BufferedMessages_SendString.Text = "JSon Packet data";
       this.columnHeader_BufferedMessages_SendString.Width = 300;
       // 
+      // tabPage_Encryption
+      // 
+      this.tabPage_Encryption.Controls.Add(this.groupBox_Encryption);
+      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
+      this.tabPage_Encryption.Name = "tabPage_Encryption";
+      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage_Encryption.Size = new System.Drawing.Size(707, 556);
+      this.tabPage_Encryption.TabIndex = 9;
+      this.tabPage_Encryption.Text = "Encryption";
+      this.tabPage_Encryption.UseVisualStyleBackColor = true;
+      // 
       // openFileDialog_TestPackage
       // 
       this.openFileDialog_TestPackage.Filter = "Debug (text) files|*.txt|All files|*.*";
@@ -2439,15 +2270,174 @@
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
-      // tabPage_Encryption
+      // groupBox_Encryption
       // 
-      this.tabPage_Encryption.Location = new System.Drawing.Point(4, 22);
-      this.tabPage_Encryption.Name = "tabPage_Encryption";
-      this.tabPage_Encryption.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage_Encryption.Size = new System.Drawing.Size(707, 556);
-      this.tabPage_Encryption.TabIndex = 9;
-      this.tabPage_Encryption.Text = "Encryption";
-      this.tabPage_Encryption.UseVisualStyleBackColor = true;
+      this.groupBox_Encryption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.groupBox_Encryption.Controls.Add(this.button_Encryption_CheckRevocation);
+      this.groupBox_Encryption.Controls.Add(this.checkBox_Encryption_AuthenticateAsClientUsingCertificate);
+      this.groupBox_Encryption.Controls.Add(this.label_Encryption_ServerName);
+      this.groupBox_Encryption.Controls.Add(this.textBox_Encryption_ServerName);
+      this.groupBox_Encryption.Controls.Add(this.button_Encryption_IgnoreCertErrors);
+      this.groupBox_Encryption.Controls.Add(this.button_EncryptionFile_Browse);
+      this.groupBox_Encryption.Controls.Add(this.textBox_EncryptionFile);
+      this.groupBox_Encryption.Controls.Add(this.groupBox_EncryptionProtocols);
+      this.groupBox_Encryption.Location = new System.Drawing.Point(3, 5);
+      this.groupBox_Encryption.Margin = new System.Windows.Forms.Padding(2);
+      this.groupBox_Encryption.Name = "groupBox_Encryption";
+      this.groupBox_Encryption.Padding = new System.Windows.Forms.Padding(2);
+      this.groupBox_Encryption.Size = new System.Drawing.Size(700, 192);
+      this.groupBox_Encryption.TabIndex = 4;
+      this.groupBox_Encryption.TabStop = false;
+      this.groupBox_Encryption.Text = "&Encryption settings";
+      // 
+      // button_Encryption_CheckRevocation
+      // 
+      this.button_Encryption_CheckRevocation.AutoSize = true;
+      this.button_Encryption_CheckRevocation.Checked = true;
+      this.button_Encryption_CheckRevocation.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.button_Encryption_CheckRevocation.Location = new System.Drawing.Point(322, 93);
+      this.button_Encryption_CheckRevocation.Name = "button_Encryption_CheckRevocation";
+      this.button_Encryption_CheckRevocation.Size = new System.Drawing.Size(260, 17);
+      this.button_Encryption_CheckRevocation.TabIndex = 18;
+      this.button_Encryption_CheckRevocation.Text = "Check certificate against certificate revocation list";
+      this.button_Encryption_CheckRevocation.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_AuthenticateAsClientUsingCertificate
+      // 
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.AutoSize = true;
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Checked = true;
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Location = new System.Drawing.Point(16, 127);
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Name = "checkBox_Encryption_AuthenticateAsClientUsingCertificate";
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Size = new System.Drawing.Size(243, 17);
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.TabIndex = 15;
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.Text = "Authenticate as client using this certificate file:";
+      this.checkBox_Encryption_AuthenticateAsClientUsingCertificate.UseVisualStyleBackColor = true;
+      // 
+      // label_Encryption_ServerName
+      // 
+      this.label_Encryption_ServerName.AutoSize = true;
+      this.label_Encryption_ServerName.Location = new System.Drawing.Point(320, 46);
+      this.label_Encryption_ServerName.Name = "label_Encryption_ServerName";
+      this.label_Encryption_ServerName.Size = new System.Drawing.Size(67, 13);
+      this.label_Encryption_ServerName.TabIndex = 14;
+      this.label_Encryption_ServerName.Text = "Server name";
+      this.label_Encryption_ServerName.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // textBox_Encryption_ServerName
+      // 
+      this.textBox_Encryption_ServerName.Location = new System.Drawing.Point(392, 45);
+      this.textBox_Encryption_ServerName.Name = "textBox_Encryption_ServerName";
+      this.textBox_Encryption_ServerName.Size = new System.Drawing.Size(193, 20);
+      this.textBox_Encryption_ServerName.TabIndex = 13;
+      this.textBox_Encryption_ServerName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // button_Encryption_IgnoreCertErrors
+      // 
+      this.button_Encryption_IgnoreCertErrors.AutoSize = true;
+      this.button_Encryption_IgnoreCertErrors.Checked = true;
+      this.button_Encryption_IgnoreCertErrors.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.button_Encryption_IgnoreCertErrors.Location = new System.Drawing.Point(322, 69);
+      this.button_Encryption_IgnoreCertErrors.Name = "button_Encryption_IgnoreCertErrors";
+      this.button_Encryption_IgnoreCertErrors.Size = new System.Drawing.Size(134, 17);
+      this.button_Encryption_IgnoreCertErrors.TabIndex = 12;
+      this.button_Encryption_IgnoreCertErrors.Text = "Ignore certificate errors";
+      this.button_Encryption_IgnoreCertErrors.UseVisualStyleBackColor = true;
+      // 
+      // button_EncryptionFile_Browse
+      // 
+      this.button_EncryptionFile_Browse.Location = new System.Drawing.Point(614, 148);
+      this.button_EncryptionFile_Browse.Name = "button_EncryptionFile_Browse";
+      this.button_EncryptionFile_Browse.Size = new System.Drawing.Size(62, 20);
+      this.button_EncryptionFile_Browse.TabIndex = 11;
+      this.button_EncryptionFile_Browse.Text = "Browse";
+      this.button_EncryptionFile_Browse.UseVisualStyleBackColor = true;
+      // 
+      // textBox_EncryptionFile
+      // 
+      this.textBox_EncryptionFile.Enabled = false;
+      this.textBox_EncryptionFile.Location = new System.Drawing.Point(29, 150);
+      this.textBox_EncryptionFile.Name = "textBox_EncryptionFile";
+      this.textBox_EncryptionFile.Size = new System.Drawing.Size(580, 20);
+      this.textBox_EncryptionFile.TabIndex = 7;
+      this.textBox_EncryptionFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      // 
+      // groupBox_EncryptionProtocols
+      // 
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS13);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS12);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS11);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_TLS10);
+      this.groupBox_EncryptionProtocols.Controls.Add(this.checkBox_Encryption_Protocol_Default);
+      this.groupBox_EncryptionProtocols.Location = new System.Drawing.Point(16, 28);
+      this.groupBox_EncryptionProtocols.Margin = new System.Windows.Forms.Padding(2);
+      this.groupBox_EncryptionProtocols.Name = "groupBox_EncryptionProtocols";
+      this.groupBox_EncryptionProtocols.Padding = new System.Windows.Forms.Padding(2);
+      this.groupBox_EncryptionProtocols.Size = new System.Drawing.Size(285, 93);
+      this.groupBox_EncryptionProtocols.TabIndex = 6;
+      this.groupBox_EncryptionProtocols.TabStop = false;
+      this.groupBox_EncryptionProtocols.Text = "&Encryption protocols";
+      // 
+      // checkBox_Encryption_Protocol_TLS13
+      // 
+      this.checkBox_Encryption_Protocol_TLS13.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS13.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS13.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS13.Location = new System.Drawing.Point(94, 65);
+      this.checkBox_Encryption_Protocol_TLS13.Name = "checkBox_Encryption_Protocol_TLS13";
+      this.checkBox_Encryption_Protocol_TLS13.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS13.TabIndex = 12;
+      this.checkBox_Encryption_Protocol_TLS13.Text = "TLS 1.3";
+      this.checkBox_Encryption_Protocol_TLS13.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS12
+      // 
+      this.checkBox_Encryption_Protocol_TLS12.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS12.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS12.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS12.Location = new System.Drawing.Point(94, 41);
+      this.checkBox_Encryption_Protocol_TLS12.Name = "checkBox_Encryption_Protocol_TLS12";
+      this.checkBox_Encryption_Protocol_TLS12.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS12.TabIndex = 11;
+      this.checkBox_Encryption_Protocol_TLS12.Text = "TLS 1.2";
+      this.checkBox_Encryption_Protocol_TLS12.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS11
+      // 
+      this.checkBox_Encryption_Protocol_TLS11.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS11.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS11.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS11.Location = new System.Drawing.Point(16, 65);
+      this.checkBox_Encryption_Protocol_TLS11.Name = "checkBox_Encryption_Protocol_TLS11";
+      this.checkBox_Encryption_Protocol_TLS11.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS11.TabIndex = 10;
+      this.checkBox_Encryption_Protocol_TLS11.Text = "TLS 1.1";
+      this.checkBox_Encryption_Protocol_TLS11.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_TLS10
+      // 
+      this.checkBox_Encryption_Protocol_TLS10.AutoSize = true;
+      this.checkBox_Encryption_Protocol_TLS10.Checked = true;
+      this.checkBox_Encryption_Protocol_TLS10.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_TLS10.Location = new System.Drawing.Point(16, 41);
+      this.checkBox_Encryption_Protocol_TLS10.Name = "checkBox_Encryption_Protocol_TLS10";
+      this.checkBox_Encryption_Protocol_TLS10.Size = new System.Drawing.Size(64, 17);
+      this.checkBox_Encryption_Protocol_TLS10.TabIndex = 9;
+      this.checkBox_Encryption_Protocol_TLS10.Text = "TLS 1.0";
+      this.checkBox_Encryption_Protocol_TLS10.UseVisualStyleBackColor = true;
+      // 
+      // checkBox_Encryption_Protocol_Default
+      // 
+      this.checkBox_Encryption_Protocol_Default.AutoSize = true;
+      this.checkBox_Encryption_Protocol_Default.Checked = true;
+      this.checkBox_Encryption_Protocol_Default.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox_Encryption_Protocol_Default.Location = new System.Drawing.Point(16, 18);
+      this.checkBox_Encryption_Protocol_Default.Name = "checkBox_Encryption_Protocol_Default";
+      this.checkBox_Encryption_Protocol_Default.Size = new System.Drawing.Size(252, 17);
+      this.checkBox_Encryption_Protocol_Default.TabIndex = 7;
+      this.checkBox_Encryption_Protocol_Default.Text = "Default (let OS automatically select the protocol)";
+      this.checkBox_Encryption_Protocol_Default.UseVisualStyleBackColor = true;
       // 
       // RSMPGS_Main
       // 
@@ -2480,10 +2470,6 @@
       this.tabPage_Generic.ResumeLayout(false);
       this.groupBox_Components.ResumeLayout(false);
       this.groupBox_Components.PerformLayout();
-      this.groupBox_Encryption.ResumeLayout(false);
-      this.groupBox_Encryption.PerformLayout();
-      this.groupBox_EncryptionProtocols.ResumeLayout(false);
-      this.groupBox_EncryptionProtocols.PerformLayout();
       this.groupBox_ProcessImage.ResumeLayout(false);
       this.groupBox_ProcessImage.PerformLayout();
       this.groupBox_ProcessImage_Load.ResumeLayout(false);
@@ -2529,6 +2515,11 @@
       this.groupBox_BufferedMessages_CreateRandom.ResumeLayout(false);
       this.groupBox_BufferedMessages_CreateRandom.PerformLayout();
       this.groupBox_BufferedMessages_Clear.ResumeLayout(false);
+      this.tabPage_Encryption.ResumeLayout(false);
+      this.groupBox_Encryption.ResumeLayout(false);
+      this.groupBox_Encryption.PerformLayout();
+      this.groupBox_EncryptionProtocols.ResumeLayout(false);
+      this.groupBox_EncryptionProtocols.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -2695,20 +2686,6 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View_Clear_AlarmEvents;
     private System.Windows.Forms.ToolStripTextBox ToolStripMenuItem_ConnectionStatus;
-    private System.Windows.Forms.GroupBox groupBox_Encryption;
-    private System.Windows.Forms.Button button_EncryptionFile_Browse;
-    private System.Windows.Forms.GroupBox groupBox_EncryptionProtocols;
-    private System.Windows.Forms.Label label_Encryption_ServerName;
-    private System.Windows.Forms.TextBox textBox_EncryptionFile;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS13;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS12;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS11;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS10;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_Default;
-    private System.Windows.Forms.TextBox textBox_Encryption_ServerName;
-    private System.Windows.Forms.CheckBox button_Encryption_IgnoreCertErrors;
-    private System.Windows.Forms.CheckBox checkBox_Encryption_AuthenticateAsClientUsingCertificate;
-    private System.Windows.Forms.CheckBox button_Encryption_CheckRevocation;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadCSV;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadCSV_SelectFolder;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_LoadYAML;
@@ -2755,6 +2732,20 @@
     private System.Windows.Forms.Label label_Components_FilePath;
     private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_ConnectTo;
     private System.Windows.Forms.TabPage tabPage_Encryption;
+    private System.Windows.Forms.GroupBox groupBox_Encryption;
+    private System.Windows.Forms.CheckBox button_Encryption_CheckRevocation;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_AuthenticateAsClientUsingCertificate;
+    private System.Windows.Forms.Label label_Encryption_ServerName;
+    private System.Windows.Forms.TextBox textBox_Encryption_ServerName;
+    private System.Windows.Forms.CheckBox button_Encryption_IgnoreCertErrors;
+    private System.Windows.Forms.Button button_EncryptionFile_Browse;
+    private System.Windows.Forms.TextBox textBox_EncryptionFile;
+    private System.Windows.Forms.GroupBox groupBox_EncryptionProtocols;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS13;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS12;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS11;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_TLS10;
+    private System.Windows.Forms.CheckBox checkBox_Encryption_Protocol_Default;
   }
 }
 
