@@ -34,8 +34,8 @@ Start installation by running ``RSMPGS2_1_0_18_Setup.exe``.
 
 The installation program recommends a suitable folder.
 
-RSMPGS2 is written in C# with Microsoft Visual Studio 2015 and requires
-.NET Framework 4.6.1.
+RSMPGS2 is written in C# with Microsoft Visual Studio 2022 and requires
+.NET Framework 4.8.
 
 The following files and folders which are included in the RSMPGS2 installation.
 All files and folders are placed under the installation folder.
