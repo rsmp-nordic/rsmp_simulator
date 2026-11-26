@@ -321,14 +321,13 @@ namespace RSMP_Messages
     public string mType;
     public string type;
     public string mId;
-
     public List<Version_RSMP> RSMP; // Versions
-    public List<SiteId> siteId; // SiteId's
   }
 
   public class rsVersion_Until_3_3_0 : rsVersion_Base
   {
     public string SXL;
+    public List<SiteId> siteId; // SiteId's
   }
 
   public class rsVersionRequest_From_3_3_0 : rsVersion_Base 
@@ -336,6 +335,7 @@ namespace RSMP_Messages
     public bool useAlarms = true;
     public string step;
     public string SXL; // Empty, kept for backwards compatibility
+    public List<SiteId> siteId; // SiteId's
     public List<Version_SXL> SXLS;
   }
 
