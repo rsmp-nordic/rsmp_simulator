@@ -35,8 +35,8 @@ using System.Security.Authentication;
 // 20.03.25 / TR / 1.0.1.4 B9/ TLS (SSL) encryption updated
 // 20.03.25 / TR / 1.0.1.5   / Release only
 // 20.10.16 / TR / 1.0.1.6 B1/ Updates begin - release 3 updates in RSMPInterreg,Simulatorspec_v0.39.xlsx. CSV-files with " and commas etc are accepted,
-//                           / significally improvement in SysLog (file handling). Group view update bugs fixed.
-// 20.10.16 / TR / 1.0.1.6   / Significally improvement in Debugging. Minor updates.
+//                           / significant improvement in SysLog (file handling). Group view update bugs fixed.
+// 20.10.16 / TR / 1.0.1.6   / Significant improvement in Debugging. Minor updates.
 // 21.09.27 / TR / 1.0.1.7   / Lockup bug in debug fixed, invariantculture in ISO8601 (pull request #22 / jakobht),
 //                           / and full path of ini file when error occur at startup (pull request #23 / jakobht)
 // 23.09.12 / DO / 1.0.2     / Add support for RSMP 3.2. Set quality "old" when status is buffered. Add option for checking case sensitive in values,
@@ -46,7 +46,7 @@ using System.Security.Authentication;
 //                           / Move "delete item" to array window #68
 //                           / Select all command arguments by default when sending command #64
 //                           / Don't send alarm if it is blocked #31
-//                           / Don't update the alarm list when recieving alarm with old timestamp #19
+//                           / Don't update the alarm list when receiving alarm with old timestamp #19
 // 23.12.01 / DO / 1.0.5     / Enable option for TLS 1.3 #71
 //                           / Use correct SXL metadata for the YAML examples #73
 //                           / Set valid initial values and valid random values #74
@@ -113,7 +113,7 @@ using System.Security.Authentication;
 //                           / Treat "object" as "array" until proper support is added
 //                           / Rename recieveAlarms to wantAlarms
 //                           / Initial support for SXL modules
-// ??.??.?? / DO / 1.0.18    / RSMP 3.3.0: "useAlarms" should not be sent in Version Request
+// 26.11.27 / DO / 1.0.18    / RSMP 3.3.0: "useAlarms" should not be sent in Version Request
 //                           / RSMP 3.3.0: "siteId" should not be included in version response
 //                           / RSMP 3.3.0: "ComponentList" should be sent by RSMPGS1, not by RSMPGS2
 //
