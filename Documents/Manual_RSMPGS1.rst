@@ -143,18 +143,14 @@ recommendations, otherwise RSMPGS1 won’t be able to read the information
 correctly. See the functional specification for more information on how to
 manually edit the CSV/SKV files if needed.
 
-The CSV format is not supported in RSMP 3.3.0 and later.
-
 **YAML format**
 
 The YAML format is more easy to read from code – yet still maintaining a human
 readable format.
 
-There is two different formats of YAML, one legacy version for RSMP<3.3.0 and a newer format for RSMP=>3.3.0
-When using the newer format for RSMP 3.3.0 a separata component-YAML file must also be set.
-
 RSMPGS1 may import the YAML found in GitHub –
-`rsmp-nordic/rsmp_sxl_traffic_lights<https://github.com/rsmp-nordic/rsmp_sxl_traffic_lights/tree/1.3.0/schema>`_.
+`rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_schema>`_.
+But RSMPGS1 requires an extended format which includes the objects as well.
 An example is saved in the sub-folder ``.\YAML``.
 
 Starting the simulator
