@@ -332,7 +332,6 @@ namespace RSMP_Messages
 
   public class rsVersionRequest_From_3_3_0 : rsVersion_Base 
   {
-    public bool useAlarms = true;
     public string step;
     public string SXL; // Empty, kept for backwards compatibility
     public List<SiteId> siteId; // SiteId's

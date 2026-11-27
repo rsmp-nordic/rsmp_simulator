@@ -120,6 +120,7 @@ using System.Security.Authentication;
 //                           / Treat "object" as "array" until proper support is added
 //                           / Rename recieveAlarms to wantAlarms
 //                           / Initial support for SXL modules
+// ??.??.?? / DO / 1.0.18    / RSMP 3.3.0: "useAlarms" should not be sent in Version Request
 //
 //
 // ---------------------------------------------------------------------------------------------------
