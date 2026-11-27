@@ -649,7 +649,7 @@ namespace nsRSMPGS
         bHaveGotWatchdogPacket == true)
         //bHaveGotWatchdogPacketAck == true)
       {
-        if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS1 && NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
+        if (RSMPGS.SimulatorType == RSMPGS.RSMPGSType.RSMPGS2 && NegotiatedRSMPVersion >= RSMPVersion.RSMP_3_3_0)
           if (!bHaveGotComponentListPacket)
             return;
 
