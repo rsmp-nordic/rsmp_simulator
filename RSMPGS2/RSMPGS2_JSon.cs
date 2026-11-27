@@ -60,6 +60,10 @@ namespace nsRSMPGS
               bSuccess = DecodeAndParseAggregatedStatusMessage(Header, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
               break;
 
+            case "componentlist":
+              bSuccess = DecodeAndParseComponentListMessage(Header, sJSon, bUseStrictProtocolAnalysis, bUseCaseSensitiveIds, ref bHasSentAckOrNack, ref sError);
+              break;
+
             default:
               sError = "Illegal packet type: '" + Header.type + "', MsgId: '" + Header.mId + "'";
               break;
@@ -510,6 +514,12 @@ namespace nsRSMPGS
         sError = "Failed to deserialize packet: " + e.Message;
         return false;
       }
+      return true;
+    }
+
+    private bool DecodeAndParseComponentListMessage(RSMP_Messages.Header packetHeader, string sJSon, bool bUseStrictProtocolAnalysis, bool bUseCaseSensitiveIds, ref bool bHasSentAckOrNack, ref string sError)
+    {
+      /* stub */
       return true;
     }
 
