@@ -156,8 +156,7 @@ The YAML format is more easy to read from code – yet still maintaining a human
 readable format.
 
 RSMPGS2 may import the YAML found in GitHub –
-`rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_schema>`_.
-But RSMPGS2 requires an extended format which includes the objects as well.
+`rsmp-nordic/rsmp_schema <https://github.com/rsmp-nordic/rsmp_sxl_schema>`_.
 An example is saved in the sub-folder ``.\YAML``.
 
 Starting the simulator
