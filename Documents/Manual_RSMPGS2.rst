@@ -168,14 +168,14 @@ project folder.
 
 If not already present, RSMPGS2 will create the LogFiles folders.
 
-The program can also be started with the startparameter ``/path`` to use
+The program can also be started with the start parameter ``/path`` to use
 another project folder, e.g to use ``c:\RoadSide\TestConfig1`` as a project
 folder: ``RSMPGS2.EXE /path:c:\RoadSide\TestConfig1``
 
 In this way, it is possible to create shortcuts for an unlimited number of
 projects. These projects can also be run simultaneously. The program will by
 default automatically try to find an Objects folder located in the project
-folder and scan it fo SXL (CSV) files, then loading them.
+folder and scan it for SXL (CSV) files, then loading them.
 
 Main Window
 -----------
@@ -353,7 +353,7 @@ To test the resilience of supervision system regarding incoming junk data. It
 randomly produces 2048 bytes between 0x00..0xff. Just like an ordinary Json
 package it is terminated with 0xc0 (formfeed).
 
-**Send options – Disable Nagle algorithm (send coalescing)**
+**Send options – Disable Nagle's algorithm (send coalescing)**
 
 This alternative affects the algorithm usually used in TCP to make the sending
 of many small packets more efficient. Ordinarily these are grouped together in
