@@ -829,10 +829,10 @@ namespace nsRSMPGS
       rsVersion.type = "Version";
       rsVersion.mId = System.Guid.NewGuid().ToString();
       rsVersion.RSMP = new List<RSMP_Messages.Version_RSMP>();
-      rsVersion.siteId = new List<RSMP_Messages.SiteId>();
 
 #if _RSMPGS1
       rsVersion.step = "Request";
+      rsVersion.siteId = new List<RSMP_Messages.SiteId>();
 #endif
 #if _RSMPGS2
       rsVersion.step = "Response";
@@ -868,12 +868,14 @@ namespace nsRSMPGS
       vSXL.version = RSMPGS.MainForm.textBox_SignalExchangeListVersion.Text;
       rsVersion.SXLS.Add(vSXL);
 
+#if _RSMPGS1
       foreach (cSiteIdObject SiteIdObject in RSMPGS.ProcessImage.SiteIdObjects)
       {
         RSMP_Messages.SiteId sId = new RSMP_Messages.SiteId();
         sId.sId = SiteIdObject.sSiteId;
         rsVersion.siteId.Add(sId);
       }
+#endif
 
       string sSendBuffer = JSonSerializer.SerializeObject(rsVersion);
 
