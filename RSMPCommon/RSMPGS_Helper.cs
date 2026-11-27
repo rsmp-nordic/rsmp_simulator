@@ -561,11 +561,12 @@ namespace nsRSMPGS
 
       List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
       AddSetting("UseAlarms", "Request to receive alarms", lAffectedRSMPVersions, true);
-      AddSetting("SendComponentListAtConnect", "Send component list when connecting", lAffectedRSMPVersions, true);
 #endif
 
 
 #if _RSMPGS1
+      List<cJSon.RSMPVersion> lAffectedRSMPVersions = new List<cJSon.RSMPVersion> { cJSon.RSMPVersion.RSMP_3_3_0 };
+      AddSetting("SendComponentListAtConnect", "Send component list when connecting", lAffectedRSMPVersions, true);
 
       AddSetting("ClearSubscriptionsAtDisconnect", "Clear subscriptions when disconnecting", true, true, false, false, false, false, false, false, false);
       AddSetting("AllowRequestsOfAlarmsAndAggStatus", "Allow alarms and aggregated status Request messages", false, false, false, false, true, true, true, true, true);
