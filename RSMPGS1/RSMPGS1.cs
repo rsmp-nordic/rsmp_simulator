@@ -121,6 +121,7 @@ using System.Security.Authentication;
 //                           / Rename recieveAlarms to wantAlarms
 //                           / Initial support for SXL modules
 // ??.??.?? / DO / 1.0.18    / RSMP 3.3.0: "useAlarms" should not be sent in Version Request
+//                           / RSMP 3.3.0: "siteId" should not be included in version response
 //
 //
 // ---------------------------------------------------------------------------------------------------
