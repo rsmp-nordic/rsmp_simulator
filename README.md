@@ -21,8 +21,8 @@ RSMP 3.3.0 is still in draft and may change at any time.
 
 Installation
 ------------
-Run `RSMPGS1_1_0_18_Setup.exe` (for road side equipment) or
-`RSMPGS2_1_0_18_Setup.exe` (for supervision system) from
+Run `RSMPGS1_1_0_19_Setup.exe` (for road side equipment) or
+`RSMPGS2_1_0_19_Setup.exe` (for supervision system) from
 the [release page](https://github.com/rsmp-nordic/rsmp_simulator/releases)
 
 Report issues
