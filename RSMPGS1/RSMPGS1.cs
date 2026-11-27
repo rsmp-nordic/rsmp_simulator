@@ -122,6 +122,7 @@ using System.Security.Authentication;
 //                           / Initial support for SXL modules
 // ??.??.?? / DO / 1.0.18    / RSMP 3.3.0: "useAlarms" should not be sent in Version Request
 //                           / RSMP 3.3.0: "siteId" should not be included in version response
+//                           / RSMP 3.3.0: "ComponentList" should be sent by RSMPGS1, not by RSMPGS2
 //
 //
 // ---------------------------------------------------------------------------------------------------
